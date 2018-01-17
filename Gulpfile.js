@@ -564,7 +564,7 @@ function testFunctional (fixturesDir, testingEnvironmentName, browserProviderNam
         .pipe(mocha({
             ui:       'bdd',
             reporter: 'spec',
-            timeout:  typeof v8debug === 'undefined' ? 30000 : Infinity // NOTE: disable timeouts in debug
+            timeout:  typeof v8debug === 'undefined' ? Infinity : Infinity // NOTE: disable timeouts in debug
         }));
 }
 
@@ -576,8 +576,8 @@ gulp.task('test-functional-travis-mobile', ['build'], function () {
     return testFunctional('test/functional/fixtures', functionalTestConfig.testingEnvironmentNames.mobileBrowsers, functionalTestConfig.browserProviderNames.browserstack);
 });
 
-gulp.task('test-functional-local', ['build'], function () {
-    return testFunctional('test/functional/fixtures', functionalTestConfig.testingEnvironmentNames.localBrowsers);
+gulp.task('test-functional-local', ['fast-build'], function () {
+    return testFunctional('test/functional/fixtures/regression/gh-2015', functionalTestConfig.testingEnvironmentNames.localBrowsers);
 });
 
 gulp.task('test-functional-travis-legacy', ['build'], function () {

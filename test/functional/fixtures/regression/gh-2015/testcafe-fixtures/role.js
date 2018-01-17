@@ -2,7 +2,7 @@ import { Role } from 'testcafe';
 
 let initialized = false;
 
-const UserRole = Role('http://localhost:3000/fixtures/regression/gh-2015/pages/logon.html', async t => {
+const userRole = Role('http://localhost:3000/fixtures/regression/gh-2015/pages/logon.html', async t => {
     if (initialized)
         throw new Error('Role is already initialized');
 
@@ -13,4 +13,4 @@ const UserRole = Role('http://localhost:3000/fixtures/regression/gh-2015/pages/l
         .click('#redirectAfterLogin');
 }, { preserveUrl: true });
 
-export default UserRole;
+export default userRole;

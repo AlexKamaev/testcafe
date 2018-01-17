@@ -324,20 +324,15 @@ export class NavigateToCommand extends Assignable {
 
         this.type = TYPE.navigateTo;
         this.url  = null;
-        this.useSnapshotAction = null;
+        this.storages = null;
 
         this._assignFrom(obj, true);
-    }
-
-    _onBeforeResponse () {
-        if (this.useSnapshotAction)
-            this.useSnapshotAction();
     }
 
     _getAssignableProperties () {
         return [
             { name: 'url', type: urlArgument, required: true },
-            { name: 'useSnapshotAction' }
+            { name: 'storages' }
         ];
     }
 }

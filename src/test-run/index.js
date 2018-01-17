@@ -373,8 +373,12 @@ export default class TestRun extends Session {
 
         const command = this.currentDriverTask.command;
 
-        if (command._onBeforeResponse)
-            command._onBeforeResponse();
+        console.log('command type: ' + command.type);
+        if (command.type === COMMAND_TYPE.navigateTo && command.storages) {
+            const storages = command.storages;
+
+            this.useStateSnapshot({ storages });
+        }
 
         return command;
     }
@@ -530,12 +534,12 @@ export default class TestRun extends Session {
         if (this.currentRoleId)
             this.usedRoleStates[this.currentRoleId] = await this.getStateSnapshot();
 
-        var stateSnapshot = this.usedRoleStates[role.id] || await this._getStateSnapshotFromRole(role);
-
+        const stateSnapshot = this.usedRoleStates[role.id] || await this._getStateSnapshotFromRole(role);
+        const storages      = stateSnapshot.storages;
 
         this.currentRoleId = role.id;
 
-        await bookmark.restore(callsite, () => this.useStateSnapshot(stateSnapshot));
+        await bookmark.restore(callsite, storages);
 
         this.disableDebugBreakpoints = false;
     }
