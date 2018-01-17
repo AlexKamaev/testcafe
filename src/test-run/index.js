@@ -364,7 +364,19 @@ export default class TestRun extends Session {
             this._fulfillCurrentDriverTask(driverStatus);
         }
 
-        return this.currentDriverTask ? this.currentDriverTask.command : null;
+        return this._getCurrentDriverTaskCommand();
+    }
+
+    _getCurrentDriverTaskCommand () {
+        if (!this.currentDriverTask)
+            return null;
+
+        const command = this.currentDriverTask.command;
+
+        if (command._onBeforeResponse)
+            command._onBeforeResponse();
+
+        return command;
     }
 
     // Execute command
@@ -520,11 +532,10 @@ export default class TestRun extends Session {
 
         var stateSnapshot = this.usedRoleStates[role.id] || await this._getStateSnapshotFromRole(role);
 
-        this.useStateSnapshot(stateSnapshot);
 
         this.currentRoleId = role.id;
 
-        await bookmark.restore(callsite);
+        await bookmark.restore(callsite, () => this.useStateSnapshot(stateSnapshot));
 
         this.disableDebugBreakpoints = false;
     }
