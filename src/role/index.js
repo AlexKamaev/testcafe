@@ -59,8 +59,11 @@ class Role extends EventEmitter {
         this.phase = PHASE.pendingInitialization;
 
         await testRun.switchToCleanRun();
+        console.log(testRun.testId + ' internal: role: navigate to login page');
         await this._navigateToLoginPage(testRun);
+        console.log(testRun.testId + ' internal: role: execute init function');
         await this._executeInitFn(testRun);
+        console.log(testRun.testId + ' internal: role: store state snapshot');
         await this._storeStateSnapshot(testRun);
 
         if (this.opts.preserveUrl)
@@ -68,6 +71,7 @@ class Role extends EventEmitter {
 
         this.phase = PHASE.initialized;
         this.emit('initialized');
+        console.log(testRun.testId + ' internal: role: INITIALIZED');
     }
 }
 

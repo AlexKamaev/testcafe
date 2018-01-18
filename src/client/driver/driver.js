@@ -503,6 +503,9 @@ export default class Driver {
     }
 
     _executeCommand (command) {
+
+        debugger;
+
         if (this.customCommandHandlers[command.type])
             this._onCustomCommand(command);
 

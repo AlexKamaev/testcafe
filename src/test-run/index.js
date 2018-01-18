@@ -50,12 +50,20 @@ const IFRAME_TEST_RUN_TEMPLATE        = read('../client/test-run/iframe.js.musta
 const TEST_DONE_CONFIRMATION_RESPONSE = 'test-done-confirmation';
 const MAX_RESPONSE_DELAY              = 2 * 60 * 1000;
 
+let testCount = 0;
 
 export default class TestRun extends Session {
     constructor (test, browserConnection, screenshotCapturer, warningLog, opts) {
+
         var uploadsRoot = path.dirname(test.fixture.path);
 
         super(uploadsRoot);
+
+        this.testId = testCount + ' (' + this.id + ') ';
+        testCount++;
+
+        console.log(this.testId + " constructor TestRun");
+
 
         this[testRunMarker] = true;
 
@@ -320,6 +328,8 @@ export default class TestRun extends Session {
     }
 
     _resolvePendingRequest (command) {
+
+        console.log(this.id + ' resolve pending request : ' + command ? command.type : '');
         this.lastDriverStatusResponse = command;
         this.pendingRequest.resolve(command);
         this._clearPendingRequest();
@@ -361,6 +371,27 @@ export default class TestRun extends Session {
                 return TEST_DONE_CONFIRMATION_RESPONSE;
             }
 
+            if(this.currentDriverTask.command) {
+                console.log(this.testId + " handle current driver task: " + this.currentDriverTask.command.type);
+
+
+
+
+
+                const command = this.currentDriverTask.command;
+                if (command.type === COMMAND_TYPE.navigateTo && command.storages) {
+                    const storages = command.storages;
+                    console.log(storages);
+                    this.useStateSnapshot({ storages });
+                }
+
+
+
+
+
+
+
+            }
             this._fulfillCurrentDriverTask(driverStatus);
         }
 
@@ -368,15 +399,19 @@ export default class TestRun extends Session {
     }
 
     _getCurrentDriverTaskCommand () {
+
         if (!this.currentDriverTask)
             return null;
 
+
+
         const command = this.currentDriverTask.command;
 
-        console.log('command type: ' + command.type);
+        //console.log('internal: _getCurrentDriverTaskCommand, command: ' + command.type);
+
         if (command.type === COMMAND_TYPE.navigateTo && command.storages) {
             const storages = command.storages;
-
+            console.log(storages);
             this.useStateSnapshot({ storages });
         }
 
@@ -426,6 +461,8 @@ export default class TestRun extends Session {
 
     async executeCommand (command, callsite) {
         this.debugLog.command(command);
+
+        console.log(this.testId + ' internal: executeCommand: ' + command.type + '  ' + command.url );
 
         if (this.pendingPageError && isCommandRejectableByPageError(command))
             return this._rejectCommandWithPageError(callsite);
@@ -525,6 +562,8 @@ export default class TestRun extends Session {
         if (this.phase === PHASE.inRoleInitializer)
             throw new RoleSwitchInRoleInitializerError(callsite);
 
+        console.log(this.testId + " internal: use role");
+
         this.disableDebugBreakpoints = true;
 
         var bookmark = new TestRunBookmark(this, role);
@@ -564,6 +603,7 @@ export default class TestRun extends Session {
 var ServiceMessages = TestRun.prototype;
 
 ServiceMessages[CLIENT_MESSAGES.ready] = function (msg) {
+
     this.debugLog.driverMessage(msg);
 
     this._clearPendingRequest();
@@ -573,6 +613,7 @@ ServiceMessages[CLIENT_MESSAGES.ready] = function (msg) {
     if (msg.status.id === this.lastDriverStatusId)
         return this.lastDriverStatusResponse;
 
+    debugger;
     this.lastDriverStatusId       = msg.status.id;
     this.lastDriverStatusResponse = this._handleDriverRequest(msg.status);
 

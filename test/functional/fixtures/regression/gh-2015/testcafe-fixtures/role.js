@@ -9,8 +9,11 @@ const userRole = Role('http://localhost:3000/fixtures/regression/gh-2015/pages/l
     initialized = true;
 
     await t
+        .wait(2000)
         .click('#setAuthToken')
-        .click('#redirectAfterLogin');
+        .wait(2000)
+        .click('#redirectAfterLogin')
+        .wait(2000);
 }, { preserveUrl: true });
 
 export default userRole;

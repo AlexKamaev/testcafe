@@ -85,7 +85,10 @@ export default class TestRunBookmark {
     }
 
     async _restorePage (url, storages) {
+        console.log(this.testRun.testId + ' internal: _restorePage');
         var navigateCommand = new NavigateToCommand({ url, storages });
+
+        this.testRun.useStateSnapshot({ storages });
 
         await this.testRun.executeCommand(navigateCommand);
     }

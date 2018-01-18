@@ -10,9 +10,12 @@
 <div id="result"></div>
 
 <script>
-    debugger
-    
     document.getElementById('result').innerHTML = window.localStorage.loginKey ? 'logged' : 'not logged';
+
+    debugger
+    // if (window.localStorage.loginKey) {
+    //     debugger;
+    // }
 
     document.getElementById("logout").addEventListener("click", function () {
         delete window.localStorage.loginKey;
