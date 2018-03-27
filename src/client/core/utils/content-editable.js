@@ -1,5 +1,6 @@
 import * as domUtils from './dom';
 import * as arrayUtils from './array';
+import * as styleUtils from './style';
 
 
 //nodes utils
@@ -397,13 +398,18 @@ export function calculateNodeAndOffsetByPosition (el, offset) {
             }
         }
         else if (domUtils.isElementNode(target)) {
-            if (point.offset === 0 && !getContentEditableValue(target).length) {
+            if (!styleUtils.isElementVisible(target))
+                return point;
+
+            const isBreakElement = !childNodesLength && domUtils.getTagName(target) === 'br';
+
+            if (!isBreakElement && point.offset === 0 && !getContentEditableValue(target).length) {
                 point.node = target;
                 return point;
             }
             if (!point.node && (isNodeBlockWithBreakLine(el, target) || isNodeAfterNodeBlockWithBreakLine(el, target)))
                 point.offset--;
-            else if (!childNodesLength && domUtils.isElementNode(target) && domUtils.getTagName(target) === 'br')
+            else if (isBreakElement)
                 point.offset--;
         }
 
