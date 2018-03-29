@@ -1,6 +1,7 @@
 import * as domUtils from './dom';
 import * as arrayUtils from './array';
 import * as styleUtils from './style';
+import { isElementNode } from "./dom";
 
 
 //nodes utils
@@ -369,6 +370,24 @@ export function getSelectionEndPosition (el, selection, inverseSelection) {
     return calculatePositionByNodeAndOffset(el, correctedSelectionEnd);
 }
 
+function isElementSelectable (target) {
+    debugger;
+    console.log('isElementSelectable: ' + target.tagName);
+    const hasSelectableChildren = arrayUtils.some(target.childNodes, child => isElementNode(child) && child.tagName !== 'BR' && styleUtils.isElementVisible(child));
+    console.log('hasSelectableChildren: ' + hasSelectableChildren);
+
+    if (hasSelectableChildren)
+        return false;
+
+    const textNodes = getContentEditableNodes(target);
+    const notVisibleTextNodes = arrayUtils.filter(textNodes, node => styleUtils.isNotVisibleNode(node));
+
+    const nodesValue = arrayUtils.map(textNodes, node => node.nodeValue).join('');
+    const hiddenNodesValue = arrayUtils.map(notVisibleTextNodes, node => node.nodeValue).join('');
+
+    return nodesValue === hiddenNodesValue;
+}
+
 export function calculateNodeAndOffsetByPosition (el, offset) {
     var point = {
         node:   null,
@@ -403,7 +422,7 @@ export function calculateNodeAndOffsetByPosition (el, offset) {
 
             const isBreakElement = !childNodesLength && domUtils.getTagName(target) === 'br';
 
-            if (!isBreakElement && point.offset === 0 && !getContentEditableValue(target).length) {
+            if (point.offset === 0 && !getContentEditableValue2(target).length) {
                 point.node = target;
                 return point;
             }
@@ -505,8 +524,29 @@ export function getLastVisiblePosition (el) {
     return 0;
 }
 
-//contents util
+function getContentEditableNodes (target) {
+    var result = [];
+    var childNodes       = target.childNodes;
+    var childNodesLength = domUtils.getChildNodesLength(childNodes);
+
+    if (!isSkippableNode(target) && !childNodesLength && domUtils.isTextNode(target))
+        result.push(target);
+
+    arrayUtils.forEach(childNodes, node => {
+        result = result.concat(getContentEditableNodes(node));
+    });
+
+    return result;
+}
+
+// contents util
 export function getContentEditableValue (target) {
+    return arrayUtils.map(getContentEditableNodes(target), node => node.nodeValue).join('');
+}
+
+
+// //contents util
+export function getContentEditableValue2 (target) {
     var elementValue     = '';
     var childNodes       = target.childNodes;
     var childNodesLength = domUtils.getChildNodesLength(childNodes);
@@ -516,8 +556,8 @@ export function getContentEditableValue (target) {
 
     if (!childNodesLength && domUtils.isTextNode(target))
         return target.nodeValue;
-    else if (childNodesLength === 1 && domUtils.isTextNode(childNodes[0]))
-        return childNodes[0].nodeValue;
+    // else if (childNodesLength === 1 && domUtils.isTextNode(childNodes[0]))
+    //     return childNodes[0].nodeValue;
 
     arrayUtils.forEach(childNodes, node => {
         elementValue += getContentEditableValue(node);

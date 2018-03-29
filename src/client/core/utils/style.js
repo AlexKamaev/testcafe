@@ -41,10 +41,16 @@ var getAncestorsAndSelf = function (node) {
     return getAncestors(node).concat([node]);
 };
 
-var isVisibilityHiddenTextNode = function (textNode) {
-    var el = domUtils.isTextNode(textNode) ? textNode.parentNode : null;
+var isVisibilityHiddenNode = function (node) {
+    var ancestors = getAncestorsAndSelf(node);
 
-    return el && get(el, 'visibility') === 'hidden';
+    return some(ancestors, ancestor => domUtils.isElementNode(ancestor) && get(ancestor, 'visibility') === 'hidden');
+}
+
+var isVisibilityHiddenTextNode = function (textNode) {
+    var el = domUtils.isTextNode(textNode);
+
+    return el && isVisibilityHiddenNode(el);
 };
 
 var isHiddenNode = function (node) {

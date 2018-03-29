@@ -83,6 +83,9 @@ function _excludeInvisibleSymbolsFromSelection (selection) {
 }
 
 function _typeTextToContentEditable (element, text) {
+
+    debugger;
+
     var currentSelection = _getSelectionInElement(element);
     var startNode        = currentSelection.startPos.node;
     var endNode          = currentSelection.endPos.node;

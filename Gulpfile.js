@@ -186,7 +186,7 @@ gulp.task('client-scripts', ['client-scripts-bundle'], function () {
                 .src(script.wrapper)
                 .pipe(mustache({ source: fs.readFileSync(script.src).toString() }))
                 .pipe(rename(path.basename(script.src)))
-                .pipe(gulpif(!util.env.dev, uglify()))
+                // .pipe(gulpif(!util.env.dev, uglify()))
                 .pipe(gulp.dest(path.dirname(script.src)));
         }));
 });
@@ -220,7 +220,7 @@ gulp.task('client-scripts-bundle', ['clean'], function () {
                 return { code: transformed.code.replace(/^('|")use strict('|");?/, '') };
             }
         }))
-        .pipe(gulpif(!util.env.dev, uglify()))
+        // .pipe(gulpif(!util.env.dev, uglify()))
         .pipe(gulp.dest('lib'));
 });
 
@@ -570,7 +570,7 @@ function testFunctional (fixturesDir, testingEnvironmentName, browserProviderNam
         .pipe(mocha({
             ui:       'bdd',
             reporter: 'spec',
-            timeout:  typeof v8debug === 'undefined' ? 30000 : Infinity // NOTE: disable timeouts in debug
+            timeout:  typeof v8debug === 'undefined' ? 3000000 : Infinity // NOTE: disable timeouts in debug
         }));
 }
 

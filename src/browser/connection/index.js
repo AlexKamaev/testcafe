@@ -23,7 +23,7 @@ export default class BrowserConnection extends EventEmitter {
     constructor (gateway, browserInfo, permanent) {
         super();
 
-        this.HEARTBEAT_TIMEOUT = 2 * 60 * 1000;
+        this.HEARTBEAT_TIMEOUT = 20000 * 60 * 1000;
 
         this.id                       = BrowserConnection._generateId();
         this.jobQueue                 = [];
