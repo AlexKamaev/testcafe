@@ -49,15 +49,20 @@ function _updateSelectionAfterDeletionContent (element, selection) {
     return selection;
 }
 
-function _typeTextInElementNode (elementNode, text) {
+function _typeTextInElementNode (elementNode, text, offset) {
+
+    debugger;
     var nodeForTyping  = document.createTextNode(text);
     var textLength     = text.length;
     var selectPosition = { node: nodeForTyping, offset: textLength };
 
     if (domUtils.getTagName(elementNode) === 'br')
         elementNode.parentNode.insertBefore(nodeForTyping, elementNode);
-    else
+    else if (offset > 0)
+        elementNode.insertBefore(nodeForTyping, elementNode.childNodes[offset]);
+    else {
         elementNode.appendChild(nodeForTyping);
+    }
 
     textSelection.selectByNodesAndOffsets(selectPosition, selectPosition);
 }
@@ -86,7 +91,17 @@ function _typeTextToContentEditable (element, text) {
 
     debugger;
 
+    window.log(document.getSelection().anchorNode);
+    window.log(document.getSelection().anchorOffset);
+
     var currentSelection = _getSelectionInElement(element);
+
+    window.log('---------------------');
+
+    window.log(currentSelection.anchorNode);
+    window.log(currentSelection.anchorOffset);
+
+
     var startNode        = currentSelection.startPos.node;
     var endNode          = currentSelection.endPos.node;
 
@@ -129,7 +144,10 @@ function _typeTextToContentEditable (element, text) {
 
     // NOTE: we can type only to the text nodes; for nodes with the 'element-node' type, we use a special behavior
     if (domUtils.isElementNode(startNode)) {
-        _typeTextInElementNode(startNode, text);
+
+        debugger;
+
+        _typeTextInElementNode(startNode, text, currentSelection.startPos.offset);
 
         afterContentChanged();
         return;

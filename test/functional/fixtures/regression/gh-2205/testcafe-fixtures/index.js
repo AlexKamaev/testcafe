@@ -9,7 +9,7 @@ async function typeAndCheck (t, editorId) {
     await t
         .click(editor)
         .typeText(editor, 'H')
-        .wait(5000)
+        .wait(1000)
         .expect(editor.innerText).contains('H');
 }
 

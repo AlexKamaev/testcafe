@@ -164,6 +164,8 @@ function selectContentEditable (el, from, to, needFocus) {
         };
     }
 
+    debugger;
+
     startPosition = startPosition || contentEditable.calculateNodeAndOffsetByPosition(el, from);
     endPosition   = endPosition || contentEditable.calculateNodeAndOffsetByPosition(el, to);
 
@@ -351,6 +353,9 @@ export function selectByNodesAndOffsets (startPos, endPos, needFocus) {
     var endNodeLength   = endNode.nodeValue ? endNode.length : 0;
     var startOffset     = Math.min(startNodeLength, startPos.offset);
     var endOffset       = Math.min(endNodeLength, endPos.offset);
+
+    startOffset     = 1;
+    endOffset       = 1;
 
     var parentElement = contentEditable.findContentEditableParent(startNode);
     var inverse       = isInverseSelectionContentEditable(parentElement, startPos, endPos);

@@ -72,8 +72,12 @@
          onmousedown="event.currentTarget.className += ' focused'"></div>
 </div>
 
+<div id="editor3" contenteditable="true"></div>
+
 <div id="placeholder1" contenteditable="false" class="placeholder">Type here...</div>
 <div id="placeholder2" contenteditable="false" class="placeholder">Type here...</div>
+
+<div id="logger"></div>
 
 <script type="text/javascript">
     function createEditor (editor, placeholder) {
@@ -83,10 +87,24 @@
         editor.appendChild(paragraph);
         paragraph.appendChild(placeholder);
         paragraph.appendChild(lineBreak);
+        paragraph.appendChild(document.createElement('br'));
+        paragraph.appendChild(document.createElement('br'));
     }
 
     createEditor(document.getElementById('editor1'), document.getElementById('placeholder1'));
     createEditor(document.getElementById('editor2'), document.getElementById('placeholder2'));
+
+    window.log = function (text) {
+        var el = document.getElementById('logger');
+
+        if(!text) return;
+
+        if(text.tagName)
+            el.innerHTML += 'tagName: ' + text.tagName + '<br/>';
+          else
+            el.innerHTML += (text + '<br/>');
+
+    }
 </script>
 </body>
 </html>

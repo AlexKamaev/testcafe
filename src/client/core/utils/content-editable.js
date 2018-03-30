@@ -323,7 +323,10 @@ function getSelectionStart (el, selection, inverseSelection) {
     };
 
     //NOTE: window.getSelection() can't returns not rendered node like selected node, so we shouldn't check it
-    if ((domUtils.isTheSameNode(el, startNode) || domUtils.isElementNode(startNode)) && hasChildren(startNode))
+
+    const hasSelectableChildren = arrayUtils.some(startNode.childNodes, child => isElementNode(child) && child.tagName !== 'BR' && styleUtils.isElementVisible(child));
+
+    if ((domUtils.isTheSameNode(el, startNode) || domUtils.isElementNode(startNode)) && hasSelectableChildren)
         correctedStartPosition = getSelectedPositionInParentByOffset(startNode, startOffset);
 
     return {
@@ -341,8 +344,10 @@ function getSelectionEnd (el, selection, inverseSelection) {
         offset: endOffset
     };
 
+    const hasSelectableChildren = arrayUtils.some(endNode.childNodes, child => isElementNode(child) && child.tagName !== 'BR' && styleUtils.isElementVisible(child));
+
     //NOTE: window.getSelection() can't returns not rendered node like selected node, so we shouldn't check it
-    if ((domUtils.isTheSameNode(el, endNode) || domUtils.isElementNode(endNode)) && hasChildren(endNode))
+    if ((domUtils.isTheSameNode(el, endNode) || domUtils.isElementNode(endNode)) && hasSelectableChildren)
         correctedEndPosition = getSelectedPositionInParentByOffset(endNode, endOffset);
 
     return {
@@ -370,13 +375,14 @@ export function getSelectionEndPosition (el, selection, inverseSelection) {
     return calculatePositionByNodeAndOffset(el, correctedSelectionEnd);
 }
 
-function isElementSelectable (target) {
-    debugger;
-    console.log('isElementSelectable: ' + target.tagName);
-    const hasSelectableChildren = arrayUtils.some(target.childNodes, child => isElementNode(child) && child.tagName !== 'BR' && styleUtils.isElementVisible(child));
-    console.log('hasSelectableChildren: ' + hasSelectableChildren);
+function hasSelectableChildren (target) {
+    return arrayUtils.some(target.childNodes, node => isElementNode(node) && domUtils.getTagName(node) !== 'br' && styleUtils.isElementVisible(node));
+}
 
-    if (hasSelectableChildren)
+function isElementSelectable (target) {
+    console.log('isElementSelectable: ' + target.tagName);
+
+    if (hasSelectableChildren(target))
         return false;
 
     const textNodes = getContentEditableNodes(target);
@@ -386,6 +392,20 @@ function isElementSelectable (target) {
     const hiddenNodesValue = arrayUtils.map(notVisibleTextNodes, node => node.nodeValue).join('');
 
     return nodesValue === hiddenNodesValue;
+}
+
+function getElementOffset (target) {
+    let offset = 0;
+
+    const firstBreakElement = arrayUtils.find(target.childNodes, (node, index) => {
+        offset = index;
+        return domUtils.getTagName(node) === 'br';
+    });
+
+    if (!firstBreakElement)
+        offset = 0;
+
+    return offset;
 }
 
 export function calculateNodeAndOffsetByPosition (el, offset) {
@@ -422,8 +442,9 @@ export function calculateNodeAndOffsetByPosition (el, offset) {
 
             const isBreakElement = !childNodesLength && domUtils.getTagName(target) === 'br';
 
-            if (point.offset === 0 && !getContentEditableValue2(target).length) {
+            if (point.offset === 0 && isElementSelectable(target)) {
                 point.node = target;
+                point.offset = getElementOffset(target);
                 return point;
             }
             if (!point.node && (isNodeBlockWithBreakLine(el, target) || isNodeAfterNodeBlockWithBreakLine(el, target)))
