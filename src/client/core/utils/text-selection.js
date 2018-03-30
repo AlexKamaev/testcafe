@@ -351,11 +351,19 @@ export function selectByNodesAndOffsets (startPos, endPos, needFocus) {
 
     var startNodeLength = startNode.nodeValue ? startNode.length : 0;
     var endNodeLength   = endNode.nodeValue ? endNode.length : 0;
-    var startOffset     = Math.min(startNodeLength, startPos.offset);
-    var endOffset       = Math.min(endNodeLength, endPos.offset);
 
-    startOffset     = 1;
-    endOffset       = 1;
+    var startOffset     = startPos.offset;
+    var endOffset       = endPos.offset;
+
+
+    if (!domUtils.isElementNode(startNode) || !startOffset)
+        startOffset = Math.min(startNodeLength, startPos.offset);
+
+    if (!domUtils.isElementNode(endNode) || !endOffset)
+        endOffset = Math.min(endNodeLength, endPos.offset);
+
+    debugger;
+
 
     var parentElement = contentEditable.findContentEditableParent(startNode);
     var inverse       = isInverseSelectionContentEditable(parentElement, startPos, endPos);

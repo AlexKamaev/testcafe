@@ -52,6 +52,7 @@ function _updateSelectionAfterDeletionContent (element, selection) {
 function _typeTextInElementNode (elementNode, text, offset) {
 
     debugger;
+
     var nodeForTyping  = document.createTextNode(text);
     var textLength     = text.length;
     var selectPosition = { node: nodeForTyping, offset: textLength };
@@ -63,6 +64,8 @@ function _typeTextInElementNode (elementNode, text, offset) {
     else {
         elementNode.appendChild(nodeForTyping);
     }
+
+    debugger;
 
     textSelection.selectByNodesAndOffsets(selectPosition, selectPosition);
 }

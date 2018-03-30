@@ -8,9 +8,9 @@ async function typeAndCheck (t, editorId) {
 
     await t
         .click(editor)
-        .typeText(editor, 'H')
+        .typeText(editor, 'Hello')
         .wait(1000)
-        .expect(editor.innerText).contains('H');
+        .expect(editor.innerText).contains('Hello');
 }
 
 test(`Click on div with display:none placeholder`, async t => {
