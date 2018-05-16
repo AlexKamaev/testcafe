@@ -79,8 +79,19 @@ function _typeTextInChildTextNode (element, selection, text) {
     const nodeValue      = startNode.nodeValue;
     const selectPosition = { node: startNode, offset: startOffset + text.length };
 
+
+    function kekeke (event, dispatched, preventEvent, cancelHandlers, stopEventPropagation) {
+        preventEvent();
+        cancelHandlers();
+        stopEventPropagation();
+    }
+
+    listeners.addInternalEventListener(window, ['textinput'], kekeke);
+
     startNode.nodeValue = nodeValue.substring(0, startOffset) + text +
                           nodeValue.substring(endOffset, nodeValue.length);
+
+    listeners.removeInternalEventListener(window, ['textinput'], kekeke)
 
     textSelection.selectByNodesAndOffsets(selectPosition, selectPosition);
 }
@@ -111,6 +122,11 @@ function _excludeInvisibleSymbolsFromSelection (selection) {
 // So in Safari we need to call preventDefault in the last textInput handler but not prevent the Input event
 
 function simulateTextInput (element, text) {
+
+    return true;
+
+    window.log('simulateTextInput');
+
     let forceInputInSafari;
 
     function onSafariTextInput (e) {
@@ -192,17 +208,23 @@ function _typeTextToContentEditable (element, text) {
     if (!startNode || !domUtils.isContentEditableElement(startNode) || !domUtils.isRenderedNode(startNode))
         return;
 
-    beforeContentChanged();
+    try {
 
-    if (needProcessInput) {
-        // NOTE: we can type only to the text nodes; for nodes with the 'element-node' type, we use a special behavior
-        if (domUtils.isElementNode(startNode))
-            _typeTextInElementNode(startNode, text);
-        else
-            _typeTextInChildTextNode(element, _excludeInvisibleSymbolsFromSelection(currentSelection), text);
+        beforeContentChanged();
+
+        if (needProcessInput) {
+            // NOTE: we can type only to the text nodes; for nodes with the 'element-node' type, we use a special behavior
+            if (domUtils.isElementNode(startNode))
+                _typeTextInElementNode(startNode, text);
+            else
+                _typeTextInChildTextNode(element, _excludeInvisibleSymbolsFromSelection(currentSelection), text);
+        }
+
+        afterContentChanged();
+
+    } catch (e) {
+        window.log(e.stack);
     }
-
-    afterContentChanged();
 }
 
 function _typeTextToTextEditable (element, text) {

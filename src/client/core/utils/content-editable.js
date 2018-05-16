@@ -1,6 +1,10 @@
+import hammerhead from '../deps/hammerhead';
 import * as domUtils from './dom';
 import * as arrayUtils from './array';
 import * as styleUtils from './style';
+import { isTextNode } from "./dom";
+
+var browserUtils = hammerhead.utils.browser;
 
 //nodes utils
 function getOwnFirstVisibleTextNode (el) {
@@ -110,24 +114,24 @@ function isNodeAfterNodeBlockWithBreakLine (parent, node) {
     return false;
 }
 
-export function getFirstVisibleTextNode (el) {
+function getFirstTextNode (el, onlyVisible) {
     var children                    = el.childNodes;
     var childrenLength              = domUtils.getChildNodesLength(children);
     var curNode                     = null;
     var child                       = null;
     var isNotContentEditableElement = null;
 
-    if (!childrenLength && isVisibleTextNode(el))
+    if (!childrenLength && checkTextNodeVisibility(el, onlyVisible))
         return el;
 
     for (var i = 0; i < childrenLength; i++) {
         curNode                     = children[i];
         isNotContentEditableElement = domUtils.isElementNode(curNode) && !domUtils.isContentEditableElement(curNode);
 
-        if (isVisibleTextNode(curNode))
+        if (checkTextNodeVisibility(curNode, onlyVisible))
             return curNode;
         else if (domUtils.isRenderedNode(curNode) && hasVisibleChildren(curNode) && !isNotContentEditableElement) {
-            child = getFirstVisibleTextNode(curNode);
+            child = getFirstTextNode(curNode, onlyVisible);
 
             if (child)
                 return child;
@@ -135,6 +139,10 @@ export function getFirstVisibleTextNode (el) {
     }
 
     return child;
+}
+
+export function getFirstVisibleTextNode (el) {
+    return getFirstTextNode(el, true);
 }
 
 export function getLastTextNode (el, onlyVisible) {
@@ -210,8 +218,15 @@ export function isInvisibleTextNode (node) {
     return firstVisibleIndex === nodeValue.length && lastVisibleIndex === 0;
 }
 
+function checkTextNodeVisibility (node, visibility) {
+    if (!domUtils.isTextNode(node))
+        return false;
+
+    return isInvisibleTextNode(node) !== visibility;
+}
+
 function isVisibleTextNode (node) {
-    return domUtils.isTextNode(node) && !isInvisibleTextNode(node);
+    return checkTextNodeVisibility(node, true);
 }
 
 function isSkippableNode (node) {
@@ -532,12 +547,38 @@ export function getFirstVisiblePosition (el) {
 }
 
 export function getLastVisiblePosition (el) {
-    var lastVisibleTextChild = domUtils.isTextNode(el) ? el : getLastTextNode(el, true);
-    var curDocument          = domUtils.findDocument(el);
-    var range                = curDocument.createRange();
+    var firstVisibleTextChild = el;
+    var lastVisibleTextChild  = el;
+    var isTextNode            = domUtils.isTextNode(el);
+
+    debugger
+
+    if (!isTextNode) {
+        firstVisibleTextChild = getFirstTextNode(el, false);
+        lastVisibleTextChild  = getLastTextNode(el, true);
+    }
+
+    var isSingleTextNode = lastVisibleTextChild && lastVisibleTextChild === firstVisibleTextChild;
+
+    window.log('isSingleTextNode: ' + isSingleTextNode);
+
+    if (isSingleTextNode && lastVisibleTextChild.nodeValue === String.fromCharCode(10))
+        return 0;
+
+    var curDocument = domUtils.findDocument(el);
+    var range       = curDocument.createRange();
+
+
+    window.log('lastVisibleTextChild');
+
 
     if (lastVisibleTextChild) {
         range.selectNodeContents(lastVisibleTextChild);
+
+        window.log('lastVisibleTextChild: ' + lastVisibleTextChild.nodeValue + 'length: ' +
+                   lastVisibleTextChild.nodeValue.length);
+
+        window.log('offset: ' + range.endOffset);
 
         return calculatePositionByNodeAndOffset(el, { node: lastVisibleTextChild, offset: range.endOffset });
     }

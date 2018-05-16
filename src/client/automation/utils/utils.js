@@ -12,6 +12,11 @@ var domUtils        = testCafeCore.domUtils;
 
 
 function setCaretPosition (element, caretPos) {
+
+    debugger;
+
+    window.log('setCaretPosition: ' + caretPos);
+
     var isTextEditable    = domUtils.isTextEditableElement(element);
     var isContentEditable = domUtils.isContentEditableElement(element);
 
@@ -85,7 +90,13 @@ export function focusAndSetSelection (element, simulateFocus, caretPos) {
             preventScrolling = true;
         }
 
+
+        window.log('focus and set selection');
+
         focusBlurSandbox.focus(elementForFocus, () => {
+
+            window.log('focus and set selection callback');
+
             // NOTE: if a different element was focused in the focus event handler, we should not set selection
             if (simulateFocus && !isContentEditable && element !== domUtils.getActiveElement()) {
                 resolve();

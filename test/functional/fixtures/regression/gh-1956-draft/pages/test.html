@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /*div {*/
+            /*border: 1px solid black;*/
+        /*}*/
+
+        .public-DraftEditor-content, #CONTENT_EDITOR {
+            border: 1px solid black;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="CONTENT_EDITOR" contenteditable="true"></div>
+
+<br/><br/><br/><br/>
+
+<div class="public-DraftEditor-content"
+      contenteditable="true"><span style="white-space: pre-wrap;" id="span-data-text">
+    kekeke
+</span></div>
+
+<br/><br/><br/><br/><br/>
+<div id="logger"></div>
+
+<script type="text/javascript">
+    var editor     = document.getElementById('CONTENT_EDITOR');
+    editor.onfocus = function () {
+        window.log('onfocus');
+    };
+    var span       = document.createElement('span');
+
+    span.innerHTML = String.fromCharCode(10);
+
+    var spanDataText     = document.getElementById('span-data-text');
+    spanDataText.innerHTML = String.fromCharCode(10);
+
+    editor.appendChild(span);
+
+
+    window.log = function (text) {
+        var logger = document.getElementById('logger');
+
+        // if(text === 'keypress' || text === 'mousedown') {
+        //      logger.innerHTML += '---------------------------------------------------------------------';
+        // }
+
+        if (logger) {
+            // logger.innerHTML += window.logcache;
+            logger.innerHTML += text;
+            logger.innerHTML += '<br/>';
+            window.logcache = '';
+        }
+        else {
+            window.logcache += text += '<br/>';
+        }
+
+        logger.innerHTML += 'activeElement: ' + document.activeElement.tagName;
+        logger.innerHTML += '<br/>';
+        logger.innerHTML += '---------------------------------------------------------------------';
+        logger.innerHTML += '<br/>';
+    }
+
+    document.addEventListener('mousedown', function (e) {
+
+        window.log('mousedown');
+    });
+    document.addEventListener('selectionchange', function (e) {
+        // debugger
+        window.log('selectionchange: ' + document.getSelection().anchorOffset);
+        console.log('selectionchange');
+        // window.log();
+        // try {
+        //     throw new Error();
+        // } catch(e) {
+        //     window.log(e.stack)
+        // }
+    }, true)
+</script>
+</body>
+</html>

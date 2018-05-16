@@ -131,6 +131,9 @@ if (browserUtils.isIE)
 
 //utils for contentEditable
 function selectContentEditable (el, from, to, needFocus) {
+
+    window.log('selectContentEditable');
+
     var endPosition         = null;
     var firstTextNodeChild  = null;
     var latestTextNodeChild = null;
@@ -344,6 +347,9 @@ export function select (el, from, to) {
 }
 
 export function selectByNodesAndOffsets (startPos, endPos, needFocus) {
+
+    window.log('selectByNodesAndOffsets');
+
     var startNode = startPos.node;
     var endNode   = endPos.node;
 
@@ -367,13 +373,27 @@ export function selectByNodesAndOffsets (startPos, endPos, needFocus) {
     var range       = curDocument.createRange();
 
     var selectionSetter = function () {
-        selection.removeAllRanges();
+        // window.log('beforeRemoveAllRanges');
+        //
+
+        debugger;
+        if (!selection) {
+            throw new Error('there is no selection');
+        }
+         // selection.removeAllRanges();
+        //
+        // window.log('afterRemoveAllRanges');
 
         //NOTE: For IE we can't create inverse selection
         if (!inverse) {
-            range.setStart(startNode, startOffset);
-            range.setEnd(endNode, endOffset);
-            selection.addRange(range);
+            // range.setStart(startNode, startOffset);
+            // range.setEnd(endNode, endOffset);
+            //
+            // window.log('beforeAddRange');
+            //
+            // selection.addRange(range);
+            //
+            // window.log('afterAddRange');
         }
         else if (browserUtils.isIE) {
             range.setStart(endNode, endOffset);

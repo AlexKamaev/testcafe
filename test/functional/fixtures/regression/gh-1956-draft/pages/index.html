@@ -1,0 +1,40 @@
+<html>
+<head><title>Edit test</title></head>
+<body id="body">
+
+    <div onmousedown="onMouseDown(event)" id="CONTENT_EDITOR" contenteditable="true" style="border: 1px solid black;"></div>
+    <input id="CONTENT_INPUT" style="border: 1px solid black;" type="text"/>
+    <div id="logger"></div>
+
+    <script type="text/javascript">
+
+        var editor = document.getElementById('CONTENT_EDITOR');
+
+        function onMouseDown(event) {
+            window.log('onMouseDown');
+
+
+            editor.innerHTML = '1';
+        }
+
+        function log(text) {
+            document.getElementById('logger').innerHTML += text;
+            document.getElementById('logger').innerHTML += '<br/>';
+        }
+        editor.addEventListener('focus', function(e) {
+            window.log('focus: ' + e.target.id)
+        })
+        editor.addEventListener('blur', function(e) {
+            window.log('blur: ' + e.target.id)
+        })
+        document.addEventListener('selectionchange', function(e) {
+            window.log('selectionchange');
+            var node = document.getSelection().anchorNode;
+            var nodeId = node ? node.id : 'undefined';
+            window.log('node: ' + nodeId);
+            var q = document.getSelection();
+            console.log(q)
+        })
+    </script>
+</body>
+</html>
