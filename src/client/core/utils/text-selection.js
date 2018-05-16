@@ -373,27 +373,27 @@ export function selectByNodesAndOffsets (startPos, endPos, needFocus) {
     var range       = curDocument.createRange();
 
     var selectionSetter = function () {
-        // window.log('beforeRemoveAllRanges');
+         window.log('beforeRemoveAllRanges');
         //
 
         debugger;
         if (!selection) {
             throw new Error('there is no selection');
         }
-         // selection.removeAllRanges();
+         selection.removeAllRanges();
         //
-        // window.log('afterRemoveAllRanges');
+         window.log('afterRemoveAllRanges');
 
         //NOTE: For IE we can't create inverse selection
         if (!inverse) {
-            // range.setStart(startNode, startOffset);
-            // range.setEnd(endNode, endOffset);
-            //
-            // window.log('beforeAddRange');
-            //
-            // selection.addRange(range);
-            //
-            // window.log('afterAddRange');
+            range.setStart(startNode, startOffset);
+            range.setEnd(endNode, endOffset);
+
+            window.log('beforeAddRange');
+
+            selection.addRange(range);
+
+            window.log('afterAddRange');
         }
         else if (browserUtils.isIE) {
             range.setStart(endNode, endOffset);

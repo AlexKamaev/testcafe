@@ -1,12 +1,14 @@
 var hammerhead   = window.getTestCafeModule('hammerhead');
 var browserUtils = hammerhead.utils.browser;
 
-var testCafeCore      = window.getTestCafeModule('testCafeCore');
-var domUtils          = testCafeCore.get('./utils/dom');
+var testCafeCore = window.getTestCafeModule('testCafeCore');
+var domUtils     = testCafeCore.get('./utils/dom');
 
 var testCafeAutomation = window.getTestCafeModule('testCafeAutomation');
 var TypeOptions        = testCafeAutomation.get('../../test-run/commands/options').TypeOptions;
 var TypeAutomation     = testCafeAutomation.Type;
+var ClickAutomation    = testCafeAutomation.Click;
+
 
 testCafeCore.preventRealEvents();
 
@@ -138,6 +140,28 @@ $(document).ready(function () {
                 .then(function () {
                     startNext();
                 });
+        });
+
+        asyncTest('selection after mousedown should ignore single new line character', function () {
+            // <div class="public-DraftEditor-content"
+            //     contenteditable="true"><span style="white-space: pre-wrap;" id="span-data-text">
+            //                                                                    kekeke
+            //                                                                    </span></div>
+
+            var editor = document.createElement('div');
+            var span   = document.createElement('span');
+            var click  = new ClickAutomation(editor, {});
+            var type   = new TypeAutomation(editor, 'H', {});
+
+            editor.className       = TEST_ELEMENT_CLASS;
+            editor.contentEditable = true;
+            span.innerHTML         = String.fromCharCode(10);
+
+            editor.appendChild(span);
+            document.body.appendChild(editor);
+
+            type
+                .run();
         });
     }
 
