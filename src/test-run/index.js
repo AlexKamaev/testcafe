@@ -52,7 +52,7 @@ const MAX_RESPONSE_DELAY              = 2 * 60 * 1000;
 
 
 export default class TestRun extends Session {
-    constructor (test, browserConnection, screenshotCapturer, warningLog, opts) {
+    constructor (test, browserConnection, screenshotCapturer, quarantine, warningLog, opts) {
         var uploadsRoot = path.dirname(test.fixture.path);
 
         super(uploadsRoot);
@@ -101,6 +101,8 @@ export default class TestRun extends Session {
         this.browserManipulationQueue = new BrowserManipulationQueue(browserConnection, screenshotCapturer, warningLog);
 
         this.debugLog = new TestRunDebugLog(this.browserConnection.userAgent);
+
+        this.quarantine = quarantine;
 
         this.injectable.scripts.push('/testcafe-core.js');
         this.injectable.scripts.push('/testcafe-ui.js');
