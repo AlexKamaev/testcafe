@@ -270,10 +270,10 @@ gulp.task('ts-definitions', ['clean'], function () {
 });
 
 gulp.task('fast-build', ['server-scripts', 'client-scripts', 'styles', 'images', 'templates', 'ts-definitions']);
-gulp.task('build', ['lint', 'fast-build']);
+gulp.task('build', ['fast-build']);
 
 // Test
-gulp.task('test-server', ['build', 'check-licenses'], function () {
+gulp.task('test-server', [], function () {
     return gulp
         .src('test/server/*-test.js', { read: false })
         .pipe(mocha({
@@ -592,7 +592,7 @@ function testFunctional (fixturesDir, testingEnvironmentName, browserProviderNam
         .pipe(mocha({
             ui:       'bdd',
             reporter: 'spec',
-            timeout:  typeof v8debug === 'undefined' ? 30000 : Infinity // NOTE: disable timeouts in debug
+            timeout:  typeof v8debug === 'undefined' ? 3000000 : Infinity // NOTE: disable timeouts in debug
         }));
 }
 
@@ -604,7 +604,7 @@ gulp.task('test-functional-travis-mobile', ['build'], function () {
     return testFunctional('test/functional/fixtures', functionalTestConfig.testingEnvironmentNames.mobileBrowsers, functionalTestConfig.browserProviderNames.browserstack);
 });
 
-gulp.task('test-functional-local', ['build'], function () {
+gulp.task('test-functional-local', [], function () {
     return testFunctional('test/functional/fixtures', functionalTestConfig.testingEnvironmentNames.localBrowsers);
 });
 
@@ -612,7 +612,7 @@ gulp.task('test-functional-local-appveyor', ['build'], function () {
     return testFunctional('test/functional/fixtures', functionalTestConfig.testingEnvironmentNames.localBrowsersAppveyor);
 });
 
-gulp.task('test-functional-local-headless', ['build'], function () {
+gulp.task('test-functional-local-headless', [], function () {
     return testFunctional('test/functional/fixtures', functionalTestConfig.testingEnvironmentNames.localHeadlessBrowsers);
 });
 
