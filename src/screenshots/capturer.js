@@ -108,6 +108,10 @@ export default class Capturer {
     }
 
     async _capture (forError, { pageDimensions, cropDimensions, markSeed, customPath } = {}) {
+
+        debugger;
+
+
         if (!this.enabled)
             return null;
 

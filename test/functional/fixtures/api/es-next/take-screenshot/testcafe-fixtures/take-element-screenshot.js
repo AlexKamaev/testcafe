@@ -41,7 +41,8 @@ test('Invalid dimensions', async t => {
 test('Invisible element', async t => {
     await t
         .click('#hide')
-        .takeElementScreenshot('table', 'custom/' + t.ctx.parsedUA.family + '.png');
+        // .debug()
+        // .takeElementScreenshot('table', 'custom/' + t.ctx.parsedUA.family + '.png');
 });
 
 test('Non-existent element', async t => {

@@ -101,17 +101,17 @@ testingEnvironments[testingEnvironmentNames.localBrowsers] = {
             browserName: 'chrome',
             alias:       'chrome'
         },
-        {
-            platform:    'Windows 10',
-            browserName: 'ie',
-            version:     '11.0',
-            alias:       'ie'
-        },
-        {
-            platform:    'Windows 10',
-            browserName: 'firefox',
-            alias:       'firefox'
-        }
+        // {
+        //     platform:    'Windows 10',
+        //     browserName: 'ie',
+        //     version:     '11.0',
+        //     alias:       'ie'
+        // },
+        // {
+        //     platform:    'Windows 10',
+        //     browserName: 'firefox',
+        //     alias:       'firefox'
+        // }
     ]
 };
 

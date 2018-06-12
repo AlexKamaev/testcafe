@@ -58,6 +58,8 @@ export default class TestRunController extends EventEmitter {
         var screenshotCapturer = this.screenshots.createCapturerFor(this.test, this.index, this.quarantine, connection, this.warningLog);
         var TestRunCtor        = this.TestRunCtor;
 
+        debugger;
+
         this.testRun = new TestRunCtor(this.test, connection, screenshotCapturer, this.quarantine, this.warningLog, this.opts);
 
         return this.testRun;

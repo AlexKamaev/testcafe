@@ -194,7 +194,7 @@ describe('[API] t.takeScreenshot()', function () {
     }
 });
 
-describe('[API] t.takeElementScreenshot()', function () {
+describe.only('[API] t.takeElementScreenshot()', function () {
     if (config.useLocalBrowsers) {
         afterEach(assertionHelper.removeScreenshotDir);
 
@@ -341,13 +341,16 @@ describe('[API] t.takeElementScreenshot()', function () {
                 });
         });
 
-        it('Should throw an error if the element is invisible', function () {
+        it.only('Should throw an error if the element is invisible', function () {
             return runTests('./testcafe-fixtures/take-element-screenshot.js', 'Invisible element', {
                 setScreenshotPath: true,
                 shouldFail:        true,
                 only:              'chrome'
             })
                 .catch(function (errs) {
+
+                    debugger;
+
                     expect(errs[0]).to.contains('The element that matches the specified selector is not visible.');
                     expect(errs[0]).to.contains(
                         ' 43 |        .click(\'#hide\')' +

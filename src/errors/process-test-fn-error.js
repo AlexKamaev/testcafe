@@ -42,5 +42,7 @@ export default function processTestFnError (err) {
             new UncaughtErrorInTestCode(err, callsite);
     }
 
+    debugger;
+
     return new UncaughtNonErrorObjectInTestCode(err);
 }
