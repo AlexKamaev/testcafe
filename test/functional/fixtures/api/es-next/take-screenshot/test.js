@@ -41,7 +41,7 @@ var getReporter = function (scope) {
     };
 };
 
-describe('[API] t.takeScreenshot()', function () {
+describe.only('[API] t.takeScreenshot()', function () {
     if (config.useLocalBrowsers) {
         afterEach(assertionHelper.removeScreenshotDir);
 
@@ -341,7 +341,7 @@ describe.only('[API] t.takeElementScreenshot()', function () {
                 });
         });
 
-        it.only('Should throw an error if the element is invisible', function () {
+        it('Should throw an error if the element is invisible', function () {
             return runTests('./testcafe-fixtures/take-element-screenshot.js', 'Invisible element', {
                 setScreenshotPath: true,
                 shouldFail:        true,
