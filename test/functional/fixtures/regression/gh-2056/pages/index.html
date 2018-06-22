@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        #el1, #el2, #el3 {
+            position: absolute;
+            background-color: black;
+            display: inline-block;
+            height: 50px;
+            width: 50px;
+            top: 0;
+            left: 0;
+        }
+        #el2 {
+            top: 200px;
+            left: 200px;
+        }
+
+        #el3 {
+            top: 0;
+            left: 200px;
+        }
+    </style>
+    <script>
+        function log (text) {
+            document.getElementById('result').innerHTML += text;
+        }
+
+        function onMove (e) {
+            window.removeEventListener('mousemove', onMove);
+
+            log('onMove:' + e.button + e.buttons + e.which);
+        }
+
+        function onMoveWithLeftButtonPressed (e) {
+            window.removeEventListener('mousemove', onMoveWithLeftButtonPressed);
+
+            log('onMoveWithLeftButtonPressed:' + e.button + e.buttons + e.which);
+        }
+
+        function listenMouseMove(e) {
+            window.addEventListener('mousemove', onMove);
+        }
+
+        function listenMouseMoveWithLeftButtonPressed(e) {
+            window.addEventListener('mousemove', onMoveWithLeftButtonPressed);
+        }
+
+        function onclick (e) {
+
+        }
+
+        function oncontextmenu (e) {
+
+        }
+
+        function ondblclick (e) {
+
+        }
+    </script>
+</head>
+<body>
+<div id="el1" onclick="listenMouseMove()"></div>
+<div id="el2" onclick="listenMouseMoveWithLeftButtonPressed()"></div>
+<div id="el3"></div>
+<div id="el4" onclick="onclick()" oncontextmenu="oncontextmenu()" ondblclick="ondblclick()"></div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div id="result"></div>
+</body>
+</html>
