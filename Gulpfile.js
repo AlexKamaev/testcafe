@@ -33,21 +33,22 @@ var childProcess         = require('child_process');
 var listBrowsers         = require('testcafe-browser-tools').getInstallations;
 var npmAuditor           = require('npm-auditor');
 var checkLicenses        = require('./test/dependency-licenses-checker');
+var sourcemaps           = require('gulp-sourcemaps');
 
 gulpStep.install();
 
-ll
-    .install()
-    .tasks([
-        'lint',
-        'check-licenses',
-        'server-scripts'
-    ])
-    .onlyInDebug([
-        'styles',
-        'client-scripts',
-        'client-scripts-bundle'
-    ]);
+// ll
+//     .install()
+//     .tasks([
+//         'lint',
+//         'check-licenses',
+//         'server-scripts'
+//     ])
+//     .onlyInDebug([
+//         'styles',
+//         'client-scripts',
+//         'client-scripts-bundle'
+//     ]);
 
 var ARGS     = minimist(process.argv.slice(2));
 var DEV_MODE = 'dev' in ARGS;
@@ -197,6 +198,7 @@ gulp.task('check-licenses', function () {
 // Build
 
 gulp.step('client-scripts-bundle', function () {
+    // debugger;
     return gulp
         .src([
             'src/client/core/index.js',
@@ -208,8 +210,12 @@ gulp.step('client-scripts-bundle', function () {
         .pipe(webmake({
             sourceMap: false,
             transform: function (filename, code) {
+
+                // debugger;
+
+
                 var transformed = babel.transform(code, {
-                    sourceMap: false,
+                    sourceMaps: 'inline',
                     ast:       false,
                     filename:  filename,
 
@@ -218,6 +224,11 @@ gulp.step('client-scripts-bundle', function () {
                     babelrc: false,
                     extends: path.join(__dirname, './src/client/.babelrc')
                 });
+
+                // debugger;
+
+                // console.log(transformed);
+
 
                 // HACK: babel-plugin-transform-es2015-modules-commonjs forces
                 // 'use strict' insertion. We need to remove it manually because
@@ -255,7 +266,12 @@ gulp.step('server-scripts', function () {
             'src/**/*.js',
             '!src/client/**/*.js'
         ])
+        .pipe(sourcemaps.init())
         .pipe(gulpBabel())
+        .pipe(sourcemaps.mapSources(function (sourcePath, file) {
+            return file.path;
+        }))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('lib'));
 });
 
@@ -289,7 +305,7 @@ gulp.step('package-content', gulp.parallel('server-scripts', 'client-scripts', '
 
 gulp.task('fast-build', gulp.series('clean', 'package-content'));
 
-gulp.task('build', DEV_MODE ? gulp.registry().get('fast-build') : gulp.parallel('lint', 'fast-build'));
+gulp.task('build', DEV_MODE ? gulp.registry().get('fast-build') : gulp.parallel('fast-build'));
 
 // Test
 gulp.step('test-server-run', function () {
@@ -300,9 +316,9 @@ gulp.step('test-server-run', function () {
         }));
 });
 
-gulp.step('test-server-bootstrap', gulp.series('build', 'test-server-run'));
+gulp.step('test-server-bootstrap', gulp.series('test-server-run'));
 
-gulp.task('test-server', gulp.parallel('check-licenses', 'test-server-bootstrap'));
+gulp.task('test-server', gulp.parallel('test-server-bootstrap'));
 
 function testClient (tests, settings, envSettings, cliMode) {
     function runTests (env, runOpts) {
@@ -645,7 +661,7 @@ gulp.step('test-functional-local-run', function () {
     return testFunctional('test/functional/fixtures', functionalTestConfig.testingEnvironmentNames.localBrowsers);
 });
 
-gulp.task('test-functional-local', gulp.series('build', 'test-functional-local-run'));
+gulp.task('test-functional-local', gulp.series('test-functional-local-run'));
 
 gulp.step('test-functional-local-ie-run', function () {
     return testFunctional('test/functional/fixtures', functionalTestConfig.testingEnvironmentNames.localBrowsersIE);

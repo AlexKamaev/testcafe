@@ -111,6 +111,8 @@ export default class CLIArgumentParser {
             .option('--proxy-bypass <rules>', 'specify a comma-separated list of rules that define URLs accessed bypassing the proxy server')
             .option('--disable-page-reloads', 'disable page reloads between tests')
             .option('--qr-code', 'outputs QR-code that repeats URLs used to connect the remote browsers')
+            .option('--error-handle', 'add error handlers')
+            .option('--ignore-uncaught-errors', 'ignore uncaught errors')
 
             // NOTE: these options will be handled by chalk internally
             .option('--color', 'force colors in command line')
@@ -305,6 +307,8 @@ export default class CLIArgumentParser {
     }
 
     async parse (argv) {
+
+        debugger;
         this.program.parse(argv);
 
         this.opts = this.program.opts();

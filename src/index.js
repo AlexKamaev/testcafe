@@ -7,7 +7,6 @@ import MESSAGE from './errors/runtime/message';
 import embeddingUtils from './embedding-utils';
 import exportableLib from './api/exportable-lib';
 
-
 // Validations
 async function getValidHostname (hostname) {
     if (hostname) {

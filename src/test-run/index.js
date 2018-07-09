@@ -603,6 +603,7 @@ export default class TestRun extends EventEmitter {
     }
 
     async _useRole (role, callsite) {
+
         if (this.phase === PHASE.inRoleInitializer)
             throw new RoleSwitchInRoleInitializerError(callsite);
 

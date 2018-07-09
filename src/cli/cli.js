@@ -1,3 +1,5 @@
+console.log('cli');
+
 import fs from 'fs';
 import chalk from 'chalk';
 import browserProviderPool from '../browser/provider/pool';
@@ -8,7 +10,6 @@ import TerminationHandler from './termination-handler';
 import log from './log';
 import remotesWizard from './remotes-wizard';
 import createTestCafe from '../';
-
 
 var showMessageOnExit = true;
 var exitMessageShown  = false;
@@ -133,6 +134,7 @@ async function listBrowsers (providerName = 'locally-installed') {
 }
 
 (async function cli () {
+
     var terminationHandler = new TerminationHandler();
 
     terminationHandler.on(TerminationHandler.TERMINATION_LEVEL_INCREASED_EVENT, exitHandler);

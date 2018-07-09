@@ -1,3 +1,5 @@
+console.log('cli.index');
+
 import resolveCwd from 'resolve-cwd';
 import log from './log';
 
@@ -15,6 +17,8 @@ function getLocalInstallation () {
 
 (function loader () {
     const cliPath = getLocalInstallation() || require.resolve('./cli');
+
+    console.log(cliPath);
 
     require(cliPath);
 })();

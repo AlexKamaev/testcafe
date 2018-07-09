@@ -10,6 +10,7 @@ import Task from './task';
 import { GeneralError } from '../errors/runtime';
 import MESSAGE from '../errors/runtime/message';
 import { assertType, is } from '../errors/runtime/type-assertions';
+import { addRunningTest, removeRunningTest, startHandlingTests, stopHandlingTests } from '../utils/handle-errors';
 
 const DEFAULT_SELECTOR_TIMEOUT  = 10000;
 const DEFAULT_ASSERTION_TIMEOUT = 3000;
@@ -98,6 +99,15 @@ export default class Runner extends EventEmitter {
         var task              = new Task(tests, browserSet.browserConnectionGroups, this.proxy, this.opts);
         var reporters         = reporterPlugins.map(reporter => new Reporter(reporter.plugin, task, reporter.outStream));
         var completionPromise = this._getTaskResult(task, browserSet, reporters[0], testedApp);
+
+        task.once('start', startHandlingTests);
+
+        if (!this.opts.ignoreUncaughtErrors) {
+            task.on('test-run-start', addRunningTest);
+            task.on('test-run-done', removeRunningTest);
+        }
+
+        task.once('done', stopHandlingTests);
 
         var setCompleted = () => {
             completed = true;
@@ -212,15 +222,17 @@ export default class Runner extends EventEmitter {
         return this;
     }
 
-    run ({ skipJsErrors, disablePageReloads, quarantineMode, debugMode, selectorTimeout, assertionTimeout, pageLoadTimeout, speed = 1, debugOnFail } = {}) {
-        this.opts.skipJsErrors       = !!skipJsErrors;
-        this.opts.disablePageReloads = !!disablePageReloads;
-        this.opts.quarantineMode     = !!quarantineMode;
-        this.opts.debugMode          = !!debugMode;
-        this.opts.debugOnFail        = !!debugOnFail;
-        this.opts.selectorTimeout    = selectorTimeout === void 0 ? DEFAULT_SELECTOR_TIMEOUT : selectorTimeout;
-        this.opts.assertionTimeout   = assertionTimeout === void 0 ? DEFAULT_ASSERTION_TIMEOUT : assertionTimeout;
-        this.opts.pageLoadTimeout    = pageLoadTimeout === void 0 ? DEFAULT_PAGE_LOAD_TIMEOUT : pageLoadTimeout;
+    run ({ skipJsErrors, disablePageReloads, quarantineMode, debugMode, selectorTimeout, assertionTimeout, pageLoadTimeout, speed = 1, debugOnFail, ignoreUncaughtErrors } = {}) {        this.opts.skipJsErrors       = !!skipJsErrors;
+        this.opts.disablePageReloads   = !!disablePageReloads;
+        this.opts.quarantineMode       = !!quarantineMode;
+        this.opts.debugMode            = !!debugMode;
+        this.opts.debugOnFail          = !!debugOnFail;
+        this.opts.selectorTimeout      = selectorTimeout === void 0 ? DEFAULT_SELECTOR_TIMEOUT : selectorTimeout;
+        this.opts.assertionTimeout     = assertionTimeout === void 0 ? DEFAULT_ASSERTION_TIMEOUT : assertionTimeout;
+        this.opts.pageLoadTimeout      = pageLoadTimeout === void 0 ? DEFAULT_PAGE_LOAD_TIMEOUT : pageLoadTimeout;
+        this.opts.ignoreUncaughtErrors = !!ignoreUncaughtErrors;
+
+        debugger;
 
         this.opts.speed = speed;
 

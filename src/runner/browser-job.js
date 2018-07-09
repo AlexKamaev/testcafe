@@ -68,6 +68,8 @@ export default class BrowserJob extends EventEmitter {
     }
 
     async _onTestRunDone (testRunController) {
+        // debugger;
+
         this.total++;
 
         if (!testRunController.testRun.errs.length)
