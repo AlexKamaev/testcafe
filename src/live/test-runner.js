@@ -140,52 +140,38 @@ module.exports = class TestRunner extends EventEmitter {
         runner.proxy.closeSession = () => {
         };
 
-        // runner
-        //     .useProxy(this.externalProxyHost)
-        //     .src(this.src)
-        //     .browsers(this.browsers)
-        //     .concurrency(this.concurrency)
-        //     .filter(this.filter)
-        //     .screenshots(this.opts.screenshots, this.opts.screenshotsOnFails)
-        //     .startApp(this.opts.app, this.opts.appInitDelay);
-
-        if (this.reporters.length)
-            this.reporters.forEach(r => runner.reporter(r.name, r.outStream));
-        else
-            runner.reporter('spec');
-
         // HACK: TestCafe doesn't call `cleanUp` for compilers if test compiling is failed.
         // So, we force it here.
         // TODO: fix it in TestCafe
         const origBootstrapperGetTests = runner.bootstrapper._getTests;
 
-        runner.bootstrapper._getTests = () => {
-            let bsError   = null;
-            const sources = runner.bootstrapper.sources;
-
-            this._mockRequire();
-
-            return origBootstrapperGetTests.apply(runner.bootstrapper)
-                .then(res => {
-                    this._restoreRequire();
-
-                    return res;
-                })
-                .catch(err => {
-                    this._restoreRequire();
-
-                    bsError = err;
-
-                    runner.bootstrapper.sources = [path.join(__dirname, './empty-test.js')];
-
-                    return origBootstrapperGetTests.apply(runner.bootstrapper)
-                        .then(() => {
-                            runner.bootstrapper.sources = sources;
-
-                            throw bsError;
-                        });
-                });
-        };
+        // runner.bootstrapper._getTests = () => {
+        //     let bsError   = null;
+        //     const sources = runner.bootstrapper.sources;
+        //
+        //     this._mockRequire();
+        //
+        //     return origBootstrapperGetTests.apply(runner.bootstrapper)
+        //         .then(res => {
+        //             this._restoreRequire();
+        //
+        //             return res;
+        //         })
+        //         .catch(err => {
+        //             this._restoreRequire();
+        //
+        //             bsError = err;
+        //
+        //             runner.bootstrapper.sources = [path.join(__dirname, './empty-test.js')];
+        //
+        //             return origBootstrapperGetTests.apply(runner.bootstrapper)
+        //                 .then(() => {
+        //                     runner.bootstrapper.sources = sources;
+        //
+        //                     throw bsError;
+        //                 });
+        //         });
+        // };
 
 
         return runner.bootstrapper
