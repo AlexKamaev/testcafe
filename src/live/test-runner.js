@@ -43,8 +43,8 @@ module.exports = class TestRunner extends EventEmitter {
         });
 
         // this.testCafe      = null;
-        this.closeTestCafe = null;
-        this.tcRunner      = null;
+        // this.closeTestCafe = null;
+        // this.tcRunner      = null;
 
         this.runner2 = runner;
 
@@ -108,21 +108,6 @@ module.exports = class TestRunner extends EventEmitter {
 
     _resolveAllTestRunPromises () {
         this.testRunDonePromiseResolvers.forEach(r => r());
-    }
-
-    init () {
-        // this.testCafe = tc;
-
-        const origTestCafeClose = this.testCafe.close;
-
-        this.closeTestCafe  = () => origTestCafeClose.call(this.testCafe);
-        this.testCafe.close = () => new Promise(() => {
-        });
-
-        return remotesWizard(this.testCafe, this.remoteCount, this.opts.qrCode)
-            .then(remoteBrowsers => {
-                this.browsers = this.browsers.concat(remoteBrowsers);
-            });
     }
 
     _createTCRunner (runner) {
@@ -210,9 +195,6 @@ module.exports = class TestRunner extends EventEmitter {
 
         let testRunPromise = null;
 
-        // console.log(this.runner2);
-
-         // if (!this.tcRunner) {
         if (!this.initialized) {
 
             this.initialized = true;
@@ -220,13 +202,11 @@ module.exports = class TestRunner extends EventEmitter {
             testRunPromise = this
                 ._createTCRunner(this.runner2)
                 .then(res => {
-                    this.tcRunner     = res.runner;
                     this.runnableConf = res.runnableConf;
 
                     return this._runTests(res.runner, res.runnableConf);
                 })
                 .catch(err => {
-                    this.tcRunner     = null;
                     this.runnableConf = null;
 
                     runError = err;
@@ -234,7 +214,6 @@ module.exports = class TestRunner extends EventEmitter {
         }
         else {
             testRunPromise = this
-                // ._runTests(this.tcRunner, this.runnableConf)
                 ._runTests(this.runner2, this.runnableConf)
                 .catch(err => {
                     runError = err;
@@ -276,7 +255,6 @@ module.exports = class TestRunner extends EventEmitter {
         if (this.runnableConf)
             chain = chain.then(() => this.runnableConf.browserSet.origDispose());
 
-        return chain
-            .then(() => this.closeTestCafe());
+        return chain;
     }
 };

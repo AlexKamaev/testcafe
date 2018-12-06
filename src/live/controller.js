@@ -44,7 +44,7 @@ class Controller extends EventEmitter {
             this.emit(this.REQUIRED_MODULE_FOUND_EVENT, e);
         });
 
-        return this.testRunner.init()
+        return Promise.resolve()
             .then(() => logger.intro(tcArguments))
             .then(() => this._runTests());
     }
