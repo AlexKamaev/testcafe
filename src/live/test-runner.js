@@ -4,7 +4,7 @@ const fs                = require('fs');
 const path              = require('path');
 const EventEmitter      = require('events');
 const Module            = require('module');
-const createTestCafe    = require('../../lib/index.js');
+// const createTestCafe    = require('../../lib/index.js');
 const remotesWizard     = require('../../lib/cli/remotes-wizard');
 const TestRunController = require('./test-run-controller');
 
@@ -15,7 +15,7 @@ const originalRequire = Module.prototype.require;
 import Promise from 'pinkie';
 
 module.exports = class TestRunner extends EventEmitter {
-    constructor (tcArguments) {
+    constructor (testCafe, tcArguments) {
         super();
 
         /* EVENTS */
@@ -25,8 +25,8 @@ module.exports = class TestRunner extends EventEmitter {
         this.REQUIRED_MODULE_FOUND_EVENT = 'require-module-found';
 
         this.opts              = tcArguments.opts;
-        this.port1             = this.opts.ports && this.opts.ports[0];
-        this.port2             = this.opts.ports && this.opts.ports[1];
+        // this.port1             = this.opts.ports && this.opts.ports[0];
+        // this.port2             = this.opts.ports && this.opts.ports[1];
         this.externalProxyHost = this.opts.proxy;
 
         this.remoteCount = tcArguments.remoteCount;
@@ -42,7 +42,7 @@ module.exports = class TestRunner extends EventEmitter {
             };
         });
 
-        this.testCafe      = null;
+        // this.testCafe      = null;
         this.closeTestCafe = null;
         this.tcRunner      = null;
         this.runnableConf  = null;
@@ -51,6 +51,8 @@ module.exports = class TestRunner extends EventEmitter {
         this.testRunDonePromiseResolvers = [];
         this.stopping                    = false;
         this.tcRunnerTaskPromise         = null;
+
+        this.testCafe = testCafe;
 
         this.testRunController = new TestRunController();
 
@@ -106,18 +108,15 @@ module.exports = class TestRunner extends EventEmitter {
     }
 
     init () {
-        return createTestCafe(this.opts.hostname, this.port1, this.port2)
-            .then(tc => {
-                this.testCafe = tc;
+        // this.testCafe = tc;
 
-                const origTestCafeClose = this.testCafe.close;
+        const origTestCafeClose = this.testCafe.close;
 
-                this.closeTestCafe  = () => origTestCafeClose.call(this.testCafe);
-                this.testCafe.close = () => new Promise(() => {
-                });
+        this.closeTestCafe  = () => origTestCafeClose.call(this.testCafe);
+        this.testCafe.close = () => new Promise(() => {
+        });
 
-                return remotesWizard(this.testCafe, this.remoteCount, this.opts.qrCode);
-            })
+        return remotesWizard(this.testCafe, this.remoteCount, this.opts.qrCode)
             .then(remoteBrowsers => {
                 this.browsers = this.browsers.concat(remoteBrowsers);
             });

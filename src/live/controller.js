@@ -22,10 +22,10 @@ class Controller extends EventEmitter {
         this.stopping       = false;
     }
 
-    init (tcArguments) {
+    init (testCafe, tcArguments) {
         this._initFileWatching(tcArguments.resolvedFiles);
 
-        this.testRunner = new TestRunner(tcArguments, logger);
+        this.testRunner = new TestRunner(testCafe, tcArguments, logger);
 
         this.testRunner.on(this.testRunner.TEST_RUN_STARTED, () => logger.testsStarted());
 

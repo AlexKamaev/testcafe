@@ -6,7 +6,7 @@ const controller = require('./controller');
 const globby     = require('globby');
 
 
-export default function (tcArguments) {
+export default function (testCafe, tcArguments) {
 
     exitHook(cb => {
         controller.exit()
@@ -17,7 +17,7 @@ export default function (tcArguments) {
         .then(resolvedFiles => {
             tcArguments.resolvedFiles = resolvedFiles;
         })
-        .then(() => controller.init(tcArguments));
+        .then(() => controller.init(testCafe, tcArguments));
 
 
     // Listen commands

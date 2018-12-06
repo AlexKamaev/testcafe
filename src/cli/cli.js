@@ -76,15 +76,18 @@ async function runTests (argParser) {
 
     log.showSpinner();
 
+    const testCafe = await createTestCafe(opts.hostname, port1, port2, opts.ssl, opts.dev);
+
     if (opts.live) {
         const startLive = require('../live');
 
-        startLive(argParser);
+        startLive(testCafe, argParser);
 
         return;
     }
 
-    const testCafe       = await createTestCafe(opts.hostname, port1, port2, opts.ssl, opts.dev);
+
+
     const concurrency    = argParser.concurrency || 1;
     const remoteBrowsers = await remotesWizard(testCafe, argParser.remoteCount, opts.qrCode);
     const browsers       = argParser.browsers.concat(remoteBrowsers);
