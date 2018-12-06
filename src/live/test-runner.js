@@ -204,14 +204,19 @@ module.exports = class TestRunner extends EventEmitter {
     }
 
     run () {
+
+        console.log('run');
         let runError = null;
 
         let testRunPromise = null;
 
-        console.log(this.runner2);
+        // console.log(this.runner2);
 
-         if (!this.tcRunner) {
-        // if (!this.runner2) {
+         // if (!this.tcRunner) {
+        if (!this.initialized) {
+
+            this.initialized = true;
+
             testRunPromise = this
                 ._createTCRunner(this.runner2)
                 .then(res => {
