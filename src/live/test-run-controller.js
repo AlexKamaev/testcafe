@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 
-const testcafe = require('testcafe');
+const testcafe = require('../../lib/index');
 
 import Promise from 'pinkie';
 

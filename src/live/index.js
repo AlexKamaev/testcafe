@@ -1,6 +1,6 @@
 'use strict';
 
-const CLIArgumentParser = require('testcafe/lib/cli/argument-parser');
+const CLIArgumentParser = require('../cli/argument-parser');
 const exitHook          = require('async-exit-hook');
 const keypress          = require('keypress');
 const controller        = require('./controller');

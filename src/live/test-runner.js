@@ -4,8 +4,8 @@ const fs                = require('fs');
 const path              = require('path');
 const EventEmitter      = require('events');
 const Module            = require('module');
-const createTestCafe    = require('testcafe');
-const remotesWizard     = require('testcafe/lib/cli/remotes-wizard');
+const createTestCafe    = require('../../lib/index.js');
+const remotesWizard     = require('../../lib/cli/remotes-wizard');
 const TestRunController = require('./test-run-controller');
 
 const CLIENT_JS = fs.readFileSync(path.join(__dirname, './client/index.js'));

@@ -8,6 +8,8 @@ import log from './log';
 import remotesWizard from './remotes-wizard';
 import createTestCafe from '../';
 
+import Promise from 'pinkie';
+
 
 let showMessageOnExit = true;
 let exitMessageShown  = false;
@@ -63,6 +65,9 @@ function error (err) {
 }
 
 async function runTests (argParser) {
+
+    debugger;
+
     const opts              = argParser.opts;
     const port1             = opts.ports && opts.ports[0];
     const port2             = opts.ports && opts.ports[1];
@@ -71,12 +76,18 @@ async function runTests (argParser) {
 
     log.showSpinner();
 
-    const testCafe     = await createTestCafe(opts.hostname, port1, port2, opts.ssl, opts.dev);
+    if (opts.live) {
+        require('../live');
+
+        return;
+    }
+
+    const testCafe       = await createTestCafe(opts.hostname, port1, port2, opts.ssl, opts.dev);
     const concurrency    = argParser.concurrency || 1;
     const remoteBrowsers = await remotesWizard(testCafe, argParser.remoteCount, opts.qrCode);
     const browsers       = argParser.browsers.concat(remoteBrowsers);
     const runner         = testCafe.createRunner();
-    let failed         = 0;
+    let failed           = 0;
     const reporters      = argParser.opts.reporters.map(r => {
         return {
             name:      r.name,
@@ -148,6 +159,8 @@ async function listBrowsers (providerName = 'locally-installed') {
             await listBrowsers(argParser.opts.providerName);
         else
             await runTests(argParser);
+
+        console.log('123');
     }
     catch (err) {
         showMessageOnExit = false;
