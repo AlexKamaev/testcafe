@@ -77,7 +77,9 @@ async function runTests (argParser) {
     log.showSpinner();
 
     if (opts.live) {
-        require('../live');
+        const startLive = require('../live');
+
+        startLive(argParser);
 
         return;
     }
