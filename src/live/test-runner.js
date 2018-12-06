@@ -15,7 +15,7 @@ const originalRequire = Module.prototype.require;
 import Promise from 'pinkie';
 
 module.exports = class TestRunner extends EventEmitter {
-    constructor (testCafe, tcArguments) {
+    constructor (testCafe, tcArguments, runner) {
         super();
 
         /* EVENTS */
@@ -45,6 +45,9 @@ module.exports = class TestRunner extends EventEmitter {
         // this.testCafe      = null;
         this.closeTestCafe = null;
         this.tcRunner      = null;
+
+        this.runner2 = runner;
+
         this.runnableConf  = null;
 
         this.activeTestCount             = 0;
@@ -122,8 +125,8 @@ module.exports = class TestRunner extends EventEmitter {
             });
     }
 
-    _createTCRunner () {
-        const runner = this.testCafe.createRunner()
+    _createTCRunner (runner) {
+        runner
             .embeddingOptions({
                 TestRunCtor: this.testRunController.TestRunCtor,
                 assets:      [
@@ -137,14 +140,14 @@ module.exports = class TestRunner extends EventEmitter {
         runner.proxy.closeSession = () => {
         };
 
-        runner
-            .useProxy(this.externalProxyHost)
-            .src(this.src)
-            .browsers(this.browsers)
-            .concurrency(this.concurrency)
-            .filter(this.filter)
-            .screenshots(this.opts.screenshots, this.opts.screenshotsOnFails)
-            .startApp(this.opts.app, this.opts.appInitDelay);
+        // runner
+        //     .useProxy(this.externalProxyHost)
+        //     .src(this.src)
+        //     .browsers(this.browsers)
+        //     .concurrency(this.concurrency)
+        //     .filter(this.filter)
+        //     .screenshots(this.opts.screenshots, this.opts.screenshotsOnFails)
+        //     .startApp(this.opts.app, this.opts.appInitDelay);
 
         if (this.reporters.length)
             this.reporters.forEach(r => runner.reporter(r.name, r.outStream));
@@ -219,9 +222,12 @@ module.exports = class TestRunner extends EventEmitter {
 
         let testRunPromise = null;
 
-        if (!this.tcRunner) {
+        console.log(this.runner2);
+
+         if (!this.tcRunner) {
+        // if (!this.runner2) {
             testRunPromise = this
-                ._createTCRunner()
+                ._createTCRunner(this.runner2)
                 .then(res => {
                     this.tcRunner     = res.runner;
                     this.runnableConf = res.runnableConf;
@@ -237,7 +243,8 @@ module.exports = class TestRunner extends EventEmitter {
         }
         else {
             testRunPromise = this
-                ._runTests(this.tcRunner, this.runnableConf)
+                // ._runTests(this.tcRunner, this.runnableConf)
+                ._runTests(this.runner2, this.runnableConf)
                 .catch(err => {
                     runError = err;
                 });

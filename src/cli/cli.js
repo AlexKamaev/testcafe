@@ -78,13 +78,7 @@ async function runTests (argParser) {
 
     const testCafe = await createTestCafe(opts.hostname, port1, port2, opts.ssl, opts.dev);
 
-    if (opts.live) {
-        const startLive = require('../live');
 
-        startLive(testCafe, argParser);
-
-        return;
-    }
 
 
 
@@ -110,6 +104,14 @@ async function runTests (argParser) {
         .filter(argParser.filter)
         .screenshots(opts.screenshots, opts.screenshotsOnFails, opts.screenshotPathPattern)
         .startApp(opts.app, opts.appInitDelay);
+
+    if (opts.live) {
+        const startLive = require('../live');
+
+        startLive(testCafe, argParser, runner);
+
+        return;
+    }
 
     runner.once('done-bootstrapping', () => log.hideSpinner());
 
