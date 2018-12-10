@@ -5,7 +5,7 @@ const path              = require('path');
 const EventEmitter      = require('events');
 const Module            = require('module');
 // const createTestCafe    = require('../../lib/index.js');
-const remotesWizard     = require('../../lib/cli/remotes-wizard');
+// const remotesWizard     = require('../../lib/cli/remotes-wizard');
 const TestRunController = require('./test-run-controller');
 
 const CLIENT_JS = fs.readFileSync(path.join(__dirname, './client/index.js'));
@@ -15,7 +15,7 @@ const originalRequire = Module.prototype.require;
 import Promise from 'pinkie';
 
 module.exports = class TestRunner extends EventEmitter {
-    constructor (testCafe, tcArguments, runner) {
+    constructor (testCafe, opts, runner) {
         super();
 
         /* EVENTS */
@@ -24,23 +24,14 @@ module.exports = class TestRunner extends EventEmitter {
         this.TEST_RUN_STOPPED            = 'test-run-stopped';
         this.REQUIRED_MODULE_FOUND_EVENT = 'require-module-found';
 
-        this.opts              = tcArguments.opts;
-        // this.port1             = this.opts.ports && this.opts.ports[0];
-        // this.port2             = this.opts.ports && this.opts.ports[1];
-        this.externalProxyHost = this.opts.proxy;
+        this.opts              = opts;
 
-        this.remoteCount = tcArguments.remoteCount;
-        this.concurrency = tcArguments.concurrency || 1;
-        this.browsers    = tcArguments.browsers;
-        this.src         = tcArguments.resolvedFiles;
-        this.filter      = tcArguments.filter;
-
-        this.reporters = this.opts.reporters.map(r => {
-            return {
-                name:      r.name,
-                outStream: r.outFile ? fs.createWriteStream(r.outFile) : void 0
-            };
-        });
+        // this.reporters = this.opts.reporters.map(r => {
+        //     return {
+        //         name:      r.name,
+        //         outStream: r.outFile ? fs.createWriteStream(r.outFile) : void 0
+        //     };
+        // });
 
         // this.testCafe      = null;
         // this.closeTestCafe = null;
@@ -123,6 +114,7 @@ module.exports = class TestRunner extends EventEmitter {
             });
 
         runner.proxy.closeSession = () => {
+            console.log('runner.proxy.closeSession');
         };
 
         // HACK: TestCafe doesn't call `cleanUp` for compilers if test compiling is failed.
@@ -168,7 +160,11 @@ module.exports = class TestRunner extends EventEmitter {
 
                 browserSet.dispose = () => Promise.resolve();
 
-                runner.bootstrapper.createRunnableConfiguration = () => Promise.resolve(runnableConf);
+                runner.bootstrapper.createRunnableConfiguration = () => {
+                    console.log('createRunnableConfiguration');
+
+                    return Promise.resolve(runnableConf);
+                }
 
                 return { runner, runnableConf };
             });
@@ -250,10 +246,12 @@ module.exports = class TestRunner extends EventEmitter {
         if (this.tcRunnerTaskPromise)
             this.tcRunnerTaskPromise.cancel();
 
-        let chain = Promise.resolve();
+        return Promise.resolve();
 
-        if (this.runnableConf)
-            chain = chain.then(() => this.runnableConf.browserSet.origDispose());
+        // let chain = Promise.resolve();
+
+        // if (this.runnableConf)
+        //     chain = chain.then(() => this.runnableConf.browserSet.origDispose());
 
         return chain;
     }

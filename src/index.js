@@ -50,7 +50,10 @@ async function createTestCafe (hostname, port1, port2, sslOptions, developmentMo
         retryTestPages
     });
 
-    setupExitHook(cb => testcafe.close().then(cb));
+    setupExitHook(cb => {
+        console.log('exit hook');
+        return testcafe.close().then(cb);
+    });
 
     return testcafe;
 }

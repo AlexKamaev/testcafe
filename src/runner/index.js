@@ -59,6 +59,7 @@ export default class Runner extends EventEmitter {
     }
 
     static async _disposeTaskAndRelatedAssets (task, browserSet, reporters, testedApp) {
+        console.log('_disposeTaskAndRelatedAssets');
         task.abort();
         task.clearListeners();
 
@@ -66,6 +67,7 @@ export default class Runner extends EventEmitter {
     }
 
     static _disposeAssets (browserSet, reporters, testedApp) {
+        console.log('_disposeAssets');
         return Promise.all([
             Runner._disposeBrowserSet(browserSet),
             Runner._disposeReporters(reporters),
@@ -140,6 +142,8 @@ export default class Runner extends EventEmitter {
         task.on('done', stopHandlingTestErrors);
 
         const setCompleted = () => {
+            console.log('set completed');
+
             completed = true;
         };
 
@@ -148,6 +152,7 @@ export default class Runner extends EventEmitter {
             .catch(setCompleted);
 
         const cancelTask = async () => {
+            console.log('cancel task');
             if (!completed)
                 await Runner._disposeTaskAndRelatedAssets(task, browserSet, reporters, testedApp);
         };
@@ -268,6 +273,9 @@ export default class Runner extends EventEmitter {
     }
 
     run ({ skipJsErrors, disablePageReloads, quarantineMode, debugMode, selectorTimeout, assertionTimeout, pageLoadTimeout, speed = 1, debugOnFail, skipUncaughtErrors, stopOnFirstFail, disableTestSyntaxValidation } = {}) {
+
+        console.log('***run');
+
         this.opts.skipJsErrors       = !!skipJsErrors;
         this.opts.disablePageReloads = !!disablePageReloads;
         this.opts.quarantineMode     = !!quarantineMode;
@@ -286,6 +294,8 @@ export default class Runner extends EventEmitter {
             .then(() => {
                 this._validateRunOptions();
 
+                console.log('***runTaskPromise');
+
                 return this.bootstrapper.createRunnableConfiguration();
             })
             .then(({ reporterPlugins, browserSet, tests, testedApp }) => {
@@ -298,6 +308,8 @@ export default class Runner extends EventEmitter {
     }
 
     async stop () {
+
+        console.log('runner stop');
         // NOTE: When taskPromise is cancelled, it is removed from
         // the pendingTaskPromises array, which leads to shifting indexes
         // towards the beginning. So, we must copy the array in order to iterate it,

@@ -79,6 +79,7 @@ export default class TestCafe {
     }
 
     async close () {
+        console.log('testcafe close');
         if (this.closed)
             return;
 

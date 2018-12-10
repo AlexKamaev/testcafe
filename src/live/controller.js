@@ -25,11 +25,13 @@ class Controller extends EventEmitter {
     init (testCafe, tcArguments, runner) {
         this._initFileWatching(tcArguments.resolvedFiles);
 
-        this.testRunner = new TestRunner(testCafe, tcArguments, runner, logger);
+        this.testRunner = new TestRunner(testCafe, tcArguments.opts, runner, logger);
 
         this.testRunner.on(this.testRunner.TEST_RUN_STARTED, () => logger.testsStarted());
 
         this.testRunner.on(this.testRunner.TEST_RUN_DONE_EVENT, e => {
+            console.log('TEST_RUN_DONE_EVENT');
+
             this.running = false;
             if (!this.restarting)
                 logger.testsFinished();
@@ -106,6 +108,7 @@ class Controller extends EventEmitter {
     }
 
     exit () {
+        debugger
         if (this.stopping)
             return Promise.resolve();
 

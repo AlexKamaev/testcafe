@@ -10,3 +10,9 @@ test(`Remove invisible element and click`, async t => {
     await t
         .click('#targetRemove');
 });
+
+
+
+
+
+

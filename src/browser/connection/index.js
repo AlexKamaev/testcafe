@@ -58,6 +58,7 @@ export default class BrowserConnection extends EventEmitter {
         this.statusDoneUrl = `${gateway.domain}${this.statusDoneRelativeUrl}`;
 
         this.on('error', () => {
+            console.log('connection error');
             this._forceIdle();
             this.close();
         });
@@ -93,6 +94,10 @@ export default class BrowserConnection extends EventEmitter {
     }
 
     async _closeBrowser () {
+        debugger;
+
+        console.log('_closeBrowser');
+
         if (!this.idle)
             await promisifyEvent(this, 'idle');
 
@@ -227,6 +232,8 @@ export default class BrowserConnection extends EventEmitter {
     }
 
     close () {
+        console.log('connection close');
+
         if (this.closed || this.closing)
             return;
 
