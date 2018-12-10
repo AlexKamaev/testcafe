@@ -8,9 +8,6 @@ import log from './log';
 import remotesWizard from './remotes-wizard';
 import createTestCafe from '../';
 
-import Promise from 'pinkie';
-
-
 let showMessageOnExit = true;
 let exitMessageShown  = false;
 let exiting           = false;
@@ -65,9 +62,6 @@ function error (err) {
 }
 
 async function runTests (argParser) {
-
-    debugger;
-
     const opts              = argParser.opts;
     const port1             = opts.ports && opts.ports[0];
     const port2             = opts.ports && opts.ports[1];
@@ -77,10 +71,6 @@ async function runTests (argParser) {
     log.showSpinner();
 
     const testCafe = await createTestCafe(opts.hostname, port1, port2, opts.ssl, opts.dev);
-
-
-
-
 
     const concurrency    = argParser.concurrency || 1;
     const remoteBrowsers = await remotesWizard(testCafe, argParser.remoteCount, opts.qrCode);
