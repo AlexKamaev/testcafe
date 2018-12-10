@@ -156,7 +156,7 @@ module.exports = class TestRunner extends EventEmitter {
             .then(runnableConf => {
                 const browserSet = runnableConf.browserSet;
 
-                browserSet.origDispose = browserSet.dispose;
+                // browserSet.origDispose = browserSet.dispose;
 
                 browserSet.dispose = () => Promise.resolve();
 
@@ -164,7 +164,7 @@ module.exports = class TestRunner extends EventEmitter {
                     console.log('createRunnableConfiguration');
 
                     return Promise.resolve(runnableConf);
-                }
+                };
 
                 return { runner, runnableConf };
             });
@@ -174,7 +174,7 @@ module.exports = class TestRunner extends EventEmitter {
         return tcRunner.bootstrapper
             ._getTests()
             .then(tests => {
-                runnableConf.tests = tests;
+                // runnableConf.tests = tests;
 
                 this.testRunController.run(tests.filter(t => !t.skip).length);
 
@@ -203,7 +203,7 @@ module.exports = class TestRunner extends EventEmitter {
                     return this._runTests(res.runner, res.runnableConf);
                 })
                 .catch(err => {
-                    this.runnableConf = null;
+                    // this.runnableConf = null;
 
                     runError = err;
                 });
@@ -253,6 +253,6 @@ module.exports = class TestRunner extends EventEmitter {
         // if (this.runnableConf)
         //     chain = chain.then(() => this.runnableConf.browserSet.origDispose());
 
-        return chain;
+        // return chain;
     }
 };
