@@ -75,7 +75,7 @@ async function runTests (argParser) {
     const concurrency    = argParser.concurrency || 1;
     const remoteBrowsers = await remotesWizard(testCafe, argParser.remoteCount, opts.qrCode);
     const browsers       = argParser.browsers.concat(remoteBrowsers);
-    const runner         = testCafe.createRunner();
+    const runner         = testCafe.createRunner(opts.live);
     let failed           = 0;
     const reporters      = argParser.opts.reporters.map(r => {
         return {

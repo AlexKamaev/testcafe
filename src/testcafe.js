@@ -9,6 +9,7 @@ const BrowserConnectionGateway = lazyRequire('./browser/connection/gateway');
 const BrowserConnection        = lazyRequire('./browser/connection');
 const browserProviderPool      = lazyRequire('./browser/provider/pool');
 const Runner                   = lazyRequire('./runner');
+const LiveRunner               = lazyRequire('./live/test-runner');
 
 // NOTE: CoffeeScript can't be loaded lazily, because it will break stack traces
 require('coffeescript');
@@ -70,8 +71,11 @@ export default class TestCafe {
         return new BrowserConnection(this.browserConnectionGateway, browserInfo, true);
     }
 
-    createRunner () {
-        const newRunner = new Runner(this.proxy, this.browserConnectionGateway, { retryTestPages: this.retryTestPages });
+    createRunner (isLive) {
+
+        const Ctor = isLive ? LiveRunner : Runner;
+
+        const newRunner = new Ctor(this.proxy, this.browserConnectionGateway, { retryTestPages: this.retryTestPages });
 
         this.runners.push(newRunner);
 

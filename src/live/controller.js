@@ -1,7 +1,6 @@
 'use strict';
 
 const EventEmitter = require('events');
-const TestRunner   = require('./test-runner');
 const FileWatcher  = require('./file-watcher');
 const logger       = require('./logger');
 
@@ -25,7 +24,9 @@ class Controller extends EventEmitter {
     init (testCafe, tcArguments, runner) {
         this._initFileWatching(tcArguments.resolvedFiles);
 
-        this.testRunner = new TestRunner(tcArguments.opts, runner, logger);
+        this.testRunner = runner;
+
+        this.testRunner.opts = tcArguments.opts;
 
         this.testRunner.on(this.testRunner.TEST_RUN_STARTED, () => logger.testsStarted());
 

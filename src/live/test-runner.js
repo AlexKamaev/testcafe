@@ -2,25 +2,24 @@
 
 const fs                = require('fs');
 const path              = require('path');
-const EventEmitter      = require('events');
 const TestRunController = require('./test-run-controller');
+
+import Runner from '../runner';
 
 const CLIENT_JS = fs.readFileSync(path.join(__dirname, './client/index.js'));
 
 import Promise from 'pinkie';
 
-module.exports = class TestRunner extends EventEmitter {
-    constructor (opts, runner) {
-        super();
+module.exports = class LiveRunner extends Runner {
+    constructor (proxy, browserConnectionGateway, options) {
+        super(proxy, browserConnectionGateway, options);
 
         /* EVENTS */
         this.TEST_RUN_STARTED            = 'test-run-started';
         this.TEST_RUN_DONE_EVENT         = 'test-run-done';
         this.REQUIRED_MODULE_FOUND_EVENT = 'require-module-found';
 
-        this.opts = opts;
-
-        this.runner = runner;
+        this.opts = options;
 
         this.stopping            = false;
         this.tcRunnerTaskPromise = null;
@@ -30,8 +29,8 @@ module.exports = class TestRunner extends EventEmitter {
         this.testRunController.on(this.testRunController.RUN_STARTED_EVENT, () => this.emit(this.TEST_RUN_STARTED, {}));
     }
 
-    _createTCRunner (runner) {
-        runner
+    _init () {
+        this
             .embeddingOptions({
                 TestRunCtor: this.testRunController.TestRunCtor,
                 assets:      [
@@ -42,30 +41,28 @@ module.exports = class TestRunner extends EventEmitter {
                 ]
             });
 
-        runner.proxy.closeSession = () => {};
+        this.proxy.closeSession = () => {};
 
-        return runner.bootstrapper
+        return this.bootstrapper
             .createRunnableConfiguration()
             .then(runnableConf => {
                 const browserSet = runnableConf.browserSet;
 
                 browserSet.dispose = () => Promise.resolve();
 
-                runner.bootstrapper.createRunnableConfiguration = () => {
+                this.bootstrapper.createRunnableConfiguration = () => {
                     return Promise.resolve(runnableConf);
                 };
-
-                return { runner, runnableConf };
             });
     }
 
-    _runTests (tcRunner) {
-        return tcRunner.bootstrapper
+    _runTests () {
+        return this.bootstrapper
             ._getTests()
             .then(tests => {
                 this.testRunController.run(tests.filter(t => !t.skip).length);
 
-                this.tcRunnerTaskPromise = tcRunner.run(this.opts);
+                this.tcRunnerTaskPromise = super.run(this.opts);
 
                 return this.tcRunnerTaskPromise;
             });
@@ -81,11 +78,9 @@ module.exports = class TestRunner extends EventEmitter {
             this.initialized = true;
 
             testRunPromise = this
-                ._createTCRunner(this.runner)
-                .then(res => {
-                    this.runnableConf = res.runnableConf;
-
-                    return this._runTests(res.runner);
+                ._init()
+                .then(() => {
+                    return this._runTests();
                 })
                 .catch(err => {
                     runError = err;
