@@ -27,9 +27,9 @@ module.exports = class LiveRunner extends Runner {
         this.testRunController = new TestRunController();
 
         this.testRunController.on(this.testRunController.RUN_STARTED_EVENT, () => this.emit(this.TEST_RUN_STARTED, {}));
-    }
 
-    _init () {
+        this.proxy.closeSession = () => { };
+
         this
             .embeddingOptions({
                 TestRunCtor: this.testRunController.TestRunCtor,
@@ -39,20 +39,6 @@ module.exports = class LiveRunner extends Runner {
                         info: { content: CLIENT_JS, contentType: 'application/x-javascript' }
                     }
                 ]
-            });
-
-        this.proxy.closeSession = () => {};
-
-        return this.bootstrapper
-            .createRunnableConfiguration()
-            .then(runnableConf => {
-                const browserSet = runnableConf.browserSet;
-
-                browserSet.dispose = () => Promise.resolve();
-
-                this.bootstrapper.createRunnableConfiguration = () => {
-                    return Promise.resolve(runnableConf);
-                };
             });
     }
 
@@ -68,6 +54,22 @@ module.exports = class LiveRunner extends Runner {
             });
     }
 
+    _disposeBrowserSet () {
+        return Promise.resolve();
+    }
+
+    createRunnableConfiguration () {
+        if (this.configuration)
+            return Promise.resolve(this.configuration);
+
+        return super.createRunnableConfiguration()
+            .then(configuration => {
+                this.configuration = configuration;
+
+                return configuration;
+            });
+    }
+
     run () {
         let runError = null;
 
@@ -77,8 +79,7 @@ module.exports = class LiveRunner extends Runner {
 
             this.initialized = true;
 
-            testRunPromise = this
-                ._init()
+            testRunPromise = Promise.resolve()
                 .then(() => {
                     return this._runTests();
                 })

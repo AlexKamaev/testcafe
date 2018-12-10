@@ -46,30 +46,30 @@ export default class Runner extends EventEmitter {
     }
 
 
-    static _disposeBrowserSet (browserSet) {
+    _disposeBrowserSet (browserSet) {
         return browserSet.dispose().catch(e => DEBUG_LOGGER(e));
     }
 
-    static _disposeReporters (reporters) {
+    _disposeReporters (reporters) {
         return Promise.all(reporters.map(reporter => reporter.dispose().catch(e => DEBUG_LOGGER(e))));
     }
 
-    static _disposeTestedApp (testedApp) {
+    _disposeTestedApp (testedApp) {
         return testedApp ? testedApp.kill().catch(e => DEBUG_LOGGER(e)) : Promise.resolve();
     }
 
-    static async _disposeTaskAndRelatedAssets (task, browserSet, reporters, testedApp) {
+    async _disposeTaskAndRelatedAssets (task, browserSet, reporters, testedApp) {
         task.abort();
         task.clearListeners();
 
-        await Runner._disposeAssets(browserSet, reporters, testedApp);
+        await this._disposeAssets(browserSet, reporters, testedApp);
     }
 
-    static _disposeAssets (browserSet, reporters, testedApp) {
+    _disposeAssets (browserSet, reporters, testedApp) {
         return Promise.all([
-            Runner._disposeBrowserSet(browserSet),
-            Runner._disposeReporters(reporters),
-            Runner._disposeTestedApp(testedApp)
+            this._disposeBrowserSet(browserSet),
+            this._disposeReporters(reporters),
+            this._disposeTestedApp(testedApp)
         ]);
     }
 
@@ -125,6 +125,9 @@ export default class Runner extends EventEmitter {
     }
 
     _runTask (reporterPlugins, browserSet, tests, testedApp) {
+
+        console.log('_runTask');
+
         let completed           = false;
         const task              = new Task(tests, browserSet.browserConnectionGroups, this.proxy, this.opts);
         const reporters         = reporterPlugins.map(reporter => new Reporter(reporter.plugin, task, reporter.outStream));
@@ -195,6 +198,10 @@ export default class Runner extends EventEmitter {
 
             this.opts.proxyBypass = proxyBypass;
         }
+    }
+
+    createRunnableConfiguration () {
+        return this.bootstrapper.createRunnableConfiguration();
     }
 
     _validateScreenshotPath (screenshotPath, pathType) {
@@ -286,7 +293,7 @@ export default class Runner extends EventEmitter {
             .then(() => {
                 this._validateRunOptions();
 
-                return this.bootstrapper.createRunnableConfiguration();
+                return this.createRunnableConfiguration();
             })
             .then(({ reporterPlugins, browserSet, tests, testedApp }) => {
                 this.emit('done-bootstrapping');
