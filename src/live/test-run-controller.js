@@ -1,7 +1,5 @@
-const EventEmitter = require('events');
-
-const testcafe = require('../../lib/index');
-
+import EventEmitter from 'events';
+import testcafe from '../../lib/index';
 import Promise from 'pinkie';
 
 const TestRun = testcafe.embeddingUtils.TestRun;
@@ -90,8 +88,6 @@ const TEST_RUN_STATE = {
 module.exports = class TestRunController extends EventEmitter {
     constructor () {
         super();
-
-        debugger;
 
         this.RUN_FINISHED_EVENT = 'run-finished-event';
         this.RUN_STOPPED_EVENT  = 'run-stopped-event';

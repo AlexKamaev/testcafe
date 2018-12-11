@@ -1,16 +1,14 @@
 'use strict';
 
-const EventEmitter = require('events');
-const FileWatcher  = require('./file-watcher');
-const logger       = require('./logger');
-const process      = require('process');
-
-const exitHook = require('async-exit-hook');
-const keypress = require('keypress');
-
+import EventEmitter from 'events';
+import FileWatcher from './file-watcher';
+import logger from './logger';
+import process from 'process';
+import exitHook from 'async-exit-hook';
+import keypress from 'keypress';
 import Promise from 'pinkie';
 
-export default class Controller extends EventEmitter {
+class Controller extends EventEmitter {
     constructor (runner) {
         super();
 
@@ -152,6 +150,6 @@ export default class Controller extends EventEmitter {
 
         return this.runner ? this.runner.exit() : Promise.resolve();
     }
-
-
 }
+
+export default Controller;

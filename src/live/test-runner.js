@@ -1,18 +1,15 @@
 'use strict';
 
-const fs                = require('fs');
-const path              = require('path');
-const TestRunController = require('./test-run-controller');
-
+import fs from 'fs';
+import path from 'path';
+import TestRunController from './test-run-controller';
 import Controller from './controller';
-
 import Runner from '../runner';
+import Promise from 'pinkie';
 
 const CLIENT_JS = fs.readFileSync(path.join(__dirname, './client/index.js'));
 
-import Promise from 'pinkie';
-
-module.exports = class LiveRunner extends Runner {
+class LiveRunner extends Runner {
     constructor (proxy, browserConnectionGateway, options) {
         super(proxy, browserConnectionGateway, options);
 
@@ -27,8 +24,6 @@ module.exports = class LiveRunner extends Runner {
         this.testRunController = new TestRunController();
 
         this.testRunController.on(this.testRunController.RUN_STARTED_EVENT, () => this.emit(this.TEST_RUN_STARTED, {}));
-
-        this.proxy.closeSession = () => { }; // TODO
 
         this
             .embeddingOptions({
@@ -114,4 +109,6 @@ module.exports = class LiveRunner extends Runner {
 
         return Promise.resolve();
     }
-};
+}
+
+export default LiveRunner;
