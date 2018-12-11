@@ -16,7 +16,6 @@ export default class Controller extends EventEmitter {
 
         this.REQUIRED_MODULE_FOUND_EVENT = 'require-module-found';
 
-        this.testRunner = null;
         this.src        = null;
 
         this.running        = false;
@@ -24,7 +23,7 @@ export default class Controller extends EventEmitter {
         this.watchingPaused = false;
         this.stopping       = false;
 
-        this.testRunner = runner;
+        this.runner = runner;
     }
 
     init (files) {
@@ -33,6 +32,36 @@ export default class Controller extends EventEmitter {
                 .then(cb);
         });
 
+        this._listenKeyPress();
+
+        if (process.stdout.isTTY)
+            process.stdin.setRawMode(true);
+
+
+        this._initFileWatching(files);
+
+        this.runner.on(this.runner.TEST_RUN_STARTED, () => logger.testsStarted());
+
+        this.runner.on(this.runner.TEST_RUN_DONE_EVENT, e => {
+            this.running = false;
+            if (!this.restarting)
+                logger.testsFinished();
+
+            /* eslint-disable no-console */
+            if (e.err)
+                console.log(`ERROR: ${e.err}`);
+            /* eslint-enable no-console */
+        });
+
+        this.runner.on(this.runner.REQUIRED_MODULE_FOUND_EVENT, e => {
+            this.emit(this.REQUIRED_MODULE_FOUND_EVENT, e);
+        });
+
+        return Promise.resolve()
+            .then(() => logger.intro(files));
+    }
+
+    _listenKeyPress () {
         // Listen commands
         keypress(process.stdin);
 
@@ -55,35 +84,6 @@ export default class Controller extends EventEmitter {
 
             return null;
         });
-
-        if (process.stdout.isTTY)
-            process.stdin.setRawMode(true);
-
-
-        this._initFileWatching(files);
-
-        // this.testRunner.opts = tcArguments.opts;
-
-        this.testRunner.on(this.testRunner.TEST_RUN_STARTED, () => logger.testsStarted());
-
-        this.testRunner.on(this.testRunner.TEST_RUN_DONE_EVENT, e => {
-            this.running = false;
-            if (!this.restarting)
-                logger.testsFinished();
-
-            /* eslint-disable no-console */
-            if (e.err)
-                console.log(`ERROR: ${e.err}`);
-            /* eslint-enable no-console */
-        });
-
-        this.testRunner.on(this.testRunner.REQUIRED_MODULE_FOUND_EVENT, e => {
-            this.emit(this.REQUIRED_MODULE_FOUND_EVENT, e);
-        });
-
-        return Promise.resolve()
-            .then(() => logger.intro(files));
-            // .then(() => this._runTests());
     }
 
     _initFileWatching (src) {
@@ -103,7 +103,7 @@ export default class Controller extends EventEmitter {
 
         logger.runTests(sourceChanged);
 
-        return this.testRunner._runTests();
+        return this.runner._runTests();
     }
 
     toggleWatching () {
@@ -113,7 +113,7 @@ export default class Controller extends EventEmitter {
     }
 
     stop () {
-        if (!this.testRunner || !this.running) {
+        if (!this.runner || !this.running) {
             logger.nothingToStop();
 
             return Promise.resolve();
@@ -121,7 +121,7 @@ export default class Controller extends EventEmitter {
 
         logger.stopRunning();
 
-        return this.testRunner.stop()
+        return this.runner.stop()
             .then(() => {
                 this.restarting = false;
                 this.running    = false;
@@ -131,8 +131,6 @@ export default class Controller extends EventEmitter {
     restart () {
         if (this.restarting)
             return Promise.resolve();
-
-        console.log('restart');
 
         this.restarting = true;
         if (this.running) {
@@ -152,7 +150,7 @@ export default class Controller extends EventEmitter {
 
         this.stopping = true;
 
-        return this.testRunner ? this.testRunner.exit() : Promise.resolve();
+        return this.runner ? this.runner.exit() : Promise.resolve();
     }
 
 

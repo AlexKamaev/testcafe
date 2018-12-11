@@ -21,8 +21,6 @@ module.exports = class LiveRunner extends Runner {
         this.TEST_RUN_DONE_EVENT         = 'test-run-done';
         this.REQUIRED_MODULE_FOUND_EVENT = 'require-module-found';
 
-        this.opts = options;
-
         this.stopping            = false;
         this.tcRunnerTaskPromise = null;
 
@@ -45,20 +43,6 @@ module.exports = class LiveRunner extends Runner {
 
         this.controller = new Controller(this);
     }
-
-    // _runTests () {
-    //     return this.createRunnableConfiguration()
-    //         .then(({ files, tests }) => {
-    //             return this.controller.init(files)
-    //                 .then(() => {
-    //                     this.testRunController.run(tests.filter(t => !t.skip).length);
-    //                 })
-    //                 .then(() => {
-    //                     this.tcRunnerTaskPromise = super.run(this.opts);
-    //                 })
-    //                 .then(() => this.tcRunnerTaskPromise);
-    //         });
-    // }
 
     _runTests () {
         let runError = null;
@@ -93,13 +77,11 @@ module.exports = class LiveRunner extends Runner {
             });
     }
 
-    run () {
-        const createConfigurationPromise = this.createRunnableConfiguration()
-            .then(({ files }) => {
-                return this.controller.init(files);
-            });
+    run (options) {
+        this.opts = options;
 
-        return createConfigurationPromise
+        return this.createRunnableConfiguration()
+            .then(({ files }) => this.controller.init(files))
             .then(() => {
                 return this._runTests();
             })
