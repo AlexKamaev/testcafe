@@ -43,9 +43,8 @@ module.exports = class LiveRunner extends Runner {
     }
 
     _runTests () {
-        return this.bootstrapper
-            ._getTests()
-            .then(tests => {
+        return this.createRunnableConfiguration()
+            .then(({ tests }) => {
                 this.testRunController.run(tests.filter(t => !t.skip).length);
 
                 this.tcRunnerTaskPromise = super.run(this.opts);
@@ -73,27 +72,13 @@ module.exports = class LiveRunner extends Runner {
     run () {
         let runError = null;
 
-        let testRunPromise = null;
-
-        if (!this.initialized) {
-
-            this.initialized = true;
-
-            testRunPromise = Promise.resolve()
-                .then(() => {
-                    return this._runTests();
-                })
-                .catch(err => {
-                    runError = err;
-                });
-        }
-        else {
-            testRunPromise = this
-                ._runTests(this.runner)
-                .catch(err => {
-                    runError = err;
-                });
-        }
+        const testRunPromise = Promise.resolve()
+            .then(() => {
+                return this._runTests();
+            })
+            .catch(err => {
+                runError = err;
+            });
 
         return testRunPromise
             .then(() => {

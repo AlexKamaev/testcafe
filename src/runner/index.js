@@ -119,15 +119,12 @@ export default class Runner extends EventEmitter {
             throw err;
         }
 
-        await Runner._disposeAssets(browserSet, reporters, testedApp);
+        await this._disposeAssets(browserSet, reporters, testedApp);
 
         return this._getFailedTestCount(task, reporters[0]);
     }
 
     _runTask (reporterPlugins, browserSet, tests, testedApp) {
-
-        console.log('_runTask');
-
         let completed           = false;
         const task              = new Task(tests, browserSet.browserConnectionGroups, this.proxy, this.opts);
         const reporters         = reporterPlugins.map(reporter => new Reporter(reporter.plugin, task, reporter.outStream));
