@@ -30,30 +30,12 @@ class Controller extends EventEmitter {
                 .then(cb);
         });
 
-        this._listenKeyPress();
-
         if (process.stdout.isTTY)
             process.stdin.setRawMode(true);
 
-
+        this._listenKeyPress();
         this._initFileWatching(files);
-
-        this.runner.on(this.runner.TEST_RUN_STARTED, () => logger.testsStarted());
-
-        this.runner.on(this.runner.TEST_RUN_DONE_EVENT, e => {
-            this.running = false;
-            if (!this.restarting)
-                logger.testsFinished();
-
-            /* eslint-disable no-console */
-            if (e.err)
-                console.log(`ERROR: ${e.err}`);
-            /* eslint-enable no-console */
-        });
-
-        this.runner.on(this.runner.REQUIRED_MODULE_FOUND_EVENT, e => {
-            this.emit(this.REQUIRED_MODULE_FOUND_EVENT, e);
-        });
+        this._listenTestRunnerEvents();
 
         return Promise.resolve()
             .then(() => logger.intro(files));
@@ -81,6 +63,25 @@ class Controller extends EventEmitter {
             }
 
             return null;
+        });
+    }
+
+    _listenTestRunnerEvents () {
+        this.runner.on(this.runner.TEST_RUN_STARTED, () => logger.testsStarted());
+
+        this.runner.on(this.runner.TEST_RUN_DONE_EVENT, e => {
+            this.running = false;
+            if (!this.restarting)
+                logger.testsFinished();
+
+            /* eslint-disable no-console */
+            if (e.err)
+                console.log(`ERROR: ${e.err}`);
+            /* eslint-enable no-console */
+        });
+
+        this.runner.on(this.runner.REQUIRED_MODULE_FOUND_EVENT, e => {
+            this.emit(this.REQUIRED_MODULE_FOUND_EVENT, e);
         });
     }
 

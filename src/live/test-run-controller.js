@@ -16,6 +16,8 @@ const testRunCtorFactory = function (callbacks, command) {
         constructor (test, browserConnection, screenshotCapturer, warningLog, opts) {
             super(test, browserConnection, screenshotCapturer, warningLog, opts);
 
+            debugger;
+
             this[liveTestRunStorage] = { test, stopping: false, stop: false, isInRoleInitializing: false };
 
             created(this, test);
@@ -85,9 +87,11 @@ const TEST_RUN_STATE = {
     done:           'done'
 };
 
-module.exports = class TestRunController extends EventEmitter {
+class TestRunController extends EventEmitter {
     constructor () {
         super();
+
+        debugger;
 
         this.RUN_FINISHED_EVENT = 'run-finished-event';
         this.RUN_STOPPED_EVENT  = 'run-stopped-event';
@@ -100,6 +104,8 @@ module.exports = class TestRunController extends EventEmitter {
     }
 
     get TestRunCtor () {
+        debugger;
+
         if (!this._testRunCtor) {
             this._testRunCtor = testRunCtorFactory({
                 created: testRun => this._onTestRunCreated(testRun),
@@ -116,19 +122,21 @@ module.exports = class TestRunController extends EventEmitter {
     }
 
     _getTestWrapper (test) {
-        return this.testWrappers.filter(w => w.test === test)[0];
+        return this.testWrappers.find(w => w.test === test);
     }
 
     _getWrappers (testRun) {
         const test            = testRun[liveTestRunStorage].test;
         const testWrapper     = this._getTestWrapper(test);
         const testRunWrappers = testWrapper.testRunWrappers;
-        const testRunWrapper  = testRunWrappers.filter(w => w.testRun === testRun)[0];
+        const testRunWrapper  = testRunWrappers.find(w => w.testRun === testRun);
 
         return { testRunWrapper, testWrapper };
     }
 
     _onTestRunCreated (testRun) {
+        debugger;
+
         this.testWrappers = [];
         const test = testRun[liveTestRunStorage].test;
 
@@ -148,6 +156,8 @@ module.exports = class TestRunController extends EventEmitter {
     }
 
     _onTestRunStarted (testRun) {
+        debugger;
+
         if (!this.testWrappers.filter(w => w.state !== TEST_RUN_STATE.created).length)
             this.emit(this.RUN_STARTED_EVENT, {});
 
@@ -158,6 +168,8 @@ module.exports = class TestRunController extends EventEmitter {
     }
 
     _onTestRunDone (testRun, forced) {
+        debugger;
+
         const { testRunWrapper, testWrapper } = this._getWrappers(testRun);
 
         testRunWrapper.state = TEST_RUN_STATE.waitingForDone;
@@ -184,6 +196,7 @@ module.exports = class TestRunController extends EventEmitter {
 
         return new Promise(resolve => {
             testRunWrapper.finish = () => {
+                console.log('shubidubudu');
                 testRunWrapper.finish = null;
                 testRunWrapper.state  = TEST_RUN_STATE.done;
                 resolve();
@@ -192,6 +205,8 @@ module.exports = class TestRunController extends EventEmitter {
     }
 
     run (testCount) {
+        debugger;
+
         const pendingRunsResolvers = [];
 
         this.expectedTestCount = testCount;
@@ -213,4 +228,6 @@ module.exports = class TestRunController extends EventEmitter {
             testWrapper.testRunWrappers.forEach(testRunWrapper => testRunWrapper.stop());
         });
     }
-};
+}
+
+export default TestRunController;

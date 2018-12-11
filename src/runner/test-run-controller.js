@@ -37,6 +37,8 @@ export default class TestRunController extends AsyncEventEmitter {
         this.warningLog            = warningLog;
         this.fixtureHookController = fixtureHookController;
 
+        debugger;
+
         this.TestRunCtor = TestRunController._getTestRunCtor(test, opts);
 
         this.testRun            = null;
@@ -56,6 +58,8 @@ export default class TestRunController extends AsyncEventEmitter {
     }
 
     _createTestRun (connection) {
+        debugger;
+
         const screenshotCapturer = this.screenshots.createCapturerFor(this.test, this.index, this.quarantine, connection, this.warningLog);
         const TestRunCtor        = this.TestRunCtor;
 

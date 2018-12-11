@@ -44,6 +44,8 @@ class LiveRunner extends Runner {
 
         this.testRunController.run(this.configuration.tests.filter(t => !t.skip).length);
 
+        debugger;
+
         this.tcRunnerTaskPromise = super.run(this.opts);
 
         return this.tcRunnerTaskPromise.catch(err => {
@@ -73,7 +75,8 @@ class LiveRunner extends Runner {
     }
 
     run (options) {
-        this.opts = options;
+        debugger;
+        this.opts = Object.assign({}, this.opts, options);
 
         return this.createRunnableConfiguration()
             .then(({ files }) => this.controller.init(files))

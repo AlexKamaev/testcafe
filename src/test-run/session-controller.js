@@ -115,8 +115,6 @@ export default class SessionController extends Session {
     }
 
     static closeSession (testRun) {
-        debugger;
-
         const sessionInfo = ACTIVE_SESSIONS_MAP[testRun.browserConnection.id];
 
         if (!sessionInfo || !sessionInfo.url || !sessionInfo.proxy)
