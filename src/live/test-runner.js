@@ -4,6 +4,8 @@ const fs                = require('fs');
 const path              = require('path');
 const TestRunController = require('./test-run-controller');
 
+import Controller from './controller';
+
 import Runner from '../runner';
 
 const CLIENT_JS = fs.readFileSync(path.join(__dirname, './client/index.js'));
@@ -28,7 +30,7 @@ module.exports = class LiveRunner extends Runner {
 
         this.testRunController.on(this.testRunController.RUN_STARTED_EVENT, () => this.emit(this.TEST_RUN_STARTED, {}));
 
-        this.proxy.closeSession = () => { };
+        this.proxy.closeSession = () => { }; // TODO
 
         this
             .embeddingOptions({
@@ -40,16 +42,38 @@ module.exports = class LiveRunner extends Runner {
                     }
                 ]
             });
+
+        this.controller = new Controller(this);
     }
 
+    // _runTests () {
+    //     return this.createRunnableConfiguration()
+    //         .then(({ files, tests }) => {
+    //             return this.controller.init(files)
+    //                 .then(() => {
+    //                     this.testRunController.run(tests.filter(t => !t.skip).length);
+    //                 })
+    //                 .then(() => {
+    //                     this.tcRunnerTaskPromise = super.run(this.opts);
+    //                 })
+    //                 .then(() => this.tcRunnerTaskPromise);
+    //         });
+    // }
+
     _runTests () {
-        return this.createRunnableConfiguration()
-            .then(({ tests }) => {
-                this.testRunController.run(tests.filter(t => !t.skip).length);
+        let runError = null;
 
-                this.tcRunnerTaskPromise = super.run(this.opts);
+        this.testRunController.run(this.configuration.tests.filter(t => !t.skip).length);
 
-                return this.tcRunnerTaskPromise;
+        this.tcRunnerTaskPromise = super.run(this.opts);
+
+        return this.tcRunnerTaskPromise.catch(err => {
+            runError = err;
+        })
+            .then(() => {
+                this.tcRunnerTaskPromise = null;
+
+                this.emit(this.TEST_RUN_DONE_EVENT, { err: runError });
             });
     }
 
@@ -70,21 +94,17 @@ module.exports = class LiveRunner extends Runner {
     }
 
     run () {
-        let runError = null;
+        const createConfigurationPromise = this.createRunnableConfiguration()
+            .then(({ files }) => {
+                return this.controller.init(files);
+            });
 
-        const testRunPromise = Promise.resolve()
+        return createConfigurationPromise
             .then(() => {
                 return this._runTests();
             })
-            .catch(err => {
-                runError = err;
-            });
-
-        return testRunPromise
             .then(() => {
-                this.tcRunnerTaskPromise = null;
-
-                this.emit(this.TEST_RUN_DONE_EVENT, { err: runError });
+                return new Promise(() => {});
             });
     }
 

@@ -3,11 +3,15 @@
 const EventEmitter = require('events');
 const FileWatcher  = require('./file-watcher');
 const logger       = require('./logger');
+const process      = require('process');
+
+const exitHook = require('async-exit-hook');
+const keypress = require('keypress');
 
 import Promise from 'pinkie';
 
-class Controller extends EventEmitter {
-    constructor () {
+export default class Controller extends EventEmitter {
+    constructor (runner) {
         super();
 
         this.REQUIRED_MODULE_FOUND_EVENT = 'require-module-found';
@@ -19,14 +23,46 @@ class Controller extends EventEmitter {
         this.restarting     = false;
         this.watchingPaused = false;
         this.stopping       = false;
-    }
-
-    init (testCafe, tcArguments, runner) {
-        this._initFileWatching(tcArguments.resolvedFiles);
 
         this.testRunner = runner;
+    }
 
-        this.testRunner.opts = tcArguments.opts;
+    init (files) {
+        exitHook(cb => {
+            this.exit()
+                .then(cb);
+        });
+
+        // Listen commands
+        keypress(process.stdin);
+
+        process.stdin.on('keypress', (ch, key) => {
+            if (key && key.ctrl) {
+                if (key.name === 's')
+                    return this.stop();
+
+                else if (key.name === 'r')
+                    return this.restart();
+
+                /* eslint-disable no-process-exit */
+                else if (key.name === 'c')
+                    return this.exit().then(() => process.exit(0));
+                /* eslint-enable no-process-exit */
+
+                else if (key.name === 'w')
+                    return this.toggleWatching();
+            }
+
+            return null;
+        });
+
+        if (process.stdout.isTTY)
+            process.stdin.setRawMode(true);
+
+
+        this._initFileWatching(files);
+
+        // this.testRunner.opts = tcArguments.opts;
 
         this.testRunner.on(this.testRunner.TEST_RUN_STARTED, () => logger.testsStarted());
 
@@ -46,8 +82,8 @@ class Controller extends EventEmitter {
         });
 
         return Promise.resolve()
-            .then(() => logger.intro(tcArguments))
-            .then(() => this._runTests());
+            .then(() => logger.intro(files));
+            // .then(() => this._runTests());
     }
 
     _initFileWatching (src) {
@@ -67,7 +103,7 @@ class Controller extends EventEmitter {
 
         logger.runTests(sourceChanged);
 
-        return this.testRunner.run();
+        return this.testRunner._runTests();
     }
 
     toggleWatching () {
@@ -88,13 +124,15 @@ class Controller extends EventEmitter {
         return this.testRunner.stop()
             .then(() => {
                 this.restarting = false;
-                this.running = false;
+                this.running    = false;
             });
     }
 
     restart () {
         if (this.restarting)
             return Promise.resolve();
+
+        console.log('restart');
 
         this.restarting = true;
         if (this.running) {
@@ -116,6 +154,6 @@ class Controller extends EventEmitter {
 
         return this.testRunner ? this.testRunner.exit() : Promise.resolve();
     }
-}
 
-module.exports = new Controller();
+
+}

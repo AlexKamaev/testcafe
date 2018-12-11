@@ -69,13 +69,13 @@ export default class Bootstrapper {
         return await BrowserSet.from(browserConnections);
     }
 
-    async _getTests () {
+    async _getTestsAndFiles () {
         if (!this.sources.length)
             throw new GeneralError(MESSAGE.testSourcesNotSet);
 
-        const parsedFileList = await parseFileList(this.sources, process.cwd());
-        const compiler       = new Compiler(parsedFileList, this.disableTestSyntaxValidation);
-        let tests            = await compiler.getTests();
+        const files    = await parseFileList(this.sources, process.cwd());
+        const compiler = new Compiler(files, this.disableTestSyntaxValidation);
+        let tests      = await compiler.getTests();
 
         const testsWithOnlyFlag = tests.filter(test => test.only);
 
@@ -88,7 +88,7 @@ export default class Bootstrapper {
         if (!tests.length)
             throw new GeneralError(MESSAGE.noTestsToRun);
 
-        return tests;
+        return { tests, files };
     }
 
     _getReporterPlugins () {
@@ -140,11 +140,11 @@ export default class Bootstrapper {
     }
 
     async _bootstrapSequence (browserInfo) {
-        const tests       = await this._getTests();
-        const testedApp   = await this._startTestedApp();
-        const browserSet  = await this._getBrowserConnections(browserInfo);
+        const { tests, files } = await this._getTestsAndFiles();
+        const testedApp        = await this._startTestedApp();
+        const browserSet       = await this._getBrowserConnections(browserInfo);
 
-        return { tests, testedApp, browserSet };
+        return { tests, files, testedApp, browserSet };
     }
 
     _wrapBootstrappingPromise (promise) {
@@ -171,7 +171,7 @@ export default class Bootstrapper {
     async _bootstrapParallel (browserInfo) {
         let bootstrappingPromises = [
             this._getBrowserConnections(browserInfo),
-            this._getTests(),
+            this._getTestsAndFiles(),
             this._startTestedApp()
         ];
 
@@ -182,9 +182,9 @@ export default class Bootstrapper {
         if (bootstrappingStatuses.some(status => status.error))
             await this._handleBootstrappingError(bootstrappingStatuses);
 
-        const [browserSet, tests, testedApp] = bootstrappingStatuses.map(status => status.result);
+        const [browserSet, { tests, files }, testedApp] = bootstrappingStatuses.map(status => status.result);
 
-        return { browserSet, tests, testedApp };
+        return { browserSet, tests, files, testedApp };
     }
 
     // API

@@ -95,14 +95,6 @@ async function runTests (argParser) {
         .screenshots(opts.screenshots, opts.screenshotsOnFails, opts.screenshotPathPattern)
         .startApp(opts.app, opts.appInitDelay);
 
-    if (opts.live) {
-        const startLive = require('../live');
-
-        startLive(testCafe, argParser, runner);
-
-        return;
-    }
-
     runner.once('done-bootstrapping', () => log.hideSpinner());
 
     try {

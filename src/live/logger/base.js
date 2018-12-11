@@ -51,11 +51,11 @@ You can use the following keys in the terminal:
         throw new Error('Not implemented');
     }
 
-    intro (tcArguments) {
+    intro (files) {
         this._write(this.MESSAGES.intro);
-        if (tcArguments && Array.isArray(tcArguments.resolvedFiles)) {
+        if (Array.isArray(files)) {
             this._status('Watching files:');
-            tcArguments.resolvedFiles.forEach(file => {
+            files.forEach(file => {
                 this._write('  ' + file + '\n');
             });
             this._write('\n');

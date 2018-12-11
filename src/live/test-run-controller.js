@@ -91,6 +91,8 @@ module.exports = class TestRunController extends EventEmitter {
     constructor () {
         super();
 
+        debugger;
+
         this.RUN_FINISHED_EVENT = 'run-finished-event';
         this.RUN_STOPPED_EVENT  = 'run-stopped-event';
         this.RUN_STARTED_EVENT  = 'run-started-event';
