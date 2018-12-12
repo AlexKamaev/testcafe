@@ -1,8 +1,6 @@
 import EventEmitter from 'events';
-import testcafe from '../../lib/index';
 import Promise from 'pinkie';
-
-const TestRun = testcafe.embeddingUtils.TestRun;
+import TestRun from '../test-run';
 
 /* eslint-disable no-undef */
 const liveTestRunStorage = Symbol('live-test-run-storage');
@@ -15,8 +13,6 @@ const testRunCtorFactory = function (callbacks, command) {
     return class DebugRun extends TestRun {
         constructor (test, browserConnection, screenshotCapturer, warningLog, opts) {
             super(test, browserConnection, screenshotCapturer, warningLog, opts);
-
-            debugger;
 
             this[liveTestRunStorage] = { test, stopping: false, stop: false, isInRoleInitializing: false };
 
@@ -91,8 +87,6 @@ class TestRunController extends EventEmitter {
     constructor () {
         super();
 
-        debugger;
-
         this.RUN_FINISHED_EVENT = 'run-finished-event';
         this.RUN_STOPPED_EVENT  = 'run-stopped-event';
         this.RUN_STARTED_EVENT  = 'run-started-event';
@@ -104,8 +98,6 @@ class TestRunController extends EventEmitter {
     }
 
     get TestRunCtor () {
-        debugger;
-
         if (!this._testRunCtor) {
             this._testRunCtor = testRunCtorFactory({
                 created: testRun => this._onTestRunCreated(testRun),
@@ -135,8 +127,6 @@ class TestRunController extends EventEmitter {
     }
 
     _onTestRunCreated (testRun) {
-        debugger;
-
         this.testWrappers = [];
         const test = testRun[liveTestRunStorage].test;
 
@@ -156,8 +146,6 @@ class TestRunController extends EventEmitter {
     }
 
     _onTestRunStarted (testRun) {
-        debugger;
-
         if (!this.testWrappers.filter(w => w.state !== TEST_RUN_STATE.created).length)
             this.emit(this.RUN_STARTED_EVENT, {});
 
@@ -168,8 +156,6 @@ class TestRunController extends EventEmitter {
     }
 
     _onTestRunDone (testRun, forced) {
-        debugger;
-
         const { testRunWrapper, testWrapper } = this._getWrappers(testRun);
 
         testRunWrapper.state = TEST_RUN_STATE.waitingForDone;
@@ -196,7 +182,6 @@ class TestRunController extends EventEmitter {
 
         return new Promise(resolve => {
             testRunWrapper.finish = () => {
-                console.log('shubidubudu');
                 testRunWrapper.finish = null;
                 testRunWrapper.state  = TEST_RUN_STATE.done;
                 resolve();
@@ -205,8 +190,6 @@ class TestRunController extends EventEmitter {
     }
 
     run (testCount) {
-        debugger;
-
         const pendingRunsResolvers = [];
 
         this.expectedTestCount = testCount;

@@ -44,8 +44,6 @@ class LiveRunner extends Runner {
 
         this.testRunController.run(this.configuration.tests.filter(t => !t.skip).length);
 
-        debugger;
-
         this.tcRunnerTaskPromise = super.run(this.opts);
 
         return this.tcRunnerTaskPromise.catch(err => {
@@ -63,8 +61,15 @@ class LiveRunner extends Runner {
     }
 
     createRunnableConfiguration () {
-        if (this.configuration)
-            return Promise.resolve(this.configuration);
+        if (this.configuration) {
+
+            return this.bootstrapper._getTestsAndFiles()
+                .then(({ tests }) => {
+                    this.configuration.tests = tests;
+
+                    return this.configuration;
+                });
+        }
 
         return super.createRunnableConfiguration()
             .then(configuration => {
@@ -75,7 +80,6 @@ class LiveRunner extends Runner {
     }
 
     run (options) {
-        debugger;
         this.opts = Object.assign({}, this.opts, options);
 
         return this.createRunnableConfiguration()
