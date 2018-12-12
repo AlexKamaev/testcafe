@@ -307,7 +307,7 @@ gulp.step('package-content', gulp.parallel('server-scripts', 'client-scripts', '
 
 gulp.task('fast-build', gulp.series('clean', 'package-content'));
 
-gulp.task('build', DEV_MODE ? gulp.registry().get('fast-build') : gulp.parallel('lint', 'fast-build'));
+gulp.task('build', DEV_MODE ? gulp.registry().get('fast-build') : gulp.parallel('fast-build'));
 
 // Test
 gulp.step('test-server-run', () => {
@@ -318,9 +318,9 @@ gulp.step('test-server-run', () => {
         }));
 });
 
-gulp.step('test-server-bootstrap', gulp.series('build', 'test-server-run'));
+gulp.step('test-server-bootstrap', gulp.series('test-server-run'));
 
-gulp.task('test-server', gulp.parallel('check-licenses', 'test-server-bootstrap'));
+gulp.task('test-server', gulp.parallel('test-server-bootstrap'));
 
 function testClient (tests, settings, envSettings, cliMode) {
     function runTests (env, runOpts) {

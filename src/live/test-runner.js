@@ -30,13 +30,21 @@ class LiveRunner extends Runner {
                 TestRunCtor: this.testRunController.TestRunCtor,
                 assets:      [
                     {
-                        path: '/testcafe-live.js',
+                        path: '/testcafe-live-test.js',
                         info: { content: CLIENT_JS, contentType: 'application/x-javascript' }
                     }
                 ]
             });
 
-        this.controller = new Controller(this);
+        this.controller = this._createController();
+    }
+
+    _createController () {
+        return new Controller(this);
+    }
+
+    _waitInfinite () {
+        return new Promise(() => {});
     }
 
     _runTests () {
@@ -88,7 +96,7 @@ class LiveRunner extends Runner {
                 return this._runTests();
             })
             .then(() => {
-                return new Promise(() => {});
+                return this._waitInfinite();
             });
     }
 

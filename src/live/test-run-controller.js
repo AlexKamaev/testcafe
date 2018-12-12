@@ -18,7 +18,7 @@ const testRunCtorFactory = function (callbacks, command) {
 
             created(this, test);
 
-            this.injectable.scripts.push('/testcafe-live.js');
+            this.injectable.scripts.push('/testcafe-live-test.js');
 
             registerStopHandler(this, () => {
                 this[liveTestRunStorage].stop = true;
