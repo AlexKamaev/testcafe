@@ -144,7 +144,7 @@
     "eslint-plugin-no-only-tests": "^2.0.1",
     "express": "^4.13.3",
     "express-ntlm": "^2.1.5",
-    "graphlib": "^0.2.1",
+    "graphlib": "^2.1.5",
     "gulp": "^4.0.0",
     "gulp-babel": "^6.1.1",
     "gulp-clone": "^2.0.1",

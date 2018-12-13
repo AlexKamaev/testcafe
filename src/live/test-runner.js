@@ -2,12 +2,51 @@
 
 import fs from 'fs';
 import path from 'path';
+import Module from 'module';
 import TestRunController from './test-run-controller';
 import Controller from './controller';
 import Runner from '../runner';
 import Promise from 'pinkie';
+import Bootstrapper from '../runner/bootstrapper';
 
-const CLIENT_JS = fs.readFileSync(path.join(__dirname, './client/index.js'));
+const CLIENT_JS       = fs.readFileSync(path.join(__dirname, './client/index.js'));
+const originalRequire = Module.prototype.require;
+
+class BootstrapperLive extends Bootstrapper {
+    constructor (runner, browserConnectionGateway) {
+        super(browserConnectionGateway);
+
+        this.runner = runner;
+    }
+
+    _getTestsAndFiles () {
+        this._mockRequire();
+
+        return super._getTestsAndFiles()
+            .then(result => {
+                this._restoreRequire();
+
+                return result;
+            });
+    }
+
+    _mockRequire () {
+        const runner = this.runner;
+
+        Module.prototype.require = function (filePath) {
+            const filename = Module._resolveFilename(filePath, this, false);
+
+            if (path.isAbsolute(filename) || /^\.\.?[/\\]/.test(filename))
+                runner.emit(runner.REQUIRED_MODULE_FOUND_EVENT, { filename });
+
+            return originalRequire.apply(this, arguments);
+        };
+    }
+
+    _restoreRequire () {
+        Module.prototype.require = originalRequire;
+    }
+}
 
 class LiveRunner extends Runner {
     constructor (proxy, browserConnectionGateway, options) {
@@ -37,6 +76,10 @@ class LiveRunner extends Runner {
             });
 
         this.controller = this._createController();
+    }
+
+    _createBootstrapper (browserConnectionGateway) {
+        return new BootstrapperLive(this, browserConnectionGateway);
     }
 
     _createController () {
@@ -70,7 +113,6 @@ class LiveRunner extends Runner {
 
     createRunnableConfiguration () {
         if (this.configuration) {
-
             return this.bootstrapper._getTestsAndFiles()
                 .then(({ tests }) => {
                     this.configuration.tests = tests;

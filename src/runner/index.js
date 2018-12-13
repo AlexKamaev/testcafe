@@ -27,7 +27,7 @@ export default class Runner extends EventEmitter {
         super();
 
         this.proxy               = proxy;
-        this.bootstrapper        = new Bootstrapper(browserConnectionGateway);
+        this.bootstrapper        = this._createBootstrapper(browserConnectionGateway);
         this.pendingTaskPromises = [];
 
         this.opts = {
@@ -45,6 +45,9 @@ export default class Runner extends EventEmitter {
         };
     }
 
+    _createBootstrapper (browserConnectionGateway) {
+        return new Bootstrapper(browserConnectionGateway);
+    }
 
     _disposeBrowserSet (browserSet) {
         return browserSet.dispose().catch(e => DEBUG_LOGGER(e));

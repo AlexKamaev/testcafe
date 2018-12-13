@@ -24,6 +24,10 @@ class Controller extends EventEmitter {
         this.runner = runner;
     }
 
+    createFileWatcher (src) {
+        return new FileWatcher(src);
+    }
+
     init (files) {
         exitHook(cb => {
             this.exit()
@@ -86,7 +90,7 @@ class Controller extends EventEmitter {
     }
 
     _initFileWatching (src) {
-        const fileWatcher = new FileWatcher(src);
+        const fileWatcher = this.createFileWatcher(src);
 
         this.on(this.REQUIRED_MODULE_FOUND_EVENT, e => fileWatcher.addFile(e.filename));
 
