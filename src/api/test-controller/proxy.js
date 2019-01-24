@@ -20,7 +20,7 @@ delegateAPI(testControllerProxy, TestController.API_LIST, {
             else
                 callsiteName = propName;
 
-            throw new APIError(callsiteName, MESSAGE.testControllerProxyCantResolveTestRun);
+            throw new APIError(callsiteName, MESSAGE.testControllerProxyCannotResolveTestRun);
         }
 
         return testRun.controller;

@@ -24,7 +24,7 @@ export default {
         const providerRegExpMatch = BROWSER_PROVIDER_RE.exec(alias);
 
         if (!providerRegExpMatch)
-            throw new GeneralError(MESSAGE.cantFindBrowser, alias);
+            throw new GeneralError(MESSAGE.cannotFindBrowser, alias);
 
         let providerName = providerRegExpMatch[1];
         let browserName  = providerRegExpMatch[2] || '';
@@ -50,7 +50,7 @@ export default {
         if (typeof alias === 'string')
             return this._parseAliasString(alias);
 
-        throw new GeneralError(MESSAGE.cantFindBrowser, alias);
+        throw new GeneralError(MESSAGE.cannotFindBrowser, alias);
     },
 
     async _getInfoForAllBrowserNames (provider, providerName) {
@@ -104,7 +104,7 @@ export default {
             return await this._getInfoForAllBrowserNames(provider, providerName);
 
         if (!await provider.isValidBrowserName(browserName))
-            throw new GeneralError(MESSAGE.cantFindBrowser, alias);
+            throw new GeneralError(MESSAGE.cannotFindBrowser, alias);
 
         return browserInfo;
     },

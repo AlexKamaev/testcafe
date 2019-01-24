@@ -40,7 +40,7 @@ export default class Compiler {
             code = await readFile(filename);
         }
         catch (err) {
-            throw new GeneralError(MESSAGE.cantFindSpecifiedTestSource, filename);
+            throw new GeneralError(MESSAGE.cannotFindSpecifiedTestSource, filename);
         }
 
         code = stripBom(code).toString();
