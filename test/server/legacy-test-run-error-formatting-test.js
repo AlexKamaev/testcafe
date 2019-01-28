@@ -289,9 +289,9 @@ describe('Legacy error formatting', function () {
             assertErrorMessage('incorrect-iframe-argument', err);
         });
 
-        it('Should format "uploadCannotFindFileToUpload" error message', function () {
+        it('Should format "uploadCanNotFindFileToUpload" error message', function () {
             const err = {
-                type:      TEST_RUN_ERROR_TYPE.uploadCannotFindFileToUpload,
+                type:      TEST_RUN_ERROR_TYPE.uploadCanNotFindFileToUpload,
                 stepName:  'Step with <tag>',
                 filePaths: ['/unix/path/with/<tag>', 'path2']
             };

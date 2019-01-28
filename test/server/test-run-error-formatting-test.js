@@ -258,7 +258,7 @@ describe('Error formatting', () => {
         });
 
         it('Should format "actionCannotFindFileToUploadError" message', () => {
-            assertErrorMessage('action-can-not-find-file-to-upload-error', new ActionCannotFindFileToUploadError(['/path/1', '/path/2']));
+            assertErrorMessage('action-cannot-find-file-to-upload-error', new ActionCannotFindFileToUploadError(['/path/1', '/path/2']));
         });
 
         it('Should format "actionUnsupportedDeviceTypeError" message', () => {
