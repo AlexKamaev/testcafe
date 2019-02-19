@@ -179,6 +179,11 @@ describe('[API] t.takeScreenshot()', function () {
                 });
         });
 
+        it('Should crop scrollbars', function () {
+            return runTests('./testcafe-fixtures/take-screenshot.js', 'Should crop scrollbar',
+                { setScreenshotPath: true });
+        });
+
         it('Should provide screenshot log to a reporter', function () {
             const result   = {};
             const reporter = getReporter(result);

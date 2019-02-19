@@ -3,6 +3,9 @@ import { parse } from 'useragent';
 import { saveWindowState, restoreWindowState } from '../../../../../window-helpers';
 import quarantineScope from './quarantineScope';
 import sanitizeFilename from 'sanitize-filename';
+import { readPng } from '../../../../../assertion-helper';
+import config from '../../../../../config.js';
+import { join } from 'path';
 
 
 // NOTE: to preserve callsites, add new tests AFTER the existing ones
@@ -87,4 +90,32 @@ test
         const parsedUA = parse(ua);
 
         await t.takeScreenshot('custom/' + parsedUA.family + '.png');
+    });
+
+test
+    .page('../pages/crop-scrollbars.html')
+    ('Should crop scrollbar', async t => {
+        const getScrollbarWidth = ClientFunction(() => {
+            const el = document.getElementById('scrollParent');
+
+            return el.offsetWidth - el.clientWidth;
+        });
+
+        const getWindowWidth = ClientFunction(() => {
+            return window.innerWidth;
+        });
+
+        const ua             = await getUserAgent();
+        const parsedUA       = parse(ua);
+        const screenshotName = 'custom/' + parsedUA.family + '.png';
+        const windowWidth    = await getWindowWidth();
+        const scrollbarWidth = await getScrollbarWidth();
+
+        await t.hover('#target');
+        await t.takeScreenshot(screenshotName);
+
+        const png = await readPng(join(config.testScreenshotsDir, screenshotName));
+
+        await t.expect(scrollbarWidth).gt(0);
+        await t.expect(png.width).eql(windowWidth - scrollbarWidth);
     });

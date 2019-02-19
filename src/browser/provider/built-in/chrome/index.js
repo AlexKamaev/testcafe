@@ -5,7 +5,7 @@ import { start as startLocalChrome, stop as stopLocalChrome } from './local-chro
 import * as cdp from './cdp';
 import getMaximizedHeadlessWindowSize from '../../utils/get-maximized-headless-window-size';
 import { GET_WINDOW_DIMENSIONS_INFO_SCRIPT } from '../../utils/client-functions';
-
+import { cropScreenshotBinary } from '../../../../screenshots/crop';
 
 const MIN_AVAILABLE_DIMENSION = 50;
 
@@ -64,9 +64,19 @@ export default {
     },
 
     async takeScreenshot (browserId, path) {
-        const runtimeInfo = this.openedBrowsers[browserId];
+        const runtimeInfo    = this.openedBrowsers[browserId];
+        const screenshotData = await cdp.getScreenshotData(runtimeInfo.client);
+        const imageData      = Buffer.from(screenshotData.data, 'base64');
+        const client         = runtimeInfo.client;
 
-        await cdp.takeScreenshot(path, runtimeInfo);
+        const { visualViewport } = await client.Page.getLayoutMetrics();
+
+        await cropScreenshotBinary(path, false, null, {
+            right:  visualViewport.clientWidth,
+            left:   0,
+            top:    0,
+            bottom: Number.MAX_VALUE
+        }, imageData);
     },
 
     async resizeWindow (browserId, width, height, currentWidth, currentHeight) {

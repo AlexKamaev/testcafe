@@ -1,5 +1,4 @@
 import remoteChrome from 'chrome-remote-interface';
-import { writeFile } from '../../../../utils/promisified-functions';
 import { GET_WINDOW_DIMENSIONS_INFO_SCRIPT } from '../../utils/client-functions';
 
 
@@ -45,18 +44,8 @@ async function setEmulation (runtimeInfo) {
     await resizeWindow({ width: config.width, height: config.height }, runtimeInfo);
 }
 
-async function getScreenshotData (client) {
-    const { visualViewport } = await client.Page.getLayoutMetrics();
-
-    const clipRegion = {
-        x:      visualViewport.pageX,
-        y:      visualViewport.pageY,
-        width:  visualViewport.clientWidth,
-        height: visualViewport.clientHeight,
-        scale:  visualViewport.scale
-    };
-
-    return await client.Page.captureScreenshot({ fromSurface: true, clip: clipRegion });
+export async function getScreenshotData (client) {
+    return await client.Page.captureScreenshot({ format: 'png', fromSurface: true });
 }
 
 export async function createClient (runtimeInfo) {
@@ -117,12 +106,6 @@ export async function getVideoFrameData ({ client }) {
     const frameData = await getScreenshotData(client);
 
     return Buffer.from(frameData.data, 'base64');
-}
-
-export async function takeScreenshot (path, { client }) {
-    const screenshotData = await getScreenshotData(client);
-
-    await writeFile(path, screenshotData.data, { encoding: 'base64' });
 }
 
 export async function resizeWindow (newDimensions, runtimeInfo) {

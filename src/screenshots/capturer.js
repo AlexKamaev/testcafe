@@ -1,6 +1,6 @@
 import { join as joinPath, dirname, basename } from 'path';
 import { generateThumbnail } from 'testcafe-browser-tools';
-import cropScreenshot from './crop';
+import { cropScreenshotByPath } from './crop';
 import makeDir from 'make-dir';
 import { isInQueue, addToQueue } from '../utils/async-queue';
 import WARNING_MESSAGE from '../notifications/warning-message';
@@ -121,7 +121,7 @@ export default class Capturer {
             if (!await Capturer._isScreenshotCaptured(screenshotPath))
                 return;
 
-            await cropScreenshot(screenshotPath, markSeed, Capturer._getClientAreaDimensions(pageDimensions), Capturer._getCropDimensions(cropDimensions, pageDimensions));
+            await cropScreenshotByPath(screenshotPath, markSeed, Capturer._getClientAreaDimensions(pageDimensions), Capturer._getCropDimensions(cropDimensions, pageDimensions));
 
             await generateThumbnail(screenshotPath, thumbnailPath);
         });

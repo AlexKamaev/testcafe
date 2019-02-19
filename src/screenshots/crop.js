@@ -3,24 +3,21 @@ import Promise from 'pinkie';
 import { PNG } from 'pngjs';
 import promisifyEvent from 'promisify-event';
 import limitNumber from '../utils/limit-number';
-import { deleteFile } from '../utils/promisified-functions';
+import { deleteFile, readFile } from '../utils/promisified-functions';
 import renderTemplate from '../utils/render-template';
 import { InvalidElementScreenshotDimensionsError } from '../errors/test-run/';
 import { MARK_LENGTH, MARK_RIGHT_MARGIN, MARK_BYTES_PER_PIXEL } from './constants';
 import WARNING_MESSAGES from '../notifications/warning-message';
 
-
-function readPng (filePath) {
-    const stream = fs.createReadStream(filePath);
-    const png    = new PNG();
+function readPng (buffer) {
+    const png = new PNG();
 
     const parsedPromise = Promise.race([
         promisifyEvent(png, 'parsed'),
-        promisifyEvent(png, 'error'),
-        promisifyEvent(stream, 'error')
+        promisifyEvent(png, 'error')
     ]);
 
-    stream.pipe(png);
+    png.parse(buffer);
 
     return parsedPromise
         .then(() => png);
@@ -50,7 +47,7 @@ function markSeedToId (markSeed) {
     return id;
 }
 
-function detectClippingArea (srcImage, { markSeed, clientAreaDimensions, cropDimensions, screenshotPath } = {}) {
+function detectClippingArea (srcImage, markSeed, clientAreaDimensions, cropDimensions) {
     let clipLeft   = 0;
     let clipTop    = 0;
     let clipRight  = srcImage.width;
@@ -64,7 +61,7 @@ function detectClippingArea (srcImage, { markSeed, clientAreaDimensions, cropDim
         const markIndex = srcImage.data.indexOf(mark);
 
         if (markIndex < 0)
-            throw new Error(renderTemplate(WARNING_MESSAGES.screenshotMarkNotFound, screenshotPath, markSeedToId(markSeed)));
+            return null;
 
         const endPosition = markIndex / MARK_BYTES_PER_PIXEL + MARK_LENGTH + MARK_RIGHT_MARGIN;
 
@@ -112,22 +109,33 @@ function copyImagePart (srcImage, { left, top, width, height }) {
     return dstImage;
 }
 
-export default async function (screenshotPath, markSeed, clientAreaDimensions, cropDimensions) {
-    const srcImage  = await readPng(screenshotPath);
+export async function cropScreenshotBinary (path, markSeed, clientAreaDimensions, cropDimensions, buffer) {
+    let png = await readPng(buffer);
 
-    const clippingArea = detectClippingArea(srcImage, { markSeed, clientAreaDimensions, cropDimensions, screenshotPath });
+    const clippingArea = detectClippingArea(png, markSeed, clientAreaDimensions, cropDimensions);
 
-    if (clippingArea.width <= 0 || clippingArea.height <= 0) {
-        await deleteFile(screenshotPath);
+    if (!clippingArea)
+        throw new Error(renderTemplate(WARNING_MESSAGES.screenshotMarkNotFound, path, markSeedToId(markSeed)));
+
+    if (clippingArea.width <= 0 || clippingArea.height <= 0)
         throw new InvalidElementScreenshotDimensionsError(clippingArea.width, clippingArea.height);
+
+    if (markSeed || cropDimensions) {
+        png = copyImagePart(png, clippingArea);
+
+        await writePng(path, png);
     }
+}
 
-    if (!markSeed && !cropDimensions)
-        return true;
+export async function cropScreenshotByPath (path, markSeed, clientAreaDimensions, cropDimensions) {
+    const sourceImage = await readFile(path);
 
-    const dstImage = copyImagePart(srcImage, clippingArea);
+    try {
+        await cropScreenshotBinary(path, markSeed, clientAreaDimensions, cropDimensions, sourceImage);
+    }
+    catch (err) {
+        deleteFile(path);
 
-    await writePng(screenshotPath, dstImage);
-
-    return true;
+        throw err;
+    }
 }
