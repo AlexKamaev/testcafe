@@ -109,8 +109,8 @@ function copyImagePart (srcImage, { left, top, width, height }) {
     return dstImage;
 }
 
-export async function cropScreenshotBinary (path, markSeed, clientAreaDimensions, cropDimensions, buffer) {
-    let png = await readPng(buffer);
+export async function cropScreenshotBinary (path, markSeed, clientAreaDimensions, cropDimensions, binaryImage) {
+    let png = await readPng(binaryImage);
 
     const clippingArea = detectClippingArea(png, markSeed, clientAreaDimensions, cropDimensions);
 
@@ -134,7 +134,7 @@ export async function cropScreenshotByPath (path, markSeed, clientAreaDimensions
         await cropScreenshotBinary(path, markSeed, clientAreaDimensions, cropDimensions, sourceImage);
     }
     catch (err) {
-        deleteFile(path);
+        await deleteFile(path);
 
         throw err;
     }

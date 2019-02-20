@@ -64,10 +64,9 @@ export default {
     },
 
     async takeScreenshot (browserId, path) {
-        const runtimeInfo    = this.openedBrowsers[browserId];
-        const screenshotData = await cdp.getScreenshotData(runtimeInfo.client);
-        const imageData      = Buffer.from(screenshotData.data, 'base64');
-        const client         = runtimeInfo.client;
+        const { client }     = this.openedBrowsers[browserId];
+        const screenshotData = await cdp.getScreenshotData(client);
+        const binaryImage    = Buffer.from(screenshotData.data, 'base64');
 
         const { visualViewport } = await client.Page.getLayoutMetrics();
 
@@ -76,7 +75,7 @@ export default {
             left:   0,
             top:    0,
             bottom: Number.MAX_VALUE
-        }, imageData);
+        }, binaryImage);
     },
 
     async resizeWindow (browserId, width, height, currentWidth, currentHeight) {
