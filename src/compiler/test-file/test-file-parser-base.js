@@ -248,7 +248,7 @@ export class TestFileParserBase {
         }
 
         catch (err) {
-            throw new GeneralError(MESSAGE.cantFindSpecifiedTestSource, filePath);
+            throw new GeneralError(MESSAGE.cannotFindSpecifiedTestSource, filePath);
         }
 
         return fileContent;

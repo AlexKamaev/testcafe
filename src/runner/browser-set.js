@@ -81,7 +81,7 @@ export default class BrowserSet extends EventEmitter {
                 .map(bc => promisifyEvent(bc, 'opened'))
         );
 
-        const timeoutError = new GeneralError(MESSAGE.cantEstablishBrowserConnection);
+        const timeoutError = new GeneralError(MESSAGE.cannotEstablishBrowserConnection);
         const readyTimeout = await this._getReadyTimeout();
 
         await this._createPendingConnectionPromise(connectionsReadyPromise, readyTimeout, timeoutError);
@@ -93,7 +93,7 @@ export default class BrowserSet extends EventEmitter {
             .map(bc => bc.userAgent);
 
         if (disconnectedUserAgents.length)
-            throw new GeneralError(MESSAGE.cantRunAgainstDisconnectedBrowsers, disconnectedUserAgents.join(', '));
+            throw new GeneralError(MESSAGE.cannotRunAgainstDisconnectedBrowsers, disconnectedUserAgents.join(', '));
     }
 
 
