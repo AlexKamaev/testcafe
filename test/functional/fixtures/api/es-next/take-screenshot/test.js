@@ -47,7 +47,7 @@ const getReporter = function (scope) {
     };
 };
 
-describe('[API] t.takeScreenshot()', function () {
+describe.only('[API] t.takeScreenshot()', function () {
     afterEach(assertionHelper.removeScreenshotDir);
 
     if (config.useLocalBrowsers && config.currentEnvironmentName !== config.testingEnvironmentNames.localBrowsersIE) {

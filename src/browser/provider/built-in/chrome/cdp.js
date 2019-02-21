@@ -45,7 +45,15 @@ async function setEmulation (runtimeInfo) {
 }
 
 export async function getScreenshotData (client) {
-    return await client.Page.captureScreenshot();
+    const screenshotData = await client.Page.captureScreenshot();
+
+    return Buffer.from(screenshotData.data, 'base64');
+}
+
+export async function getPageViewport (client) {
+    const { visualViewport } = await client.Page.getLayoutMetrics();
+
+    return visualViewport;
 }
 
 export async function createClient (runtimeInfo) {
@@ -100,12 +108,6 @@ export async function updateMobileViewportSize (runtimeInfo) {
 
     runtimeInfo.viewportSize.width  = windowDimensions.outerWidth;
     runtimeInfo.viewportSize.height = windowDimensions.outerHeight;
-}
-
-export async function getVideoFrameData ({ client }) {
-    const frameData = await getScreenshotData(client);
-
-    return Buffer.from(frameData.data, 'base64');
 }
 
 export async function resizeWindow (newDimensions, runtimeInfo) {

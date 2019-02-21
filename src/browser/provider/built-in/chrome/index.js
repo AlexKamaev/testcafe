@@ -64,12 +64,11 @@ export default {
     },
 
     async takeScreenshot (browserId, path) {
-        const { client }     = this.openedBrowsers[browserId];
-        const screenshotData = await cdp.getScreenshotData(client);
-        const binaryImage    = Buffer.from(screenshotData.data, 'base64');
+        const { client }  = this.openedBrowsers[browserId];
+        const viewport    = await cdp.getPageViewport(client);
+        const binaryImage = await cdp.getScreenshotData(client);
 
-        const { visualViewport }            = await client.Page.getLayoutMetrics();
-        const { clientWidth, clientHeight } = visualViewport;
+        const { clientWidth, clientHeight } = viewport;
 
         await cropScreenshotBinary(path, false, null, {
             right:  clientWidth,
@@ -99,7 +98,7 @@ export default {
     },
 
     async getVideoFrameData (browserId) {
-        return await cdp.getVideoFrameData(this.openedBrowsers[browserId]);
+        return await cdp.getScreenshotData(this.openedBrowsers[browserId]);
     },
 
     async hasCustomActionForBrowser (browserId) {
