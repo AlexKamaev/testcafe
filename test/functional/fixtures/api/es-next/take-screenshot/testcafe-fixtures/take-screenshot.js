@@ -1,5 +1,5 @@
 import { ClientFunction } from 'testcafe';
-import { parse } from 'useragent';
+import { parse, is } from 'useragent';
 import { saveWindowState, restoreWindowState } from '../../../../../window-helpers';
 import quarantineScope from './quarantineScope';
 import sanitizeFilename from 'sanitize-filename';
@@ -95,27 +95,34 @@ test
 test
     .page('../pages/crop-scrollbars.html')
     ('Should crop scrollbar', async t => {
-        const getScrollbarWidth = ClientFunction(() => {
+        const getScrollbarSize = ClientFunction(() => {
             const el = document.getElementById('scrollParent');
 
             return el.offsetWidth - el.clientWidth;
         });
 
-        const getWindowWidth = ClientFunction(() => {
-            return window.innerWidth;
-        });
+        await saveWindowState(t);
+
+        const { width, height } = t.ctx._savedWindowState;
 
         const ua             = await getUserAgent();
         const parsedUA       = parse(ua);
         const screenshotName = 'custom/' + parsedUA.family + '.png';
-        const windowWidth    = await getWindowWidth();
-        const scrollbarWidth = await getScrollbarWidth();
+
+        const scrollbarSize = await getScrollbarSize();
 
         await t.hover('#target');
         await t.takeScreenshot(screenshotName);
 
         const png = await readPng(join(config.testScreenshotsDir, screenshotName));
 
-        await t.expect(scrollbarWidth).gt(0);
-        await t.expect(png.width).eql(windowWidth - scrollbarWidth);
+        const expectedWidth  = width - scrollbarSize;
+        const expectedHeight = height - scrollbarSize;
+
+        // NOTE: IE clips screenshots not accurately
+        const accuracy        = is(ua).ie ? 1 : 0;
+
+        await t.expect(scrollbarSize).gt(0);
+        await t.expect(Math.abs(png.width - expectedWidth)).lte(accuracy);
+        await t.expect(Math.abs(png.height - expectedHeight)).lte(accuracy);
     });

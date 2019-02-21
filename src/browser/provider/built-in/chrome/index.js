@@ -68,13 +68,14 @@ export default {
         const screenshotData = await cdp.getScreenshotData(client);
         const binaryImage    = Buffer.from(screenshotData.data, 'base64');
 
-        const { visualViewport } = await client.Page.getLayoutMetrics();
+        const { visualViewport }            = await client.Page.getLayoutMetrics();
+        const { clientWidth, clientHeight } = visualViewport;
 
         await cropScreenshotBinary(path, false, null, {
-            right:  visualViewport.clientWidth,
+            right:  clientWidth,
             left:   0,
             top:    0,
-            bottom: Number.MAX_VALUE
+            bottom: clientHeight
         }, binaryImage);
     },
 

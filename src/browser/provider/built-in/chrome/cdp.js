@@ -45,7 +45,7 @@ async function setEmulation (runtimeInfo) {
 }
 
 export async function getScreenshotData (client) {
-    return await client.Page.captureScreenshot({ fromSurface: true });
+    return await client.Page.captureScreenshot();
 }
 
 export async function createClient (runtimeInfo) {
