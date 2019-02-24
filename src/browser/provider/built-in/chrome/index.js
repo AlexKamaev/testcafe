@@ -6,6 +6,9 @@ import * as cdp from './cdp';
 import getMaximizedHeadlessWindowSize from '../../utils/get-maximized-headless-window-size';
 import { GET_WINDOW_DIMENSIONS_INFO_SCRIPT } from '../../utils/client-functions';
 import { cropScreenshotBinary } from '../../../../screenshots/crop';
+import { readPng, writePng } from '../../../../utils/png';
+
+import { PNG } from 'pngjs';
 
 const MIN_AVAILABLE_DIMENSION = 50;
 
@@ -64,18 +67,21 @@ export default {
     },
 
     async takeScreenshot (browserId, path) {
-        const { client }  = this.openedBrowsers[browserId];
-        const viewport    = await cdp.getPageViewport(client);
-        const binaryImage = await cdp.getScreenshotData(client);
+        const runtimeInfo = this.openedBrowsers[browserId];
+        const viewport    = await cdp.getPageViewport(runtimeInfo);
+        const binaryImage = await cdp.getScreenshotData(runtimeInfo);
 
         const { clientWidth, clientHeight } = viewport;
 
-        await cropScreenshotBinary(path, false, null, {
+        const croppedImage = await cropScreenshotBinary(path, false, null, {
             right:  clientWidth,
             left:   0,
             top:    0,
             bottom: clientHeight
         }, binaryImage);
+
+        if (croppedImage)
+            await writePng(path, croppedImage);
     },
 
     async resizeWindow (browserId, width, height, currentWidth, currentHeight) {
@@ -98,7 +104,89 @@ export default {
     },
 
     async getVideoFrameData (browserId) {
-        return await cdp.getScreenshotData(this.openedBrowsers[browserId]);
+        const image = await cdp.getScreenshotData(this.openedBrowsers[browserId]);
+
+        // return image;
+
+        const png = await readPng(image);
+
+        console.log(image);
+
+        try {
+
+            console.log(png.width)
+            console.log(png.height)
+            const pngImage = await cropScreenshotBinary('', false, null, {
+                right:  png.width,
+                left:   0,
+                top:    0,
+                bottom: png.height
+            }, image);
+
+            if (!pngImage)
+                console.log('keke');
+
+
+            debugger;
+
+
+            // const binary = PNG.sync.write(pngImage);
+
+
+            const chunks = [];
+
+            const promise = new Promise(resolve => {
+                const keke = pngImage.pack();
+
+                pngImage.on('data', (a, b, c, d) => {
+                    // console.log('************');
+                    // console.log(a);
+                    // console.log('++++++++++');
+
+                    chunks.push(a);
+                })
+
+                pngImage.on('end', (a, b, c, d) => {
+                    console.log('---end---');
+
+                    const fileBuffer = Buffer.concat(chunks);
+
+
+
+                    console.log(fileBuffer);
+
+                    resolve(fileBuffer);
+                });
+            })
+            // const keke = pngImage.pack();
+            //
+            // pngImage.on('data', (a, b, c, d) => {
+            //     // console.log('************');
+            //     // console.log(a);
+            //     // console.log('++++++++++');
+            //
+            //     chunks.push(a);
+            // })
+            //
+            // pngImage.on('end', (a, b, c, d) => {
+            //    console.log('---end---');
+            //
+            //     const fileBuffer = Buffer.concat(chunks);
+            //
+            //     console.log(fileBuffer);
+            // });
+
+            return await promise;
+
+            // return binary;
+            //
+            // console.log(pngImage.data);
+            //
+            // return pngImage ? pngImage.data : null;
+        } catch (err) {
+            console.log(err);
+        }
+
     },
 
     async hasCustomActionForBrowser (browserId) {

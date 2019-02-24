@@ -44,13 +44,13 @@ async function setEmulation (runtimeInfo) {
     await resizeWindow({ width: config.width, height: config.height }, runtimeInfo);
 }
 
-export async function getScreenshotData (client) {
+export async function getScreenshotData ({ client }) {
     const screenshotData = await client.Page.captureScreenshot();
 
     return Buffer.from(screenshotData.data, 'base64');
 }
 
-export async function getPageViewport (client) {
+export async function getPageViewport ({ client }) {
     const { visualViewport } = await client.Page.getLayoutMetrics();
 
     return visualViewport;
