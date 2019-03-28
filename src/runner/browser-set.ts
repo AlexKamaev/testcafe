@@ -6,11 +6,24 @@ import { noop, pull as remove, flatten } from 'lodash';
 import mapReverse from 'map-reverse';
 import { GeneralError } from '../errors/runtime';
 import { RUNTIME_ERRORS } from '../errors/types';
+import BrowserConnection from '../browser/connection';
 
 const LOCAL_BROWSERS_READY_TIMEOUT  = 2 * 60 * 1000;
 const REMOTE_BROWSERS_READY_TIMEOUT = 6 * 60 * 1000;
 
 export default class BrowserSet extends EventEmitter {
+
+    private readonly RELEASE_TIMEOUT: number;
+
+    private readonly pendingReleases: any[];
+
+    readonly browserConnectionGroups: any;
+    private readonly browserConnections: BrowserConnection[];
+
+    private connectionsReadyTimeout: any;
+
+    private readonly browserErrorHandler: (error: any) => void;
+
     constructor (browserConnectionGroups) {
         super();
 
@@ -23,7 +36,9 @@ export default class BrowserSet extends EventEmitter {
 
         this.connectionsReadyTimeout = null;
 
-        this.browserErrorHandler = error => this.emit('error', error);
+        this.browserErrorHandler = error => {
+            this.emit('error', error);
+        };
 
         this.browserConnections.forEach(bc => bc.on('error', this.browserErrorHandler));
 
@@ -120,7 +135,7 @@ export default class BrowserSet extends EventEmitter {
             });
     }
 
-    releaseConnection (bc) {
+    releaseConnection (bc: BrowserConnection) {
         if (this.browserConnections.indexOf(bc) < 0)
             return Promise.resolve();
 

@@ -10,7 +10,15 @@ const IDLE_PAGE_LOGO   = read('../../client/browser/idle-page/logo.svg', true);
 
 // Gateway
 export default class BrowserConnectionGateway {
-    constructor (proxy, options = {}) {
+    connections  = {};
+    private readonly  remotesQueue: RemotesQueue;
+    private readonly domain: string;
+
+    readonly connectUrl: string;
+
+    readonly retryTestPages: boolean;
+
+    constructor (proxy, options: any = {}) {
         this.connections  = {};
         this.remotesQueue = new RemotesQueue();
         this.domain       = proxy.server1Info.domain;
@@ -23,7 +31,7 @@ export default class BrowserConnectionGateway {
     }
 
     _dispatch (url, proxy, handler, method = 'GET') {
-        proxy[method](url, (req, res, si, params) => {
+        proxy[method](url, (req, res, _, params) => {
             const connection = this.connections[params.id];
 
             preventCaching(res);
@@ -77,7 +85,7 @@ export default class BrowserConnectionGateway {
         }
     }
 
-    static onHeartbeat (req, res, connection) {
+    static onHeartbeat (_, res, connection) {
         if (BrowserConnectionGateway.ensureConnectionReady(res, connection)) {
             const status = connection.heartbeat();
 
@@ -85,12 +93,12 @@ export default class BrowserConnectionGateway {
         }
     }
 
-    static onIdle (req, res, connection) {
+    static onIdle (_, res, connection) {
         if (BrowserConnectionGateway.ensureConnectionReady(res, connection))
             res.end(connection.renderIdlePage());
     }
 
-    static async onIdleForced (req, res, connection) {
+    static async onIdleForced (_, res, connection) {
         if (BrowserConnectionGateway.ensureConnectionReady(res, connection)) {
             const status = await connection.getStatus(true);
 
@@ -106,7 +114,7 @@ export default class BrowserConnectionGateway {
         return BrowserConnectionGateway._onStatusRequestCore(req, res, connection, true);
     }
 
-    static async _onStatusRequestCore (req, res, connection, isTestDone) {
+    static async _onStatusRequestCore (_, res, connection, isTestDone) {
         if (BrowserConnectionGateway.ensureConnectionReady(res, connection)) {
             const status = await connection.getStatus(isTestDone);
 
@@ -114,7 +122,7 @@ export default class BrowserConnectionGateway {
         }
     }
 
-    static onInitScriptRequest (req, res, connection) {
+    static onInitScriptRequest (_, res, connection) {
         if (BrowserConnectionGateway.ensureConnectionReady(res, connection)) {
             const script = connection.getInitScript();
 
@@ -138,7 +146,7 @@ export default class BrowserConnectionGateway {
         }
     }
 
-    async _connectNextRemoteBrowser (req, res) {
+    async _connectNextRemoteBrowser (_, res) {
         preventCaching(res);
 
         const remoteConnection = await this.remotesQueue.shift();

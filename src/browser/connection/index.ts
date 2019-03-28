@@ -10,12 +10,50 @@ import COMMAND from './command';
 import STATUS from './status';
 import { GeneralError } from '../../errors/runtime';
 import { RUNTIME_ERRORS } from '../../errors/types';
+import BrowserConnectionGateway from "./gateway";
 
 const IDLE_PAGE_TEMPLATE = read('../../client/browser/idle-page/index.html.mustache');
 const connections        = {};
 
 
 export default class BrowserConnection extends EventEmitter {
+    private readonly HEARTBEAT_TIMEOUT: number;
+    private readonly BROWSER_RESTART_TIMEOUT: number;
+
+    private readonly id: string;
+    private readonly jobQueue: any[];
+    private readonly initScriptsQueue: any[];
+    private readonly browserConnectionGateway: BrowserConnectionGateway;
+    private errorSuppressed: boolean;
+    private testRunAborted: boolean;
+
+    private readonly browserInfo: any;
+
+
+    private readonly provider : any;
+
+    readonly permanent: boolean;
+    private closing: boolean;
+    closed: boolean;
+    private ready: boolean;
+    opened: boolean;
+    private idle: boolean;
+    private heartbeatTimeout: any;
+    private pendingTestRunUrl: string;
+
+    private readonly url: string;
+    private readonly idleUrl: string;
+    private readonly initScriptUrl: string;
+
+    private readonly heartbeatRelativeUrl: string;
+    private readonly statusRelativeUrl: string;
+    private readonly statusDoneRelativeUrl: string;
+
+    private readonly heartbeatUrl: string;
+    private readonly statusUrl: string;
+    // private readonly statusDoneUrl: string;
+
+
     constructor (gateway, browserInfo, permanent) {
         super();
 
@@ -46,7 +84,6 @@ export default class BrowserConnection extends EventEmitter {
 
         this.url           = `${gateway.domain}/browser/connect/${this.id}`;
         this.idleUrl       = `${gateway.domain}/browser/idle/${this.id}`;
-        this.forcedIdleUrl = `${gateway.domain}/browser/idle-forced/${this.id}`;
         this.initScriptUrl = `${gateway.domain}/browser/init-script/${this.id}`;
 
         this.heartbeatRelativeUrl  = `/browser/heartbeat/${this.id}`;
@@ -55,7 +92,7 @@ export default class BrowserConnection extends EventEmitter {
 
         this.heartbeatUrl  = `${gateway.domain}${this.heartbeatRelativeUrl}`;
         this.statusUrl     = `${gateway.domain}${this.statusRelativeUrl}`;
-        this.statusDoneUrl = `${gateway.domain}${this.statusDoneRelativeUrl}`;
+        // this.statusDoneUrl = `${gateway.domain}${this.statusDoneRelativeUrl}`;
 
         this.on('error', () => {
             this._forceIdle();
@@ -106,7 +143,6 @@ export default class BrowserConnection extends EventEmitter {
 
     _forceIdle () {
         if (!this.idle) {
-            this.switchingToIdle = false;
             this.idle            = true;
             this.emit('idle');
         }

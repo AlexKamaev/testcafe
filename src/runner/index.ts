@@ -18,10 +18,20 @@ import { addRunningTest, removeRunningTest, startHandlingTestErrors, stopHandlin
 import OPTION_NAMES from '../configuration/option-names';
 import FlagList from '../utils/flag-list';
 import prepareReporters from '../utils/prepare-reporters';
+import { Proxy } from 'testcafe-hammerhead';
+import BrowserSet from "./browser-set";
 
 const DEBUG_LOGGER = debug('testcafe:runner');
 
 export default class Runner extends EventEmitter {
+    private readonly proxy: Proxy;
+    private readonly bootstrapper: Bootstrapper;
+    private readonly pendingTaskPromises: Promise[];
+    private readonly configuration:any;
+    private readonly isCli:boolean;
+
+    private readonly apiMethodWasCalled: FlagList;
+
     constructor (proxy, browserConnectionGateway, configuration) {
         super();
 
@@ -138,7 +148,7 @@ export default class Runner extends EventEmitter {
         return new Task(tests, browserConnectionGroups, proxy, opts);
     }
 
-    _runTask (reporterPlugins, browserSet, tests, testedApp) {
+    _runTask (reporterPlugins, browserSet: BrowserSet, tests, testedApp) {
         let completed           = false;
         const task              = this._createTask(tests, browserSet.browserConnectionGroups, this.proxy, this.configuration.getOptions());
         const reporters         = reporterPlugins.map(reporter => new Reporter(reporter.plugin, task, reporter.outStream));
@@ -394,7 +404,7 @@ export default class Runner extends EventEmitter {
         return this;
     }
 
-    run (options = {}) {
+    run (options: any = {}) {
         this.apiMethodWasCalled.reset();
 
         const {

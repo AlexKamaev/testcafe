@@ -143,7 +143,8 @@ describe('Browser connection', function () {
         connection.addJob(createBrowserJobMock(['3']));
 
         function queryStatus () {
-            return promisedRequest(connection.statusDoneUrl);
+            return promisedRequest(connection.statusDoneRelativeUrl);
+            // return promisedRequest(connection.statusDoneUrl);
         }
 
         return promisedRequest(connection.url)

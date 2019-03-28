@@ -4,9 +4,11 @@ import chalk from 'chalk';
 import log from './log';
 import promisifyEvent from 'promisify-event';
 import dedent from 'dedent';
+import TestCafe from '../testcafe';
+import BrowserConnectionGateway from '../browser/connection/gateway';
 
 
-export default async function (testCafe, remoteCount, showQRCode) {
+export default async function (testCafe: TestCafe, remoteCount, showQRCode) {
     const connectionPromises = [];
 
     if (remoteCount) {
@@ -22,7 +24,8 @@ export default async function (testCafe, remoteCount, showQRCode) {
         if (showQRCode)
             log.write('You can either enter the URL or scan the QR-code.');
 
-        const connectionUrl = testCafe.browserConnectionGateway.connectUrl;
+        // TODO
+        const connectionUrl = (testCafe.browserConnectionGateway as BrowserConnectionGateway).connectUrl;
 
         log.write(`Connect URL: ${chalk.underline.blue(connectionUrl)}`);
 

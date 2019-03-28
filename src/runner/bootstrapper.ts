@@ -14,6 +14,16 @@ import makeDir from 'make-dir';
 import resolvePathRelativelyCwd from '../utils/resolve-path-relatively-cwd';
 
 export default class Bootstrapper {
+    private readonly browserConnectionGateway: any;
+
+    concurrency: number;
+    sources: any[];
+    browsers: any[];
+    reporters: any[];
+    filter: Function;
+    appCommand: string;
+    appInitDelay: number;
+
     constructor (browserConnectionGateway) {
         this.browserConnectionGateway = browserConnectionGateway;
 
@@ -54,7 +64,7 @@ export default class Bootstrapper {
             return [];
 
         return browserInfo
-            .map(browser => times(this.concurrency, () => new BrowserConnection(this.browserConnectionGateway, browser)));
+            .map(browser => times(this.concurrency, () => new BrowserConnection(this.browserConnectionGateway, browser, false)));
     }
 
     async _getBrowserConnections (browserInfo) {
