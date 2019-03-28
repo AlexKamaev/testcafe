@@ -2,6 +2,7 @@ const babel                = require('babel-core');
 const gulp                 = require('gulp');
 const gulpStep             = require('gulp-step');
 const gulpBabel            = require('gulp-babel');
+const gulpTypeScript       = require('gulp-typescript');
 const data                 = require('gulp-data');
 const less                 = require('gulp-less');
 const qunitHarness         = require('gulp-qunit-harness');
@@ -70,8 +71,8 @@ const CLIENT_TESTS_SETTINGS_BASE = {
         { src: '/core.js', path: 'lib/client/core/index.min.js' },
         { src: '/ui.js', path: 'lib/client/ui/index.min.js' },
         { src: '/automation.js', path: 'lib/client/automation/index.min.js' },
-        { src: '/driver.js', path: 'lib/client/driver/index.js' },
-        { src: '/legacy-runner.js', path: 'node_modules/testcafe-legacy-api/lib/client/index.js' },
+        { src: '/driver.js', path: 'lib/client/driver/index.ts' },
+        { src: '/legacy-runner.js', path: 'node_modules/testcafe-legacy-api/lib/client/index.ts' },
         { src: '/before-test.js', path: 'test/client/before-test.js' }
     ],
 
@@ -193,11 +194,11 @@ gulp.task('check-licenses', () => {
 gulp.step('client-scripts-bundle', () => {
     return gulp
         .src([
-            'src/client/core/index.js',
-            'src/client/driver/index.js',
-            'src/client/ui/index.js',
-            'src/client/automation/index.js',
-            'src/client/browser/idle-page/index.js'
+            'src/client/core/index.ts',
+            'src/client/driver/index.ts',
+            'src/client/ui/index.ts',
+            'src/client/automation/index.ts',
+            'src/client/browser/idle-page/index.ts'
         ], { base: 'src' })
         .pipe(webmake({
             sourceMap: false,
@@ -225,10 +226,10 @@ gulp.step('client-scripts-bundle', () => {
 gulp.step('client-scripts-templates-render', () => {
     const scripts = gulp
         .src([
-            'src/client/core/index.js.wrapper.mustache',
-            'src/client/ui/index.js.wrapper.mustache',
-            'src/client/automation/index.js.wrapper.mustache',
-            'src/client/driver/index.js.wrapper.mustache'
+            'src/client/core/index.ts.wrapper.mustache',
+            'src/client/ui/index.ts.wrapper.mustache',
+            'src/client/automation/index.ts.wrapper.mustache',
+            'src/client/driver/index.ts.wrapper.mustache'
         ], { base: 'src' })
         .pipe(rename(file => {
             file.extname  = '';
@@ -274,6 +275,22 @@ gulp.step('server-scripts', () => {
         }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('lib'));
+});
+
+gulp.task('server-scripts-ts', () => {
+    const tsConfig = gulpTypeScript.createProject('tsconfig.json');
+
+    const serverAndSharedScripts = gulp
+        .src([
+            './src/**/*.ts',
+            '!src/client/**/*.ts'
+        ])
+        .pipe(tsConfig());
+
+    const toLib   = serverAndSharedScripts.pipe(clone()).pipe(gulpBabel()).pipe(gulp.dest('lib'));
+    const inPlace = serverAndSharedScripts.pipe(gulp.dest(file => file.base));
+
+    return mergeStreams(toLib, inPlace);
 });
 
 gulp.step('styles', () => {
