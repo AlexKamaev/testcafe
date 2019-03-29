@@ -51,6 +51,65 @@ const MAX_RESPONSE_DELAY              = 3000;
 const ALL_DRIVER_TASKS_ADDED_TO_QUEUE_EVENT = 'all-driver-tasks-added-to-queue';
 
 export default class TestRun extends AsyncEventEmitter {
+    warningLog = new WarningLog(globalWarningLog);
+
+    private readonly opts: any;
+    private readonly test:any;
+    private readonly browserConnection:any;
+
+    private readonly phase:any;
+
+    private readonly driverTaskQueue:any;
+    private readonly testDoneCommandQueued:any;
+
+    private readonly activeDialogHandler:any;
+    private readonly activeIframeSelector:any;
+    private readonly speed:any;
+    private readonly pageLoadTimeout:any;
+
+    private readonly disablePageReloads:any;
+
+    private readonly session:any;
+
+    private readonly consoleMessages:any;
+
+    private readonly pendingRequest:any;
+    private readonly pendingPageError:any;
+
+    private readonly controller:any;
+    private readonly ctx:any;
+    private readonly fixtureCtx:any;
+
+    private readonly currentRoleId:any;
+    private readonly usedRoleStates:any;
+
+    private readonly errs:any;
+
+    private readonly lastDriverStatusId:any;
+    private readonly lastDriverStatusResponse:any;
+
+    private readonly fileDownloadingHandled:any;
+    private readonly resolveWaitForFileDownloadingPromise:any;
+
+    private readonly addingDriverTasksCount:any;
+
+    private readonly debugging:any;
+    private readonly debugOnFail:any;
+    private readonly disableDebugBreakpoints:any;
+    private readonly debugReporterPluginHost:any;
+
+    private readonly browserManipulationQueue:any;
+
+    private readonly debugLog:any;
+
+    private readonly quarantine:any;
+
+
+
+    private readonly requestHooks:any;
+
+
+
     constructor (test, browserConnection, screenshotCapturer, globalWarningLog, opts) {
         super();
 
