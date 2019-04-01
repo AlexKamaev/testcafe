@@ -20,7 +20,7 @@ export default class BrowserConnection extends EventEmitter {
     private readonly HEARTBEAT_TIMEOUT: number;
     private readonly BROWSER_RESTART_TIMEOUT: number;
 
-    private readonly id: string;
+    readonly id: string;
     private readonly jobQueue: any[];
     private readonly initScriptsQueue: any[];
     private readonly browserConnectionGateway: BrowserConnectionGateway;
@@ -45,9 +45,9 @@ export default class BrowserConnection extends EventEmitter {
     private readonly idleUrl: string;
     private readonly initScriptUrl: string;
 
-    private readonly heartbeatRelativeUrl: string;
-    private readonly statusRelativeUrl: string;
-    private readonly statusDoneRelativeUrl: string;
+    readonly heartbeatRelativeUrl: string;
+    readonly statusRelativeUrl: string;
+    readonly statusDoneRelativeUrl: string;
 
     private readonly heartbeatUrl: string;
     private readonly statusUrl: string;

@@ -22,6 +22,8 @@ import { UNSTABLE_NETWORK_MODE_HEADER } from '../browser/connection/unstable-net
 import WarningLog from '../notifications/warning-log';
 import WARNING_MESSAGE from '../notifications/warning-message';
 
+import BrowserConnection from '../browser/connection';
+
 import {
     isCommandRejectableByPageError,
     isBrowserManipulationCommand,
@@ -51,64 +53,61 @@ const MAX_RESPONSE_DELAY              = 3000;
 const ALL_DRIVER_TASKS_ADDED_TO_QUEUE_EVENT = 'all-driver-tasks-added-to-queue';
 
 export default class TestRun extends AsyncEventEmitter {
-    warningLog = new WarningLog(globalWarningLog);
+    private readonly warningLog: WarningLog;
 
     private readonly opts: any;
     private readonly test:any;
-    private readonly browserConnection:any;
+    private readonly browserConnection: BrowserConnection;
 
-    private readonly phase:any;
+    private phase:any;
 
-    private readonly driverTaskQueue:any;
-    private readonly testDoneCommandQueued:any;
+    private driverTaskQueue:any;
+    private testDoneCommandQueued:any;
 
-    private readonly activeDialogHandler:any;
-    private readonly activeIframeSelector:any;
-    private readonly speed:any;
-    private readonly pageLoadTimeout:any;
+    private activeDialogHandler:any;
+    private activeIframeSelector:any;
+    private speed:any;
+    private pageLoadTimeout:any;
 
     private readonly disablePageReloads:any;
 
     private readonly session:any;
 
-    private readonly consoleMessages:any;
+    private consoleMessages:any;
 
-    private readonly pendingRequest:any;
-    private readonly pendingPageError:any;
+    private pendingRequest:any;
+    private pendingPageError:any;
 
     private readonly controller:any;
-    private readonly ctx:any;
-    private readonly fixtureCtx:any;
+    private ctx:any;
+    private fixtureCtx:any;
 
-    private readonly currentRoleId:any;
+    private currentRoleId:any;
     private readonly usedRoleStates:any;
 
     private readonly errs:any;
 
     private readonly lastDriverStatusId:any;
-    private readonly lastDriverStatusResponse:any;
+    private lastDriverStatusResponse:any;
 
-    private readonly fileDownloadingHandled:any;
-    private readonly resolveWaitForFileDownloadingPromise:any;
+    private fileDownloadingHandled:any;
+    private resolveWaitForFileDownloadingPromise:any;
 
-    private readonly addingDriverTasksCount:any;
+    private addingDriverTasksCount:any;
 
-    private readonly debugging:any;
+    private debugging:any;
     private readonly debugOnFail:any;
-    private readonly disableDebugBreakpoints:any;
+    private disableDebugBreakpoints:any;
     private readonly debugReporterPluginHost:any;
 
     private readonly browserManipulationQueue:any;
 
     private readonly debugLog:any;
 
-    private readonly quarantine:any;
-
-
-
+    private quarantine:any;
     private readonly requestHooks:any;
 
-
+    private disconnected: boolean;
 
     constructor (test, browserConnection, screenshotCapturer, globalWarningLog, opts) {
         super();
