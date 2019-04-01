@@ -57,7 +57,7 @@ export default class TestRun extends AsyncEventEmitter {
 
     private readonly opts: any;
     private readonly test:any;
-    private readonly browserConnection: BrowserConnection;
+    readonly browserConnection: BrowserConnection;
 
     phase:any;
 
@@ -69,7 +69,7 @@ export default class TestRun extends AsyncEventEmitter {
     speed:any;
     pageLoadTimeout:any;
 
-    private readonly disablePageReloads:any;
+    readonly disablePageReloads:any;
 
     private readonly session:any;
 

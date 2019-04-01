@@ -2,9 +2,10 @@ import TestController from './test-controller';
 import testRunTracker from './test-run-tracker';
 import TestCafeErrorList from '../errors/error-list';
 import { MissingAwaitError } from '../errors/test-run';
+import TestRun from '../test-run';
 
 export default function wrapTestFunction (fn) {
-    return async testRun => {
+    return async (testRun: TestRun) => {
         let result       = null;
         const errList    = new TestCafeErrorList();
         const markeredfn = testRunTracker.addTrackingMarkerToFunction(testRun.id, fn);

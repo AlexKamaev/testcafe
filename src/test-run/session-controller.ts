@@ -1,11 +1,16 @@
 import path from 'path';
 import { Session } from 'testcafe-hammerhead';
 import { UNSTABLE_NETWORK_MODE_HEADER } from '../browser/connection/unstable-network-mode';
+import TestRun from './index';
 
 
 const ACTIVE_SESSIONS_MAP = {};
 
 export default class SessionController extends Session {
+    private readonly currentTestRun: TestRun;
+    private readonly requireStateSwitch: any;
+    private readonly pendingStateSnapshot: any;
+
     constructor (uploadsRoot) {
         super(uploadsRoot);
 
@@ -55,7 +60,7 @@ export default class SessionController extends Session {
         }
     }
     // API
-    static getSession (testRun) {
+    static getSession (testRun: TestRun) {
         let sessionInfo = ACTIVE_SESSIONS_MAP[testRun.browserConnection.id];
 
         if (!sessionInfo || !testRun.disablePageReloads) {
