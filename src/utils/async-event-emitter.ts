@@ -2,7 +2,7 @@ import Emittery from 'emittery/legacy';
 import Promise from 'pinkie';
 
 export default class AsyncEventEmitter extends Emittery {
-    once (event: string, listener: Function) {
+    once (event: string, listener: () => void = null): Promise<any> {
         return new Promise((resolve, reject) => {
             const off = this.on(event, function (data) {
                 try {

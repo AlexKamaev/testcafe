@@ -30,7 +30,7 @@ export default class BrowserConnection extends EventEmitter {
     private readonly browserInfo: any;
 
 
-    private readonly provider : any;
+    readonly provider : any;
 
     readonly permanent: boolean;
     private closing: boolean;

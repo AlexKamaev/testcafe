@@ -15,9 +15,24 @@ import {
     CurrentIframeIsNotLoadedError
 } from '../errors/test-run';
 
+import TestRun from './index';
+
 
 export default class TestRunBookmark {
-    constructor (testRun, role) {
+
+    private readonly testRun: TestRun;
+    private readonly role: any;
+
+    private url: any;
+    private readonly dialogHandler: any;
+    private readonly iframeSelector: any;
+    private readonly speed: any;
+    private readonly pageLoadTimeout: any;
+    private readonly ctx: any;
+    private readonly fixtureCtx: any;
+    private readonly consoleMessages: any;
+
+    constructor (testRun: TestRun, role) {
         this.testRun = testRun;
         this.role    = role;
 

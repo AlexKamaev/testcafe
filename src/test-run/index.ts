@@ -59,28 +59,28 @@ export default class TestRun extends AsyncEventEmitter {
     private readonly test:any;
     private readonly browserConnection: BrowserConnection;
 
-    private phase:any;
+    phase:any;
 
     private driverTaskQueue:any;
     private testDoneCommandQueued:any;
 
-    private activeDialogHandler:any;
-    private activeIframeSelector:any;
-    private speed:any;
-    private pageLoadTimeout:any;
+    activeDialogHandler:any;
+    activeIframeSelector:any;
+    speed:any;
+    pageLoadTimeout:any;
 
     private readonly disablePageReloads:any;
 
     private readonly session:any;
 
-    private consoleMessages:any;
+    consoleMessages:any;
 
     private pendingRequest:any;
     private pendingPageError:any;
 
     private readonly controller:any;
-    private ctx:any;
-    private fixtureCtx:any;
+    ctx:any;
+    fixtureCtx:any;
 
     private currentRoleId:any;
     private readonly usedRoleStates:any;
@@ -386,7 +386,7 @@ export default class TestRun extends AsyncEventEmitter {
         });
     }
 
-    addError (err, screenshotPath) {
+    addError (err, screenshotPath = '') {
         const errList = err instanceof TestCafeErrorList ? err.items : [err];
 
         errList.forEach(item => {
@@ -420,7 +420,7 @@ export default class TestRun extends AsyncEventEmitter {
         return this.consoleMessages.getCopy();
     }
 
-    async _enqueueSetBreakpointCommand (callsite, error) {
+    async _enqueueSetBreakpointCommand (callsite, error = null) {
         if (this.browserConnection.isHeadlessBrowser()) {
             this.warningLog.addWarning(WARNING_MESSAGE.debugInHeadlessError);
             return;
@@ -505,7 +505,7 @@ export default class TestRun extends AsyncEventEmitter {
 
         if (!currentTaskRejectedByError && driverStatus.isCommandResult) {
             if (isTestDone) {
-                this._resolveCurrentDriverTask();
+                this._resolveCurrentDriverTask(null);
 
                 return TEST_DONE_CONFIRMATION_RESPONSE;
             }
@@ -596,7 +596,7 @@ export default class TestRun extends AsyncEventEmitter {
             await this._enqueueSetBreakpointCommand(callsite);
     }
 
-    async executeCommand (command, callsite) {
+    async executeCommand (command, callsite = null) {
         this.debugLog.command(command);
 
         if (this.pendingPageError && isCommandRejectableByPageError(command))
@@ -631,7 +631,7 @@ export default class TestRun extends AsyncEventEmitter {
             return this._executeAssertion(command, callsite);
 
         if (command.type === COMMAND_TYPE.executeExpression)
-            return await this._executeExpression(command, callsite);
+            return await this._executeExpression(command);
 
         if (command.type === COMMAND_TYPE.getBrowserConsoleMessages)
             return await this._enqueueBrowserConsoleMessagesCommand(command, callsite);
