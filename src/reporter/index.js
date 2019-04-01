@@ -103,7 +103,7 @@ export default class Reporter {
             reportItem.screenshots    = this.task.screenshots.getScreenshotsInfo(testRun.test);
         }
 
-        if (testRun.quarantine) {
+        if (testRun.getQuarantineInfo()) {
             reportItem.quarantine = testRun.quarantine.attempts.reduce((result, errors, index) => {
                 const passed            = !errors.length;
                 const quarantineAttempt = index + 1;

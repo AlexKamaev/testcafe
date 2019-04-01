@@ -1,133 +1,93 @@
 import path from 'path';
 import { Session } from 'testcafe-hammerhead';
 import { UNSTABLE_NETWORK_MODE_HEADER } from '../browser/connection/unstable-network-mode';
-import TestRun from './index';
-
-
 const ACTIVE_SESSIONS_MAP = {};
-
 export default class SessionController extends Session {
-    private readonly currentTestRun: TestRun;
-    private requireStateSwitch: any;
-    private pendingStateSnapshot: any;
-
-    constructor (uploadsRoot) {
+    constructor(uploadsRoot) {
         super(uploadsRoot);
-
         this.currentTestRun = null;
     }
-
     // Hammerhead payload
-    _getPayloadScript () {
+    _getPayloadScript() {
         return this.currentTestRun._getPayloadScript();
     }
-
-    _getIframePayloadScript () {
+    _getIframePayloadScript() {
         return this.currentTestRun._getIframePayloadScript();
     }
-
-
     // Hammerhead handlers
-    handleServiceMessage (msg, serverInfo) {
+    handleServiceMessage(msg, serverInfo) {
         if (this.currentTestRun[msg.cmd])
             return super.handleServiceMessage.call(this.currentTestRun, msg, serverInfo);
-
         return super.handleServiceMessage(msg, serverInfo);
     }
-
-    getAuthCredentials () {
+    getAuthCredentials() {
         return this.currentTestRun.getAuthCredentials();
     }
-
-    handleFileDownload () {
+    handleFileDownload() {
         return this.currentTestRun.handleFileDownload();
     }
-
-    handlePageError (ctx, err) {
+    handlePageError(ctx, err) {
         return this.currentTestRun.handlePageError(ctx, err);
     }
-
-    onPageRequest (ctx) {
-        const requireStateSwitch   = this.requireStateSwitch;
+    onPageRequest(ctx) {
+        const requireStateSwitch = this.requireStateSwitch;
         const pendingStateSnapshot = this.pendingStateSnapshot;
-
         super.onPageRequest(ctx);
-
         if (requireStateSwitch && ctx.req.headers[UNSTABLE_NETWORK_MODE_HEADER]) {
             this.requireStateSwitch = true;
-
             this.pendingStateSnapshot = pendingStateSnapshot;
         }
     }
     // API
-    static getSession (testRun: TestRun) {
+    static getSession(testRun) {
         let sessionInfo = ACTIVE_SESSIONS_MAP[testRun.browserConnection.id];
-
         if (!sessionInfo || !testRun.disablePageReloads) {
             if (sessionInfo && sessionInfo.url)
                 SessionController.closeSession(testRun);
-
             let session = null;
-
             if (testRun.test.isLegacy)
                 session = testRun;
             else {
                 session = new SessionController(path.dirname(testRun.test.fixture.path));
-
                 session.currentTestRun = testRun;
             }
-
             sessionInfo = {
                 session: session,
-                proxy:   null,
-                url:     null
+                proxy: null,
+                url: null
             };
-
             ACTIVE_SESSIONS_MAP[testRun.browserConnection.id] = sessionInfo;
         }
         else if (!testRun.test.isLegacy)
             sessionInfo.session.currentTestRun = testRun;
-
         return sessionInfo.session;
     }
-
-    static getSessionUrl (testRun, proxy) {
+    static getSessionUrl(testRun, proxy) {
         let sessionInfo = ACTIVE_SESSIONS_MAP[testRun.browserConnection.id];
-
         if (!sessionInfo || testRun.test.isLegacy) {
             SessionController.getSession(testRun);
-
             sessionInfo = ACTIVE_SESSIONS_MAP[testRun.browserConnection.id];
         }
-
         if (!sessionInfo.url) {
-            const pageUrl             = testRun.test.pageUrl;
-            const externalProxyHost   = testRun.opts.proxy;
+            const pageUrl = testRun.test.pageUrl;
+            const externalProxyHost = testRun.opts.proxy;
             let externalProxySettings = null;
-
             if (externalProxyHost) {
                 externalProxySettings = {
-                    url:         externalProxyHost,
+                    url: externalProxyHost,
                     bypassRules: testRun.opts.proxyBypass
                 };
             }
-
             sessionInfo.proxy = proxy;
-            sessionInfo.url   = proxy.openSession(pageUrl, sessionInfo.session, externalProxySettings);
+            sessionInfo.url = proxy.openSession(pageUrl, sessionInfo.session, externalProxySettings);
         }
-
         return sessionInfo.url;
     }
-
-    static closeSession (testRun) {
+    static closeSession(testRun) {
         const sessionInfo = ACTIVE_SESSIONS_MAP[testRun.browserConnection.id];
-
         if (!sessionInfo || !sessionInfo.url || !sessionInfo.proxy)
             return;
-
         sessionInfo.proxy.closeSession(sessionInfo.session);
-
         delete ACTIVE_SESSIONS_MAP[testRun.browserConnection.id];
     }
 }
-
