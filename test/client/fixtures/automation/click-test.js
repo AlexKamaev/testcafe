@@ -318,7 +318,7 @@ $(document).ready(function () {
             backgroundColor: '#ff0000'
         });
 
-        window.scrollTo(0, 5050);
+        hammerhead.nativeMethods.scrollTo.call(window, 0, 5050);
 
         const click = new ClickAutomation(target[0], {
             offsetX: 10,
