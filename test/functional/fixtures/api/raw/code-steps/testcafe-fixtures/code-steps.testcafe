@@ -60,6 +60,14 @@
                         "expression": "(async function() { await t.expect(value).eql(123); })"
                     }
                 ]
+            },
+            {
+                "name": "Error",
+                "commands": [{
+                        "type": "execute-node-expression",
+                        "expression": "(async function() { u; })"
+                    }
+                ]
             }
         ]
     }]

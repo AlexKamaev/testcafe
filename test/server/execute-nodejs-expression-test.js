@@ -31,10 +31,9 @@ ${expression}
 }
 
 async function assertError (expression, expectedMessage, expectedLine, expectedColumn) {
-    try {
+
         await executeExpression(expression);
-    }
-    catch (err) {
+
         expect(err.message).eql(expectedMessage);
 
         const result = err.stack.match(ERROR_LINE_COLUMN_REGEXP);
@@ -46,10 +45,9 @@ async function assertError (expression, expectedMessage, expectedLine, expectedC
 
         expect(line).eql(expectedLine);
         expect(column).eql(expectedColumn);
-    }
 }
 
-describe('Code steps', () => {
+describe.only('Code steps', () => {
     it('basic', async () => {
         const res = await executeExpression('return 1+1;');
 
@@ -57,6 +55,9 @@ describe('Code steps', () => {
     });
 
     it('error', async () => {
+
+        debugger;
+
         await assertError('u;', 'u is not defined', 1, 1);
 
         await assertError(

@@ -12,7 +12,8 @@ import {
     RequestHookUnhandledError,
     PageLoadError,
     RequestHookNotImplementedMethodError,
-    RoleSwitchInRoleInitializerError
+    RoleSwitchInRoleInitializerError,
+    ActionExecuteNodeJSExpressionError
 } from '../errors/test-run/';
 import PHASE from './phase';
 import CLIENT_MESSAGES from './client-messages';
@@ -531,11 +532,10 @@ export default class TestRun extends AsyncEventEmitter {
         return isAsyncExpression ? await result : result;
     }
 
-    async _executeNodeExpression (command) {
+    async _executeNodeExpression (command, callsite) {
         const expression = command.expression;
-        const result     = executeNodeJsExpression(expression, this);
 
-        return await result;
+        return await executeNodeJsExpression(expression, this, callsite);
     }
 
     async _executeAssertion (command, callsite) {

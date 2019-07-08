@@ -10,4 +10,8 @@ describe('[Raw API] Code steps', function () {
     it('Require', function () {
         return runTests('./testcafe-fixtures/code-steps.testcafe', 'Require');
     });
+
+    it.only('Error', function () {
+        return runTests('./testcafe-fixtures/code-steps.testcafe', 'Error');
+    })
 });
