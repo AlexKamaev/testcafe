@@ -1,0 +1,144 @@
+{
+    "fixtures": [{
+        "name": "New Fixture",
+        "pageUrl": "http://google.com",
+        "tests": [{
+            "name": "New Test",
+            "commands": [{
+                "callsite": "1",
+                "options": {},
+                "selector": {
+                    "type": "js-expr",
+                    "value": "Selector('#tsf').find('[name=\"q\"]')"
+                },
+                "studio": {
+                    "offsetX": null,
+                    "offsetY": null,
+                    "selectors": [{
+                        "rawSelector": {
+                            "type": "js-expr",
+                            "value": "Selector('#tsf').find('[name=\"q\"]')"
+                        },
+                        "ruleType": "form-input"
+                    }, {
+                        "rawSelector": {
+                            "type": "js-expr",
+                            "value": "Selector('[name=\"q\"][title=\"Поиск\"].gLFyf.gsfi[data-ved=\"0ahUKEwjVpoz-xpPjAhVpxKYKHQdfAhgQ39UDCAQ\"]')"
+                        },
+                        "ruleType": "attr"
+                    }, {
+                        "rawSelector": {
+                            "type": "js-expr",
+                            "value": "Selector('#tsf').find('[name=\"q\"][title=\"Поиск\"].gLFyf.gsfi[data-ved=\"0ahUKEwjVpoz-xpPjAhVpxKYKHQdfAhgQ39UDCAQ\"]')"
+                        },
+                        "ruleType": "id-attr"
+                    }, {
+                        "rawSelector": {
+                            "type": "js-expr",
+                            "value": "Selector('.a4bIc').find('[name=\"q\"][title=\"Поиск\"].gLFyf.gsfi[data-ved=\"0ahUKEwjVpoz-xpPjAhVpxKYKHQdfAhgQ39UDCAQ\"]')"
+                        },
+                        "ruleType": "attr-attr"
+                    }, {
+                        "rawSelector": {
+                            "type": "js-expr",
+                            "value": "Selector('.a4bIc').find('input')"
+                        },
+                        "ruleType": "attr-dom"
+                    }, {
+                        "rawSelector": {
+                            "type": "js-expr",
+                            "value": "Selector('#tsf').find('div').nth(1).find('div').find('div').find('div').find('div').find('input')"
+                        },
+                        "ruleType": "id-dom"
+                    }, {
+                        "rawSelector": {
+                            "type": "js-expr",
+                            "value": "Selector('body').find('div').find('div').nth(3).find('form').find('div').nth(1).find('div').find('div').find('div').find('div').find('input')"
+                        },
+                        "ruleType": "dom"
+                    }],
+                    "useOffsets": false
+                },
+                "text": "test",
+                "type": "type-text"
+            }, {
+                "callsite": "2",
+                "studio": {},
+                "type": "take-screenshot"
+            }, {
+                "type": "execute-expression",
+                "studio": {
+                    "expressionCommandType": "define-element-selector",
+                    "selectorType": "CSS Selector",
+                    "selectors": []
+                },
+                "callsite": "3",
+                "resultVariableName": "InputSelector",
+                "expression": "Selector('input').filterVisible()"
+            }, {
+                "type": "click",
+                "studio": {
+                    "selectorType": "Element Selector",
+                    "selectors": []
+                },
+                "callsite": "4",
+                "selector": {
+                    "type": "js-expr",
+                    "value": "Selector(InputSelector)"
+                },
+                "options": {}
+            }, {
+                "type": "execute-expression",
+                "studio": {
+                    "expressionCommandType": "define-element-selector",
+                    "selectorType": "Element Selector",
+                    "selectors": []
+                },
+                "callsite": "5",
+                "resultVariableName": "InputSelectorChild",
+                "expression": "Selector(InputSelector)"
+            }, {
+                "type": "type-text",
+                "studio": {
+                    "selectorType": "Element Selector",
+                    "selectors": []
+                },
+                "callsite": "6",
+                "selector": {
+                    "type": "js-expr",
+                    "value": "Selector(InputSelectorChild)"
+                },
+                "options": {
+                    "replace": true
+                },
+                "text": "Kekeke"
+            }, {
+                "type": "execute-expression",
+                "studio": {
+                    "expressionCommandType": "define-function"
+                },
+                "callsite": "7",
+                "resultVariableName": "MyCustomClientFunction",
+                "expression": "ClientFunction(() => {\n    document.body.style.backgroundColor = 'red';\n    return \n})"
+            },
+            {
+                            "type": "execute-node-expression",
+                            "studio": {
+                                "expressionCommandType": "define-function"
+                            },
+                            "callsite": "7",
+                            "resultVariableName": "MyCustomClientFunction",
+                            "expression": "const w = 500; let q = 4; q++;debugger; console.log(q);"
+                        },
+                        {
+                                                    "type": "execute-node-expression",
+                                                    "studio": {
+                                                        "expressionCommandType": "define-function"
+                                                    },
+                                                    "callsite": "7",
+                                                    "resultVariableName": "MyCustomClientFunction",
+                                                    "expression": "debugger;q++;"
+                                                }]
+        }]
+    }]
+}

@@ -1,0 +1,66 @@
+{
+    "fixtures": [{
+        "name": "Code steps",
+        "pageUrl": "http://localhost:3000/fixtures/api/raw/code-steps/pages/index.html",
+        "tests": [{
+                "name": "Basic",
+                "commands": [{
+                        "type": "execute-expression",
+                        "studio": {
+                            "expressionCommandType": "define-function"
+                        },
+                        "resultVariableName": "IsButtonClicked",
+                        "expression": "ClientFunction(() => { return window.clicked; })"
+                    },
+                    {
+                        "type": "execute-node-expression",
+                        "expression": "(async function() { await t.click('button'); })"
+                    },
+                    {
+                        "type": "assertion",
+                        "studio": {
+                            "assertionMode": "checkFunction",
+                            "selectorType": "Function",
+                            "selectors": [],
+                            "selectorPostfix": ""
+                        },
+                        "assertionType": "eql",
+                        "actual": {
+                            "type": "js-expr",
+                            "value": "IsButtonClicked()"
+                        },
+                        "options": {},
+                        "expected": {
+                            "type": "js-expr",
+                            "value": "true"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "Shared context",
+                "commands": [{
+                        "type": "execute-node-expression",
+                        "expression": "(async function() { t.ctx.customProp = 1; })"
+                    },
+                    {
+                        "type": "execute-node-expression",
+                        "expression": "(async function() { await t.expect(t.ctx.customProp).eql(1); })"
+                    }
+                ]
+            },
+            {
+                "name": "Require",
+                "commands": [{
+                        "type": "execute-node-expression",
+                        "expression": "(async function() { value = require('./module').CUSTOM_VALUE; })"
+                    },
+                    {
+                        "type": "execute-node-expression",
+                        "expression": "(async function() { await t.expect(value).eql(123); })"
+                    }
+                ]
+            }
+        ]
+    }]
+}
