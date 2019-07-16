@@ -1,20 +1,17 @@
-import { runInThisContext } from 'vm';
+import { runInThisContext, runInNewContext } from 'vm';
 import Module from 'module';
 import { dirname } from 'path';
 import { ExecuteNodeExpressionError } from '../errors/test-run';
 
 const ERROR_LINE_COLUMN_REGEXP = /:(\d+):(\d+)/;
-const ERROR_LINE_OFFSET        = -2;
+const ERROR_LINE_OFFSET        = -1;
 const ERROR_COLUMN_OFFSET      = -4;
 
 // NOTE: do not beautify this code since offsets for for error lines and columns are coded here
 function wrapModule (expression) {
-    return '(function(require, t, __filename, __dirname){\n' +
-                'const res = (async function() {\n' +
-                 expression + ';\n' +
-                '});\n' +
-                'return res;\n' +
-            '});';
+    return '(async function() {\n' +
+           expression + ';\n' +
+           '});';
 }
 
 function getErrorLineColumn (err) {
@@ -50,14 +47,25 @@ export default async function (expression, testRun, callsite) {
     const filename = testRun.test.testFile.filename;
     const dirName  = dirname(filename);
 
-    const fn = runInThisContext(wrapModule(expression), {
-        filename:     formatExpression(expression),
-        lineOffset:   ERROR_LINE_OFFSET,
-        columnOffset: ERROR_COLUMN_OFFSET
+    const proxyHandler = {
+        require:    createRequire(filename),
+        __filename: filename,
+        __dirname:  dirName,
+        t:          testRun.controller
+    };
+
+    const proxy = new Proxy(global, {
+        get: (target, property) => {
+            return proxyHandler[property] || target[property];
+        }
     });
 
     try {
-        return await fn(createRequire(filename), testRun.controller, filename, dirName)();
+        return await runInNewContext(wrapModule(expression), proxy, {
+            filename:     formatExpression(expression),
+            lineOffset:   ERROR_LINE_OFFSET,
+            columnOffset: ERROR_COLUMN_OFFSET
+        })();
     }
     catch (err) {
         const { line, column } = getErrorLineColumn(err);

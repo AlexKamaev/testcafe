@@ -28,7 +28,7 @@ async function executeExpression (expression, testRun = createTestRunMock()) {
     }, callsite.toString());
 }
 
-async function assertError (expression, expectedMessage, expectedLine, expectedColumn, expectedCallsite) {
+async function assertError (expression, expectedMessage, expectedLine, expectedColumn) {
     const WHITE_SPACES_REGEXP = /\s/g;
 
     try {
@@ -38,12 +38,12 @@ async function assertError (expression, expectedMessage, expectedLine, expectedC
         expect(err.errMsg).eql(expectedMessage);
         expect(err.line).eql(expectedLine);
         expect(err.column).eql(expectedColumn);
-        expect(err.callsite).eql(expectedCallsite);
+        expect(err.callsite).eql(callsite.toString());
         expect(err.errStack.replace(WHITE_SPACES_REGEXP, '')).contains(expression.replace(WHITE_SPACES_REGEXP, ''));
     }
 }
 
-describe('Code steps', () => {
+describe.only('Code steps', () => {
     beforeEach(() => {
         callsite = 0;
     });
@@ -156,15 +156,22 @@ describe('Code steps', () => {
 
     it('globals', async () => {
         const result = await executeExpression(`
-            Buffer.from('test');
+        debugger;
+            // Buffer.from('test');
+            //
+            // const timeout    = setTimeout(function () {});
+            // const immediate  = setImmediate(function () {});
+            // const interval   = setInterval(function () {});
+            //
+            // clearTimeout(timeout);
+            // clearImmediate(immediate);
+            // clearInterval(interval);
             
-            const timeout    = setTimeout(function () {});
-            const immediate  = setImmediate(function () {});
-            const interval   = setInterval(function () {});
-            
-            clearTimeout(timeout);
-            clearImmediate(immediate);
-            clearInterval(interval);
+            const sdfasdf = zopa123;
+            const kekele = __dirname;
+            const q1 = __filename;
+            const q2 = t;
+               
             
             return { __dirname, __filename };
         `);
