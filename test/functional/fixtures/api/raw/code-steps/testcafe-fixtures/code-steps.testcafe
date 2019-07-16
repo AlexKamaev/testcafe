@@ -71,6 +71,41 @@
                         "callsite": "1"
                     }
                 ]
+            },
+            {
+                "name": "Selectors",
+              "commands": [{
+                "type": "execute-expression",
+                "studio": {
+                  "expressionCommandType": "define-function"
+                },
+                "resultVariableName": "IsButtonClicked",
+                "expression": "ClientFunction(() => { return window.clicked; })"
+              },
+                {
+                  "type": "execute-node-expression",
+                  "expression": "await t.click(Selector('button'));"
+                },
+                {
+                  "type": "assertion",
+                  "studio": {
+                    "assertionMode": "checkFunction",
+                    "selectorType": "Function",
+                    "selectors": [],
+                    "selectorPostfix": ""
+                  },
+                  "assertionType": "eql",
+                  "actual": {
+                    "type": "js-expr",
+                    "value": "IsButtonClicked()"
+                  },
+                  "options": {},
+                  "expected": {
+                    "type": "js-expr",
+                    "value": "true"
+                  }
+                }
+              ]
             }
         ]
     }]

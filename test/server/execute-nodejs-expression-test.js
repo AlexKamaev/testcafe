@@ -1,17 +1,22 @@
 const { noop } = require('lodash');
+const nanoid   = require('nanoid');
 const expect   = require('chai').expect;
 
 const TestRun        = require('../../lib/test-run/index');
 const TestController = require('../../lib/api/test-controller');
 const COMMAND_TYPE   = require('../../lib/test-run/commands/type');
+const markerSymbol   = require('../../lib/test-run/marker-symbol');
 
 let callsite = 0;
 
 function createTestRunMock () {
     function TestRunMock () {
+        this.session    = { id: nanoid(7) };
         this.test       = { name: 'Test', testFile: { filename: __filename } };
         this.debugLog   = { command: noop };
         this.controller = new TestController(this);
+
+        this[markerSymbol] = true;
     }
 
     TestRunMock.prototype = TestRun.prototype;
@@ -156,28 +161,28 @@ describe.only('Code steps', () => {
 
     it('globals', async () => {
         const result = await executeExpression(`
-        debugger;
-            // Buffer.from('test');
-            //
-            // const timeout    = setTimeout(function () {});
-            // const immediate  = setImmediate(function () {});
-            // const interval   = setInterval(function () {});
-            //
-            // clearTimeout(timeout);
-            // clearImmediate(immediate);
-            // clearInterval(interval);
-            
-            const sdfasdf = zopa123;
-            const kekele = __dirname;
-            const q1 = __filename;
-            const q2 = t;
-               
+            Buffer.from('test');
+
+            const timeout   = setTimeout(function () {});
+            const immediate = setImmediate(function () {});
+            const interval  = setInterval(function () {});
+
+            clearTimeout(timeout);
+            clearImmediate(immediate);
+            clearInterval(interval);
             
             return { __dirname, __filename };
         `);
 
         expect(result.__dirname).eql(__dirname);
         expect(result.__filename).eql(__filename);
+    });
+
+    it('Selector/ClientFunction', async () => {
+        await executeExpression(`
+            const selector       = Selector('button');
+            const clientFunction = ClientFunction(() => {});
+        `);
     });
 
     describe('test controller', () => {
