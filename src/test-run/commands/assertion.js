@@ -3,7 +3,7 @@ import CommandBase from './base';
 import { AssertionOptions } from './options';
 import { APIError } from '../../errors/runtime';
 import { AssertionExecutableArgumentError } from '../../errors/test-run';
-import executeJsExpression from '../execute-js-expression';
+import { executeNodeJsExpression } from '../execute-node-js-expression';
 import { isJSExpression } from './utils';
 
 import { stringArgument, actionOptions, nonEmptyStringArgument } from './validations/argument';
@@ -17,7 +17,7 @@ function initAssertionOptions (name, val) {
 function initAssertionParameter (name, val, { skipVisibilityCheck, testRun }) {
     try {
         if (isJSExpression(val))
-            val = executeJsExpression(val.value, testRun, { skipVisibilityCheck });
+            val = executeNodeJsExpression(val.value, testRun, { skipVisibilityCheck });
 
         return val;
     }

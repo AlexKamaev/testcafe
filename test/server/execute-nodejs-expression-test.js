@@ -36,19 +36,26 @@ async function executeExpression (expression, testRun = createTestRunMock()) {
 async function assertError (expression, expectedMessage, expectedLine, expectedColumn) {
     const WHITE_SPACES_REGEXP = /\s/g;
 
+    let catched = false;
+
     try {
         await executeExpression(expression);
     }
     catch (err) {
+        catched = true;
+
         expect(err.errMsg).eql(expectedMessage);
         expect(err.line).eql(expectedLine);
         expect(err.column).eql(expectedColumn);
         expect(err.callsite).eql(callsite.toString());
         expect(err.errStack.replace(WHITE_SPACES_REGEXP, '')).contains(expression.replace(WHITE_SPACES_REGEXP, ''));
+        expect(err.errStack).contains('[NodeJS code]');
     }
+
+    expect(catched).eql(true);
 }
 
-describe.only('Code steps', () => {
+describe('Code steps', () => {
     beforeEach(() => {
         callsite = 0;
     });
@@ -60,12 +67,12 @@ describe.only('Code steps', () => {
     });
 
     it('error', async () => {
-        await assertError('u;', 'u is not defined', 1, 1, '1');
+        await assertError('u.t=5;', 'Cannot set property \'t\' of undefined', 1, 4, '1');
 
         await assertError(
             'let q = 3;\n' +
-            '        u;'
-            , 'u is not defined', 2, 9, '2');
+            '        u.t = 5;'
+            , 'Cannot set property \'t\' of undefined', 2, 13, '2');
 
         await assertError(
             'let q = 3;\n' +
@@ -188,7 +195,7 @@ describe.only('Code steps', () => {
     describe('test controller', () => {
         it('basic', async () => {
             await executeExpression(`
-                await t.wait(1);
+                await t.wait(10);
             `);
         });
 

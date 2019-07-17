@@ -5,7 +5,7 @@ import functionBuilderSymbol from '../../client-functions/builder-symbol';
 import CommandBase from './base';
 import { ActionOptions, ClickOptions, MouseOptions, TypeOptions, DragToElementOptions } from './options';
 import { initSelector, initUploadSelector } from './validations/initializers';
-import executeJsExpression from '../execute-js-expression';
+import { executeNodeJsExpression } from '../execute-node-js-expression';
 import { isJSExpression } from './utils';
 
 import {
@@ -50,7 +50,7 @@ function initDialogHandler (name, val, { skipVisibilityCheck, testRun }) {
     let fn;
 
     if (isJSExpression(val))
-        fn = executeJsExpression(val.value, testRun, { skipVisibilityCheck });
+        fn = executeNodeJsExpression(val.value, testRun, { skipVisibilityCheck });
     else
         fn = val.fn;
 

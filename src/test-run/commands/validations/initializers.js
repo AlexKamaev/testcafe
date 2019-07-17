@@ -2,7 +2,7 @@ import SelectorBuilder from '../../../client-functions/selectors/selector-builde
 import { ActionSelectorError } from '../../../errors/test-run';
 import { APIError } from '../../../errors/runtime';
 import { ExecuteSelectorCommand } from '../observation';
-import executeJsExpression from '../../execute-js-expression';
+import { executeNodeJsExpression } from '../../execute-node-js-expression';
 import { isJSExpression } from '../utils';
 
 export function initUploadSelector (name, val, initOptions) {
@@ -17,7 +17,7 @@ export function initSelector (name, val, { testRun, ...options }) {
 
     try {
         if (isJSExpression(val))
-            val = executeJsExpression(val.value, testRun, options);
+            val = executeNodeJsExpression(val.value, testRun, options);
 
         const { skipVisibilityCheck, ...builderOptions } = options;
 

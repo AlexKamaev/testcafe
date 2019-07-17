@@ -44,8 +44,6 @@ import { TEST_RUN_ERRORS } from '../errors/types';
 const lazyRequire                 = require('import-lazy')(require);
 const SessionController           = lazyRequire('./session-controller');
 const ClientFunctionBuilder       = lazyRequire('../client-functions/client-function-builder');
-const executeJsExpression         = lazyRequire('./execute-js-expression');
-const executeNodeExpression       = lazyRequire('./execute-node-js-expression');
 const BrowserManipulationQueue    = lazyRequire('./browser-manipulation-queue');
 const TestRunBookmark             = lazyRequire('./bookmark');
 const AssertionExecutor           = lazyRequire('../assertions/executor');
@@ -53,6 +51,7 @@ const actionCommands              = lazyRequire('./commands/actions');
 const browserManipulationCommands = lazyRequire('./commands/browser-manipulation');
 const serviceCommands             = lazyRequire('./commands/service');
 
+const { executeNodeJsExpression, executeAsyncNodeJsExpression } = lazyRequire('./execute-node-js-expression');
 
 const TEST_RUN_TEMPLATE               = read('../client/test-run/index.js.mustache');
 const IFRAME_TEST_RUN_TEMPLATE        = read('../client/test-run/iframe.js.mustache');
@@ -526,7 +525,7 @@ export default class TestRun extends AsyncEventEmitter {
         if (isAsyncExpression)
             expression = `(async () => { return ${expression}; }).apply(this);`;
 
-        const result = executeJsExpression(expression, this, { skipVisibilityCheck: false });
+        const result = executeNodeJsExpression(expression, this, { skipVisibilityCheck: false });
 
         return isAsyncExpression ? await result : result;
     }
@@ -534,7 +533,7 @@ export default class TestRun extends AsyncEventEmitter {
     async _executeNodeExpression (command, callsite) {
         const expression = command.expression;
 
-        return await executeNodeExpression(expression, this, callsite);
+        return await executeAsyncNodeJsExpression(expression, this, callsite);
     }
 
     async _executeAssertion (command, callsite) {
