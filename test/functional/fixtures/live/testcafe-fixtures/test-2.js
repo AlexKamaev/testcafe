@@ -6,8 +6,7 @@ fixture `Stops and starts 2`
         helper.watcher.emit('test-complete');
     });
 
-test('Stops and starts 1', async t => {
-    for (let i = 0; i < 10; i++) {
+test('Stops and starts 2', async t => {
+    for (let i = 0; i < 10; i++)
         await t.click('h1');
-    }
-})
+});

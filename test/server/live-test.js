@@ -32,6 +32,11 @@ class FileWatcherMock extends FileWatcher {
 
 let errors = [];
 
+class LiveModeKeyboardEventObserverMock extends LiveModeKeyboardEventObserver {
+    _listenKeyEvents () {
+    }
+}
+
 class ControllerMock extends LiveModeController {
     constructor (runner) {
         super(runner);
@@ -59,10 +64,6 @@ class ControllerMock extends LiveModeController {
     }
 }
 
-class LiveModeKeyboardEventObserverMock extends LiveModeKeyboardEventObserver {
-    _listenKeyEvents () {
-    }
-}
 
 class BootstrapperMock extends LiveModeBootstrapper {
     constructor (runner, browserConnectionGateway) {
@@ -118,9 +119,9 @@ class RunnerMock extends LiveModeRunner {
     }
 
     _validateScreenshotOptions () {
-        if (this.errorOnValidate) {
+        if (this.errorOnValidate)
             throw new Error('validationError');
-        }
+
         super._validateScreenshotOptions();
     }
 

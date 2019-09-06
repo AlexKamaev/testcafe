@@ -8,19 +8,8 @@ const LiveModeController            = require('../../../../lib/live/controller')
 const LiveModeRunner                = require('../../../../lib/live/test-runner');
 const LiveModeKeyboardEventObserver = require('../../../../lib/live/keyboard-observer');
 
-function createRunner (testcafe) {
-    const { proxy, browserConnectionGateway, configuration } = testcafe;
-
-    const runner = new RunnerMock(proxy, browserConnectionGateway, configuration.clone());
-
-    testcafe.runners.push(runner);
-
-    return runner;
-}
-
-class RunnerMock extends LiveModeRunner {
-    _createController () {
-        return new ControllerMock(this);
+class LiveModeKeyboardEventObserverMock extends LiveModeKeyboardEventObserver {
+    _listenKeyEvents () {
     }
 }
 
@@ -30,9 +19,20 @@ class ControllerMock extends LiveModeController {
     }
 }
 
-class LiveModeKeyboardEventObserverMock extends LiveModeKeyboardEventObserver {
-    _listenKeyEvents () {
+class RunnerMock extends LiveModeRunner {
+    _createController () {
+        return new ControllerMock(this);
     }
+}
+
+function createRunner (testcafe) {
+    const { proxy, browserConnectionGateway, configuration } = testcafe;
+
+    const runner = new RunnerMock(proxy, browserConnectionGateway, configuration.clone());
+
+    testcafe.runners.push(runner);
+
+    return runner;
 }
 
 let testcafe   = null;
@@ -115,7 +115,7 @@ if (config.useLocalBrowsers && !config.useHeadlessBrowsers) {
                     return liveRunner
                         .src(fixturePath)
                         .browsers(['chrome'])
-                        .run()
+                        .run();
                 });
 
             return promise;

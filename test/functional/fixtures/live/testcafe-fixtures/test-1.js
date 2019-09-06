@@ -1,5 +1,3 @@
-import helper from '../test-helper';
-
 fixture `Stops and starts 1`
     .page `../pages/index.html`
     .after(() => {
@@ -7,8 +5,7 @@ fixture `Stops and starts 1`
     });
 
 test('Stops and starts 1', async t => {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i++)
         await t.click('h1');
-    }
-})
+});
 
