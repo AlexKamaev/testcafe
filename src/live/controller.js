@@ -88,13 +88,7 @@ class LiveModeController extends EventEmitter {
 
         this.stopping = true;
 
-        const promise = this.runner ? this.runner.exit() : Promise.resolve();
-
-        return promise;
-        //
-        // return promise.then(() => {
-        //     this.stopping = false;
-        // });
+        return this.runner ? this.runner.exit() : Promise.resolve();
     }
 
     addFileToWatches (filename) {
