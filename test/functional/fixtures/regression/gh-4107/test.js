@@ -39,10 +39,10 @@ let liveRunner = null;
 if (config.useLocalBrowsers && !config.useHeadlessBrowsers) {
     describe.only('', function () {
         it('test', function () {
-            let resolve = null;
+            let finishTest = null;
 
-            const promise = new Promise(_ => {
-                resolve = _;
+            const promise = new Promise(resolve => {
+                finishTest = resolve;
             });
 
 
@@ -52,12 +52,9 @@ if (config.useLocalBrowsers && !config.useHeadlessBrowsers) {
                     liveRunner = createRunner(testcafe);
 
                     setTimeout(() => {
-
-
-
                         return liveRunner.stop()
                             .then(() => {
-                                const fixturePath = path.join(__dirname, '/testcafe-fixtures/index2.js');
+                                const fixturePath = path.join(__dirname, '/testcafe-fixtures/test-2.js');
 
                                 setTimeout(() => {
                                     liveRunner.stop();
@@ -65,27 +62,23 @@ if (config.useLocalBrowsers && !config.useHeadlessBrowsers) {
 
                                 return liveRunner
                                     .browsers(['firefox'])
-
                                     .src(fixturePath)
                                     .run()
                                     .then(() => {
                                         return testcafe.close();
                                     })
                                     .then(() => {
-                                        resolve();
-                                    })
+                                        finishTest();
+                                    });
                             });
                     }, 10000);
 
-                    const fixturePath = path.join(__dirname, '/testcafe-fixtures/index.js');
+                    const fixturePath = path.join(__dirname, '/testcafe-fixtures/test-1.js');
 
                     return liveRunner
                         .src(fixturePath)
                         .browsers(['chrome'])
                         .run()
-                        .then(() => {
-                            // console.log('run run');
-                        });
                 });
 
             return promise;
