@@ -37,7 +37,7 @@ let testcafe   = null;
 let liveRunner = null;
 
 if (config.useLocalBrowsers && !config.useHeadlessBrowsers) {
-    describe.only('', function () {
+    describe('', function () {
         it('test', function () {
             let finishTest = null;
 
