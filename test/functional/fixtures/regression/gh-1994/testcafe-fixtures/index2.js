@@ -1,5 +1,5 @@
 fixture `Getting Started`
-    .page `http://devexpress.github.io/testcafe/example`;
+    .page `http://example.com`;
 
 test('My first test', async t => {
     // Test code

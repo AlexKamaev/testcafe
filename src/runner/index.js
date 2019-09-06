@@ -51,6 +51,8 @@ export default class Runner extends EventEmitter {
     }
 
     _disposeTestedApp (testedApp) {
+        // debugger;
+
         return testedApp ? testedApp.kill().catch(e => DEBUG_LOGGER(e)) : Promise.resolve();
     }
 

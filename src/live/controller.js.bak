@@ -38,8 +38,9 @@ class LiveModeController extends EventEmitter {
     }
 
     dispose () {
-        this.fileWatcher.stop();
-
+        // this.fileWatcher.stop();
+        // process.stdin.setRawMode(false);
+        // this.rl.close();
         this.keyboardObserver.remove(this);
     }
 
@@ -90,11 +91,9 @@ class LiveModeController extends EventEmitter {
 
         const promise = this.runner ? this.runner.exit() : Promise.resolve();
 
-        return promise;
-        //
-        // return promise.then(() => {
-        //     this.stopping = false;
-        // });
+        return promise.then(() => {
+            this.stopping = false;
+        });
     }
 
     addFileToWatches (filename) {
@@ -118,7 +117,6 @@ class LiveModeController extends EventEmitter {
     _setRunning () {
         this.running    = true;
         this.restarting = false;
-        this.stopping = false;
     }
 
     _runTests (sourceChanged) {
