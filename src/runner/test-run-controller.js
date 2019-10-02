@@ -57,6 +57,8 @@ export default class TestRunController extends AsyncEventEmitter {
     constructor (test, index, proxy, screenshots, warningLog, fixtureHookController, opts) {
         super();
 
+        // debugger;
+
         this.test  = test;
         this.index = index;
         this.opts  = opts;

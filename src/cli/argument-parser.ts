@@ -45,10 +45,14 @@ interface CommandLineOptions {
     concurrency?: string | number;
     ports?: string | number[];
     providerName?: string;
-    ssl?: string | Dictionary<string | number | boolean >;
+    ssl?: string | Dictionary<string | number | boolean>;
     reporter?: string | ReporterOption[];
     videoOptions?: string | Dictionary<number | string | boolean>;
     videoEncodingOptions?: string | Dictionary<number | string | boolean>;
+    screenshots?: string | object;
+    screenshotsOnFails?: boolean;
+    screenshotPathPattern?: string;
+    screenshotsFullPage?: boolean;
 }
 
 export default class CLIArgumentParser {
@@ -163,6 +167,15 @@ export default class CLIArgumentParser {
             this.opts.fixtureMeta = await getMetaOptions('--fixture-meta', this.opts.fixtureMeta as string);
 
         this.opts.filter = getFilterFn(this.opts);
+    }
+
+    public _parseScreenshotOptions (): void {
+        // this.opts.screenshots = {
+        //     path: this.opts.screenshots,
+        //     pathPattern: this.opts.screenshotPathPattern,
+        //     takeOnFails: this.opts.screenshotsOnFails,
+        //     fullPage: this.opts.screenshotsFullPage
+        // }
     }
 
     private _parseAppInitDelay (): void {
@@ -295,6 +308,7 @@ export default class CLIArgumentParser {
         this._parseConcurrency();
         this._parseFileList();
 
+        // this._parseScreenshotOptions();
         await this._parseFilteringOptions();
         await this._parseVideoOptions();
         await this._parseSslOptions();
