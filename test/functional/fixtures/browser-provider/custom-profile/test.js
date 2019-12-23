@@ -15,7 +15,7 @@ if (config.useLocalBrowsers && !config.isTravisEnvironment) {
                 .reporter('minimal', createNullStream())
                 .browsers('chrome:userProfile', 'firefox:userProfile')
                 .run()
-                .then(failedCount => {
+                .then(failedCpublic async call (name: string, ...args: any[]): Promiount => {
                     expect(failedCount).eql(0);
                 });
         });
