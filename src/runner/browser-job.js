@@ -134,11 +134,11 @@ export default class BrowserJob extends AsyncEventEmitter {
 
             let needWaitLastTestInFixture = false;
 
-            if (incompleteReporter && incompleteReporter.test.fixture !== testRunController.test.fixture) {
-                needWaitLastTestInFixture = true;
-
-                console.log('***switch fixture and wait');
-            }
+            // if (incompleteReporter && incompleteReporter.test.fixture !== testRunController.test.fixture) {
+            //     needWaitLastTestInFixture = true;
+            //
+            //     console.log('***switch fixture and wait');
+            // }
 
 
             // const hasIncompleteReporters = !!incompleteReporter;
@@ -162,7 +162,7 @@ export default class BrowserJob extends AsyncEventEmitter {
             //     await this._prevTestRunController.donePromise;
 
             if (testRunController.test.name === 'Test 2') {
-                debugger;
+                // debugger;
             }
 
             this.testRunControllerQueue.shift();
