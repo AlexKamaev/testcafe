@@ -75,6 +75,8 @@ export default class TestRunController extends AsyncEventEmitter {
 
         if (this.opts.quarantineMode)
             this.quarantine = new Quarantine();
+
+        this.donePromise = Promise.resolve();
     }
 
     static _getTestRunCtor (test, opts) {
@@ -163,9 +165,12 @@ export default class TestRunController extends AsyncEventEmitter {
         // To keep a sequence after fixture hook execution we use completion queue.
         await this.fixtureHookController.runFixtureAfterHookIfNecessary(this.testRun);
 
+        console.log('this.done = true;');
         this.done = true;
 
         await this.emit('test-run-done');
+
+        this.reportCompleted = true;
     }
 
     async _emitTestRunStart () {
@@ -208,7 +213,7 @@ export default class TestRunController extends AsyncEventEmitter {
                 await this.emit('test-run-ready');
         });
         testRun.once('before-done', () => this._testRunBeforeDone());
-        testRun.once('done', () => this._testRunDone());
+        testRun.once('done', async () => await this._testRunDone());
         testRun.once('disconnected', () => this._testRunDisconnected(connection));
     }
 
@@ -217,6 +222,16 @@ export default class TestRunController extends AsyncEventEmitter {
     }
 
     async start (connection) {
+        // debugger;
+
+        if (this._previousTestRunPromise) {
+            console.log('await this._previousTestRunPromise');
+
+            await this._previousTestRunPromise;
+        }
+
+        console.log('test run controller: start');
+
         const testRun = await this._createTestRun(connection);
 
         const hookOk = await this.fixtureHookController.runFixtureBeforeHookIfNecessary(testRun);
@@ -229,7 +244,13 @@ export default class TestRunController extends AsyncEventEmitter {
 
         this._assignTestRunEvents(testRun, connection);
 
-        testRun.start();
+
+        console.log('set _previousTestRunPromise');
+
+        this._previousTestRunPromise = testRun.start().then(() => {
+            console.log('after _previousTestRunPromise');
+        });
+
 
         return SessionController.getSessionUrl(testRun, this.proxy);
     }

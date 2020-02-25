@@ -48,7 +48,7 @@ export default class BrowserJob extends AsyncEventEmitter {
         testRunController.on('test-run-before-done', async () => {
             await this.emit('test-run-before-done', testRunController);
         });
-        testRunController.on('test-run-done', async () => this._onTestRunDone(testRunController));
+        testRunController.on('test-run-done', async () => await this._onTestRunDone(testRunController));
 
         testRunController.on('test-action-start', async args => {
             await this.emit('test-action-start', args);
@@ -88,16 +88,24 @@ export default class BrowserJob extends AsyncEventEmitter {
     async _onTestRunDone (testRunController) {
         this.total++;
 
+        console.log(`controller test-run-done: ${testRunController.testRun.test.name}`);
+
         if (!testRunController.testRun.errs.length)
             this.passed++;
 
         while (this.completionQueue.length && this.completionQueue[0].done) {
-            testRunController = this.completionQueue.shift();
 
-            await this.emit('test-run-done', testRunController.testRun);
+            console.log(`1: ${testRunController.testRun.test.name}`);
+
+            // console.log(`controller test-run-done: ${testRunController.testRun.test.name}`);
+
+            await this.emit('test-run-done', this.completionQueue[0].testRun);
+
+            this.completionQueue.shift();
         }
 
         if (!this.completionQueue.length && !this.hasQueuedTestRuns) {
+            console.log(`2: ${testRunController.testRun.test.name}`);
             if (!this.opts.live)
                 SessionController.closeSession(testRunController.testRun);
 
@@ -120,10 +128,48 @@ export default class BrowserJob extends AsyncEventEmitter {
             const isConcurrency         = this.opts.concurrency > 1;
             const hasIncompleteTestRuns = this.completionQueue.some(controller => !controller.done);
 
-            if (isBlocked || hasIncompleteTestRuns && !isConcurrency)
+
+            const testRunController  = this.testRunControllerQueue[0];
+            const incompleteReporter = this.completionQueue.find(controller => !controller.reportCompleted);
+
+            let needWaitLastTestInFixture = false;
+
+            if (incompleteReporter && incompleteReporter.test.fixture !== testRunController.test.fixture) {
+                needWaitLastTestInFixture = true;
+
+                console.log('***switch fixture and wait');
+            }
+
+
+            // const hasIncompleteReporters = !!incompleteReporter;
+            //
+            // console.log(`hasIncompleteReporters: ${hasIncompleteReporters}`);
+
+
+            if (isBlocked || needWaitLastTestInFixture || hasIncompleteTestRuns && !isConcurrency)
                 break;
 
-            const testRunController = this.testRunControllerQueue.shift();
+
+            // debugger;
+
+
+
+//            await this.testRunControllerQueue[0]._previousTestRunPromise;
+
+            console.log('zzzzzzzzzzzzz');
+
+            // if (this._prevTestRunController)
+            //     await this._prevTestRunController.donePromise;
+
+            if (testRunController.test.name === 'Test 2') {
+                debugger;
+            }
+
+            this.testRunControllerQueue.shift();
+
+            // this._prevTestRunController = testRunController;
+
+
 
             this._addToCompletionQueue(testRunController);
 

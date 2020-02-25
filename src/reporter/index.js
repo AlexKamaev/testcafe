@@ -81,7 +81,7 @@ export default class Reporter {
         return find(this.reportQueue, i => i.test === testRun.test);
     }
 
-    async _shiftReportQueue (reportItem) {
+    async _shiftReportQueue (reportItem, testRun) {
         let currentFixture = null;
         let nextReportItem = null;
 
@@ -89,6 +89,7 @@ export default class Reporter {
             reportItem     = this.reportQueue.shift();
             currentFixture = reportItem.fixture;
 
+            console.log(`***reportTestDone: ${reportItem.test.name}`);
             await this.plugin.reportTestDone(reportItem.test.name, reportItem.testRunInfo, reportItem.test.meta);
 
             // NOTE: here we assume that tests are sorted by fixture.
@@ -96,8 +97,12 @@ export default class Reporter {
             // fixture, we can report this fixture start.
             nextReportItem = this.reportQueue[0];
 
-            if (nextReportItem && nextReportItem.fixture !== currentFixture)
+            if (nextReportItem && nextReportItem.fixture !== currentFixture) {
+                // debugger;
+
+                console.log(`***reportFixtureStart: ${nextReportItem.fixture.name} ${reportItem.test.name}`);
                 await this.plugin.reportFixtureStart(nextReportItem.fixture.name, nextReportItem.fixture.path, nextReportItem.fixture.meta);
+            }
         }
     }
 
@@ -129,7 +134,7 @@ export default class Reporter {
                 this.passed++;
         }
 
-        await this._shiftReportQueue(reportItem);
+        await this._shiftReportQueue(reportItem, testRun);
 
         reportItem.pendingTestRunDonePromise.resolve();
     }
@@ -180,8 +185,15 @@ export default class Reporter {
             reportItem.pendingStarts--;
 
             if (!reportItem.pendingStarts) {
-                if (this.plugin.reportTestStart)
+                if (this.plugin.reportTestStart) {
                     await this.plugin.reportTestStart(reportItem.test.name, reportItem.test.meta);
+
+                    // const promise = new Promise(resolve => {
+                    //     reportItem.resolve = resolve;
+                    // })
+                    //
+                    // await promise;
+                }
 
                 reportItem.pendingTestRunStartPromise.resolve();
             }
@@ -190,6 +202,7 @@ export default class Reporter {
         });
 
         task.on('test-run-done', async testRun => {
+            console.log(`task test-run-done: ` + testRun.test.name);
             const reportItem                    = this._getReportItemForTestRun(testRun);
             const isTestRunStoppedTaskExecution = !!testRun.errs.length && this.stopOnFirstFail;
 

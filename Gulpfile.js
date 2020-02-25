@@ -761,7 +761,7 @@ gulp.step('test-functional-local-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localBrowsers);
 });
 
-gulp.task('test-functional-local', gulp.series('prepare-tests', 'test-functional-local-run'));
+gulp.task('test-functional-local', gulp.series('test-functional-local-run'));
 
 gulp.step('test-functional-local-ie-run', () => {
     return testFunctional(TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localBrowsersIE);

@@ -1,12 +1,160 @@
-fixture `GH-1994 - The element that matches the specified selector is not visible`
-    .page `http://localhost:3000/fixtures/regression/gh-1994/pages/index.html`;
+import { Selector } from 'testcafe';
 
-test(`Recreate invisible element and click`, async t => {
+fixture`Fixture 1`
+    .page`https://devexpress.github.io/testcafe/example`;
+
+test('Test 1', async t => {
     await t
-        .click('#targetRecreate');
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+        // .expect(Selector('#developer-name').value).eql('Peter1');
 });
 
-test(`Remove invisible element and click`, async t => {
+test('Test 1', async t => {
     await t
-        .click('#targetRemove');
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+
+test('Test 1', async t => {
+    await t
+        .click(Selector('#developer-name'), { speed: 0.5, modifiers: { ctrl: true } })
+        .typeText(Selector('#developer-name'), 'Peter')
+        .click(Selector('#tried-test-cafe'))
+        .drag(Selector('.ui-slider-handle.ui-corner-all.ui-state-default'), 94, -2, {
+            offsetX: 8,
+            offsetY: 12
+        })
+    // .expect(Selector('#developer-name').value).eql('Peter1');
+});
+
+
+fixture`Fixture 2`
+    .page`https://devexpress.github.io/testcafe/example`;
+
+test('Test 2', async t => {
+    await t.wait(2000);
+});
+
+test('Test 2', async t => {
+    await t.wait(2000);
+});
+
+test('Test 2', async t => {
+    await t.wait(2000);
+});
+
+test('Test 2', async t => {
+    await t.wait(2000);
 });

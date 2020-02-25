@@ -101,6 +101,8 @@ export default class TestRun extends AsyncEventEmitter {
         this.ctx        = Object.create(null);
         this.fixtureCtx = null;
 
+        // this.donePromise = Promise.resolve();
+
         this.currentRoleId  = null;
         this.usedRoleStates = Object.create(null);
 
@@ -328,9 +330,19 @@ export default class TestRun extends AsyncEventEmitter {
         return true;
     }
 
+    async _waitForFixtureStartIfNeeded () {
+        return new Promise(resolve => {
+           setTimeout(resolve, 20000);
+        });
+    }
+
     async start () {
+
+        // await this._waitForFixtureStartIfNeeded();
+
         testRunTracker.activeTestRuns[this.session.id] = this;
 
+        console.log('REAL START: ' + this.test.name);
         await this.emit('start');
 
         const onDisconnected = err => this._disconnect(err);
@@ -364,7 +376,12 @@ export default class TestRun extends AsyncEventEmitter {
 
         delete testRunTracker.activeTestRuns[this.session.id];
 
+        console.log('REAL DONE: ' + this.test.name);
+
+
         await this.emit('done');
+
+        console.log('REAL DONE***: ' + this.test.name);
     }
 
     // Errors
