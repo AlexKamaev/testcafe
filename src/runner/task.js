@@ -40,7 +40,7 @@ export default class Task extends AsyncEventEmitter {
         });
 
         job.on('test-run-done', async testRun => {
-            // console.log(`job test-run-done: ${testRun.test.name}`);
+            console.log(`job test-run-done: ${testRun.test.name} ${testRun.test.id}`);
             await this.emit('test-run-done', testRun);
 
             if (this.opts.stopOnFirstFail && testRun.errs.length) {

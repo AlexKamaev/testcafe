@@ -1,4 +1,4 @@
-import { pull as remove } from 'lodash';
+import { remove } from 'lodash';
 import AsyncEventEmitter from '../utils/async-event-emitter';
 import TestRunController from './test-run-controller';
 import SessionController from '../test-run/session-controller';
@@ -25,8 +25,6 @@ export default class BrowserJob extends AsyncEventEmitter {
         this.testRunControllerQueue = tests.map((test, index) => this._createTestRunController(test, index));
 
         this.completionQueue = [];
-
-        this.reportsCompleted = [];
 
         this.connectionErrorListener = error => this._setResult(RESULT.errored, error);
 
@@ -90,30 +88,29 @@ export default class BrowserJob extends AsyncEventEmitter {
     async _onTestRunDone (testRunController) {
         this.total++;
 
-        // console.log(`controller test-run-done: ${testRunController.testRun.test.name} ${testRunController.testRun.test.id}`);
+        console.log(`controller test-run-done: ${testRunController.testRun.test.name} ${testRunController.testRun.test.id}`);
 
         if (!testRunController.testRun.errs.length)
             this.passed++;
 
-        while (this.completionQueue.length && this.completionQueue[0].done) {
-            console.log(`1: ${testRunController.testRun.test.name}`);
+        // while (this.completionQueue.length && this.completionQueue[0].done) {
+        //
+        //     console.log(`1: ${testRunController.testRun.test.name}`);
+        //
+        //     // console.log(`controller test-run-done: ${testRunController.testRun.test.name}`);
+        //
+        //     await this.emit('test-run-done', this.completionQueue[0].testRun);
+        //
+        //     this.completionQueue.shift();
+        // }
 
-            // console.log(`controller test-run-done: ${testRunController.testRun.test.name}`);
+        const done = this.completionQueue.filter(i => i.done)
 
-            testRunController = this.completionQueue.shift();
-
-            // this.reportsCompleted.push(testRunController);
-
-            this.reportsCompleted.push(testRunController);
-
-            console.log(`kekeke: ${testRunController.testRun.test.id}`);
-
-            await this.emit('test-run-done', testRunController.testRun);
-
-            remove(this.reportsCompleted, testRunController);
-
-            // this.reportsCompleted.push(testRunController);
+        for (let i = 0; i < done.length; i++) {
+            await this.emit('test-run-done', done[i].testRun);
         }
+
+        this.completionQueue = this.completionQueue.filter(i => !i.done && !i.reportCompleted);
 
         if (!this.completionQueue.length && !this.hasQueuedTestRuns) {
             console.log(`2: ${testRunController.testRun.test.name}`);
@@ -138,23 +135,18 @@ export default class BrowserJob extends AsyncEventEmitter {
             const isBlocked             = this.testRunControllerQueue[0].blocked;
             const isConcurrency         = this.opts.concurrency > 1;
             const hasIncompleteTestRuns = this.completionQueue.some(controller => !controller.done);
-            const completedTestRuns     = this.completionQueue.filter(controller => controller.done);
+
 
             const testRunController  = this.testRunControllerQueue[0];
+            const incompleteReporter = this.completionQueue.find(controller => !controller.reportCompleted);
 
             let needWaitLastTestInFixture = false;
 
-            if (this.reportsCompleted.some(c => c.test.fixture !== testRunController.test.fixture)) {
-                console.log('***switch fixture and wait: ' + this.reportsCompleted.length);
-
+            if (incompleteReporter && incompleteReporter.test.fixture !== testRunController.test.fixture) {
                 needWaitLastTestInFixture = true;
+
+                console.log('***switch fixture and wait');
             }
-            //
-            // if (incompleteReporter.test.fixture !== testRunController.test.fixture) {
-            //     needWaitLastTestInFixture = true;
-            //
-            //
-            // }
 
 
             // const hasIncompleteReporters = !!incompleteReporter;

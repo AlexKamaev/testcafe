@@ -15,6 +15,11 @@ export default class Reporter {
         this.skipped         = 0;
         this.testCount       = task.tests.filter(test => !test.skip).length;
         this.reportQueue     = Reporter._createReportQueue(task);
+
+        console.log(this.reportQueue.map(i => i.test.id));
+
+        debugger;
+
         this.stopOnFirstFail = task.opts.stopOnFirstFail;
         this.outStream       = outStream;
 
@@ -78,7 +83,13 @@ export default class Reporter {
     }
 
     _getReportItemForTestRun (testRun) {
-        return find(this.reportQueue, i => i.test === testRun.test);
+        const result = find(this.reportQueue, i => i.test === testRun.test);
+
+        if (!result) {
+            debugger;
+        }
+
+        return result;
     }
 
     async _shiftReportQueue (reportItem, testRun) {
@@ -86,22 +97,31 @@ export default class Reporter {
         let nextReportItem = null;
 
         while (this.reportQueue.length && this.reportQueue[0].testRunInfo) {
+            console.log('#################' + this.reportQueue.length);
             reportItem     = this.reportQueue.shift();
-            currentFixture = reportItem.fixture;
+            console.log('#################' + this.reportQueue.length);
 
-            console.log(`***reportTestDone: ${reportItem.test.name}`);
-            await this.plugin.reportTestDone(reportItem.test.name, reportItem.testRunInfo, reportItem.test.meta);
+            currentFixture = reportItem.fixture;
 
             // NOTE: here we assume that tests are sorted by fixture.
             // Therefore, if the next report item has a different
             // fixture, we can report this fixture start.
             nextReportItem = this.reportQueue[0];
 
-            if (nextReportItem && nextReportItem.fixture !== currentFixture) {
-                // debugger;
+            console.log(`#################before reportTestDone: ${reportItem.test.name} ${reportItem.test.id} ${this.reportQueue.length}`);
+            await this.plugin.reportTestDone(reportItem.test.name, reportItem.testRunInfo, reportItem.test.meta);
+            console.log(`#################after reportTestDone: ${reportItem.test.name} ${reportItem.test.id} ${this.reportQueue.length}`);
 
-                console.log(`***reportFixtureStart: ${nextReportItem.fixture.name} ${reportItem.test.name}`);
+
+
+            debugger;
+
+            if (nextReportItem && nextReportItem.fixture !== currentFixture) {
+                // debugger;F
+
+                console.log(`#################before reportFixtureStart: ${nextReportItem.fixture.name} ${reportItem.test.name} ${nextReportItem.test.name} ${this.reportQueue.length}`);
                 await this.plugin.reportFixtureStart(nextReportItem.fixture.name, nextReportItem.fixture.path, nextReportItem.fixture.meta);
+                console.log(`#################after reportFixtureStart: ${nextReportItem.fixture.name} ${reportItem.test.name} ${nextReportItem.test.name} ${this.reportQueue.length}`);
             }
         }
     }
@@ -202,7 +222,7 @@ export default class Reporter {
         });
 
         task.on('test-run-done', async testRun => {
-            console.log(`task test-run-done: ` + testRun.test.name);
+            console.log(`task test-run-done: ` + testRun.test.name + ' ' + testRun.test.id);
             const reportItem                    = this._getReportItemForTestRun(testRun);
             const isTestRunStoppedTaskExecution = !!testRun.errs.length && this.stopOnFirstFail;
 

@@ -1,107 +1,185 @@
+[
+  'ZILiN5j',
+  'HrEf9jI',
+  'tjRc8ij',
+  'iFZvgop',
+  '1IJ9GQr',
+  '3XQ5gyF',
+  'W2Jr7Av'
+]
 zzzzzzzzzzzzz
 ---------------reportFixtureStart: Fixture 1
 zzzzzzzzzzzzz
 test run controller: start
 set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
+REAL START: Test 1.2
+---------------reportTestStart: Test 1.2
 +++++++++++++++reportFixtureStart: Fixture 1
 test run controller: start
 set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-+++++++++++++++reportTestStart: Test 1
-+++++++++++++++reportTestStart: Test 1
-+++++++++++++++reportTestStart: Test 1
-REAL DONE: Test 1
+REAL START: Test 1.1
+---------------reportTestStart: Test 1.1
++++++++++++++++reportTestStart: Test 1.2
+REAL DONE: Test 1.2
 this.done = true;
-controller test-run-done: Test 1
-REAL DONE***: Test 1
-after _previousTestRunPromise
-REAL DONE: Test 1
-this.done = true;
-controller test-run-done: Test 1
-REAL DONE***: Test 1
+REAL DONE***: Test 1.2
 after _previousTestRunPromise
 zzzzzzzzzzzzz
 test run controller: start
 set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-REAL DONE: Test 1
+REAL START: Test 1.3
+---------------reportTestStart: Test 1.3
++++++++++++++++reportTestStart: Test 1.1
+REAL DONE: Test 1.1
 this.done = true;
-controller test-run-done: Test 1
-REAL DONE***: Test 1
+1: Test 1.1
+kekeke: ZILiN5j
+job test-run-done: Test 1.1 ZILiN5j
+task test-run-done: Test 1.1 ZILiN5j
+#################7
+#################6
+#################before reportTestDone: Test 1.1 ZILiN5j 6
+----------------reportTestDone: Test 1.1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
++++++++++++++++reportTestStart: Test 1.3
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+REAL DONE: Test 1.3
+this.done = true;
+1: Test 1.3
+kekeke: HrEf9jI
+job test-run-done: Test 1.2 HrEf9jI
+task test-run-done: Test 1.2 HrEf9jI
+#################6
+#################5
+#################before reportTestDone: Test 1.2 HrEf9jI 5
+----------------reportTestDone: Test 1.2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+++++++++++++++++reportTestDone: Test 1.1
+#################after reportTestDone: Test 1.1 ZILiN5j 5
+1: Test 1.1
+kekeke: tjRc8ij
+job test-run-done: Test 1.3 tjRc8ij
+task test-run-done: Test 1.3 tjRc8ij
+#################5
+#################4
+#################before reportTestDone: Test 1.3 tjRc8ij 4
+----------------reportTestDone: Test 1.3
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+++++++++++++++++reportTestDone: Test 1.2
+#################after reportTestDone: Test 1.2 HrEf9jI 4
+REAL DONE***: Test 1.3
+after _previousTestRunPromise
+***switch fixture and wait: 1
+++++++++++++++++reportTestDone: Test 1.3
+#################after reportTestDone: Test 1.3 tjRc8ij 4
+#################before reportFixtureStart: Fixture 2 Test 1.3 Test 2.1 4
+---------------reportFixtureStart: Fixture 2
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
++++++++++++++++reportFixtureStart: Fixture 2
+#################after reportFixtureStart: Fixture 2 Test 1.3 Test 2.1 4
+REAL DONE***: Test 1.1
 after _previousTestRunPromise
 zzzzzzzzzzzzz
 test run controller: start
 set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-+++++++++++++++reportTestStart: Test 1
-REAL DONE: Test 1
-this.done = true;
-controller test-run-done: Test 1
-1: Test 1
-task test-run-done: Test 1
-***reportTestDone: Test 1
-----------------reportTestDone: Test 1
+REAL START: Test 2.1
+---------------reportTestStart: Test 2.1
 zzzzzzzzzzzzz
 test run controller: start
 set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-+++++++++++++++reportTestStart: Test 1
-+++++++++++++++reportTestStart: Test 1
-+++++++++++++++reportTestStart: Test 1
-REAL DONE: Test 1
+REAL START: Test 2.2
+---------------reportTestStart: Test 2.2
++++++++++++++++reportTestStart: Test 2.1
++++++++++++++++reportTestStart: Test 2.2
+REAL DONE: Test 2.1
 this.done = true;
-controller test-run-done: Test 1
-1: Test 1
-task test-run-done: Test 1
-++++++++++++++++reportTestDone: Test 1
-1: Test 1
-task test-run-done: Test 1
-***reportTestDone: Test 1
-----------------reportTestDone: Test 1
-+++++++++++++++reportTestStart: Test 1
+1: Test 2.1
+kekeke: iFZvgop
+job test-run-done: Test 2.1 iFZvgop
+task test-run-done: Test 2.1 iFZvgop
+#################4
+#################3
+#################before reportTestDone: Test 2.1 iFZvgop 3
+----------------reportTestDone: Test 2.1
 zzzzzzzzzzzzz
 test run controller: start
 set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-REAL DONE: Test 1
+REAL START: Test 2.3
+---------------reportTestStart: Test 2.3
+REAL DONE: Test 2.2
 this.done = true;
-controller test-run-done: Test 1
-1: Test 1
-task test-run-done: Test 1
-REAL DONE: Test 1
-this.done = true;
-controller test-run-done: Test 1
-1: Test 1
-task test-run-done: Test 1
+1: Test 2.2
+kekeke: 1IJ9GQr
+job test-run-done: Test 2.2 1IJ9GQr
+task test-run-done: Test 2.2 1IJ9GQr
+#################3
+#################2
+#################before reportTestDone: Test 2.2 1IJ9GQr 2
+----------------reportTestDone: Test 2.2
 zzzzzzzzzzzzz
 test run controller: start
 set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
-REAL START: Test 1
----------------reportTestStart: Test 1
+REAL START: Test 2.4
+---------------reportTestStart: Test 2.4
+++++++++++++++++reportTestDone: Test 2.1
+#################after reportTestDone: Test 2.1 iFZvgop 2
+REAL DONE***: Test 2.1
+after _previousTestRunPromise
++++++++++++++++reportTestStart: Test 2.3
+++++++++++++++++reportTestDone: Test 2.2
+#################after reportTestDone: Test 2.2 1IJ9GQr 2
+REAL DONE***: Test 2.2
+after _previousTestRunPromise
++++++++++++++++reportTestStart: Test 2.4
+REAL DONE: Test 2.3
+this.done = true;
+1: Test 2.3
+kekeke: 3XQ5gyF
+job test-run-done: Test 2.3 3XQ5gyF
+task test-run-done: Test 2.3 3XQ5gyF
+#################2
+#################1
+#################before reportTestDone: Test 2.3 3XQ5gyF 1
+----------------reportTestDone: Test 2.3
+REAL DONE: Test 2.4
+this.done = true;
+1: Test 2.4
+kekeke: W2Jr7Av
+job test-run-done: Test 2.4 W2Jr7Av
+task test-run-done: Test 2.4 W2Jr7Av
+#################1
+#################0
+#################before reportTestDone: Test 2.4 W2Jr7Av 0
+----------------reportTestDone: Test 2.4
+++++++++++++++++reportTestDone: Test 2.3
+#################after reportTestDone: Test 2.3 3XQ5gyF 0
+2: Test 2.3
+REAL DONE***: Test 2.3
+after _previousTestRunPromise
+++++++++++++++++reportTestDone: Test 2.4
+#################after reportTestDone: Test 2.4 W2Jr7Av 0
+2: Test 2.4
+REAL DONE***: Test 2.4
+after _previousTestRunPromise
