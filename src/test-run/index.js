@@ -376,12 +376,7 @@ export default class TestRun extends AsyncEventEmitter {
 
         delete testRunTracker.activeTestRuns[this.session.id];
 
-        console.log('REAL DONE: ' + this.test.name);
-
-
         await this.emit('done');
-
-        console.log('REAL DONE***: ' + this.test.name);
     }
 
     // Errors

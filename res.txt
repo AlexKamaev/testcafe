@@ -1,91 +1,152 @@
 [
-  'ZILiN5j',
-  'HrEf9jI',
-  'tjRc8ij',
-  'iFZvgop',
-  '1IJ9GQr',
-  '3XQ5gyF',
-  'W2Jr7Av'
+  'sTPCbgO', 'Kb5QSgO',
+  'SIGltrd', 'uGkx8d0',
+  'fwKhiTG', 'r4xuNq7',
+  'MBxe9s_', '2WLJRKD',
+  '3lNud0u', 'sBrVDf3',
+  '4jl5tGh', 'lI0fSnd',
+  'UjD4dAN', 'Z3llHSg',
+  '4YXdZoR'
 ]
-zzzzzzzzzzzzz
 ---------------reportFixtureStart: Fixture 1
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
+REAL START: Test 1.2
+REAL START: Test 1.1
 REAL START: Test 1.2
 ---------------reportTestStart: Test 1.2
 +++++++++++++++reportFixtureStart: Fixture 1
-test run controller: start
-set _previousTestRunPromise
 REAL START: Test 1.1
 ---------------reportTestStart: Test 1.1
 +++++++++++++++reportTestStart: Test 1.2
-REAL DONE: Test 1.2
 this.done = true;
-REAL DONE***: Test 1.2
-after _previousTestRunPromise
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
+REAL START: Test 1.3
+this.done = true;
 REAL START: Test 1.3
 ---------------reportTestStart: Test 1.3
 +++++++++++++++reportTestStart: Test 1.1
-REAL DONE: Test 1.1
 this.done = true;
 1: Test 1.1
-kekeke: ZILiN5j
-job test-run-done: Test 1.1 ZILiN5j
-task test-run-done: Test 1.1 ZILiN5j
-#################7
-#################6
-#################before reportTestDone: Test 1.1 ZILiN5j 6
+kekeke: sTPCbgO
+job test-run-done: Test 1.1 sTPCbgO
+task test-run-done: Test 1.1 sTPCbgO
+REAL START: Test 1.4
+this.done = true;
+1: Test 1.1
+kekeke: sTPCbgO
+job test-run-done: Test 1.1 sTPCbgO
+task test-run-done: Test 1.1 sTPCbgO
+#################15
+#################14
+#################before reportTestDone: Test 1.1 sTPCbgO 14
 ----------------reportTestDone: Test 1.1
-***switch fixture and wait: 1
-***switch fixture and wait: 1
+REAL START: Test 1.4
+---------------reportTestStart: Test 1.4
 +++++++++++++++reportTestStart: Test 1.3
-***switch fixture and wait: 1
-***switch fixture and wait: 1
-***switch fixture and wait: 1
-***switch fixture and wait: 1
-REAL DONE: Test 1.3
 this.done = true;
 1: Test 1.3
-kekeke: HrEf9jI
-job test-run-done: Test 1.2 HrEf9jI
-task test-run-done: Test 1.2 HrEf9jI
-#################6
-#################5
-#################before reportTestDone: Test 1.2 HrEf9jI 5
+kekeke: Kb5QSgO
+job test-run-done: Test 1.2 Kb5QSgO
+task test-run-done: Test 1.2 Kb5QSgO
+REAL START: Test 1.5
+this.done = true;
+1: Test 1.3
+kekeke: Kb5QSgO
+job test-run-done: Test 1.2 Kb5QSgO
+task test-run-done: Test 1.2 Kb5QSgO
+#################14
+#################13
+#################before reportTestDone: Test 1.2 Kb5QSgO 13
 ----------------reportTestDone: Test 1.2
-***switch fixture and wait: 2
-***switch fixture and wait: 2
+REAL START: Test 1.5
+---------------reportTestStart: Test 1.5
 ++++++++++++++++reportTestDone: Test 1.1
-#################after reportTestDone: Test 1.1 ZILiN5j 5
+#################after reportTestDone: Test 1.1 sTPCbgO 13
 1: Test 1.1
-kekeke: tjRc8ij
-job test-run-done: Test 1.3 tjRc8ij
-task test-run-done: Test 1.3 tjRc8ij
-#################5
-#################4
-#################before reportTestDone: Test 1.3 tjRc8ij 4
+kekeke: SIGltrd
+job test-run-done: Test 1.3 SIGltrd
+1: Test 1.1
+kekeke: SIGltrd
+task test-run-done: Test 1.3 SIGltrd
+job test-run-done: Test 1.3 SIGltrd
+task test-run-done: Test 1.3 SIGltrd
+#################13
+#################12
+#################before reportTestDone: Test 1.3 SIGltrd 12
 ----------------reportTestDone: Test 1.3
-***switch fixture and wait: 2
-***switch fixture and wait: 2
-***switch fixture and wait: 2
-***switch fixture and wait: 2
-***switch fixture and wait: 2
-***switch fixture and wait: 2
-***switch fixture and wait: 2
-***switch fixture and wait: 2
-***switch fixture and wait: 2
++++++++++++++++reportTestStart: Test 1.4
+this.done = true;
+1: Test 1.4
+kekeke: uGkx8d0
+job test-run-done: Test 1.4 uGkx8d0
+task test-run-done: Test 1.4 uGkx8d0
+***switch fixture and wait: 4
+***switch fixture and wait: 4
+this.done = true;
+1: Test 1.4
+kekeke: uGkx8d0
+job test-run-done: Test 1.4 uGkx8d0
+task test-run-done: Test 1.4 uGkx8d0
+#################12
+#################11
+#################before reportTestDone: Test 1.4 uGkx8d0 11
+----------------reportTestDone: Test 1.4
+***switch fixture and wait: 4
+***switch fixture and wait: 4
+***switch fixture and wait: 4
+***switch fixture and wait: 4
 ++++++++++++++++reportTestDone: Test 1.2
-#################after reportTestDone: Test 1.2 HrEf9jI 4
-REAL DONE***: Test 1.3
-after _previousTestRunPromise
-***switch fixture and wait: 1
+#################after reportTestDone: Test 1.2 Kb5QSgO 11
++++++++++++++++reportTestStart: Test 1.5
+***switch fixture and wait: 3
 ++++++++++++++++reportTestDone: Test 1.3
-#################after reportTestDone: Test 1.3 tjRc8ij 4
-#################before reportFixtureStart: Fixture 2 Test 1.3 Test 2.1 4
+#################after reportTestDone: Test 1.3 SIGltrd 11
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+this.done = true;
+1: Test 1.5
+kekeke: fwKhiTG
+job test-run-done: Test 1.5 fwKhiTG
+task test-run-done: Test 1.5 fwKhiTG
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+this.done = true;
+1: Test 1.5
+kekeke: fwKhiTG
+job test-run-done: Test 1.5 fwKhiTG
+task test-run-done: Test 1.5 fwKhiTG
+#################11
+#################10
+#################before reportTestDone: Test 1.5 fwKhiTG 10
+----------------reportTestDone: Test 1.5
+***switch fixture and wait: 2
+***switch fixture and wait: 2
+++++++++++++++++reportTestDone: Test 1.4
+#################after reportTestDone: Test 1.4 uGkx8d0 10
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+++++++++++++++++reportTestDone: Test 1.5
+#################after reportTestDone: Test 1.5 fwKhiTG 10
+#################before reportFixtureStart: Fixture 2 Test 1.5 Test 2.1 10
 ---------------reportFixtureStart: Fixture 2
 ***switch fixture and wait: 1
 ***switch fixture and wait: 1
@@ -97,89 +158,284 @@ after _previousTestRunPromise
 ***switch fixture and wait: 1
 ***switch fixture and wait: 1
 ***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
 +++++++++++++++reportFixtureStart: Fixture 2
-#################after reportFixtureStart: Fixture 2 Test 1.3 Test 2.1 4
-REAL DONE***: Test 1.1
-after _previousTestRunPromise
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
+#################after reportFixtureStart: Fixture 2 Test 1.5 Test 2.1 10
+REAL START: Test 2.1
 REAL START: Test 2.1
 ---------------reportTestStart: Test 2.1
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
+REAL START: Test 2.2
 REAL START: Test 2.2
 ---------------reportTestStart: Test 2.2
 +++++++++++++++reportTestStart: Test 2.1
 +++++++++++++++reportTestStart: Test 2.2
-REAL DONE: Test 2.1
 this.done = true;
 1: Test 2.1
-kekeke: iFZvgop
-job test-run-done: Test 2.1 iFZvgop
-task test-run-done: Test 2.1 iFZvgop
-#################4
-#################3
-#################before reportTestDone: Test 2.1 iFZvgop 3
+kekeke: r4xuNq7
+job test-run-done: Test 2.1 r4xuNq7
+task test-run-done: Test 2.1 r4xuNq7
+REAL START: Test 2.3
+this.done = true;
+1: Test 2.1
+kekeke: r4xuNq7
+job test-run-done: Test 2.1 r4xuNq7
+task test-run-done: Test 2.1 r4xuNq7
+#################10
+#################9
+#################before reportTestDone: Test 2.1 r4xuNq7 9
 ----------------reportTestDone: Test 2.1
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
 REAL START: Test 2.3
 ---------------reportTestStart: Test 2.3
-REAL DONE: Test 2.2
 this.done = true;
 1: Test 2.2
-kekeke: 1IJ9GQr
-job test-run-done: Test 2.2 1IJ9GQr
-task test-run-done: Test 2.2 1IJ9GQr
-#################3
-#################2
-#################before reportTestDone: Test 2.2 1IJ9GQr 2
+kekeke: MBxe9s_
+job test-run-done: Test 2.2 MBxe9s_
+task test-run-done: Test 2.2 MBxe9s_
+REAL START: Test 2.4
+this.done = true;
+1: Test 2.2
+kekeke: MBxe9s_
+job test-run-done: Test 2.2 MBxe9s_
+task test-run-done: Test 2.2 MBxe9s_
+#################9
+#################8
+#################before reportTestDone: Test 2.2 MBxe9s_ 8
 ----------------reportTestDone: Test 2.2
-zzzzzzzzzzzzz
-test run controller: start
-set _previousTestRunPromise
 REAL START: Test 2.4
 ---------------reportTestStart: Test 2.4
 ++++++++++++++++reportTestDone: Test 2.1
-#################after reportTestDone: Test 2.1 iFZvgop 2
-REAL DONE***: Test 2.1
-after _previousTestRunPromise
+#################after reportTestDone: Test 2.1 r4xuNq7 8
 +++++++++++++++reportTestStart: Test 2.3
 ++++++++++++++++reportTestDone: Test 2.2
-#################after reportTestDone: Test 2.2 1IJ9GQr 2
-REAL DONE***: Test 2.2
-after _previousTestRunPromise
+#################after reportTestDone: Test 2.2 MBxe9s_ 8
 +++++++++++++++reportTestStart: Test 2.4
-REAL DONE: Test 2.3
 this.done = true;
 1: Test 2.3
-kekeke: 3XQ5gyF
-job test-run-done: Test 2.3 3XQ5gyF
-task test-run-done: Test 2.3 3XQ5gyF
-#################2
-#################1
-#################before reportTestDone: Test 2.3 3XQ5gyF 1
+kekeke: 2WLJRKD
+job test-run-done: Test 2.3 2WLJRKD
+task test-run-done: Test 2.3 2WLJRKD
+REAL START: Test 2.5
+this.done = true;
+1: Test 2.3
+kekeke: 2WLJRKD
+job test-run-done: Test 2.3 2WLJRKD
+task test-run-done: Test 2.3 2WLJRKD
+#################8
+#################7
+#################before reportTestDone: Test 2.3 2WLJRKD 7
 ----------------reportTestDone: Test 2.3
-REAL DONE: Test 2.4
+REAL START: Test 2.5
+---------------reportTestStart: Test 2.5
 this.done = true;
 1: Test 2.4
-kekeke: W2Jr7Av
-job test-run-done: Test 2.4 W2Jr7Av
-task test-run-done: Test 2.4 W2Jr7Av
+kekeke: 3lNud0u
+job test-run-done: Test 2.4 3lNud0u
+task test-run-done: Test 2.4 3lNud0u
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+this.done = true;
+1: Test 2.4
+kekeke: 3lNud0u
+job test-run-done: Test 2.4 3lNud0u
+task test-run-done: Test 2.4 3lNud0u
+#################7
+#################6
+#################before reportTestDone: Test 2.4 3lNud0u 6
+----------------reportTestDone: Test 2.4
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+***switch fixture and wait: 3
+++++++++++++++++reportTestDone: Test 2.3
+#################after reportTestDone: Test 2.3 2WLJRKD 6
++++++++++++++++reportTestStart: Test 2.5
+***switch fixture and wait: 2
+++++++++++++++++reportTestDone: Test 2.4
+#################after reportTestDone: Test 2.4 3lNud0u 6
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+this.done = true;
+1: Test 2.5
+kekeke: sBrVDf3
+job test-run-done: Test 2.5 sBrVDf3
+task test-run-done: Test 2.5 sBrVDf3
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+this.done = true;
+1: Test 2.5
+kekeke: sBrVDf3
+job test-run-done: Test 2.5 sBrVDf3
+task test-run-done: Test 2.5 sBrVDf3
+#################6
+#################5
+#################before reportTestDone: Test 2.5 sBrVDf3 5
+----------------reportTestDone: Test 2.5
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+++++++++++++++++reportTestDone: Test 2.5
+#################after reportTestDone: Test 2.5 sBrVDf3 5
+#################before reportFixtureStart: Fixture 3 Test 2.5 Test 3.1 5
+---------------reportFixtureStart: Fixture 3
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
+***switch fixture and wait: 1
++++++++++++++++reportFixtureStart: Fixture 3
+#################after reportFixtureStart: Fixture 3 Test 2.5 Test 3.1 5
+REAL START: Test 3.1
+REAL START: Test 3.1
+---------------reportTestStart: Test 3.1
+REAL START: Test 3.2
+REAL START: Test 3.2
+---------------reportTestStart: Test 3.2
++++++++++++++++reportTestStart: Test 3.1
++++++++++++++++reportTestStart: Test 3.2
+this.done = true;
+1: Test 3.1
+kekeke: 4jl5tGh
+job test-run-done: Test 3.1 4jl5tGh
+task test-run-done: Test 3.1 4jl5tGh
+REAL START: Test 3.3
+this.done = true;
+1: Test 3.1
+kekeke: 4jl5tGh
+job test-run-done: Test 3.1 4jl5tGh
+task test-run-done: Test 3.1 4jl5tGh
+#################5
+#################4
+#################before reportTestDone: Test 3.1 4jl5tGh 4
+----------------reportTestDone: Test 3.1
+REAL START: Test 3.3
+---------------reportTestStart: Test 3.3
+this.done = true;
+1: Test 3.2
+kekeke: lI0fSnd
+job test-run-done: Test 3.2 lI0fSnd
+task test-run-done: Test 3.2 lI0fSnd
+REAL START: Test 3.4
+this.done = true;
+1: Test 3.2
+kekeke: lI0fSnd
+job test-run-done: Test 3.2 lI0fSnd
+task test-run-done: Test 3.2 lI0fSnd
+#################4
+#################3
+#################before reportTestDone: Test 3.2 lI0fSnd 3
+----------------reportTestDone: Test 3.2
+REAL START: Test 3.4
+---------------reportTestStart: Test 3.4
+++++++++++++++++reportTestDone: Test 3.1
+#################after reportTestDone: Test 3.1 4jl5tGh 3
++++++++++++++++reportTestStart: Test 3.3
+++++++++++++++++reportTestDone: Test 3.2
+#################after reportTestDone: Test 3.2 lI0fSnd 3
++++++++++++++++reportTestStart: Test 3.4
+this.done = true;
+1: Test 3.3
+kekeke: UjD4dAN
+job test-run-done: Test 3.3 UjD4dAN
+task test-run-done: Test 3.3 UjD4dAN
+REAL START: Test 3.5
+this.done = true;
+1: Test 3.3
+kekeke: UjD4dAN
+job test-run-done: Test 3.3 UjD4dAN
+task test-run-done: Test 3.3 UjD4dAN
+#################3
+#################2
+#################before reportTestDone: Test 3.3 UjD4dAN 2
+----------------reportTestDone: Test 3.3
+REAL START: Test 3.5
+---------------reportTestStart: Test 3.5
+this.done = true;
+1: Test 3.4
+kekeke: Z3llHSg
+job test-run-done: Test 3.4 Z3llHSg
+task test-run-done: Test 3.4 Z3llHSg
+this.done = true;
+1: Test 3.4
+kekeke: Z3llHSg
+job test-run-done: Test 3.4 Z3llHSg
+task test-run-done: Test 3.4 Z3llHSg
+#################2
+#################1
+#################before reportTestDone: Test 3.4 Z3llHSg 1
+----------------reportTestDone: Test 3.4
+++++++++++++++++reportTestDone: Test 3.3
+#################after reportTestDone: Test 3.3 UjD4dAN 1
++++++++++++++++reportTestStart: Test 3.5
+++++++++++++++++reportTestDone: Test 3.4
+#################after reportTestDone: Test 3.4 Z3llHSg 1
+this.done = true;
+1: Test 3.5
+kekeke: 4YXdZoR
+job test-run-done: Test 3.5 4YXdZoR
+task test-run-done: Test 3.5 4YXdZoR
+this.done = true;
+1: Test 3.5
+kekeke: 4YXdZoR
+job test-run-done: Test 3.5 4YXdZoR
+task test-run-done: Test 3.5 4YXdZoR
 #################1
 #################0
-#################before reportTestDone: Test 2.4 W2Jr7Av 0
-----------------reportTestDone: Test 2.4
-++++++++++++++++reportTestDone: Test 2.3
-#################after reportTestDone: Test 2.3 3XQ5gyF 0
-2: Test 2.3
-REAL DONE***: Test 2.3
-after _previousTestRunPromise
-++++++++++++++++reportTestDone: Test 2.4
-#################after reportTestDone: Test 2.4 W2Jr7Av 0
-2: Test 2.4
-REAL DONE***: Test 2.4
-after _previousTestRunPromise
+#################before reportTestDone: Test 3.5 4YXdZoR 0
+----------------reportTestDone: Test 3.5
+++++++++++++++++reportTestDone: Test 3.5
+#################after reportTestDone: Test 3.5 4YXdZoR 0
+2: Test 3.5
+2: Test 3.5

@@ -26,7 +26,7 @@ export default class BrowserJob extends AsyncEventEmitter {
 
         this.completionQueue = [];
 
-        this.reportsCompleted = [];
+        this.reportsPenging = [];
 
         this.connectionErrorListener = error => this._setResult(RESULT.errored, error);
 
@@ -102,15 +102,14 @@ export default class BrowserJob extends AsyncEventEmitter {
 
             testRunController = this.completionQueue.shift();
 
-            // this.reportsCompleted.push(testRunController);
 
-            this.reportsCompleted.push(testRunController);
+            // this.reportsPenging.push(testRunController);
 
             console.log(`kekeke: ${testRunController.testRun.test.id}`);
 
             await this.emit('test-run-done', testRunController.testRun);
 
-            remove(this.reportsCompleted, testRunController);
+            remove(this.reportsPenging, testRunController);
 
             // this.reportsCompleted.push(testRunController);
         }
@@ -137,15 +136,17 @@ export default class BrowserJob extends AsyncEventEmitter {
             // executing, so test run is temporary blocked
             const isBlocked             = this.testRunControllerQueue[0].blocked;
             const isConcurrency         = this.opts.concurrency > 1;
+
             const hasIncompleteTestRuns = this.completionQueue.some(controller => !controller.done);
+
             const completedTestRuns     = this.completionQueue.filter(controller => controller.done);
 
             const testRunController  = this.testRunControllerQueue[0];
 
             let needWaitLastTestInFixture = false;
 
-            if (this.reportsCompleted.some(c => c.test.fixture !== testRunController.test.fixture)) {
-                console.log('***switch fixture and wait: ' + this.reportsCompleted.length);
+            if (this.reportsPenging.some(c => c.test.fixture !== testRunController.test.fixture)) {
+                console.log('***switch fixture and wait: ' + this.reportsPenging.length);
 
                 needWaitLastTestInFixture = true;
             }
@@ -172,13 +173,13 @@ export default class BrowserJob extends AsyncEventEmitter {
 
 //            await this.testRunControllerQueue[0]._previousTestRunPromise;
 
-            console.log('zzzzzzzzzzzzz');
+            this.reportsPenging.push(testRunController);
 
             // if (this._prevTestRunController)
             //     await this._prevTestRunController.donePromise;
 
-            if (testRunController.test.name === 'Test 2') {
-                // debugger;
+            if (testRunController.test.name === 'Test 3.1') {
+                debugger;
             }
 
             this.testRunControllerQueue.shift();

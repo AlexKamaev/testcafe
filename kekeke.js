@@ -51,7 +51,8 @@ createTestCafe('localhost', 1337, 1338)
     .then(() => {
         return runner
             .src('D:\\Projects\\testcafe\\test\\functional\\fixtures\\regression\\gh-1994\\testcafe-fixtures\\index.js')
-            .browsers('chrome')
+            .browsers(['chrome','firefox'])
+            // .browsers('chrome')
             .reporter(customReporter)
             .concurrency(2)
             .run();

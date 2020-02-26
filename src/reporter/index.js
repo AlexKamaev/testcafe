@@ -18,7 +18,7 @@ export default class Reporter {
 
         console.log(this.reportQueue.map(i => i.test.id));
 
-        debugger;
+        // debugger;
 
         this.stopOnFirstFail = task.opts.stopOnFirstFail;
         this.outStream       = outStream;
@@ -114,7 +114,7 @@ export default class Reporter {
 
 
 
-            debugger;
+            // debugger;
 
             if (nextReportItem && nextReportItem.fixture !== currentFixture) {
                 // debugger;F

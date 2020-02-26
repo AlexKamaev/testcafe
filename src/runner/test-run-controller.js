@@ -224,13 +224,6 @@ export default class TestRunController extends AsyncEventEmitter {
     async start (connection) {
         // debugger;
 
-        if (this._previousTestRunPromise) {
-            console.log('await this._previousTestRunPromise');
-
-            await this._previousTestRunPromise;
-        }
-
-        console.log('test run controller: start');
 
         const testRun = await this._createTestRun(connection);
 
@@ -244,13 +237,7 @@ export default class TestRunController extends AsyncEventEmitter {
 
         this._assignTestRunEvents(testRun, connection);
 
-
-        console.log('set _previousTestRunPromise');
-
-        this._previousTestRunPromise = testRun.start().then(() => {
-            console.log('after _previousTestRunPromise');
-        });
-
+        testRun.start();
 
         return SessionController.getSessionUrl(testRun, this.proxy);
     }
