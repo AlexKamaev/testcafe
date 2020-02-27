@@ -165,7 +165,6 @@ export default class TestRunController extends AsyncEventEmitter {
         // To keep a sequence after fixture hook execution we use completion queue.
         await this.fixtureHookController.runFixtureAfterHookIfNecessary(this.testRun);
 
-        console.log('this.done = true;');
         this.done = true;
 
         await this.emit('test-run-done');

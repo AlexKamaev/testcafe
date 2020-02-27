@@ -330,19 +330,9 @@ export default class TestRun extends AsyncEventEmitter {
         return true;
     }
 
-    async _waitForFixtureStartIfNeeded () {
-        return new Promise(resolve => {
-           setTimeout(resolve, 20000);
-        });
-    }
-
     async start () {
-
-        // await this._waitForFixtureStartIfNeeded();
-
         testRunTracker.activeTestRuns[this.session.id] = this;
 
-        console.log('REAL START: ' + this.test.name);
         await this.emit('start');
 
         const onDisconnected = err => this._disconnect(err);
