@@ -800,6 +800,25 @@ export default class Driver extends serviceUtils.EventEmitter {
         }));
     }
 
+    _onGetCurrentWindowCommand (command) {
+        this._onReady(new DriverStatus({
+            isCommandResult: true,
+            result:          {
+                id: this.windowId
+            }
+        }));
+    }
+
+    _onSwitchToWindow (command) {
+        debugger;
+
+        this._onReady(new DriverStatus({
+            isCommandResult: true,
+            result:          {
+            }
+        }));
+    }
+
     _onBrowserManipulationCommand (command) {
         this.contextStorage.setItem(this.COMMAND_EXECUTING_FLAG, true);
 
@@ -945,6 +964,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _executeCommand (command) {
+        debugger;
+
         if (this.customCommandHandlers[command.type])
             this._onCustomCommand(command);
 
@@ -965,6 +986,12 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         else if (command.type === COMMAND_TYPE.closeWindow)
             this._onWindowCloseCommand(command);
+
+        else if (command.type === COMMAND_TYPE.getCurrentWindowCommand)
+            this._onGetCurrentWindowCommand(command);
+
+        else if (command.type === COMMAND_TYPE.switchToWindow)
+            this._onSwitchToWindow(command);
 
         else if (isBrowserManipulationCommand(command))
             this._onBrowserManipulationCommand(command);

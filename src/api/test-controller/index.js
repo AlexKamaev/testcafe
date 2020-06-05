@@ -25,6 +25,8 @@ import {
     SwitchToMainWindowCommand,
     OpenWindowCommand,
     CloseWindowCommand,
+    GetCurrentWindowCommand,
+    SwitchToWindowCommand,
     SetNativeDialogHandlerCommand,
     GetNativeDialogHistoryCommand,
     GetBrowserConsoleMessagesCommand,
@@ -275,6 +277,18 @@ export default class TestController {
 
     _closeWindow$ () {
         return this._enqueueCommand('closeWindow', CloseWindowCommand);
+    }
+
+    _getCurrentWindow$ () {
+        return this._enqueueCommand('getCurrentWindow', GetCurrentWindowCommand);
+    }
+
+    _switchToWindow$ (window) {
+        debugger;
+
+        const { id } = window;
+
+        return this._enqueueCommand('switchToWindow', SwitchToWindowCommand, { windowId: id });
     }
 
     _eval$ (fn, options) {
