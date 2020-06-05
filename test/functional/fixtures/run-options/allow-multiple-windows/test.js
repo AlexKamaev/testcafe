@@ -90,4 +90,10 @@ describe('Allow multiple windows', () => {
     it('Should continue debugging when a child window closes', () => {
         return runTests('testcafe-fixtures/debug-synchronization.js', null, { only: 'chrome', allowMultipleWindows: true });
     });
+
+    describe.only('API', () => {
+        it('test', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', null, { only: 'chrome', allowMultipleWindows: true });
+        });
+    });
 });

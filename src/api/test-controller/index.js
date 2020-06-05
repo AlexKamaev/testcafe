@@ -23,6 +23,8 @@ import {
     ClearUploadCommand,
     SwitchToIframeCommand,
     SwitchToMainWindowCommand,
+    OpenWindowCommand,
+    CloseWindowCommand,
     SetNativeDialogHandlerCommand,
     GetNativeDialogHistoryCommand,
     GetBrowserConsoleMessagesCommand,
@@ -265,6 +267,14 @@ export default class TestController {
 
     _switchToMainWindow$ () {
         return this._enqueueCommand('switchToMainWindow', SwitchToMainWindowCommand);
+    }
+
+    _openWindow$ (url) {
+        return this._enqueueCommand('openWindow', OpenWindowCommand, { url });
+    }
+
+    _closeWindow$ () {
+        return this._enqueueCommand('closeWindow', CloseWindowCommand);
     }
 
     _eval$ (fn, options) {

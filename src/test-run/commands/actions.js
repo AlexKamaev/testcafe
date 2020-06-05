@@ -316,6 +316,27 @@ export class SwitchToMainWindowCommand {
     }
 }
 
+export class OpenWindowCommand extends CommandBase {
+    constructor (obj, testRun) {
+        debugger;
+
+        super(obj, testRun, TYPE.openWindow);
+    }
+
+    _getAssignableProperties () {
+        return [
+            { name: 'url', type: urlArgument },
+        ];
+    }
+}
+
+export class CloseWindowCommand extends CommandBase {
+    constructor (obj, testRun) {
+        super(obj, testRun, TYPE.closeWindow);
+    }
+}
+
+
 export class SetNativeDialogHandlerCommand extends CommandBase {
     constructor (obj, testRun) {
         super(obj, testRun, TYPE.setNativeDialogHandler);

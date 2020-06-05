@@ -782,6 +782,24 @@ export default class Driver extends serviceUtils.EventEmitter {
             })));
     }
 
+    _onWindowOpenCommand (command) {
+        window.open(command.url);
+
+        this._onReady(new DriverStatus({
+            isCommandResult: true,
+            result:          {}
+        }));
+    }
+
+    _onWindowCloseCommand (command) {
+        window.close();
+
+        this._onReady(new DriverStatus({
+            isCommandResult: true,
+            result:          {}
+        }));
+    }
+
     _onBrowserManipulationCommand (command) {
         this.contextStorage.setItem(this.COMMAND_EXECUTING_FLAG, true);
 
@@ -941,6 +959,12 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         else if (command.type === COMMAND_TYPE.switchToIframe)
             this._onSwitchToIframeCommand(command);
+
+        else if (command.type === COMMAND_TYPE.openWindow)
+            this._onWindowOpenCommand(command);
+
+        else if (command.type === COMMAND_TYPE.closeWindow)
+            this._onWindowCloseCommand(command);
 
         else if (isBrowserManipulationCommand(command))
             this._onBrowserManipulationCommand(command);
