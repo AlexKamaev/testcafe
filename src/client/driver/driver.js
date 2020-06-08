@@ -259,6 +259,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     _addChildWindowDriverLink (e) {
         const childWindowDriverLink = new ChildWindowDriverLink(e.window, e.windowId);
 
+
+
         this.childWindowDriverLinks.push(childWindowDriverLink);
         this._ensureClosedChildWindowWatcher();
     }
@@ -312,6 +314,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onChildWindowOpened (e) {
+        debugger;
+
         this._addChildWindowDriverLink(e);
         this._switchToChildWindow(e.windowId);
     }
@@ -604,7 +608,9 @@ export default class Driver extends serviceUtils.EventEmitter {
         throw new ChildWindowClosedBeforeSwitchingError();
     }
 
-    _switchToChildWindow (selector) {
+    _switchToChildWindow (selector, ignoreWaitForEmptyCommand = false) {
+        debugger;
+
         this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, true);
 
         return executeChildWindowDriverLinkSelector(selector, this.childWindowDriverLinks)
@@ -617,9 +623,15 @@ export default class Driver extends serviceUtils.EventEmitter {
                 return this._waitForCurrentCommandCompletion();
             })
             .then(() => {
-                return this._waitForEmptyCommand();
+
+                if (!ignoreWaitForEmptyCommand)
+                    return this._waitForEmptyCommand();
+
+                return Promise.resolve();
             })
             .then(() => {
+
+
                 this._abortSwitchingToChildWindowIfItClosed();
                 this._stopInternal();
 
@@ -629,6 +641,8 @@ export default class Driver extends serviceUtils.EventEmitter {
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
             })
             .catch(err => {
+                debugger;
+
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
 
                 if (err instanceof ChildWindowClosedBeforeSwitchingError) {
@@ -809,8 +823,44 @@ export default class Driver extends serviceUtils.EventEmitter {
         }));
     }
 
+
     _onSwitchToWindow (command) {
-        debugger;
+        if (window.switchedToChild) {
+            debugger;
+
+            this._onReady(new DriverStatus({
+                isCommandResult: true,
+                result:          {
+                }
+            }));
+
+            return;
+        }
+
+        if (this.parentWindowDriverLink.windowId === command.windowId) {
+            debugger;
+
+            this._switchToTopParentWindow();
+
+            return;
+        }
+
+        if (this.childWindowDriverLinks && this.childWindowDriverLinks.find(link => link.windowId === command.windowId)) {
+            if (this.activeChildWindowDriverLink.windowId === command.windowId) {
+
+                // return;
+            }
+
+            this._switchToChildWindow(command.windowId, true)
+                .then(() => {
+                    window.switchedToChild = true;
+                })
+
+            debugger;
+
+
+            return;
+        }
 
         this._onReady(new DriverStatus({
             isCommandResult: true,
@@ -952,6 +1002,7 @@ export default class Driver extends serviceUtils.EventEmitter {
 
                 else {
                     if (this._isEmptyCommandInPendingWindowSwitchingMode(command)) {
+
                         this.emit(EMPTY_COMMAND_EVENT);
 
                         return;
@@ -964,8 +1015,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _executeCommand (command) {
-        debugger;
-
         if (this.customCommandHandlers[command.type])
             this._onCustomCommand(command);
 
@@ -1077,6 +1126,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _startInternal (opts) {
+        debugger;
+
         this.role = DriverRole.master;
 
         browser.startHeartbeat(this.heartbeatUrl, hammerhead.createNativeXHR);
