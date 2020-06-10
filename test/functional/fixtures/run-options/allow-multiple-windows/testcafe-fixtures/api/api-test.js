@@ -2,6 +2,7 @@ import { Selector } from 'testcafe';
 
 const parentUrl = 'http://localhost:3000/fixtures/run-options/allow-multiple-windows/pages/api/parent.html';
 const child1Url = 'http://localhost:3000/fixtures/run-options/allow-multiple-windows/pages/api/child-1.html';
+const child2Url = 'http://localhost:3000/fixtures/run-options/allow-multiple-windows/pages/api/child-2.html';
 
 fixture `API`
     .page(parentUrl);
@@ -36,14 +37,22 @@ test('Get current window', async t => {
     await t.expect(parentWindow.id).notEql(childWindow.id);
 });
 
-test('Switch to parent window', async t => {
+test.only('Switch to parent window', async t => {
     const parentWindow = await t.getCurrentWindow();
 
     await t.openWindow(child1Url);
 
     await t.expect(Selector('h1').innerText).eql('child-1');
 
+    let currentWindow = await t.getCurrentWindow();
+
+    await t.expect(currentWindow.id).notEql(parentWindow.id);
+
     await t.switchToWindow(parentWindow);
+
+    currentWindow = await t.getCurrentWindow();
+
+    await t.expect(currentWindow.id).eql(parentWindow.id);
 
     await t.expect(Selector('h1').innerText).eql('parent');
 });
@@ -59,6 +68,9 @@ test.only('Switch to child window', async t => {
 
     const childWindow = await t.getCurrentWindow();
 
+    await t.expect(Selector('h1').innerText).eql('child-1');
+
+
     await t.switchToWindow(parentWindow);
 
     console.log(2);
@@ -68,6 +80,8 @@ test.only('Switch to child window', async t => {
     console.log(3);
 
     await t.expect(currentWindow.id).eql(parentWindow.id);
+
+    await t.expect(Selector('h1').innerText).eql('parent');
 
     console.log(4);
 
@@ -80,7 +94,16 @@ test.only('Switch to child window', async t => {
     console.log(6);
 
     await t.expect(currentWindow.id).eql(childWindow.id);
+
+    await t.expect(Selector('h1').innerText).eql('child-1');
 });
+
+test.only('Switch to other child', async t => {
+    const parentWindow = await t.getCurrentWindow();
+
+    const childWindow1 = 
+});
+
 
 test.skip('Close specific window', async t => {
    throw new Error('Not implemented');
