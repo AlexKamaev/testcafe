@@ -25,8 +25,10 @@ export class EstablishConnectionMessage extends InterDriverMessage {
 }
 
 export class FindDriverMessage extends InterDriverMessage {
-    constructor () {
+    constructor (windowId) {
         super(TYPE.findDriverMessage);
+
+        this.windowId = windowId;
     }
 }
 

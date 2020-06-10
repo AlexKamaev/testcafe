@@ -429,11 +429,23 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _handleFindDriverMessage (msg, wnd) {
+        debugger;
+
         sendConfirmationMessage({
             requestMsgId: msg.id,
             window: wnd,
             result: 'this is result'
         });
+
+        if (msg.windowId === this.windowId)
+            return this._setCurrentWindowAsMaster();
+
+        if (!this.childWindowDriverLinks.length)
+            return Promise.resolve();
+
+        return Promise.all(this.childWindowDriverLinks.map(childWindowDriverLink => {
+            return childWindowDriverLink.searchChildWindows();
+        }));
     }
 
     _handleSetAsMasterMessage (msg, wnd) {
@@ -829,16 +841,15 @@ export default class Driver extends serviceUtils.EventEmitter {
 
 
     _onSwitchToWindow (command) {
-        if (this.parentWindowDriverLink) {
-            const topWindow = this.parentWindowDriverLink.getTopOpenedWindow();
+        let wnd = window;
 
-            window.kekeke = true;
+        if (this.parentWindowDriverLink)
+            wnd = this.parentWindowDriverLink.getTopOpenedWindow();
 
-            sendMessageToDriver(new FindDriverMessage(), topWindow, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError)
-                .then(result => {
-                    debugger;
-                });
-        }
+        sendMessageToDriver(new FindDriverMessage(command.windowId), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError)
+            .then(result => {
+                debugger;
+            });
     }
 
 
