@@ -1,12 +1,34 @@
-fixture `GH-1994 - The element that matches the specified selector is not visible`
-    .page `http://localhost:3000/fixtures/regression/gh-1994/pages/index.html`;
+import https from 'https';
 
-test(`Recreate invisible element and click`, async t => {
-    await t
-        .click('#targetRecreate');
-});
+const executeRequest = () => {
+    return new Promise(resolve => {
+        const options = {
+            hostname: ' https://api.com/move/sample',
+            port:     443,
+            path:     '/',
+            method:   'POST'
+        };
 
-test(`Remove invisible element and click`, async t => {
-    await t
-        .click('#targetRemove');
+        const req = https.request(options, res => {
+            console.log('statusCode:', res.statusCode);
+            console.log('headers:', res.headers);
+            resolve();
+        });
+
+        req.on('error', e => {
+            console.error(e);
+        });
+
+        req.end();
+    });
+};
+
+fixture `fixture`
+    .page `http://google.com`
+    .beforeEach(async t => {
+        await executeRequest();
+    });
+
+test('test', async t => {
+    // test code
 });

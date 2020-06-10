@@ -2,6 +2,7 @@ import generateId from '../generate-id';
 
 export const TYPE = {
     establishConnection:    'driver|establish-connection',
+    findDriverMessage:      'driver|find-driver',
     commandExecuted:        'driver|command-executed',
     executeCommand:         'driver|execute-command',
     confirmation:           'driver|confirmation',
@@ -20,6 +21,12 @@ class InterDriverMessage {
 export class EstablishConnectionMessage extends InterDriverMessage {
     constructor () {
         super(TYPE.establishConnection);
+    }
+}
+
+export class FindDriverMessage extends InterDriverMessage {
+    constructor () {
+        super(TYPE.findDriverMessage);
     }
 }
 

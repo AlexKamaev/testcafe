@@ -318,8 +318,6 @@ export class SwitchToMainWindowCommand {
 
 export class OpenWindowCommand extends CommandBase {
     constructor (obj, testRun) {
-        debugger;
-
         super(obj, testRun, TYPE.openWindow);
     }
 
@@ -346,8 +344,6 @@ export class GetCurrentWindowCommand extends CommandBase {
 
 export class SwitchToWindowCommand extends CommandBase {
     constructor (obj, testRun) {
-        debugger;
-
         super(obj, testRun, TYPE.switchToWindow);
     }
 

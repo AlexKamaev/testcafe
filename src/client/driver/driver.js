@@ -56,7 +56,7 @@ import {
 import BrowserConsoleMessages from '../../test-run/browser-console-messages';
 import NativeDialogTracker from './native-dialog-tracker';
 
-import { SetNativeDialogHandlerMessage, TYPE as MESSAGE_TYPE } from './driver-link/messages';
+import { FindDriverMessage, SetNativeDialogHandlerMessage, TYPE as MESSAGE_TYPE } from './driver-link/messages';
 import ContextStorage from './storage';
 import DriverStatus from './status';
 import generateId from './generate-id';
@@ -75,7 +75,8 @@ import ChildWindowDriverLink from './driver-link/window/child';
 import ParentWindowDriverLink from './driver-link/window/parent';
 import sendConfirmationMessage from './driver-link/send-confirmation-message';
 import DriverRole from './role';
-import { CHECK_CHILD_WINDOW_CLOSED_INTERVAL } from './driver-link/timeouts';
+import { CHECK_CHILD_WINDOW_CLOSED_INTERVAL, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT } from './driver-link/timeouts';
+import sendMessageToDriver from './driver-link/send-message-to-driver';
 
 const settings = hammerhead.get('./settings');
 
@@ -178,6 +179,7 @@ export default class Driver extends serviceUtils.EventEmitter {
         hammerhead.on(hammerhead.EVENTS.beforeFormSubmit, e => this._onFormSubmit(e));
         hammerhead.on(hammerhead.EVENTS.windowOpened, e => this._onChildWindowOpened(e));
 
+
         this.setCustomCommandHandlers(COMMAND_TYPE.unlockPage, () => this._unlockPageAfterTestIsDone());
     }
 
@@ -259,8 +261,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     _addChildWindowDriverLink (e) {
         const childWindowDriverLink = new ChildWindowDriverLink(e.window, e.windowId);
 
-
-
         this.childWindowDriverLinks.push(childWindowDriverLink);
         this._ensureClosedChildWindowWatcher();
     }
@@ -314,8 +314,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onChildWindowOpened (e) {
-        debugger;
-
         this._addChildWindowDriverLink(e);
         this._switchToChildWindow(e.windowId);
     }
@@ -430,6 +428,14 @@ export default class Driver extends serviceUtils.EventEmitter {
         childIframeDriverLink.sendConfirmationMessage(id);
     }
 
+    _handleFindDriverMessage (msg, wnd) {
+        sendConfirmationMessage({
+            requestMsgId: msg.id,
+            window: wnd,
+            result: 'this is result'
+        });
+    }
+
     _handleSetAsMasterMessage (msg, wnd) {
         // NOTE: The 'setAsMaster' message can be send a few times because
         // the 'sendMessageToDriver' function resend messages if the message confirmation is not received in 1 sec.
@@ -486,6 +492,8 @@ export default class Driver extends serviceUtils.EventEmitter {
                 this._addChildIframeDriverLink(msg.id, window);
             else if (msg.type === MESSAGE_TYPE.setAsMaster)
                 this._handleSetAsMasterMessage(msg, window);
+            else if (msg.type === MESSAGE_TYPE.findDriverMessage)
+                this._handleFindDriverMessage(msg, window);
             else if (msg.type === MESSAGE_TYPE.closeAllChildWindows)
                 this._handleCloseAllWindowsMessage(msg, window);
         });
@@ -609,8 +617,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _switchToChildWindow (selector, ignoreWaitForEmptyCommand = false) {
-        debugger;
-
         this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, true);
 
         return executeChildWindowDriverLinkSelector(selector, this.childWindowDriverLinks)
@@ -641,8 +647,6 @@ export default class Driver extends serviceUtils.EventEmitter {
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
             })
             .catch(err => {
-                debugger;
-
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
 
                 if (err instanceof ChildWindowClosedBeforeSwitchingError) {
@@ -825,49 +829,63 @@ export default class Driver extends serviceUtils.EventEmitter {
 
 
     _onSwitchToWindow (command) {
-        if (window.switchedToChild) {
-            debugger;
+        if (this.parentWindowDriverLink) {
+            const topWindow = this.parentWindowDriverLink.getTopOpenedWindow();
 
-            this._onReady(new DriverStatus({
-                isCommandResult: true,
-                result:          {
-                }
-            }));
+            window.kekeke = true;
 
-            return;
+            sendMessageToDriver(new FindDriverMessage(), topWindow, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError)
+                .then(result => {
+                    debugger;
+                });
         }
-
-        if (this.parentWindowDriverLink.windowId === command.windowId) {
-            debugger;
-
-            this._switchToTopParentWindow();
-
-            return;
-        }
-
-        if (this.childWindowDriverLinks && this.childWindowDriverLinks.find(link => link.windowId === command.windowId)) {
-            if (this.activeChildWindowDriverLink.windowId === command.windowId) {
-
-                // return;
-            }
-
-            this._switchToChildWindow(command.windowId, true)
-                .then(() => {
-                    window.switchedToChild = true;
-                })
-
-            debugger;
-
-
-            return;
-        }
-
-        this._onReady(new DriverStatus({
-            isCommandResult: true,
-            result:          {
-            }
-        }));
     }
+
+
+    // _onSwitchToWindow (command) {
+    //     if (window.switchedToChild) {
+    //         debugger;
+    //
+    //         this._onReady(new DriverStatus({
+    //             isCommandResult: true,
+    //             result:          {
+    //             }
+    //         }));
+    //
+    //         return;
+    //     }
+    //
+    //     if (this.parentWindowDriverLink) {
+    //         debugger;
+    //
+    //         this._switchToTopParentWindow();
+    //
+    //         return;
+    //     }
+    //
+    //     if (this.childWindowDriverLinks && this.childWindowDriverLinks.find(link => link.windowId === command.windowId)) {
+    //         if (this.activeChildWindowDriverLink.windowId === command.windowId) {
+    //
+    //             // return;
+    //         }
+    //
+    //         this._switchToChildWindow(command.windowId, true)
+    //             .then(() => {
+    //                 window.switchedToChild = true;
+    //             })
+    //
+    //         debugger;
+    //
+    //
+    //         return;
+    //     }
+    //
+    //     this._onReady(new DriverStatus({
+    //         isCommandResult: true,
+    //         result:          {
+    //         }
+    //     }));
+    // }
 
     _onBrowserManipulationCommand (command) {
         this.contextStorage.setItem(this.COMMAND_EXECUTING_FLAG, true);
@@ -1126,8 +1144,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _startInternal (opts) {
-        debugger;
-
         this.role = DriverRole.master;
 
         browser.startHeartbeat(this.heartbeatUrl, hammerhead.createNativeXHR);

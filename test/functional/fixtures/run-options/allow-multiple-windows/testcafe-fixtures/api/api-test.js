@@ -36,7 +36,7 @@ test('Get current window', async t => {
     await t.expect(parentWindow.id).notEql(childWindow.id);
 });
 
-test('Switch to parent window', async t => {
+test.only('Switch to parent window', async t => {
     const parentWindow = await t.getCurrentWindow();
 
     await t.openWindow(child1Url);
@@ -48,38 +48,26 @@ test('Switch to parent window', async t => {
     await t.expect(Selector('h1').innerText).eql('parent');
 });
 
-test.only('Switch to child window', async t => {
+test('Switch to child window', async t => {
+    let currentWindow = null;
+
     const parentWindow = await t.getCurrentWindow();
 
     await t.openWindow(child1Url);
 
     const childWindow = await t.getCurrentWindow();
 
-    console.log(childWindow);
-
-    console.log('*');
-
     await t.switchToWindow(parentWindow);
 
+    currentWindow = await t.getCurrentWindow();
 
-
-    // await t.expect(Selector('h1').innerText).eql('parent');
-
-
-
-    // await t.click('h1');
-
-
-    console.log('**');
-
-    // await t.wait(5000);
+    await t.expect(currentWindow.id).eql(parentWindow.id);
 
     await t.switchToWindow(childWindow);
 
-    console.log(await t.getCurrentWindow());
+    currentWindow = await t.getCurrentWindow();
 
-
-    await t.expect(Selector('h1').innerText).eql('child-1');
+    await t.expect(currentWindow.id).eql(childWindow.id);
 });
 
 test.skip('Close specific window', async t => {
