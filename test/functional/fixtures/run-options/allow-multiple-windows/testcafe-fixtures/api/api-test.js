@@ -37,7 +37,7 @@ test('Get current window', async t => {
     await t.expect(parentWindow.id).notEql(childWindow.id);
 });
 
-test.only('Switch to parent window', async t => {
+test('Switch to parent window', async t => {
     const parentWindow = await t.getCurrentWindow();
 
     await t.openWindow(child1Url);
@@ -57,7 +57,7 @@ test.only('Switch to parent window', async t => {
     await t.expect(Selector('h1').innerText).eql('parent');
 });
 
-test.only('Switch to child window', async t => {
+test('Switch to child window', async t => {
     let currentWindow = null;
 
     const parentWindow = await t.getCurrentWindow();
@@ -98,10 +98,54 @@ test.only('Switch to child window', async t => {
     await t.expect(Selector('h1').innerText).eql('child-1');
 });
 
-test.only('Switch to other child', async t => {
+test('Switch to other child', async t => {
     const parentWindow = await t.getCurrentWindow();
 
-    const childWindow1 = 
+    await t.openWindow(child1Url);
+
+    const child1Window = await t.getCurrentWindow();
+
+    await t.switchToWindow(parentWindow);
+
+    await t.openWindow(child2Url);
+
+    await t.expect(Selector('h1').innerText).eql('child-2');
+
+    await t.switchToWindow(child1Window);
+
+    const currentWindow = await t.getCurrentWindow();
+
+    await t.expect(currentWindow.id).eql(child1Window.id);
+    await t.expect(Selector('h1').innerText).eql('child-1');
+
+});
+
+test('Switch to deep child', async t => {
+    const parentWindow = await t.getCurrentWindow();
+
+    await t.openWindow(child1Url);
+    await t.openWindow(child1Url);
+    await t.openWindow(child1Url);
+    await t.openWindow(child1Url);
+
+    await t.openWindow(child2Url);
+
+    const child2Window = await t.getCurrentWindow();
+
+    await t.switchToWindow(parentWindow);
+
+    await t.openWindow(child1Url);
+    await t.openWindow(child1Url);
+    await t.openWindow(child1Url);
+    await t.openWindow(child1Url);
+    await t.openWindow(child1Url);
+
+    await t.switchToWindow(child2Window);
+
+    const currentWindow = await t.getCurrentWindow();
+
+    await t.expect(currentWindow.id).eql(child2Window.id);
+    await t.expect(Selector('h1').innerText).eql('child-2');
 });
 
 
