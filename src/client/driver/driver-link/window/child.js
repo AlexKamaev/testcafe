@@ -21,8 +21,8 @@ export default class ChildWindowDriverLink {
         return sendMessageToDriver(msg, this.driverWindow, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CloseChildWindowError);
     }
 
-    searchChildWindows () {
-        const msg = new FindDriverMessage();
+    searchChildWindows (windowId) {
+        const msg = new FindDriverMessage(windowId);
 
         return sendMessageToDriver(msg, this.driverWindow, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
     }

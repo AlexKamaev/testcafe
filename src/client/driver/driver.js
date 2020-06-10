@@ -444,7 +444,7 @@ export default class Driver extends serviceUtils.EventEmitter {
             return Promise.resolve();
 
         return Promise.all(this.childWindowDriverLinks.map(childWindowDriverLink => {
-            return childWindowDriverLink.searchChildWindows();
+            return childWindowDriverLink.searchChildWindows(msg.windowId);
         }));
     }
 
@@ -845,6 +845,8 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         if (this.parentWindowDriverLink)
             wnd = this.parentWindowDriverLink.getTopOpenedWindow();
+
+        this._stopInternal();
 
         sendMessageToDriver(new FindDriverMessage(command.windowId), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError)
             .then(result => {
