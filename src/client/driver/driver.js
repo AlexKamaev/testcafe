@@ -857,7 +857,9 @@ export default class Driver extends serviceUtils.EventEmitter {
         if (this.parentWindowDriverLink)
             wnd = this.parentWindowDriverLink.getTopOpenedWindow();
 
-        sendMessageToDriver(new FindDriverMessage(command.windowId, FIND_DRIVER_COMMAND.close), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError)
+        const windowId = command.windowId || this.windowId;
+
+        sendMessageToDriver(new FindDriverMessage(windowId, FIND_DRIVER_COMMAND.close), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError)
             .then(() => {
                 this._onReady(new DriverStatus({
                     isCommandResult: true

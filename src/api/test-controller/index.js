@@ -275,7 +275,9 @@ export default class TestController {
         return this._enqueueCommand('openWindow', OpenWindowCommand, { url });
     }
 
-    _closeWindow$ ({ id }) {
+    _closeWindow$ (wnd) {
+        const id = wnd ? wnd.id : null;
+
         return this._enqueueCommand('closeWindow', CloseWindowCommand, { windowId: id });
     }
 

@@ -121,7 +121,7 @@ describe('Allow multiple windows', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Switch to deep child', { only: 'chrome', allowMultipleWindows: true });
         });
 
-        it.only('Close specific window from parent', () => {
+        it('Close specific window from parent', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window from parent', { only: 'chrome', allowMultipleWindows: true, shouldFail: false });
         });
 
