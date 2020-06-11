@@ -275,19 +275,15 @@ export default class TestController {
         return this._enqueueCommand('openWindow', OpenWindowCommand, { url });
     }
 
-    _closeWindow$ () {
-        return this._enqueueCommand('closeWindow', CloseWindowCommand);
+    _closeWindow$ ({ id }) {
+        return this._enqueueCommand('closeWindow', CloseWindowCommand, { windowId: id });
     }
 
     _getCurrentWindow$ () {
         return this._enqueueCommand('getCurrentWindow', GetCurrentWindowCommand);
     }
 
-    _switchToWindow$ (window) {
-        debugger;
-
-        const { id } = window;
-
+    _switchToWindow$ ({ id }) {
         return this._enqueueCommand('switchToWindow', SwitchToWindowCommand, { windowId: id });
     }
 

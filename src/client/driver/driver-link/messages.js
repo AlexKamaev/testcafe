@@ -11,6 +11,11 @@ export const TYPE = {
     closeAllChildWindows:   'driver|close-all-child-windows'
 };
 
+export const FIND_DRIVER_COMMAND = {
+    setAsMaster: 'setAsMaster',
+    close:       'close'
+};
+
 class InterDriverMessage {
     constructor (type) {
         this.type = type;
@@ -25,10 +30,11 @@ export class EstablishConnectionMessage extends InterDriverMessage {
 }
 
 export class FindDriverMessage extends InterDriverMessage {
-    constructor (windowId) {
+    constructor (windowId, cmd) {
         super(TYPE.findDriverMessage);
 
         this.windowId = windowId;
+        this.cmd      = cmd;
     }
 }
 

@@ -332,6 +332,12 @@ export class CloseWindowCommand extends CommandBase {
     constructor (obj, testRun) {
         super(obj, testRun, TYPE.closeWindow);
     }
+
+    _getAssignableProperties () {
+        return [
+            { name: 'windowId', type: nonEmptyStringArgument, required: true },
+        ];
+    }
 }
 
 

@@ -92,8 +92,41 @@ describe('Allow multiple windows', () => {
     });
 
     describe.only('API', () => {
-        it('test', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', null, { only: 'chrome', allowMultipleWindows: true });
+        it('Open child window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Open child window', { only: 'chrome', allowMultipleWindows: true });
+        });
+
+        it('Close current window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close current window', { only: 'chrome', allowMultipleWindows: true });
+        });
+
+        it('Get current window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Get current window', { only: 'chrome', allowMultipleWindows: true });
+        });
+
+        it('Switch to parent window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to parent window', { only: 'chrome', allowMultipleWindows: true });
+        });
+
+        it('Switch to child window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to child window', { only: 'chrome', allowMultipleWindows: true });
+        });
+
+
+        it('Switch to other child', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to other child', { only: 'chrome', allowMultipleWindows: true });
+        });
+
+        it('Switch to deep child', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to deep child', { only: 'chrome', allowMultipleWindows: true });
+        });
+
+        it.only('Close specific window from parent', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window from parent', { only: 'chrome', allowMultipleWindows: true, shouldFail: false });
+        });
+
+        it('Close parent window and catch error', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close parent window and catch error', { only: 'chrome', allowMultipleWindows: true });
         });
     });
 });
