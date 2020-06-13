@@ -110,6 +110,9 @@ test('Switch to deep child', async t => {
 
     const currentWindow = await t.getCurrentWindow();
 
+    console.log(child2Window);
+    console.log(currentWindow);
+
     await t
         .expect(currentWindow.id).eql(child2Window.id)
         .expect(Selector('h1').innerText).eql('child-2');
@@ -118,16 +121,42 @@ test('Switch to deep child', async t => {
 
 test('Close specific window from parent', async t => {
     const parentWindow = await t.getCurrentWindow();
+
+    const childWindow  = await t.openWindow(child1Url);
+
+    await t.switchToWindow(parentWindow);
+
+    await t.closeWindow(childWindow);
+});
+
+test('Close specific window and switch to it', async t => {
+    const parentWindow = await t.getCurrentWindow();
+
     const childWindow  = await t.openWindow(child1Url);
 
     await t.switchToWindow(parentWindow);
 
     await t.closeWindow(childWindow);
 
-    // await t.debug();
-    //
-    // await t.switchToWindow(childWindow);
+    await t.switchToWindow(childWindow);
 });
+
+// test('Close specific window from parent', async t => {
+//     const parentWindow = await t.getCurrentWindow();
+//
+//     await t.openWindow(child1Url);
+//     const childWindow  = await t.openWindow(child1Url);
+//
+//     console.log(childWindow);
+//
+//     await t.switchToWindow(parentWindow);
+//
+//     await t.closeWindow(childWindow);
+//
+//     // await t.debug();
+//     //
+//     // await t.switchToWindow(childWindow);
+// });
 
 test('Close parent window and catch error', async t => {
     // throw new Error('Not implemented');

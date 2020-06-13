@@ -57,6 +57,7 @@ import BrowserConsoleMessages from '../../test-run/browser-console-messages';
 import NativeDialogTracker from './native-dialog-tracker';
 
 import {
+    ChildWindowExistMessage,
     FIND_DRIVER_COMMAND,
     FindDriverMessage,
     SetNativeDialogHandlerMessage,
@@ -436,6 +437,47 @@ export default class Driver extends serviceUtils.EventEmitter {
         childIframeDriverLink.sendConfirmationMessage(id);
     }
 
+    _handleChildWindowExists (msg, wnd) {
+        debugger;
+
+        let promiseResult = null;
+
+        if (msg.windowId === this.windowId) {
+            let parentWindow = window;
+
+            if (this.parentWindowDriverLink)
+                parentWindow = this.parentWindowDriverLink.getTopOpenedWindow();
+
+            parentWindow.childWindowExists = true;
+
+            promiseResult = Promise.resolve(true);
+        }
+
+        else if (!this.childWindowDriverLinks.length)
+            promiseResult = Promise.resolve(false);
+
+        else {
+            promiseResult = Promise.all(this.childWindowDriverLinks.map(childWindowDriverLink => {
+                return childWindowDriverLink.searchChildWindows2(msg);
+            }))
+                .then(arr => {
+                    debugger;
+
+                    return arr.some(item => !!item.result);
+                });
+        }
+
+        return promiseResult
+            .then(rrr => {
+                debugger;
+                sendConfirmationMessage({
+                    requestMsgId: msg.id,
+                    window: wnd,
+                    result: rrr
+                });
+            });
+    }
+
     _handleFindDriverMessage (msg, wnd) {
         sendConfirmationMessage({
             requestMsgId: msg.id,
@@ -443,23 +485,65 @@ export default class Driver extends serviceUtils.EventEmitter {
             result: 'this is result'
         });
 
+        debugger;
+
         if (msg.windowId === this.windowId) {
+            let wind = window;
+
+            if (this.parentWindowDriverLink)
+                wind = this.parentWindowDriverLink.getTopOpenedWindow();
+
+            wind[msg.id] = true;
+
             if (msg.cmd === FIND_DRIVER_COMMAND.setAsMaster)
                 return this._setCurrentWindowAsMaster();
 
-            debugger;
-
             if (msg.cmd === FIND_DRIVER_COMMAND.close) {
+
                 window.close();
             }
         }
 
-        if (!this.childWindowDriverLinks.length)
-            return Promise.resolve();
+        let resultPromise;
 
-        return Promise.all(this.childWindowDriverLinks.map(childWindowDriverLink => {
-            return childWindowDriverLink.searchChildWindows(msg);
-        }));
+        if (!this.childWindowDriverLinks.length)
+            resultPromise = Promise.resolve()
+        else {
+            resultPromise = Promise.all(this.childWindowDriverLinks.map(childWindowDriverLink => {
+                return childWindowDriverLink.searchChildWindows(msg);
+            }));
+        }
+
+        return resultPromise;
+
+        // return resultPromise.then(resu => {
+        //     debugger;
+        //
+        //     if (!window.opener && !window[msg.id]) {
+        //         // this._startInternal({
+        //         //     finalizePendingCommand:             true,
+        //         //     isFirstRequestAfterWindowSwitching: true
+        //         // });
+        //
+        //         this._onReady(new DriverStatus({
+        //             isCommandResult: true,
+        //             executionError:  new CannotSwitchToWindowError()
+        //         }));
+        //
+        //         // this._setCurrentWindowAsMaster()
+        //         //     .then(() => {
+        //         //         debugger;
+        //         //
+        //         //         throw new Error('12345');
+        //         //     })
+        //
+        //         // this._onReady(new DriverStatus({
+        //         //     isCommandResult: true,
+        //         //     executionError:  new CannotSwitchToWindowError()
+        //         // }));
+        //     }
+        // });
+
     }
 
     _handleSetAsMasterMessage (msg, wnd) {
@@ -520,6 +604,8 @@ export default class Driver extends serviceUtils.EventEmitter {
                 this._handleSetAsMasterMessage(msg, window);
             else if (msg.type === MESSAGE_TYPE.findDriverMessage)
                 this._handleFindDriverMessage(msg, window);
+            else if (msg.type === MESSAGE_TYPE.childWindowExists)
+                this._handleChildWindowExists(msg, window);
             else if (msg.type === MESSAGE_TYPE.closeAllChildWindows)
                 this._handleCloseAllWindowsMessage(msg, window);
         });
@@ -876,6 +962,10 @@ export default class Driver extends serviceUtils.EventEmitter {
         }));
     }
 
+    _valiteChildWindowExists (command, wnd) {
+        return sendMessageToDriver(new ChildWindowExistMessage(command.windowId), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
+    }
+
 
     _onSwitchToWindow (command) {
         let wnd = window;
@@ -883,9 +973,24 @@ export default class Driver extends serviceUtils.EventEmitter {
         if (this.parentWindowDriverLink)
             wnd = this.parentWindowDriverLink.getTopOpenedWindow();
 
-        this._stopInternal();
+        this._valiteChildWindowExists(command, wnd)
+            .then(result => {
+                if (!result)
+                    throw new CannotSwitchToWindowError();
 
-        sendMessageToDriver(new FindDriverMessage(command.windowId, FIND_DRIVER_COMMAND.setAsMaster), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
+                this._stopInternal();
+
+                sendMessageToDriver(new FindDriverMessage(command.windowId, FIND_DRIVER_COMMAND.setAsMaster), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
+            });
+    }
+
+    _checkChildWindowExists (command) {
+        let wnd = window;
+
+        if (this.parentWindowDriverLink)
+            wnd = this.parentWindowDriverLink.getTopOpenedWindow();
+
+        sendMessageToDriver(new ChildWindowExistMessage(command.windowId), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
     }
 
     _onBrowserManipulationCommand (command) {

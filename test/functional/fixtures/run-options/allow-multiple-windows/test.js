@@ -125,6 +125,10 @@ describe('Allow multiple windows', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window from parent', { only: 'chrome', allowMultipleWindows: true, shouldFail: false });
         });
 
+        it('Close specific window and switch to it', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window and switch to it', { only: 'chrome', allowMultipleWindows: true, shouldFail: true });
+        });
+
         it('Close parent window and catch error', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Close parent window and catch error', { only: 'chrome', allowMultipleWindows: true });
         });
