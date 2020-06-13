@@ -438,8 +438,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _handleChildWindowExists (msg, wnd) {
-        debugger;
-
         let promiseResult = null;
 
         if (msg.windowId === this.windowId) {
@@ -461,15 +459,12 @@ export default class Driver extends serviceUtils.EventEmitter {
                 return childWindowDriverLink.searchChildWindows2(msg);
             }))
                 .then(arr => {
-                    debugger;
-
                     return arr.some(item => !!item.result);
                 });
         }
 
         return promiseResult
             .then(rrr => {
-                debugger;
                 sendConfirmationMessage({
                     requestMsgId: msg.id,
                     window: wnd,
@@ -484,8 +479,6 @@ export default class Driver extends serviceUtils.EventEmitter {
             window: wnd,
             result: 'this is result'
         });
-
-        debugger;
 
         if (msg.windowId === this.windowId) {
             let wind = window;
@@ -936,8 +929,6 @@ export default class Driver extends serviceUtils.EventEmitter {
         //     result:          {}
         // }));
 
-        debugger;
-
         let wnd = window;
 
         if (this.parentWindowDriverLink)
@@ -975,8 +966,12 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         this._valiteChildWindowExists(command, wnd)
             .then(result => {
-                if (!result)
-                    throw new CannotSwitchToWindowError();
+                if (!result.result) {
+                    this._onReady(new DriverStatus({
+                        isCommandResult: true,
+                        executionError:  new CannotSwitchToWindowError()
+                    }));
+                }
 
                 this._stopInternal();
 
