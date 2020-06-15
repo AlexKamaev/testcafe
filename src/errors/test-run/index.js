@@ -548,13 +548,19 @@ export class ChildWindowIsNotLoadedError extends TestRunErrorBase {
     }
 }
 
-export class CannotSwitchToWindowError extends TestRunErrorBase {
+export class ChildWindowValidationError extends TestRunErrorBase {
+    constructor (code) {
+        super(code);
+    }
+}
+
+export class CannotSwitchToWindowError extends ChildWindowValidationError {
     constructor () {
         super(TEST_RUN_ERRORS.cannotSwitchToWindowError);
     }
 }
 
-export class CannotCloseWindowWithChildrenError extends TestRunErrorBase {
+export class CannotCloseWindowWithChildrenError extends ChildWindowValidationError {
     constructor () {
         super(TEST_RUN_ERRORS.cannotCloseWindowWithChildrenError);
     }

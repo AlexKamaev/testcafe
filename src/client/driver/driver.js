@@ -29,6 +29,10 @@ import {
 
 import TEST_RUN_MESSAGES from '../../test-run/client-messages';
 import COMMAND_TYPE from '../../test-run/commands/type';
+
+import { TEST_RUN_ERRORS } from '../../errors/types';
+import { ChildWindowValidationError } from '../../errors/test-run';
+
 import {
     isBrowserManipulationCommand,
     isCommandRejectableByPageError,
@@ -441,7 +445,6 @@ export default class Driver extends serviceUtils.EventEmitter {
         let promiseResult = null;
 
         if (msg.windowId === this.windowId) {
-            debugger;
 
             let parentWindow = window;
 
@@ -452,26 +455,56 @@ export default class Driver extends serviceUtils.EventEmitter {
 
             parentWindow.childWindowExists = true;
 
-            promiseResult = Promise.resolve(true);
+            promiseResult = Promise.resolve({
+                success: true
+            });
 
-            if (this.childWindowDriverLinks.length && msg.cmd === FIND_DRIVER_COMMAND.close)
-                promiseResult = Promise.resolve(false);
+            if (this.childWindowDriverLinks.length && msg.cmd === FIND_DRIVER_COMMAND.close) {
+                promiseResult = Promise.resolve({
+                    success: false,
+                    errCode: TEST_RUN_ERRORS.cannotCloseWindowWithChildrenError
+                });
+            }
         }
 
-        else if (!this.childWindowDriverLinks.length)
-            promiseResult = Promise.resolve(false);
+        else if (!this.childWindowDriverLinks.length) {
+            promiseResult = Promise.resolve({
+                success: false,
+                errCode: TEST_RUN_ERRORS.cannotSwitchToWindowError
+            });
+        }
 
         else {
             promiseResult = Promise.all(this.childWindowDriverLinks.map(childWindowDriverLink => {
                 return childWindowDriverLink.searchChildWindows2(msg);
             }))
                 .then(arr => {
-                    return arr.some(item => !!item.result);
+                    // return arr.some(item => !!item.result);
+                    debugger;
+
+                    const success = arr.find(item => item.result.success);
+
+                    if (success)
+                        return success.result;
+
+                    let errItem = arr.find(item => item.result.errCode === TEST_RUN_ERRORS.cannotCloseWindowWithChildrenError);
+
+                    if (errItem)
+                        return { errCode: errItem.result.errCode };
+
+                    errItem = arr.find(item => !!item.result.errCode);
+
+                    if (errItem)
+                        return { errCode: errItem.result.errCode };
+
+                    return void 0;
                 });
         }
 
         return promiseResult
             .then(rrr => {
+                debugger;
+
                 sendConfirmationMessage({
                     requestMsgId: msg.id,
                     window: wnd,
@@ -942,12 +975,12 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         const windowId = command.windowId || this.windowId;
 
-        this._valiteChildWindowExists(windowId, FIND_DRIVER_COMMAND.close, wnd)
+        this._validateChildWindowExists(windowId, FIND_DRIVER_COMMAND.close, wnd)
             .then(result => {
                 debugger;
 
-                if (!result.result)
-                    throw new CannotCloseWindowWithChildrenError();
+                if (result && result.result && result.result.errCode)
+                    throw new ChildWindowValidationError(result.result.errCode);
 
                 return sendMessageToDriver(new FindDriverMessage(windowId, FIND_DRIVER_COMMAND.close), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError)
             })
@@ -973,7 +1006,7 @@ export default class Driver extends serviceUtils.EventEmitter {
         }));
     }
 
-    _valiteChildWindowExists (windowId, cmd, wnd) {
+    _validateChildWindowExists (windowId, cmd, wnd) {
         return sendMessageToDriver(new ChildWindowExistMessage(windowId, cmd), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
     }
 
@@ -984,18 +1017,21 @@ export default class Driver extends serviceUtils.EventEmitter {
         if (this.parentWindowDriverLink)
             wnd = this.parentWindowDriverLink.getTopOpenedWindow();
 
-        this._valiteChildWindowExists(command.windowId, FIND_DRIVER_COMMAND.switchToWindow, wnd)
+        this._validateChildWindowExists(command.windowId, FIND_DRIVER_COMMAND.switchToWindow, wnd)
             .then(result => {
-                if (!result.result) {
+
+                debugger;
+
+                if (result && result.result && result.result.errCode) {
                     this._onReady(new DriverStatus({
                         isCommandResult: true,
-                        executionError:  new CannotSwitchToWindowError()
+                        executionError:  new ChildWindowValidationError(result.result.errCode)
                     }));
+                } else {
+                    this._stopInternal();
+
+                    sendMessageToDriver(new FindDriverMessage(command.windowId, FIND_DRIVER_COMMAND.switchToWindow), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
                 }
-
-                this._stopInternal();
-
-                sendMessageToDriver(new FindDriverMessage(command.windowId, FIND_DRIVER_COMMAND.switchToWindow), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
             });
     }
 

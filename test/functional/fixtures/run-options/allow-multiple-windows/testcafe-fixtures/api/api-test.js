@@ -53,6 +53,10 @@ test('Switch to parent window', async t => {
         .expect(Selector('h1').innerText).eql('parent');
 });
 
+test('Switch to unexisting window', async t => {
+    await t.switchToWindow({ id: 'unexising_window' });
+});
+
 test('Switch to child window', async t => {
     let currentWindow = null;
 
@@ -101,6 +105,7 @@ test('Switch to deep child', async t => {
         .openWindow(child1Url)
         .openWindow(child2Url);
 
+
     await t
         .switchToWindow(parentWindow)
         .openWindow(child1Url)
@@ -140,6 +145,29 @@ test('Close specific window and switch to it', async t => {
 
     await t.switchToWindow(childWindow);
 });
+
+test('Close unexisting window', async t => {
+    await t.closeWindow({ id: 'unexising_window' });
+});
+
+test('Close unexisting child window', async t => {
+    const childWindow  = await t.openWindow(child1Url);
+
+    await t.closeWindow({ id: 'unexising_window' });
+});
+
+
+test('Close closed window', async t => {
+    const childWindow  = await t.openWindow(child1Url);
+
+    await t.closeWindow(childWindow);
+
+    console.log('************');
+
+    await t.closeWindow(childWindow);
+});
+
+
 
 // test('Close specific window from parent', async t => {
 //     const parentWindow = await t.getCurrentWindow();

@@ -108,6 +108,13 @@ describe('Allow multiple windows', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Switch to parent window', { only: 'chrome', allowMultipleWindows: true });
         });
 
+        it('Switch to unexisting window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to unexisting window', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
+                .catch(errs => {
+                    expect(errs[0]).to.contain('Cannot switch to the window.');
+                });
+        });
+
         it('Switch to child window', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Switch to child window', { only: 'chrome', allowMultipleWindows: true });
         });
@@ -136,6 +143,27 @@ describe('Allow multiple windows', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Close parent window and catch error', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot close window with opened child windows.');
+                });
+        });
+
+        it('Close unexisting window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close unexisting window', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
+                .catch(errs => {
+                    expect(errs[0]).to.contain('Cannot switch to the window.');
+                });
+        });
+
+        it('Close unexisting child window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close unexisting child window', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
+                .catch(errs => {
+                    expect(errs[0]).to.contain('Cannot switch to the window.');
+                });
+        });
+
+        it('Close closed window', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close closed window', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
+                .catch(errs => {
+                    expect(errs[0]).to.contain('Cannot switch to the window.');
                 });
         });
     });
