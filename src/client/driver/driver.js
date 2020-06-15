@@ -924,9 +924,11 @@ export default class Driver extends serviceUtils.EventEmitter {
         const windowId = command.windowId || this.windowId;
 
         this._validateChildWindowExists(windowId, FIND_DRIVER_COMMAND.close, wnd)
-            .then(result => {
-                if (result && result.result && result.result.errCode)
-                    throw new ChildWindowValidationError(result.result.errCode);
+            .then(response => {
+                const result = response.result;
+
+                if (result && result.errCode)
+                    throw new ChildWindowValidationError(result.errCode);
 
                 return sendMessageToDriver(new FindDriverMessage(windowId, FIND_DRIVER_COMMAND.close), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
             })
@@ -964,12 +966,13 @@ export default class Driver extends serviceUtils.EventEmitter {
             wnd = this.parentWindowDriverLink.getTopOpenedWindow();
 
         this._validateChildWindowExists(command.windowId, FIND_DRIVER_COMMAND.switchToWindow, wnd)
-            .then(result => {
+            .then(response => {
+                const result = response.result;
 
-                if (result && result.result && result.result.errCode) {
+                if (result && result.errCode) {
                     this._onReady(new DriverStatus({
                         isCommandResult: true,
-                        executionError:  new ChildWindowValidationError(result.result.errCode)
+                        executionError:  new ChildWindowValidationError(result.errCode)
                     }));
                 }
                 else {
@@ -979,15 +982,6 @@ export default class Driver extends serviceUtils.EventEmitter {
                 }
             });
     }
-
-    // _checkChildWindowExists (command) {
-    //     let wnd = window;
-    //
-    //     if (this.parentWindowDriverLink)
-    //         wnd = this.parentWindowDriverLink.getTopOpenedWindow();
-    //
-    //     sendMessageToDriver(new ChildWindowExistMessage(command.windowId), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
-    // }
 
     _onBrowserManipulationCommand (command) {
         this.contextStorage.setItem(this.COMMAND_EXECUTING_FLAG, true);
