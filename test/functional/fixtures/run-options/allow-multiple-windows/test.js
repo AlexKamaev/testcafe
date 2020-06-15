@@ -111,7 +111,7 @@ describe('Allow multiple windows', () => {
         it('Switch to unexisting window', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Switch to unexisting window', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
                 .catch(errs => {
-                    expect(errs[0]).to.contain('Cannot switch to the window.');
+                    expect(errs[0]).to.contain('The window defined in command is not found.');
                 });
         });
 
@@ -135,7 +135,7 @@ describe('Allow multiple windows', () => {
         it('Close specific window and switch to it', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window and switch to it', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
                 .catch(errs => {
-                    expect(errs[0]).to.contain('Cannot switch to the window.');
+                    expect(errs[0]).to.contain('The window defined in command is not found.');
                 });
         });
 
@@ -149,21 +149,21 @@ describe('Allow multiple windows', () => {
         it('Close unexisting window', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Close unexisting window', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
                 .catch(errs => {
-                    expect(errs[0]).to.contain('Cannot switch to the window.');
+                    expect(errs[0]).to.contain('The window defined in command is not found');
                 });
         });
 
         it('Close unexisting child window', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Close unexisting child window', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
                 .catch(errs => {
-                    expect(errs[0]).to.contain('Cannot switch to the window.');
+                    expect(errs[0]).to.contain('The window defined in command is not found.');
                 });
         });
 
         it('Close closed window', () => {
             return runTests('testcafe-fixtures/api/api-test.js', 'Close closed window', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
                 .catch(errs => {
-                    expect(errs[0]).to.contain('Cannot switch to the window.');
+                    expect(errs[0]).to.contain('The window defined in command is not found.');
                 });
         });
     });

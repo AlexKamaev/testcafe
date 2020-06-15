@@ -14,7 +14,7 @@ export const TYPE = {
 
 export const FIND_DRIVER_COMMAND = {
     switchToWindow: 'switchToWindow',
-    close:       'close'
+    close:          'close'
 };
 
 class InterDriverMessage {

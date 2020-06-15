@@ -1,7 +1,6 @@
 import {
     ChildWindowExistMessage,
     CloseAllChildWindowsMessage,
-    FIND_DRIVER_COMMAND,
     FindDriverMessage,
     SetAsMasterMessage
 } from '../messages';
