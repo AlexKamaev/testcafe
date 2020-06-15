@@ -445,14 +445,6 @@ export default class Driver extends serviceUtils.EventEmitter {
         let promiseResult = null;
 
         if (msg.windowId === this.windowId) {
-
-            let parentWindow = window;
-
-            if (this.parentWindowDriverLink)
-                parentWindow = this.parentWindowDriverLink.getTopOpenedWindow();
-
-            parentWindow.childWindowExists = true;
-
             promiseResult = Promise.resolve({
                 success: true
             });
@@ -497,11 +489,11 @@ export default class Driver extends serviceUtils.EventEmitter {
         }
 
         return promiseResult
-            .then(rrr => {
+            .then(result => {
                 sendConfirmationMessage({
                     requestMsgId: msg.id,
                     window:       wnd,
-                    result:       rrr
+                    result
                 });
             });
     }
@@ -514,13 +506,6 @@ export default class Driver extends serviceUtils.EventEmitter {
         });
 
         if (msg.windowId === this.windowId) {
-            let wind = window;
-
-            if (this.parentWindowDriverLink)
-                wind = this.parentWindowDriverLink.getTopOpenedWindow();
-
-            wind[msg.id] = true;
-
             if (msg.cmd === FIND_DRIVER_COMMAND.switchToWindow)
                 return this._setCurrentWindowAsMaster();
 
@@ -539,35 +524,6 @@ export default class Driver extends serviceUtils.EventEmitter {
         }
 
         return resultPromise;
-
-        // return resultPromise.then(resu => {
-        //     debugger;
-        //
-        //     if (!window.opener && !window[msg.id]) {
-        //         // this._startInternal({
-        //         //     finalizePendingCommand:             true,
-        //         //     isFirstRequestAfterWindowSwitching: true
-        //         // });
-        //
-        //         this._onReady(new DriverStatus({
-        //             isCommandResult: true,
-        //             executionError:  new CannotSwitchToWindowError()
-        //         }));
-        //
-        //         // this._setCurrentWindowAsMaster()
-        //         //     .then(() => {
-        //         //         debugger;
-        //         //
-        //         //         throw new Error('12345');
-        //         //     })
-        //
-        //         // this._onReady(new DriverStatus({
-        //         //     isCommandResult: true,
-        //         //     executionError:  new CannotSwitchToWindowError()
-        //         // }));
-        //     }
-        // });
-
     }
 
     _handleSetAsMasterMessage (msg, wnd) {
