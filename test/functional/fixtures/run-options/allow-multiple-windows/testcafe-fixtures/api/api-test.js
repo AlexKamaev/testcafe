@@ -159,5 +159,9 @@ test('Close specific window and switch to it', async t => {
 // });
 
 test('Close parent window and catch error', async t => {
-    // throw new Error('Not implemented');
+    const parentWindow = await t.getCurrentWindow();
+    const childWindow1 = await t.openWindow(child1Url);
+    const childWindow2 = await t.openWindow(child2Url);
+
+    await t.closeWindow(childWindow1);
 });

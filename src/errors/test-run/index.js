@@ -554,6 +554,12 @@ export class CannotSwitchToWindowError extends TestRunErrorBase {
     }
 }
 
+export class CannotCloseWindowWithChildrenError extends TestRunErrorBase {
+    constructor () {
+        super(TEST_RUN_ERRORS.cannotCloseWindowWithChildrenError);
+    }
+}
+
 export class CloseChildWindowError extends TestRunErrorBase {
     constructor () {
         super(TEST_RUN_ERRORS.closeChildWindowError);

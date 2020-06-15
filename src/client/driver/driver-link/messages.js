@@ -13,7 +13,7 @@ export const TYPE = {
 };
 
 export const FIND_DRIVER_COMMAND = {
-    setAsMaster: 'setAsMaster',
+    switchToWindow: 'switchToWindow',
     close:       'close'
 };
 
@@ -31,10 +31,11 @@ export class EstablishConnectionMessage extends InterDriverMessage {
 }
 
 export class ChildWindowExistMessage extends InterDriverMessage {
-    constructor (windowId) {
+    constructor (windowId, cmd) {
         super(TYPE.childWindowExists);
 
         this.windowId = windowId;
+        this.cmd      = cmd;
     }
 }
 

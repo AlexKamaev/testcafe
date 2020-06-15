@@ -133,7 +133,10 @@ describe('Allow multiple windows', () => {
         });
 
         it('Close parent window and catch error', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Close parent window and catch error', { only: 'chrome', allowMultipleWindows: true });
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close parent window and catch error', { only: 'chrome', allowMultipleWindows: true, shouldFail: true })
+                .catch(errs => {
+                    expect(errs[0]).to.contain('Cannot close window with opened child windows.');
+                });
         });
     });
 });
