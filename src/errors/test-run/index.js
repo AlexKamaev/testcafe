@@ -560,6 +560,24 @@ export class CloseChildWindowError extends TestRunErrorBase {
     }
 }
 
+export class ChildWindowValidationError extends TestRunErrorBase {
+    constructor (code) {
+        super(code);
+    }
+}
+
+export class WindowNotFoundError extends ChildWindowValidationError {
+    constructor () {
+        super(TEST_RUN_ERRORS.targetWindowNotFoundError);
+    }
+}
+
+export class CannotCloseWindowWithChildrenError extends ChildWindowValidationError {
+    constructor () {
+        super(TEST_RUN_ERRORS.cannotCloseWindowWithChildrenError);
+    }
+}
+
 export class CurrentIframeNotFoundError extends TestRunErrorBase {
     constructor () {
         super(TEST_RUN_ERRORS.currentIframeNotFoundError);
@@ -624,4 +642,3 @@ export class ChildWindowClosedBeforeSwitchingError extends TestRunErrorBase {
         super(TEST_RUN_ERRORS.childWindowClosedBeforeSwitchingError);
     }
 }
-

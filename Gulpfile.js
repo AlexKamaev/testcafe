@@ -746,8 +746,8 @@ function testFunctional (src, testingEnvironmentName, { allowMultipleWindows, ex
     if (!process.env.BROWSERSTACK_NO_LOCAL)
         process.env.BROWSERSTACK_NO_LOCAL = 1;
 
-    if (DEV_MODE)
-        process.env.DEV_MODE = 'true';
+    // if (DEV_MODE)
+    process.env.DEV_MODE = 'true';
 
     let tests = castArray(src);
 
@@ -834,7 +834,7 @@ gulp.step('test-functional-local-multiple-windows-run', () => {
     return testFunctional(MULTIPLE_WINDOWS_TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localChrome, { allowMultipleWindows: true });
 });
 
-gulp.task('test-functional-local-multiple-windows', gulp.series('prepare-tests', 'test-functional-local-multiple-windows-run'));
+gulp.task('test-functional-local-multiple-windows', gulp.series('test-functional-local-multiple-windows-run'));
 
 gulp.step('test-functional-local-compiler-service-run', () => {
     return testFunctional(COMPILER_SERVICE_TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessChrome, { experimentalCompilerService: true });
