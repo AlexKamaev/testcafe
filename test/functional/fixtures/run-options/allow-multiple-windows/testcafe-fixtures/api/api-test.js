@@ -189,6 +189,16 @@ test('Close specific window from parent', async t => {
     await t.expect(Selector('h1').innerText).eql('parent');
 });
 
+test('Close window and check master did not changed', async t => {
+    const childWindow = await t.openWindow(child1Url);
+
+    await t
+        .switchToParentWindow()
+        .openWindow(child2Url)
+        .closeWindow(childWindow)
+        .expect(Selector('h1').innerText).eql('child-2');
+});
+
 test('Close specific window from child', async t => {
     const childWindow1 = await t.openWindow(child1Url);
 
@@ -196,7 +206,7 @@ test('Close specific window from child', async t => {
     await t.openWindow(child2Url);
     await t.expect(Selector('h1').innerText).eql('child-2');
     await t.closeWindow(childWindow1);
-    await t.expect(Selector('h1').innerText).eql('parent');
+    await t.expect(Selector('h1').innerText).eql('child-2');
     await t.switchToWindow(childWindow1);
 });
 

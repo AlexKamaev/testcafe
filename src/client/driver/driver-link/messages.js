@@ -45,10 +45,11 @@ export class SwitchToWindowValidationMessage extends InterDriverMessage {
 }
 
 export class CloseWindowCommandMessage extends InterDriverMessage {
-    constructor ({ windowId }) {
+    constructor ({ windowId, closeSelf }) {
         super(TYPE.closeWindow);
 
-        this.windowId = windowId;
+        this.windowId  = windowId;
+        this.closeSelf = closeSelf;
     }
 }
 
