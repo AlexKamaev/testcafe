@@ -291,12 +291,3 @@ export class RequestHookNotImplementedMethodError extends TestRunErrorBase {
         this.hookClassName = hookClassName;
     }
 }
-
-export class AllowMultipleWindowsOptionIsNotSpecifiedError extends TestRunErrorBase {
-    constructor (methodName) {
-        super(TEST_RUN_ERRORS.allowMultipleWindowsOptionIsNotSpecifiedError);
-
-        this.methodName = methodName;
-    }
-}
-

@@ -51,6 +51,8 @@ describe('Runner', () => {
             .then(bc => {
                 connection = bc;
 
+                connection.activeWindowId = 'test';
+
                 connection.establish('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 ' +
                                      '(KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36');
             });
@@ -845,7 +847,7 @@ describe('Runner', () => {
             return runner
                 .browsers(connection)
                 .src('test/server/data/test-suites/legacy/test.test.js')
-                .run({ allowMultipleWindows: true })
+                .run()
                 .catch(err => {
                     expect(err.message).eql('You cannot run Legacy API tests in multi-window mode.');
                 });
@@ -855,7 +857,7 @@ describe('Runner', () => {
             return runner
                 .browsers(connection)
                 .src('test/server/data/test-suites/basic/testfile1.js')
-                .run({ allowMultipleWindows: true })
+                .run()
                 .catch(err => {
                     expect(err.message).eql('You cannot use multi-window mode in "remote".');
                 });

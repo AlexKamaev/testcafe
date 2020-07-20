@@ -144,4 +144,7 @@ export default class BrowserProviderPluginHost {
     async reportJobResult (/*browserId, status, data*/) {
         return;
     }
+
+    setActiveWindowId () {
+    }
 }

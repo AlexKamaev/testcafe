@@ -13,6 +13,5 @@ export default [
     OPTION_NAMES.stopOnFirstFail,
     OPTION_NAMES.disablePageCaching,
     OPTION_NAMES.disablePageReloads,
-    OPTION_NAMES.disableScreenshots,
-    OPTION_NAMES.allowMultipleWindows
+    OPTION_NAMES.disableScreenshots
 ];

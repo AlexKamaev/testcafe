@@ -353,10 +353,6 @@ export default {
         Cannot find the window specified in the action parameters.
     `,
 
-    [TEST_RUN_ERRORS.allowMultipleWindowsOptionIsNotSpecifiedError]: err => `
-        You should activate multi window mode (enable the "allow-multiple-windows" run option) to use the "${err.methodName}" method.
-    `,
-
     [TEST_RUN_ERRORS.parentWindowNotFoundError]: () => `
         Cannot find the parent window. Make sure that the tested window was opened from another window.
     `,

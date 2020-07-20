@@ -73,9 +73,11 @@ class BootstrapperMock extends LiveModeBootstrapper {
         return Promise.resolve({
             reporterPlugins:     [],
             tests:               [],
-            browserSet:          {},
             testedApp:           {},
-            commonClientScripts: []
+            commonClientScripts: [],
+            browserSet:          {
+                browserConnectionGroups: []
+            },
         });
     }
 }

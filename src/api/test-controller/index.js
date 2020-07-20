@@ -54,7 +54,6 @@ import {
 import { WaitCommand, DebugCommand } from '../../test-run/commands/observation';
 import assertRequestHookType from '../request-hooks/assert-type';
 import { createExecutionContext as createContext } from './execution-context';
-import { AllowMultipleWindowsOptionIsNotSpecifiedError } from '../../errors/test-run';
 import { isClientFunction, isSelector } from '../../client-functions/types';
 
 const originalThen = Promise.resolve().then;
@@ -134,11 +133,6 @@ export default class TestController {
                     });
             };
         });
-    }
-
-    _validateMultipleWindowCommand (apiMethodName) {
-        if (!this.testRun.allowMultipleWindows)
-            throw new AllowMultipleWindowsOptionIsNotSpecifiedError(apiMethodName);
     }
 
     getExecutionContext () {
@@ -286,8 +280,6 @@ export default class TestController {
     _openWindow$ (url) {
         const apiMethodName = 'openWindow';
 
-        this._validateMultipleWindowCommand(apiMethodName);
-
         return this._enqueueCommand(apiMethodName, OpenWindowCommand, { url });
     }
 
@@ -295,23 +287,17 @@ export default class TestController {
         const apiMethodName = 'closeWindow';
         const windowId      = window?.id || null;
 
-        this._validateMultipleWindowCommand(apiMethodName);
-
         return this._enqueueCommand(apiMethodName, CloseWindowCommand, { windowId });
     }
 
     _getCurrentWindow$ () {
         const apiMethodName = 'getCurrentWindow';
 
-        this._validateMultipleWindowCommand(apiMethodName);
-
         return this._enqueueCommand(apiMethodName, GetCurrentWindowCommand);
     }
 
     _switchToWindow$ (windowSelector, options = {}) {
         const apiMethodName = 'switchToWindow';
-
-        this._validateMultipleWindowCommand(apiMethodName);
 
         let command;
         let args;
@@ -333,15 +319,11 @@ export default class TestController {
     _switchToParentWindow$ () {
         const apiMethodName = 'switchToParentWindow';
 
-        this._validateMultipleWindowCommand(apiMethodName);
-
         return this._enqueueCommand(apiMethodName, SwitchToParentWindowCommand);
     }
 
     _switchToPreviousWindow$ () {
         const apiMethodName = 'switchToPreviousWindow';
-
-        this._validateMultipleWindowCommand(apiMethodName);
 
         return this._enqueueCommand(apiMethodName, SwitchToPreviousWindowCommand);
     }

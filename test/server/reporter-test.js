@@ -373,7 +373,6 @@ describe('Reporter', () => {
     }
 
     const taskOptions = {
-        allowMultipleWindows:   false,
         appInitDelay:           1000,
         assertionTimeout:       3000,
         browsers:               ['chrome', 'firefox'],
@@ -577,7 +576,6 @@ describe('Reporter', () => {
                     // NOTE: task properties
                     {
                         configuration: {
-                            allowMultipleWindows:   false,
                             appInitDelay:           1000,
                             assertionTimeout:       3000,
                             browsers:               ['chrome', 'firefox'],

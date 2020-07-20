@@ -113,7 +113,6 @@ export default class Bootstrapper {
     public appInitDelay?: number;
     public tsConfigPath?: string;
     public clientScripts: ClientScriptInit[];
-    public allowMultipleWindows: boolean;
 
     private readonly compilerService?: CompilerService;
 
@@ -128,7 +127,6 @@ export default class Bootstrapper {
         this.appInitDelay             = void 0;
         this.tsConfigPath             = void 0;
         this.clientScripts            = [];
-        this.allowMultipleWindows     = false;
 
         this.compilerService = compilerService;
     }
@@ -200,7 +198,7 @@ export default class Bootstrapper {
             return [];
 
         return browserInfo
-            .map(browser => times(this.concurrency, () => new BrowserConnection(this.browserConnectionGateway, browser, false, this.allowMultipleWindows)));
+            .map(browser => times(this.concurrency, () => new BrowserConnection(this.browserConnectionGateway, browser, false)));
     }
 
     private async _getBrowserConnections (browserInfo: BrowserInfoSource[]): Promise<BrowserSet> {

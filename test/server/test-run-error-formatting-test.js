@@ -82,8 +82,7 @@ const {
     ParentWindowNotFoundError,
     PreviousWindowNotFoundError,
     SwitchToWindowPredicateError,
-    CannotCloseWindowWithChildrenError,
-    AllowMultipleWindowsOptionIsNotSpecifiedError
+    CannotCloseWindowWithChildrenError
 } = require('../../lib/errors/test-run');
 
 const untestedErrorTypes = Object.keys(TEST_RUN_ERRORS).map(key => TEST_RUN_ERRORS[key]);
@@ -611,10 +610,6 @@ describe('Error formatting', () => {
 
         it('Should format "switchToWindowPredicateError"', () => {
             assertErrorMessage('switch-to-window-predicate-error', new SwitchToWindowPredicateError('error message'));
-        });
-
-        it('Should format "allowMultipleWindowsOptionIsNotSpecifiedError"', () => {
-            assertErrorMessage('allow-multiple-windows-option-is-not-specified-error', new AllowMultipleWindowsOptionIsNotSpecifiedError('openWindow'));
         });
     });
 

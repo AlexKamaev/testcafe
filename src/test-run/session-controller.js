@@ -76,10 +76,8 @@ export default class SessionController extends Session {
             }
 
             session.disablePageCaching   = testRun.disablePageCaching;
-            session.allowMultipleWindows = testRun.allowMultipleWindows;
-
-            if (session.allowMultipleWindows)
-                session.windowId = testRun.browserConnection.activeWindowId;
+            session.allowMultipleWindows = !testRun.test.isLegacy;
+            session.windowId             = testRun.browserConnection.activeWindowId;
 
             sessionInfo = {
                 session: session,

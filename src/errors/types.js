@@ -76,7 +76,6 @@ export const TEST_RUN_ERRORS = {
     childWindowClosedBeforeSwitchingError:                 'E72',
     cannotCloseWindowWithChildrenError:                    'E73',
     targetWindowNotFoundError:                             'E74',
-    allowMultipleWindowsOptionIsNotSpecifiedError:         'E75',
     parentWindowNotFoundError:                             'E76',
     previousWindowNotFoundError:                           'E77',
     switchToWindowPredicateError:                          'E78'

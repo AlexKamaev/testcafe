@@ -571,13 +571,5 @@ describe('Utils', () => {
 
             expect(preferences.profile.content_settings.exceptions.popups).eql({ 'testhost': { setting: 1 } });
         });
-
-        it("Without 'allowMultipleWindows' option", async () => {
-            const tempDir     = await createTempProfile('testhost', false);
-            const profileFile = path.join(tempDir.path, 'Default', 'Preferences');
-            const preferences = JSON.parse(fs.readFileSync(profileFile));
-
-            expect(preferences.profile.content_settings.exceptions.popups).to.be.undefined;
-        });
     });
 });

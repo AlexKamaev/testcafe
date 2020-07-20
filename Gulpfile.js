@@ -383,9 +383,9 @@ gulp.step('test-server-run', () => {
         }));
 });
 
-gulp.step('test-server-bootstrap', gulp.series('prepare-tests', 'test-server-run'));
+gulp.step('test-server-bootstrap', gulp.series('test-server-run'));
 
-gulp.task('test-server', gulp.parallel('check-licenses', 'test-server-bootstrap'));
+gulp.task('test-server', gulp.parallel('test-server-bootstrap'));
 
 function testClient (tests, settings, envSettings, cliMode) {
     function runTests (env, runOpts) {
@@ -733,12 +733,9 @@ gulp.task('publish-website', gulp.series('build-website-production', 'website-pu
 
 gulp.task('test-docs-travis', gulp.parallel('test-website-travis', 'lint'));
 
-function testFunctional (src, testingEnvironmentName, { allowMultipleWindows, experimentalCompilerService } = {}) {
+function testFunctional (src, testingEnvironmentName, { experimentalCompilerService } = {}) {
     process.env.TESTING_ENVIRONMENT       = testingEnvironmentName;
     process.env.BROWSERSTACK_USE_AUTOMATE = 1;
-
-    if (allowMultipleWindows)
-        process.env.ALLOW_MULTIPLE_WINDOWS = 'true';
 
     if (experimentalCompilerService)
         process.env.EXPERIMENTAL_COMPILER_SERVICE = 'true';
@@ -831,10 +828,10 @@ gulp.step('test-functional-local-legacy-run', () => {
 gulp.task('test-functional-local-legacy', gulp.series('prepare-tests', 'test-functional-local-legacy-run'));
 
 gulp.step('test-functional-local-multiple-windows-run', () => {
-    return testFunctional(MULTIPLE_WINDOWS_TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localChrome, { allowMultipleWindows: true });
+    return testFunctional(MULTIPLE_WINDOWS_TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localChrome);
 });
 
-gulp.task('test-functional-local-multiple-windows', gulp.series('prepare-tests', 'test-functional-local-multiple-windows-run'));
+gulp.task('test-functional-local-multiple-windows', gulp.series('test-functional-local-multiple-windows-run'));
 
 gulp.step('test-functional-local-compiler-service-run', () => {
     return testFunctional(COMPILER_SERVICE_TESTS_GLOB, functionalTestConfig.testingEnvironmentNames.localHeadlessChrome, { experimentalCompilerService: true });

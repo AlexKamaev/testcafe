@@ -654,7 +654,6 @@ describe('CLI argument parser', function () {
             { long: '--disable-page-reloads' },
             { long: '--disable-screenshots' },
             { long: '--screenshots-full-page' },
-            { long: '--allow-multiple-windows', short: '-m' },
             { long: '--experimental-compiler-service' }
         ];
 
@@ -708,7 +707,6 @@ describe('CLI argument parser', function () {
                 expect(runOpts.disablePageCaching).eql(true);
                 expect(runOpts.disablePageReloads).eql(true);
                 expect(runOpts.disableScreenshots).eql(true);
-                expect(runOpts.allowMultipleWindows).eql(true);
                 expect(runOpts.browsers).to.be.undefined;
             });
     });
