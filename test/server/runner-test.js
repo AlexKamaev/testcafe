@@ -147,7 +147,7 @@ describe('Runner', () => {
                 });
         });
 
-        it('Should fallback to the default reporter if reporter was not set', () => {
+        it.only('Should fallback to the default reporter if reporter was not set', () => {
             const storedRunTaskFn = runner._runTask;
 
             runner._runTask = reporters => {
