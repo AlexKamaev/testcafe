@@ -137,7 +137,7 @@ export default class TestController {
     }
 
     _validateMultipleWindowCommand (apiMethodName) {
-        if (!this.testRun.allowMultipleWindows)
+        if (this.testRun.disableMultipleWindows)
             throw new AllowMultipleWindowsOptionIsNotSpecifiedError(apiMethodName);
     }
 

@@ -14,6 +14,7 @@ import { ActionEventArg, ReportedTestStructureItem } from './interfaces';
 import BrowserConnection from '../browser/connection';
 import Test from '../api/structure/test';
 import { VideoOptions } from '../video-recorder/interfaces';
+import { getConcatenatedValuesString } from '../utils/string';
 
 export default class Task extends AsyncEventEmitter {
     private readonly _timeStamp: moment.Moment;
@@ -60,6 +61,34 @@ export default class Task extends AsyncEventEmitter {
 
             this.videos = new Videos(this._pendingBrowserJobs, { videoPath, videoOptions, videoEncodingOptions } as unknown as VideoOptions, this.warningLog, this._timeStamp);
         }
+
+        this._validateMultipleWindowsMode(tests as unknown as Dictionary<string>[], browserConnectionGroups, opts.disableMultipleWindows);
+    }
+
+    private _validateMultipleWindowsMode (tests: Dictionary<string>[], browserConnectionGroups: BrowserConnection[][], disableMultipleWindows: OptionValue): void {
+        if (disableMultipleWindows)
+            return;
+
+        this._validateTestForDisableMultipleWindowsOption(tests);
+        this._validateBrowsersForDisableMultipleWindowsOption(browserConnectionGroups);
+    }
+
+    private _validateTestForDisableMultipleWindowsOption (tests: Dictionary<string>[]): void {
+        if (tests.some(test => test.isLegacy))
+            this.warningLog.addWarning('You cannot run Legacy API tests in multi-window mode.');
+    }
+
+    private _validateBrowsersForDisableMultipleWindowsOption (browserConnectionGroups: BrowserConnection[][]): void {
+        const browserConnections            = browserConnectionGroups.map(browserConnectionGroup => browserConnectionGroup[0]);
+        const unsupportedBrowserConnections = browserConnections.filter(browserConnection => !browserConnection.activeWindowId);
+
+        if (!unsupportedBrowserConnections.length)
+            return;
+
+        const unsupportedBrowserAliases = unsupportedBrowserConnections.map(browserConnection => browserConnection.browserInfo.alias);
+        const browserAliases            = getConcatenatedValuesString(unsupportedBrowserAliases);
+
+        this.warningLog.addWarning(`You cannot use multi-window mode in ${browserAliases}.`);
     }
 
     private _assignBrowserJobEventHandlers (job: BrowserJob): void {

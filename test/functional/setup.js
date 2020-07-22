@@ -220,7 +220,7 @@ before(function () {
                     disablePageCaching,
                     disablePageReloads,
                     disableScreenshots,
-                    allowMultipleWindows
+                    disableMultipleWindows
                 } = opts;
 
                 const actualBrowsers = browsersInfo.filter(browserInfo => {
@@ -281,7 +281,7 @@ before(function () {
                         disablePageCaching,
                         disablePageReloads,
                         disableScreenshots,
-                        allowMultipleWindows
+                        disableMultipleWindows
                     })
                     .then(failedCount => {
                         if (customReporters)
