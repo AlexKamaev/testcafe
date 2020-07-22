@@ -708,7 +708,7 @@ describe('CLI argument parser', function () {
                 expect(runOpts.disablePageCaching).eql(true);
                 expect(runOpts.disablePageReloads).eql(true);
                 expect(runOpts.disableScreenshots).eql(true);
-                expect(runOpts.disableMultipleWindows).eql(false);
+                expect(runOpts.disableMultipleWindows).eql(true);
                 expect(runOpts.browsers).to.be.undefined;
             });
     });

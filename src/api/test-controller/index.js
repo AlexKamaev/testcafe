@@ -137,7 +137,11 @@ export default class TestController {
     }
 
     _validateMultipleWindowCommand (apiMethodName) {
-        if (this.testRun.disableMultipleWindows)
+        const { disableMultipleWindows, test, browserConnection } = this.testRun;
+
+        const allowMultipleWindows = !disableMultipleWindows && !test.isLegacy && !!browserConnection.activeWindowId;
+
+        if (!allowMultipleWindows)
             throw new AllowMultipleWindowsOptionIsNotSpecifiedError(apiMethodName);
     }
 
