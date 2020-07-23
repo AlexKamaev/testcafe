@@ -4,12 +4,13 @@ const TestController      = require('../../lib/api/test-controller');
 const { TEST_RUN_ERRORS } = require('../../lib/errors/types');
 
 class TestRunMock extends TestRun {
-    constructor () {
-        super({ id: 'test-id', name: 'test-name', fixture: { path: 'dummy', id: 'fixture-id', name: 'fixture-name' } }, {}, {}, {}, {});
-
-        this.browserConnection = {
-            activeWindowId: 'id'
-        };
+    constructor ({ activeWindowId = 'id', disableMultipleWindows = false, isLegacy = false } = {}) {
+        super(
+            { id: 'test-id', name: 'test-name', isLegacy: isLegacy, fixture: { path: 'dummy', id: 'fixture-id', name: 'fixture-name' } },
+            { activeWindowId: activeWindowId },
+            {},
+            {},
+            { disableMultipleWindows: disableMultipleWindows });
     }
 
     _addInjectables () {
@@ -20,17 +21,17 @@ class TestRunMock extends TestRun {
 }
 
 describe('Multiple windows', () => {
-    it('Not allowed in Legacy', async () => {
+    it('Disabled', async () => {
         const testRun        = new TestRunMock();
         const testController = new TestController(testRun);
 
-        testRun.test.isLegacy = true;
+        testRun.disableMultipleWindows = true;
 
         try {
             await testController.openWindow('http://example.com');
         }
         catch (err) {
-            expect(err.code).eql(TEST_RUN_ERRORS.allowMultipleWindowsOptionIsNotSpecifiedError);
+            expect(err.code).eql(TEST_RUN_ERRORS.multipleWindowsModeIsDisabledError);
         }
     });
 
@@ -44,7 +45,15 @@ describe('Multiple windows', () => {
             await testController.openWindow('http://example.com');
         }
         catch (err) {
-            expect(err.code).eql(TEST_RUN_ERRORS.allowMultipleWindowsOptionIsNotSpecifiedError);
+            expect(err.code).eql(TEST_RUN_ERRORS.multipleWindowsModeIsNotAvailableInRemoteBrowserError);
         }
+    });
+
+    it('`allowMultipleWindows` is passed to session', async () => {
+        expect(new TestRunMock().session.allowMultipleWindows).eql(true);
+
+        expect(new TestRunMock({ disableMultipleWindows: true }).session.allowMultipleWindows).eql(false);
+        expect(new TestRunMock({ isLegacy: true }).session.allowMultipleWindows).eql(false);
+        expect(new TestRunMock({ activeWindowId: null }).session.allowMultipleWindows).eql(false);
     });
 });

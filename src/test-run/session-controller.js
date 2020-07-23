@@ -2,8 +2,6 @@ import path from 'path';
 import { Session } from 'testcafe-hammerhead';
 import { UNSTABLE_NETWORK_MODE_HEADER } from '../browser/connection/unstable-network-mode';
 import TestRun from './';
-
-
 const ACTIVE_SESSIONS_MAP = {};
 const UPLOADS_DIR_NAME = '_uploads_';
 
