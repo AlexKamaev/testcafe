@@ -109,18 +109,18 @@ describe('Allow multiple windows', () => {
         });
 
         it('Switch to parent window', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to parent window', { only: 'chrome', disableMultipleWindows: false, speed: 0.01 });
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to parent window', { only: 'chrome', speed: 0.01 });
         });
 
         it('Switch to unexisting parent window', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to unexisting parent window', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to unexisting parent window', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot find the parent window. Make sure that the tested window was opened from another window.');
                 });
         });
 
         it('Switch to unexisting window', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to unexisting window', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to unexisting window', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot find the window specified in the action parameters.');
                 });
@@ -147,7 +147,7 @@ describe('Allow multiple windows', () => {
         });
 
         it('Switch to window by predicate with error', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to window by predicate with error', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to window by predicate with error', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('An error occurred inside the "switchToWindow" argument function.  Error details: Cannot read property \'field\' of undefined');
                 });
@@ -158,7 +158,7 @@ describe('Allow multiple windows', () => {
         });
 
         it('Switch to previous closed window', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to previous closed window', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Switch to previous closed window', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot find the previous window. Make sure that the previous window is opened.');
                 });
@@ -181,51 +181,51 @@ describe('Allow multiple windows', () => {
         });
 
         it('Close specific window from child', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window from child', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window from child', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot find the window specified in the action parameters.');
                 });
         });
 
         it('Close specific window and switch to it', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window and switch to it', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close specific window and switch to it', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot find the window specified in the action parameters.');
                 });
         });
 
         it('Close parent window and catch error', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Close parent window and catch error', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close parent window and catch error', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot close a window that has an open child window.');
                 });
         });
 
         it('Close unexisting window', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Close unexisting window', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close unexisting window', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot find the window specified in the action parameters');
                 });
         });
 
         it('Close unexisting child window', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Close unexisting child window', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close unexisting child window', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot find the window specified in the action parameters.');
                 });
         });
 
         it('Close closed window', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Close closed window', { only: 'chrome', disableMultipleWindows: false, shouldFail: true })
+            return runTests('testcafe-fixtures/api/api-test.js', 'Close closed window', { only: 'chrome', shouldFail: true })
                 .catch(errs => {
                     expect(errs[0]).to.contain('Cannot find the window specified in the action parameters.');
                 });
         });
 
-        it('Open window without `allowMultipleWindows` option', () => {
-            return runTests('testcafe-fixtures/api/api-test.js', 'Open window without `allowMultipleWindows` option', { only: 'chrome', shouldFail: true })
+        it('Open window with `disableMultipleWindows` option', () => {
+            return runTests('testcafe-fixtures/api/api-test.js', 'Open window with `disableMultipleWindows` option', { only: 'chrome', disableMultipleWindows: true, shouldFail: true })
                 .catch(errs => {
-                    expect(errs[0]).to.contain('You should activate multi window mode (enable the "allow-multiple-windows" run option) to use the "openWindow" method.');
+                    expect(errs[0]).to.contain('You disabled multi window mode. Remove the "disable-multiple-windows" run option to use the "openWindow" method.');
                 });
         });
     });

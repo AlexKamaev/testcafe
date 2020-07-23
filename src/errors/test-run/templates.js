@@ -358,7 +358,7 @@ export default {
     `,
 
     [TEST_RUN_ERRORS.allowMultipleWindowsOptionIsNotSpecifiedError]: err => `
-        You should activate multi window mode (enable the "allow-multiple-windows" run option) to use the "${err.methodName}" method.
+        You disabled multi window mode. Remove the "disable-multiple-windows" run option to use the "${err.methodName}" method.
     `,
 
     [TEST_RUN_ERRORS.parentWindowNotFoundError]: () => `

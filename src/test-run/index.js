@@ -926,6 +926,12 @@ export default class TestRun extends AsyncEventEmitter {
         if (!this.preventEmitActionEvents)
             await this.emit(eventName, args);
     }
+
+    static isMultipleWindowsAllowed (testRun) {
+        const { disableMultipleWindows, test, browserConnection } = testRun;
+
+        return !disableMultipleWindows && !test.isLegacy && !!browserConnection.activeWindowId;
+    }
 }
 
 // Service message handlers

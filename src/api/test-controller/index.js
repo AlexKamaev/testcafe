@@ -10,6 +10,7 @@ import WARNING_MESSAGE from '../../notifications/warning-message';
 import renderCallsiteSync from '../../utils/render-callsite-sync';
 import createStackFilter from '../../errors/create-stack-filter';
 import getBrowser from '../../utils/get-browser';
+import TestRun from '../../test-run';
 
 import {
     ClickCommand,
@@ -137,11 +138,7 @@ export default class TestController {
     }
 
     _validateMultipleWindowCommand (apiMethodName) {
-        const { disableMultipleWindows, test, browserConnection } = this.testRun;
-
-        const allowMultipleWindows = !disableMultipleWindows && !test.isLegacy && !!browserConnection.activeWindowId;
-
-        if (!allowMultipleWindows)
+        if (!TestRun.isMultipleWindowsAllowed(this.testRun))
             throw new AllowMultipleWindowsOptionIsNotSpecifiedError(apiMethodName);
     }
 

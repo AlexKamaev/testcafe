@@ -53,7 +53,7 @@ function getBrowserInfo (settings) {
 
             return browserProviderPool
                 .getBrowserInfo(settings.browserName)
-                .then(browserInfo => new BrowserConnection(testCafe.browserConnectionGateway, browserInfo, true, process.env.ALLOW_MULTIPLE_WINDOWS));
+                .then(browserInfo => new BrowserConnection(testCafe.browserConnectionGateway, browserInfo, true));
         })
         .then(connection => {
             return {
