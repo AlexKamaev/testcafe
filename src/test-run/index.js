@@ -838,9 +838,11 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     async _getStateSnapshotFromRole (role) {
-        const prevPhase = this.phase;
+        const prevPhase                = this.phase;
+        const prevAllowMultipleWindows = this.session.allowMultipleWindows;
 
-        this.phase = PHASE.inRoleInitializer;
+        this.phase                        = PHASE.inRoleInitializer;
+        this.session.allowMultipleWindows = false;
 
         if (role.phase === ROLE_PHASE.uninitialized)
             await role.initialize(this);
@@ -851,7 +853,8 @@ export default class TestRun extends AsyncEventEmitter {
         if (role.initErr)
             throw role.initErr;
 
-        this.phase = prevPhase;
+        this.phase                        = prevPhase;
+        this.session.allowMultipleWindows = prevAllowMultipleWindows;
 
         return role.stateSnapshot;
     }
