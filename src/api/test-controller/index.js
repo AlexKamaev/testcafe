@@ -132,6 +132,7 @@ export default class TestController {
             return () => {
                 return this.testRun.executeAction(apiMethodName, command, callsite)
                     .catch(err => {
+                        console.log('catch on _enqueueCommand');
                         this.executionChain = Promise.resolve();
 
                         throw err;

@@ -482,6 +482,9 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     _rejectCurrentDriverTask (err) {
+        console.log('_rejectCurrentDriverTask');
+        console.log(err);
+
         err.callsite = err.callsite || this.currentDriverTask.callsite;
 
         this.currentDriverTask.reject(err);
@@ -657,6 +660,8 @@ export default class TestRun extends AsyncEventEmitter {
             result = await this.executeCommand(command, callsite);
         }
         catch (err) {
+            console.log('catch on execute action:');
+            console.log(err);
             error = err;
         }
 
@@ -688,6 +693,8 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     async executeCommand (command, callsite) {
+        debugger;
+
         this.debugLog.command(command);
 
         if (this.pendingPageError && isCommandRejectableByPageError(command))
