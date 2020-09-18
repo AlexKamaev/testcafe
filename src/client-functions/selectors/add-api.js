@@ -758,7 +758,7 @@ function addHierarchicalSelectors (options) {
         const selectorFn = () => {
             /* eslint-disable no-undef */
             return expandSelectorResults(selector, node => {
-                return (node.shadowRoot === undefined) ? node.shadowRoot : null;
+                return node.shadowRoot !== void 0 ? node.shadowRoot : null;
             });
             /* eslint-enable no-undef */
         };
