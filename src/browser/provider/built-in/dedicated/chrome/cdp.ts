@@ -2,6 +2,7 @@ import path from 'path';
 import os from 'os';
 import remoteChrome from 'chrome-remote-interface';
 import { GET_WINDOW_DIMENSIONS_INFO_SCRIPT } from '../../../utils/client-functions';
+import { CdpPool } from './cdp-pool';
 
 interface Size {
     width: number;
@@ -24,10 +25,11 @@ interface ProviderMethods {
     resizeLocalBrowserWindow (browserId: string, newWidth: number, newHeight: number, currentWidth: number, currentHeight: number): Promise<void>;
 }
 
-interface RuntimeInfo {
+export interface RuntimeInfo {
+    activeWindowId: string;
     browserId: string;
     cdpPort: number;
-    client: remoteChrome.ProtocolApi;
+    cdpPool: CdpPool;
     tab: remoteChrome.TargetInfo;
     config: Config;
     viewportSize: Size;
@@ -44,23 +46,17 @@ interface TouchConfigOptions {
 
 const DOWNLOADS_DIR = path.join(os.homedir(), 'Downloads');
 
-async function getActiveTab (cdpPort: number, browserId: string): Promise<remoteChrome.TargetInfo> {
-    const tabs = await remoteChrome.listTabs({ port: cdpPort });
+async function setEmulationBounds ({ cdpPool, config, viewportSize, emulatedDevicePixelRatio }: RuntimeInfo): Promise<void> {
+    await setDeviceMetricsOverride(cdpPool, viewportSize.width, viewportSize.height, emulatedDevicePixelRatio, config.mobile);
 
-    return tabs.filter(t => t.type === 'page' && t.url.includes(browserId))[0];
-}
-
-async function setEmulationBounds ({ client, config, viewportSize, emulatedDevicePixelRatio }: RuntimeInfo): Promise<void> {
-    await setDeviceMetricsOverride(client, viewportSize.width, viewportSize.height, emulatedDevicePixelRatio, config.mobile);
-
-    await client.Emulation.setVisibleSize({ width: viewportSize.width, height: viewportSize.height });
+    await cdpPool.setVisibleSize({ width: viewportSize.width, height: viewportSize.height });
 }
 
 async function setEmulation (runtimeInfo: RuntimeInfo): Promise<void> {
-    const { client, config } = runtimeInfo;
+    const { cdpPool, config } = runtimeInfo;
 
     if (config.userAgent !== void 0)
-        await client.Network.setUserAgentOverride({ userAgent: config.userAgent });
+        await cdpPool.setUserAgentOverride({ userAgent: config.userAgent });
 
     if (config.touch !== void 0) {
         const touchConfig: TouchConfigOptions = {
@@ -69,32 +65,26 @@ async function setEmulation (runtimeInfo: RuntimeInfo): Promise<void> {
             maxTouchPoints: 1
         };
 
-        if (client.Emulation.setEmitTouchEventsForMouse)
-            await client.Emulation.setEmitTouchEventsForMouse(touchConfig);
+        await cdpPool.setEmitTouchEventsForMouse(touchConfig);
+        await cdpPool.setTouchEmulationEnabled(touchConfig);
 
-        if (client.Emulation.setTouchEmulationEnabled)
-            await client.Emulation.setTouchEmulationEnabled(touchConfig);
+        await resizeWindow({ width: config.width, height: config.height }, runtimeInfo);
     }
-
-    await resizeWindow({ width: config.width, height: config.height }, runtimeInfo);
 }
 
-async function enableDownloads ({ client }: RuntimeInfo): Promise<void> {
-    await client.Page.setDownloadBehavior({
-        behavior:     'allow',
-        downloadPath: DOWNLOADS_DIR
-    });
+async function enableDownloads ({ cdpPool }: RuntimeInfo): Promise<void> {
+    await cdpPool.setDownloadBehavior(DOWNLOADS_DIR);
 }
 
-export async function getScreenshotData ({ client, config, emulatedDevicePixelRatio }: RuntimeInfo, fullPage?: boolean): Promise<Buffer> {
-    let viewportWidth = 0;
+export async function getScreenshotData ({ cdpPool, config, emulatedDevicePixelRatio }: RuntimeInfo, fullPage?: boolean): Promise<Buffer> {
+    let viewportWidth  = 0;
     let viewportHeight = 0;
 
     if (fullPage) {
-        const { contentSize, visualViewport } = await client.Page.getLayoutMetrics();
+        const { contentSize, visualViewport } = await cdpPool.getLayoutMetrics();
 
         await setDeviceMetricsOverride(
-            client,
+            cdpPool,
             Math.ceil(contentSize.width),
             Math.ceil(contentSize.height),
             emulatedDevicePixelRatio,
@@ -104,61 +94,46 @@ export async function getScreenshotData ({ client, config, emulatedDevicePixelRa
         viewportHeight = visualViewport.clientHeight;
     }
 
-    const screenshotData = await client.Page.captureScreenshot({});
+    const screenshotData = await cdpPool.captureScreenshot();
 
     if (fullPage) {
         if (config.emulation) {
             await setDeviceMetricsOverride(
-                client,
+                cdpPool,
                 config.width || viewportWidth,
                 config.height || viewportHeight,
                 emulatedDevicePixelRatio,
                 config.mobile);
         }
         else
-            await client.Emulation.clearDeviceMetricsOverride();
+            await cdpPool.clearDeviceMetricsOverride();
     }
 
     return Buffer.from(screenshotData.data, 'base64');
 }
 
-async function setDeviceMetricsOverride (client: remoteChrome.ProtocolApi, width: number, height: number, deviceScaleFactor: number, mobile: boolean): Promise<void> {
-    await client.Emulation.setDeviceMetricsOverride({
-        width,
-        height,
-        deviceScaleFactor,
-        mobile,
-        // @ts-ignore
-        fitWindow: false
-    });
+async function setDeviceMetricsOverride (cdpPool: CdpPool, width: number, height: number, deviceScaleFactor: number, mobile: boolean): Promise<void> {
+    await cdpPool.setDeviceMetricsOverride(width, height, deviceScaleFactor, mobile);
 }
 
 export async function createClient (runtimeInfo: RuntimeInfo): Promise<void> {
-    const { browserId, config, cdpPort } = runtimeInfo;
+    const { config } = runtimeInfo;
 
-    let tab    = null;
-    let client = null;
+    const cdpPool = new CdpPool(runtimeInfo);
 
     try {
-        tab = await getActiveTab(cdpPort, browserId);
+        await cdpPool.init();
 
-        if (!tab)
+        if (!cdpPool.parentTarget)
             return;
-
-        client = await remoteChrome({ target: tab, port: cdpPort });
     }
     catch (e) {
         return;
     }
 
-    runtimeInfo.tab    = tab;
-    runtimeInfo.client = client;
+    runtimeInfo.cdpPool = cdpPool;
 
-    await client.Page.enable();
-    await client.Network.enable({});
-    await client.Runtime.enable();
-
-    const devicePixelRatioQueryResult = await client.Runtime.evaluate({ expression: 'window.devicePixelRatio' });
+    const devicePixelRatioQueryResult = await runtimeInfo.cdpPool.evaluateRuntime('window.devicePixelRatio');
 
     runtimeInfo.originalDevicePixelRatio = devicePixelRatioQueryResult.result.value;
     runtimeInfo.emulatedDevicePixelRatio = config.scaleFactor || runtimeInfo.originalDevicePixelRatio;
@@ -170,38 +145,36 @@ export async function createClient (runtimeInfo: RuntimeInfo): Promise<void> {
         await enableDownloads(runtimeInfo);
 }
 
-export function isHeadlessTab ({ tab, config }: RuntimeInfo): boolean {
-    return tab && config.headless;
+export function isHeadlessTab ({ cdpPool, config }: RuntimeInfo): boolean {
+    return !!cdpPool.parentTarget && config.headless;
 }
 
-export async function closeTab ({ tab, cdpPort }: RuntimeInfo): Promise<void> {
-    await remoteChrome.closeTab({ id: tab.id, port: cdpPort });
+export async function closeTab ({ cdpPool, cdpPort }: RuntimeInfo): Promise<void> {
+    if (cdpPool.parentTarget)
+        await remoteChrome.closeTab({ id: cdpPool.parentTarget.id, port: cdpPort });
 }
 
 export async function updateMobileViewportSize (runtimeInfo: RuntimeInfo): Promise<void> {
-    const windowDimensionsQueryResult = await runtimeInfo.client.Runtime.evaluate({
-        expression:    `(${GET_WINDOW_DIMENSIONS_INFO_SCRIPT})()`,
-        returnByValue: true
-    });
+    const windowDimensionsQueryResult = await runtimeInfo.cdpPool.evaluateRuntime(`(${GET_WINDOW_DIMENSIONS_INFO_SCRIPT})()`, true);
 
     const windowDimensions = windowDimensionsQueryResult.result.value;
 
-    runtimeInfo.viewportSize.width  = windowDimensions.outerWidth;
+    runtimeInfo.viewportSize.width = windowDimensions.outerWidth;
     runtimeInfo.viewportSize.height = windowDimensions.outerHeight;
 }
 
 export async function resizeWindow (newDimensions: Size, runtimeInfo: RuntimeInfo): Promise<void> {
     const { browserId, config, viewportSize, providerMethods } = runtimeInfo;
 
-    const currentWidth  = viewportSize.width;
+    const currentWidth = viewportSize.width;
     const currentHeight = viewportSize.height;
-    const newWidth      = newDimensions.width || currentWidth;
-    const newHeight     = newDimensions.height || currentHeight;
+    const newWidth = newDimensions.width || currentWidth;
+    const newHeight = newDimensions.height || currentHeight;
 
     if (!config.headless)
         await providerMethods.resizeLocalBrowserWindow(browserId, newWidth, newHeight, currentWidth, currentHeight);
 
-    viewportSize.width  = newWidth;
+    viewportSize.width = newWidth;
     viewportSize.height = newHeight;
 
     if (config.emulation)

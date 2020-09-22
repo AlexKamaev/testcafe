@@ -104,7 +104,8 @@ export default {
     },
 
     async hasCustomActionForBrowser (browserId) {
-        const { config, client } = this.openedBrowsers[browserId];
+        const { config, cdpPool } = this.openedBrowsers[browserId];
+        const client              = await cdpPool.getActiveClient();
 
         return {
             hasCloseBrowser:                true,
