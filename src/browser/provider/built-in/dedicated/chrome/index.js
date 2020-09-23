@@ -16,8 +16,8 @@ export default {
         return getConfig(name);
     },
 
-    _getBrowserProtocolClient () {
-        return cdp;
+    _getBrowserProtocolClient (runtimeInfo) {
+        return runtimeInfo.cdpPool;
     },
 
     async _createRunTimeInfo (hostName, configString, disableMultipleWindows) {
@@ -72,8 +72,8 @@ export default {
     async closeBrowser (browserId) {
         const runtimeInfo = this.openedBrowsers[browserId];
 
-        if (cdp.isHeadlessTab(runtimeInfo))
-            await cdp.closeTab(runtimeInfo);
+        if (runtimeInfo.cdpPool.isHeadlessTab())
+            await runtimeInfo.cdpPool.closeTab();
         else
             await this.closeLocalBrowser(browserId);
 
@@ -90,21 +90,26 @@ export default {
         const runtimeInfo = this.openedBrowsers[browserId];
 
         if (runtimeInfo.config.mobile)
-            await cdp.updateMobileViewportSize(runtimeInfo);
+            await runtimeInfo.cdpPool.updateMobileViewportSize();
         else {
             runtimeInfo.viewportSize.width  = currentWidth;
             runtimeInfo.viewportSize.height = currentHeight;
         }
 
-        await cdp.resizeWindow({ width, height }, runtimeInfo);
+        await runtimeInfo.cdpPool.resizeWindow({ width, height }, runtimeInfo);
     },
 
     async getVideoFrameData (browserId) {
-        return await cdp.getScreenshotData(this.openedBrowsers[browserId]);
+        const { cdpPool } = this.openedBrowsers[browserId];
+
+        return cdpPool.getScreenshotData();
     },
 
     async hasCustomActionForBrowser (browserId) {
         const { config, cdpPool } = this.openedBrowsers[browserId];
+
+        debugger;
+
         const client              = await cdpPool.getActiveClient();
 
         return {

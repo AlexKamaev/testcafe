@@ -2,6 +2,16 @@ import remoteChrome from 'chrome-remote-interface';
 import { Dictionary } from '../../../../../configuration/interfaces';
 import Protocol from 'devtools-protocol';
 import { RuntimeInfo } from './cdp';
+import path from 'path';
+import os from 'os';
+import { GET_WINDOW_DIMENSIONS_INFO_SCRIPT } from '../../../utils/client-functions';
+
+interface Size {
+    width: number;
+    height: number;
+}
+
+const DOWNLOADS_DIR = path.join(os.homedir(), 'Downloads');
 
 export class CdpPool {
     private _clients: Dictionary<remoteChrome.ProtocolApi> = {};
@@ -11,6 +21,8 @@ export class CdpPool {
 
     public constructor (runtimeInfo: RuntimeInfo) {
         this._runtimeInfo = runtimeInfo;
+
+        runtimeInfo.cdpPool = this;
     }
 
     private get _clientKey (): string {
@@ -37,16 +49,35 @@ export class CdpPool {
 
         this.parentTarget = tabs.find(t => t.url.includes(this._runtimeInfo.browserId));
 
-        await this._createClient();
+        await this._createClient(true);
 
-        await this._enable();
+        const devicePixelRatioQueryResult = await this.evaluateRuntime('window.devicePixelRatio');
+
+        this._runtimeInfo.originalDevicePixelRatio = devicePixelRatioQueryResult.result.value;
+        this._runtimeInfo.emulatedDevicePixelRatio = this._runtimeInfo.config.scaleFactor || this._runtimeInfo.originalDevicePixelRatio;
+
+        if (this._runtimeInfo.config.emulation)
+            await this.setEmulation();
+
+        if (this._runtimeInfo.config.headless)
+            await this.enableDownloads();
     }
 
-    private async _createClient (): Promise<remoteChrome.ProtocolApi> {
+    private async _createClient (first: boolean = false): Promise<remoteChrome.ProtocolApi> {
         const target = await this._getActiveTab();
         const client = await remoteChrome({ target, port: this._runtimeInfo.cdpPort });
 
         this._clients[this._clientKey] = client;
+
+        await this._enable();
+
+        if (!first) {
+            if (this._runtimeInfo.config.emulation)
+                await this.setEmulation();
+
+            if (this._runtimeInfo.config.headless)
+                await this.enableDownloads();
+        }
 
         return client;
     }
@@ -125,6 +156,106 @@ export class CdpPool {
         const { Emulation } = await this.getActiveClient();
 
         await Emulation.clearDeviceMetricsOverride();
+    }
+
+    public async getScreenshotData (fullPage?: boolean): Promise<Buffer> {
+        let viewportWidth  = 0;
+        let viewportHeight = 0;
+
+        const { config, emulatedDevicePixelRatio } = this._runtimeInfo;
+
+        if (fullPage) {
+            const { contentSize, visualViewport } = await this.getLayoutMetrics();
+
+            await this.setDeviceMetricsOverride(
+                Math.ceil(contentSize.width),
+                Math.ceil(contentSize.height),
+                emulatedDevicePixelRatio,
+                config.mobile);
+
+            viewportWidth = visualViewport.clientWidth;
+            viewportHeight = visualViewport.clientHeight;
+        }
+
+        const screenshotData = await this.captureScreenshot();
+
+        if (fullPage) {
+            if (config.emulation) {
+                await this.setDeviceMetricsOverride(
+                    config.width || viewportWidth,
+                    config.height || viewportHeight,
+                    emulatedDevicePixelRatio,
+                    config.mobile);
+            }
+            else
+                await this.clearDeviceMetricsOverride();
+        }
+
+        return Buffer.from(screenshotData.data, 'base64');
+    }
+
+    public isHeadlessTab (): boolean {
+        return !!this.parentTarget && this._runtimeInfo.config.headless;
+    }
+
+    public async closeTab (): Promise<void> {
+        if (this.parentTarget)
+            await remoteChrome.closeTab({ id: this.parentTarget.id, port: this._runtimeInfo.cdpPort });
+    }
+
+    public async updateMobileViewportSize (): Promise<void> {
+        const windowDimensionsQueryResult = await this.evaluateRuntime(`(${GET_WINDOW_DIMENSIONS_INFO_SCRIPT})()`, true);
+
+        const windowDimensions = windowDimensionsQueryResult.result.value;
+
+        this._runtimeInfo.viewportSize.width = windowDimensions.outerWidth;
+        this._runtimeInfo.viewportSize.height = windowDimensions.outerHeight;
+    }
+
+    public async setEmulation (): Promise<void> {
+        debugger;
+
+        const { config } = this._runtimeInfo;
+
+        if (config.userAgent !== void 0)
+            await this.setUserAgentOverride({ userAgent: config.userAgent });
+
+        if (config.touch !== void 0) {
+            const touchConfig: any = {
+                enabled:        config.touch,
+                configuration:  config.mobile ? 'mobile' : 'desktop',
+                maxTouchPoints: 1
+            };
+
+            await this.setEmitTouchEventsForMouse(touchConfig);
+            await this.setTouchEmulationEnabled(touchConfig);
+
+            await this.resizeWindow({ width: config.width, height: config.height });
+        }
+    }
+
+    public async resizeWindow (newDimensions: Size): Promise<void> {
+        const { browserId, config, viewportSize, providerMethods, emulatedDevicePixelRatio } = this._runtimeInfo;
+
+        const currentWidth = viewportSize.width;
+        const currentHeight = viewportSize.height;
+        const newWidth = newDimensions.width || currentWidth;
+        const newHeight = newDimensions.height || currentHeight;
+
+        if (!config.headless)
+            await providerMethods.resizeLocalBrowserWindow(browserId, newWidth, newHeight, currentWidth, currentHeight);
+
+        viewportSize.width = newWidth;
+        viewportSize.height = newHeight;
+
+        if (config.emulation) {
+            await this.setDeviceMetricsOverride(viewportSize.width, viewportSize.height, emulatedDevicePixelRatio, config.mobile);
+            await this.setVisibleSize({ width: viewportSize.width, height: viewportSize.height });
+        }
+    }
+
+    private async enableDownloads (): Promise<void> {
+        await this.setDownloadBehavior(DOWNLOADS_DIR);
     }
 
     private async _enable (): Promise<void> {

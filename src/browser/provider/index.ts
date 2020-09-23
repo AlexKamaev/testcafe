@@ -296,6 +296,9 @@ export default class BrowserProvider {
     }
 
     public async resizeWindow (browserId: string, width: number, height: number, currentWidth: number, currentHeight: number): Promise<void> {
+
+        debugger;
+
         const canUseDefaultWindowActions = await this.canUseDefaultWindowActions(browserId);
         const customActionsInfo          = await this.hasCustomActionForBrowser(browserId);
         const hasCustomResizeWindow      = customActionsInfo.hasResizeWindow;
