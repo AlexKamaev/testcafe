@@ -5,47 +5,14 @@ import path from 'path';
 import os from 'os';
 import { GET_WINDOW_DIMENSIONS_INFO_SCRIPT } from '../../../utils/client-functions';
 
+import {
+    Config,
+    RuntimeInfo,
+    TouchConfigOptions,
+    Size
+} from './interfaces';
+
 const DOWNLOADS_DIR = path.join(os.homedir(), 'Downloads');
-
-interface Size {
-    width: number;
-    height: number;
-}
-
-interface Config {
-    deviceName?: string;
-    headless: boolean;
-    mobile: boolean;
-    emulation: false;
-    userAgent?: string;
-    touch?: boolean;
-    width: number;
-    height: number;
-    scaleFactor: number;
-}
-
-interface ProviderMethods {
-    resizeLocalBrowserWindow (browserId: string, newWidth: number, newHeight: number, currentWidth: number, currentHeight: number): Promise<void>;
-}
-
-export interface RuntimeInfo {
-    activeWindowId: string;
-    browserId: string;
-    cdpPort: number;
-    cdpPool: Cdp;
-    tab: remoteChrome.TargetInfo;
-    config: Config;
-    viewportSize: Size;
-    emulatedDevicePixelRatio: number;
-    originalDevicePixelRatio: number;
-    providerMethods: ProviderMethods;
-}
-
-interface TouchConfigOptions {
-    enabled: boolean;
-    configuration: 'desktop' | 'mobile';
-    maxTouchPoints: number;
-}
 
 export class Cdp {
     private _clients: Dictionary<remoteChrome.ProtocolApi> = {};
@@ -55,7 +22,7 @@ export class Cdp {
     public constructor (runtimeInfo: RuntimeInfo) {
         this._runtimeInfo = runtimeInfo;
 
-        runtimeInfo.cdpPool = this;
+        runtimeInfo.cdp = this;
     }
 
     private get _clientKey (): string {
@@ -95,13 +62,13 @@ export class Cdp {
         return client;
     }
 
-    private async _setupClient (client: remoteChrome.ProtocolApi) {
+    private async _setupClient (client: remoteChrome.ProtocolApi): Promise<void> {
         if (this._config.emulation)
             await this._setEmulation(client);
 
         if (this._config.headless) {
             await client.Page.setDownloadBehavior({
-                behavior: 'allow',
+                behavior:     'allow',
                 downloadPath: DOWNLOADS_DIR
             });
         }
@@ -123,7 +90,7 @@ export class Cdp {
             await client.Network.setUserAgentOverride({ userAgent: this._config.userAgent });
 
         if (this._config.touch !== void 0) {
-            const touchConfig: any = {
+            const touchConfig: TouchConfigOptions = {
                 enabled:        this._config.touch,
                 configuration:  this._config.mobile ? 'mobile' : 'desktop',
                 maxTouchPoints: 1
@@ -135,7 +102,7 @@ export class Cdp {
             if (client.Emulation.setTouchEmulationEnabled)
                 await client.Emulation.setTouchEmulationEnabled(touchConfig);
 
-            await this.resizeWindow({ width: this._config.width, height: this._config.height });
+            await this.resizeWindow(this._config);
         }
     }
 
@@ -171,16 +138,12 @@ export class Cdp {
     }
 
     public async getActiveClient (): Promise<remoteChrome.ProtocolApi> {
-        let client = this._clients[this._clientKey];
+        const client = this._clients[this._clientKey];
 
         if (client)
             return client;
 
-        client = await this._createClient();
-
-        await this._setupClient(client);
-
-        return client;
+        return this._createClient();
     }
 
     public async init (): Promise<void> {
@@ -197,7 +160,7 @@ export class Cdp {
         this._runtimeInfo.originalDevicePixelRatio = devicePixelRatioQueryResult.result.value;
         this._runtimeInfo.emulatedDevicePixelRatio = this._config.scaleFactor || this._runtimeInfo.originalDevicePixelRatio;
 
-        this._setupClient(client);
+        await this._setupClient(client);
     }
 
     public async getScreenshotData (fullPage?: boolean): Promise<Buffer> {

@@ -300,8 +300,8 @@ exports.checkScreenshotsCropped = function (forError, customPath) {
     return checkScreenshotImages(forError, customPath, checkScreenshotFileCropped);
 };
 
-exports.checkScreenshotIsNotWhite = function (forError, customPath) {
-    return checkScreenshotImages(forError, customPath, checkScreenshotFileIsNotWhite);
+exports.checkScreenshotIsNotWhite = function (forError, customPath, expectedScreenshotCount) {
+    return checkScreenshotImages(forError, customPath, checkScreenshotFileIsNotWhite, expectedScreenshotCount);
 };
 
 exports.checkScreenshotFileFullPage = function (forError, customPath) {

@@ -1,6 +1,7 @@
-const { expect }     = require('chai');
-const createTestCafe = require('../../../../lib');
-const path           = require('path');
+const { expect }      = require('chai');
+const createTestCafe  = require('../../../../lib');
+const path            = require('path');
+const assertionHelper = require('../../assertion-helper.js');
 
 describe('Multiple windows', () => {
     describe('Switch to the child window', () => {
@@ -86,6 +87,20 @@ describe('Multiple windows', () => {
 
     it('Should continue debugging when a child window closes', () => {
         return runTests('testcafe-fixtures/debug-synchronization.js', null, { only: 'chrome' });
+    });
+
+    it.only('Should make screenshots of different windows', () => {
+        return runTests('testcafe-fixtures/features/screenshots.js', null, { only: 'chrome', setScreenshotPath: true })
+            .then(() => {
+                debugger;
+
+                expect(assertionHelper.checkScreenshotIsNotWhite(false, 'custom', 2)).eql(false);
+                expect(assertionHelper.checkScreenshotIsNotWhite(false, 'custom', 2)).eql(true);
+                expect(assertionHelper.checkScreenshotIsNotWhite(false, 'custom')).eql(false);
+                expect(assertionHelper.checkScreenshotIsNotWhite(false, 'custom')).eql(true);
+
+                // assertionHelper.removeScreenshotDir();
+            });
     });
 
     describe('API', () => {

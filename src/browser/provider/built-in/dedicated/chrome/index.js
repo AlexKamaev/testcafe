@@ -5,7 +5,7 @@ import ChromeRunTimeInfo from './runtime-info';
 import getConfig from './config';
 import { start as startLocalChrome, stop as stopLocalChrome } from './local-chrome';
 import { GET_WINDOW_DIMENSIONS_INFO_SCRIPT } from '../../../utils/client-functions';
-import { Cdp } from "./cdp-pool";
+import { Cdp } from './cdp';
 
 const MIN_AVAILABLE_DIMENSION = 50;
 
@@ -17,7 +17,7 @@ export default {
     },
 
     _getBrowserProtocolClient (runtimeInfo) {
-        return runtimeInfo.cdpPool;
+        return runtimeInfo.cdp;
     },
 
     async _createRunTimeInfo (hostName, configString, disableMultipleWindows) {
@@ -74,8 +74,8 @@ export default {
     async closeBrowser (browserId) {
         const runtimeInfo = this.openedBrowsers[browserId];
 
-        if (runtimeInfo.cdpPool.isHeadlessTab())
-            await runtimeInfo.cdpPool.closeTab();
+        if (runtimeInfo.cdp.isHeadlessTab())
+            await runtimeInfo.cdp.closeTab();
         else
             await this.closeLocalBrowser(browserId);
 
@@ -92,27 +92,24 @@ export default {
         const runtimeInfo = this.openedBrowsers[browserId];
 
         if (runtimeInfo.config.mobile)
-            await runtimeInfo.cdpPool.updateMobileViewportSize();
+            await runtimeInfo.cdp.updateMobileViewportSize();
         else {
             runtimeInfo.viewportSize.width  = currentWidth;
             runtimeInfo.viewportSize.height = currentHeight;
         }
 
-        await runtimeInfo.cdpPool.resizeWindow({ width, height }, runtimeInfo);
+        await runtimeInfo.cdp.resizeWindow({ width, height });
     },
 
     async getVideoFrameData (browserId) {
-        const { cdpPool } = this.openedBrowsers[browserId];
+        const { cdp } = this.openedBrowsers[browserId];
 
-        return cdpPool.getScreenshotData();
+        return cdp.getScreenshotData();
     },
 
     async hasCustomActionForBrowser (browserId) {
-        const { config, cdpPool } = this.openedBrowsers[browserId];
-
-        debugger;
-
-        const client              = await cdpPool.getActiveClient();
+        const { config, cdp } = this.openedBrowsers[browserId];
+        const client          = await cdp.getActiveClient();
 
         return {
             hasCloseBrowser:                true,
