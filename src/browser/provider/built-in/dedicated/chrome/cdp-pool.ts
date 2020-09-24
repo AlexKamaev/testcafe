@@ -1,7 +1,6 @@
 import remoteChrome from 'chrome-remote-interface';
 import { Dictionary } from '../../../../../configuration/interfaces';
 import Protocol from 'devtools-protocol';
-import { RuntimeInfo } from './cdp';
 import path from 'path';
 import os from 'os';
 import { GET_WINDOW_DIMENSIONS_INFO_SCRIPT } from '../../../utils/client-functions';
@@ -12,6 +11,46 @@ interface Size {
 }
 
 const DOWNLOADS_DIR = path.join(os.homedir(), 'Downloads');
+
+interface Size {
+    width: number;
+    height: number;
+}
+
+interface Config {
+    deviceName?: string;
+    headless: boolean;
+    mobile: boolean;
+    emulation: false;
+    userAgent?: string;
+    touch?: boolean;
+    width: number;
+    height: number;
+    scaleFactor: number;
+}
+
+interface ProviderMethods {
+    resizeLocalBrowserWindow (browserId: string, newWidth: number, newHeight: number, currentWidth: number, currentHeight: number): Promise<void>;
+}
+
+export interface RuntimeInfo {
+    activeWindowId: string;
+    browserId: string;
+    cdpPort: number;
+    cdpPool: CdpPool;
+    tab: remoteChrome.TargetInfo;
+    config: Config;
+    viewportSize: Size;
+    emulatedDevicePixelRatio: number;
+    originalDevicePixelRatio: number;
+    providerMethods: ProviderMethods;
+}
+
+interface TouchConfigOptions {
+    enabled: boolean;
+    configuration: 'desktop' | 'mobile';
+    maxTouchPoints: number;
+}
 
 export class CdpPool {
     private _clients: Dictionary<remoteChrome.ProtocolApi> = {};

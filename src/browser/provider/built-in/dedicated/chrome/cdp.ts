@@ -1,45 +1,7 @@
 import remoteChrome from 'chrome-remote-interface';
 import { CdpPool } from './cdp-pool';
 
-interface Size {
-    width: number;
-    height: number;
-}
 
-interface Config {
-    deviceName?: string;
-    headless: boolean;
-    mobile: boolean;
-    emulation: false;
-    userAgent?: string;
-    touch?: boolean;
-    width: number;
-    height: number;
-    scaleFactor: number;
-}
-
-interface ProviderMethods {
-    resizeLocalBrowserWindow (browserId: string, newWidth: number, newHeight: number, currentWidth: number, currentHeight: number): Promise<void>;
-}
-
-export interface RuntimeInfo {
-    activeWindowId: string;
-    browserId: string;
-    cdpPort: number;
-    cdpPool: CdpPool;
-    tab: remoteChrome.TargetInfo;
-    config: Config;
-    viewportSize: Size;
-    emulatedDevicePixelRatio: number;
-    originalDevicePixelRatio: number;
-    providerMethods: ProviderMethods;
-}
-
-interface TouchConfigOptions {
-    enabled: boolean;
-    configuration: 'desktop' | 'mobile';
-    maxTouchPoints: number;
-}
 
 // export async function getScreenshotData ({ cdpPool }: RuntimeInfo, fullPage?: boolean): Promise<Buffer> {
 //     return cdpPool.getScreenshotData(fullPage);
