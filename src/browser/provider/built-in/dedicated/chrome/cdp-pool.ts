@@ -49,6 +49,9 @@ export class CdpPool {
 
         this.parentTarget = tabs.find(t => t.url.includes(this._runtimeInfo.browserId));
 
+        if (!this.parentTarget)
+            return;
+
         await this._createClient(true);
 
         const devicePixelRatioQueryResult = await this.evaluateRuntime('window.devicePixelRatio');

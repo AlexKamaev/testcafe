@@ -45,19 +45,19 @@ interface TouchConfigOptions {
 //     return cdpPool.getScreenshotData(fullPage);
 // }
 
-export async function createClient (runtimeInfo: RuntimeInfo): Promise<void> {
-    const cdpPool = new CdpPool(runtimeInfo);
-
-    try {
-        await cdpPool.init();
-
-        if (!cdpPool.parentTarget)
-            return;
-    }
-    catch (e) {
-        return;
-    }
-}
+// export async function createClient (runtimeInfo: RuntimeInfo): Promise<void> {
+//     const cdpPool = new CdpPool(runtimeInfo);
+//
+//     try {
+//         await cdpPool.init();
+//
+//         if (!cdpPool.parentTarget)
+//             return;
+//     }
+//     catch (e) {
+//         return;
+//     }
+// }
 
 // export function isHeadlessTab ({ cdpPool, config }: RuntimeInfo): boolean {
 //     return !!cdpPool.parentTarget && config.headless;
