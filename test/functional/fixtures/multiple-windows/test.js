@@ -2,6 +2,18 @@ const { expect }      = require('chai');
 const createTestCafe  = require('../../../../lib');
 const path            = require('path');
 const assertionHelper = require('../../assertion-helper.js');
+const { GREEN_PIXEL, RED_PIXEL } = require('../../assertion-helper');
+const { readPngFile } = require('../../../../lib/utils/promisified-functions');
+const config          = require('../../config');
+
+const SCREENSHOTS_PATH               = config.testScreenshotsDir;
+
+async function assertScreenshotColor (fileName, pixel) {
+    const filePath = path.join(SCREENSHOTS_PATH, 'custom', fileName);
+    const png      = await readPngFile(filePath);
+
+    expect(assertionHelper.hasPixel(png, pixel, 0, 0)).eql(true);
+}
 
 describe('Multiple windows', () => {
     describe('Switch to the child window', () => {
@@ -89,17 +101,22 @@ describe('Multiple windows', () => {
         return runTests('testcafe-fixtures/debug-synchronization.js', null, { only: 'chrome' });
     });
 
-    it.only('Should make screenshots of different windows', () => {
+    it('Should make screenshots of different windows', () => {
         return runTests('testcafe-fixtures/features/screenshots.js', null, { only: 'chrome', setScreenshotPath: true })
             .then(() => {
-                debugger;
-
-                expect(assertionHelper.checkScreenshotIsNotWhite(false, 'custom', 2)).eql(false);
-                expect(assertionHelper.checkScreenshotIsNotWhite(false, 'custom', 2)).eql(true);
-                expect(assertionHelper.checkScreenshotIsNotWhite(false, 'custom')).eql(false);
-                expect(assertionHelper.checkScreenshotIsNotWhite(false, 'custom')).eql(true);
-
-                // assertionHelper.removeScreenshotDir();
+                return assertScreenshotColor('0.png', RED_PIXEL);
+            })
+            .then(() => {
+                return assertScreenshotColor('1.png', GREEN_PIXEL);
+            })
+            .then(() => {
+                return assertScreenshotColor('2.png', RED_PIXEL);
+            })
+            .then(() => {
+                return assertScreenshotColor('3.png', GREEN_PIXEL);
+            })
+            .then(() => {
+                assertionHelper.removeScreenshotDir();
             });
     });
 

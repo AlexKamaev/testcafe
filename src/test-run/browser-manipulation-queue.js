@@ -21,13 +21,13 @@ export default class BrowserManipulationQueue {
         if (!canResizeWindow)
             throw new WindowDimensionsOverflowError();
 
-        // try {
+        try {
             return await this.browserProvider.resizeWindow(this.browserId, width, height, currentWidth, currentHeight);
-        // }
-        // catch (err) {
-        //     this.warningLog.addWarning(WARNING_MESSAGE.resizeError, err.message);
-        //     return null;
-        // }
+        }
+        catch (err) {
+            this.warningLog.addWarning(WARNING_MESSAGE.resizeError, err.message);
+            return null;
+        }
     }
 
     async _resizeWindowToFitDevice (device, portrait, currentWidth, currentHeight) {
@@ -40,26 +40,26 @@ export default class BrowserManipulationQueue {
     }
 
     async _maximizeWindow () {
-        // try {
+        try {
             return await this.browserProvider.maximizeWindow(this.browserId);
-        // }
-        // catch (err) {
-        //     this.warningLog.addWarning(WARNING_MESSAGE.maximizeError, err.message);
-        //     return null;
-        // }
+        }
+        catch (err) {
+            this.warningLog.addWarning(WARNING_MESSAGE.maximizeError, err.message);
+            return null;
+        }
     }
 
     async _takeScreenshot (capture) {
-        // try {
+        try {
             return await capture();
-        // }
-        // catch (err) {
-        //     if (err.code === TEST_RUN_ERRORS.invalidElementScreenshotDimensionsError)
-        //         throw err;
-        //
-        //     this.warningLog.addWarning(WARNING_MESSAGE.screenshotError, err.stack);
-        //     return null;
-        // }
+        }
+        catch (err) {
+            if (err.code === TEST_RUN_ERRORS.invalidElementScreenshotDimensionsError)
+                throw err;
+
+            this.warningLog.addWarning(WARNING_MESSAGE.screenshotError, err.stack);
+            return null;
+        }
     }
 
     async executePendingManipulation (driverMsg) {

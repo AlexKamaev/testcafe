@@ -17,8 +17,9 @@ const SCREENSHOT_FILE_NAME_RE        = /[\\/]\d+.png$/;
 const CUSTOM_SCREENSHOT_FILE_NAME_RE = /\.png$/;
 const TEST_DIR_NAME_RE               = /test-\d+/;
 const RUN_DIR_NAME_RE                = /run-\d+/;
-const GREEN_PIXEL                    = [0, 255, 0, 255];
-const RED_PIXEL                      = [255, 0, 0, 255];
+
+const GREEN_PIXEL = [0, 255, 0, 255];
+const RED_PIXEL   = [255, 0, 0, 255];
 
 const VIDEOS_PATH      = config.testVideosDir;
 const VIDEO_FILES_GLOB = path.join(VIDEOS_PATH, '**', '*');
@@ -368,3 +369,7 @@ exports.SCREENSHOTS_PATH = SCREENSHOTS_PATH;
 
 exports.THUMBNAILS_DIR_NAME = THUMBNAILS_DIR_NAME;
 
+exports.hasPixel = hasPixel;
+
+exports.GREEN_PIXEL = GREEN_PIXEL;
+exports.RED_PIXEL   = RED_PIXEL;

@@ -174,12 +174,12 @@ export default class BrowserConnection extends EventEmitter {
         if (!this.idle)
             await promisifyEvent(this, 'idle');
 
-        // try {
+        try {
             await this.provider.closeBrowser(this.id);
-        // }
-        // catch (err) {
-        //     // NOTE: A warning would be really nice here, but it can't be done while log is stored in a task.
-        // }
+        }
+        catch (err) {
+            // NOTE: A warning would be really nice here, but it can't be done while log is stored in a task.
+        }
     }
 
     private _forceIdle (): void {
