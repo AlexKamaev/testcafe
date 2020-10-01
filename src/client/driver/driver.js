@@ -281,6 +281,7 @@ export default class Driver extends serviceUtils.EventEmitter {
         const childWindowDriverLink = new ChildWindowDriverLink(e.window, e.windowId);
 
         this.childWindowDriverLinks.push(childWindowDriverLink);
+
         this._ensureClosedChildWindowWatcher();
     }
 
@@ -295,6 +296,8 @@ export default class Driver extends serviceUtils.EventEmitter {
                 return;
 
             this.emit(CHILD_WINDOW_CLOSED_EVENT);
+
+            // alert('test');
 
             arrayUtils.remove(this.childWindowDriverLinks, firstClosedChildWindowDriverLink);
 
@@ -452,6 +455,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _getTargetWindowNotFoundResult (errCode, errMsg) {
+        // debugger;
+
         return Promise.resolve({
             success: false,
             errCode,
@@ -505,6 +510,9 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         if (windowExists)
             return getWindowFoundResult();
+
+        if (this.childWindowDriverLinks.length === 0)
+            alert('tset');
 
         if (!this.childWindowDriverLinks.length)
             return this._getTargetWindowNotFoundResult(TEST_RUN_ERRORS.targetWindowNotFoundError);
@@ -1095,7 +1103,10 @@ export default class Driver extends serviceUtils.EventEmitter {
     async _onSwitchToWindow (command, err) {
         const wnd      = this.parentWindowDriverLink ? this.parentWindowDriverLink.getTopOpenedWindow() : window;
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
+
         const result   = response.result;
+
+
 
         if (!result.success) {
             this._onReady(new DriverStatus({
