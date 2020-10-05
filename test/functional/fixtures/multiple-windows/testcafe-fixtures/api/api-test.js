@@ -1,7 +1,9 @@
-import { Selector } from 'testcafe';
+import { Selector, ClientFunction } from 'testcafe';
 
-const parentUrl = 'http://localhost:3000/fixtures/multiple-windows/pages/api/parent.html';
-const child1Url = 'http://localhost:3000/fixtures/multiple-windows/pages/api/child-1.html';
+const reload = ClientFunction(() => window.location.reload());
+
+const parentUrl = 'http://localhost:8080/parent.html';
+const child1Url = 'http://localhost:8080/child-1.html';
 const child2Url = 'http://localhost:3000/fixtures/multiple-windows/pages/api/child-2.html';
 const child3Url = 'http://localhost:3000/fixtures/multiple-windows/pages/api/child-3.html';
 
@@ -271,4 +273,14 @@ test('Close window without parent', async t => {
 
 test('Open window with `disableMultipleWindows` option', async t => {
     await t.openWindow(child1Url);
+});
+
+test.only('Refresh parent and switch to child', async t => {
+    await t.openWindow(child1Url);
+
+    await t.switchToParentWindow();
+
+    await reload();
+
+    await t.switchToPreviousWindow();
 });

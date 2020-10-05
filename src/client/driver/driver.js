@@ -199,6 +199,7 @@ export default class Driver extends serviceUtils.EventEmitter {
         hammerhead.on(hammerhead.EVENTS.consoleMethCalled, e => this._onConsoleMessage(e));
         hammerhead.on(hammerhead.EVENTS.beforeFormSubmit, e => this._onFormSubmit(e));
         hammerhead.on(hammerhead.EVENTS.windowOpened, e => this._onChildWindowOpened(e));
+        hammerhead.on(hammerhead.EVENTS.pageNavigationTriggered, e => this._onPageNavigationTriggered(e));
 
         this.setCustomCommandHandlers(COMMAND_TYPE.unlockPage, () => this._unlockPageAfterTestIsDone());
     }
@@ -343,6 +344,15 @@ export default class Driver extends serviceUtils.EventEmitter {
     _onChildWindowOpened (e) {
         this._addChildWindowDriverLink(e);
         this._switchToChildWindow(e.windowId);
+    }
+
+    _onPageNavigationTriggered (e) {
+        this._ensureChildWindowSendMessage();
+    }
+
+    _ensureChildWindowSendMessage () {
+        for (const childLink of this.childWindowDriverLinks)
+            childLink.ensureLink();
     }
 
     // HACK: For https://github.com/DevExpress/testcafe/issues/3560
@@ -512,8 +522,8 @@ export default class Driver extends serviceUtils.EventEmitter {
         if (windowExists)
             return getWindowFoundResult();
 
-        if (this.childWindowDriverLinks.length === 0)
-            alert('tset');
+        // if (this.childWindowDriverLinks.length === 0)
+        //     alert('tset');
 
         if (!this.childWindowDriverLinks.length)
             return this._getTargetWindowNotFoundResult(TEST_RUN_ERRORS.targetWindowNotFoundError);
@@ -711,6 +721,16 @@ export default class Driver extends serviceUtils.EventEmitter {
             });
     }
 
+    _handleEnsureChildLinkMessage (msg, window) {
+        this.parentWindowDriverLink.pingParent(this._getCurrentWindowId());
+    }
+
+    _restoreChildLink (msg, window) {
+        debugger;
+
+        this._addChildWindowDriverLink({ window, windowId: msg.windowId });
+    }
+
     _initChildDriverListening () {
         messageSandbox.on(messageSandbox.SERVICE_MSG_RECEIVED_EVENT, e => {
             const msg    = e.message;
@@ -732,6 +752,10 @@ export default class Driver extends serviceUtils.EventEmitter {
                 this._handleGetWindows(msg, window);
             else if (msg.type === MESSAGE_TYPE.closeAllChildWindows)
                 this._handleCloseAllWindowsMessage(msg, window);
+            else if (msg.type === MESSAGE_TYPE.ensureChildLink)
+                this._handleEnsureChildLinkMessage(msg, window);
+            else if (msg.type === MESSAGE_TYPE.initializeChildLinkMessage)
+                this._restoreChildLink(msg, window);
         });
     }
 
@@ -1103,6 +1127,13 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     async _onSwitchToWindow (command, err) {
         const wnd      = this.parentWindowDriverLink ? this.parentWindowDriverLink.getTopOpenedWindow() : window;
+
+
+        await new Promise(resolve => {
+            setTimeout(resolve, 5000);
+        });
+
+
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
 
         const result   = response.result;

@@ -1,4 +1,4 @@
-import { SetAsMasterMessage } from '../messages';
+import { SetAsMasterMessage, InitializeChildLinkMessage } from '../messages';
 import sendMessageToDriver from '../send-message-to-driver';
 import { CannotSwitchToWindowError } from '../../../../shared/errors';
 import { WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT } from '../timeouts';
@@ -37,5 +37,12 @@ export default class ParentWindowDriverLink {
         const wnd = this.currentDriverWindow.opener;
 
         return this._setAsMaster(wnd, opts.finalizePendingCommand);
+    }
+
+    pingParent (windowId) {
+        const msg = new InitializeChildLinkMessage(windowId);
+        const wnd = this.currentDriverWindow.opener;
+
+        return sendMessageToDriver(msg, wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
     }
 }

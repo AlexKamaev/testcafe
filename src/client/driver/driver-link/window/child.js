@@ -1,4 +1,4 @@
-import { CloseAllChildWindowsMessage, SetAsMasterMessage } from '../messages';
+import { CloseAllChildWindowsMessage, EnsureChildLinkMessage, SetAsMasterMessage } from '../messages';
 import sendMessageToDriver from '../send-message-to-driver';
 import { CannotSwitchToWindowError, CloseChildWindowError } from '../../../../shared/errors';
 import { WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT } from '../timeouts';
@@ -23,6 +23,12 @@ export default class ChildWindowDriverLink {
 
     findChildWindows (options, MessageCtor) {
         const msg = new MessageCtor(options);
+
+        return sendMessageToDriver(msg, this.driverWindow, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
+    }
+
+    ensureLink () {
+        const msg = new EnsureChildLinkMessage();
 
         return sendMessageToDriver(msg, this.driverWindow, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
     }

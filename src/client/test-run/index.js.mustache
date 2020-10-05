@@ -27,7 +27,6 @@
     var canUseDefaultWindowActions = {{{canUseDefaultWindowActions}}};
 
     var ClientDriver = window['%testCafeDriver%'];
-debugger;
     var driver       = new ClientDriver(testRunId,
         { heartbeat: browserHeartbeatUrl, status: browserStatusUrl, statusDone: browserStatusDoneUrl, activeWindowId: browserActiveWindowIdUrl },
         { userAgent: userAgent, fixtureName: fixtureName, testName: testName },
