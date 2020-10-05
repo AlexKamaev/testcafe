@@ -202,6 +202,12 @@ export default class Driver extends serviceUtils.EventEmitter {
         hammerhead.on(hammerhead.EVENTS.pageNavigationTriggered, e => this._onPageNavigationTriggered(e));
 
         this.setCustomCommandHandlers(COMMAND_TYPE.unlockPage, () => this._unlockPageAfterTestIsDone());
+
+        debugger;
+
+        if (window.opener && !this.parentWindowDriverLink) {
+            this._initParentWindowLink();
+        }
     }
 
     set speed (val) {
@@ -347,7 +353,19 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onPageNavigationTriggered (e) {
+        debugger;
+
+
+
         this._ensureChildWindowSendMessage();
+
+        if (this.parentWindowDriverLink) {
+            debugger;
+
+
+
+            window.expectParent = true;
+        }
     }
 
     _ensureChildWindowSendMessage () {
@@ -1066,6 +1084,10 @@ export default class Driver extends serviceUtils.EventEmitter {
         const wnd             = this.parentWindowDriverLink?.getTopOpenedWindow() || window;
         const windowId        = command.windowId || this.windowId;
         const isCurrentWindow = windowId === this.windowId;
+
+        await new Promise(resolve => {
+            setTimeout(resolve, 5000);
+        });
 
         try {
             const response = await this._validateChildWindowCloseCommandExists(windowId, wnd);
