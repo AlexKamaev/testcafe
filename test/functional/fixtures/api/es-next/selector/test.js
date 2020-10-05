@@ -21,7 +21,7 @@ describe('[API] Selector', function () {
         return runTests('./testcafe-fixtures/selector-test.js', '`innerText` element snapshot property', DEFAULT_RUN_OPTIONS);
     });
 
-    it('Should provide node snapshots for non-element nodes', function () {
+    it.only('Should provide node snapshots for non-element nodes', function () {
         return runTests('./testcafe-fixtures/selector-test.js', 'Non-element node snapshots', DEFAULT_RUN_OPTIONS);
     });
 
