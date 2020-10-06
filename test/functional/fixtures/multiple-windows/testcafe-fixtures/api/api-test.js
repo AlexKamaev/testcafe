@@ -275,7 +275,7 @@ test('Open window with `disableMultipleWindows` option', async t => {
     await t.openWindow(child1Url);
 });
 
-test('Refresh parent and switch to child', async t => {
+test.only('Refresh parent and switch to child', async t => {
     await t.openWindow(child1Url);
 
     await t.switchToParentWindow();
@@ -288,7 +288,7 @@ test('Refresh parent and switch to child', async t => {
 test.only('Refresh child and switch to parent', async t => {
     await t.openWindow(child1Url);
 
-    await t.debug();
+    // await t.debug();
 
     await reload();
 
