@@ -276,7 +276,8 @@ test('Open window with `disableMultipleWindows` option', async t => {
     await t.openWindow(child1Url);
 });
 
-test.only('Refresh parent and switch to child', async t => {
+for (let i = 0; i < 100; i++) {
+test('Refresh parent and switch to child', async t => {
 
     await backgournd();
 
@@ -293,15 +294,20 @@ test.only('Refresh parent and switch to child', async t => {
     await t.switchToPreviousWindow();
 });
 
-test('DO NOT REMOTE THIS TEST', async t => {
-    const child = await t.openWindow(child1Url);
 
-    await t.switchToParentWindow();
+    test.only('DO NOT REMOTE THIS TEST', async t => {
 
-    await reload();
+        await backgournd();
 
-    await t.closeWindow(child);
-});
+        const child = await t.openWindow(child1Url);
+
+        await t.switchToParentWindow();
+
+        await reload();
+
+        await t.closeWindow(child);
+    });
+
 
 test('Refresh child and switch to parent', async t => {
     await t.openWindow(child1Url);
@@ -320,3 +326,4 @@ test('Refresh child and switch to parent', async t => {
 
     await t.switchToParentWindow();
 });
+}

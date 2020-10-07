@@ -204,6 +204,8 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         this.setCustomCommandHandlers(COMMAND_TYPE.unlockPage, () => this._unlockPageAfterTestIsDone());
 
+        this._ensureChildWindowsPromise = () => {};
+
         //
         //
         // if (window.opener && !this.parentWindowDriverLink) {
@@ -732,13 +734,22 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _handleEnsureChildLinkMessage (msg, window) {
-
-
         this.parentWindowDriverLink.pingParent(this._getCurrentWindowId());
     }
 
     _restoreChildLink (msg, wnd) {
+        console.log('_restoreChildLink');
+
+
         this._addChildWindowDriverLink({ window: wnd, windowId: msg.windowId });
+
+        if (this.childWindowDriverLinks.length === this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT)) {
+            this._ensureChildWindowsPromise();
+
+            this._ensureChildWindowsPromise = () => {};
+
+            this.contextStorage.setItem(PENDING_CHILD_WINDOW_COUNT, 0);
+        }
 
         sendConfirmationMessage({
             requestMsgId: msg.id,
@@ -1083,11 +1094,12 @@ export default class Driver extends serviceUtils.EventEmitter {
         const windowId        = command.windowId || this.windowId;
         const isCurrentWindow = windowId === this.windowId;
 
-        await new Promise(resolve => {
-            setTimeout(resolve, 5000);
-        });
-
         try {
+
+            if (this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT)) {
+                await this._ensureChildWindows();
+            }
+
             const response = await this._validateChildWindowCloseCommandExists(windowId, wnd);
             const result   = response.result;
 
@@ -1157,7 +1169,9 @@ export default class Driver extends serviceUtils.EventEmitter {
         console.log('_onSwitchToWindow 2');
 
 
-        await this._ensureChildWindows();
+        if (this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT)) {
+            await this._ensureChildWindows();
+        }
 
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
 
@@ -1181,17 +1195,16 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     async _ensureChildWindows () {
-        return new Promise(resolve => {
-            setInterval(() => {
-                if (!this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT))
-                    resolve();
+            // return new Promise(resolve => {
+            //     this._ensureChildWindowsPromise = resolve;
+            // });
 
-                if (this.childWindowDriverLinks.length === this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT)) {
+            return getTimeLimitedPromise(new Promise(resolve => {
+                this._ensureChildWindowsPromise = resolve;
+            }), 30000)
+                .catch(err => {
                     debugger;
-                    resolve();
-                }
-            });
-        });
+                });
     }
 
     _onSwitchToPreviousWindow (command) {

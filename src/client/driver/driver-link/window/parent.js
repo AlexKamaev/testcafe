@@ -43,19 +43,8 @@ export default class ParentWindowDriverLink {
         const msg = new InitializeChildLinkMessage(windowId);
         const wnd = this.currentDriverWindow.opener;
 
-        while (true) {
-            debugger;
-
-            const result = await sendMessageToDriver(msg, wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
-
-            debugger;
-
-            if (result.result.success)
-                break;
-        }
-
         setTimeout(() => {
-            wnd.kekeke = true;
-        }, 100);
+            sendMessageToDriver(msg, wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
+        }, 1000);
     }
 }
