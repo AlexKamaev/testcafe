@@ -1,6 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe';
 
 const reload = ClientFunction(() => window.location.reload());
+const backgournd = ClientFunction(() => { document.body.style.backgroundColor = 'red'; });
 
 const parentUrl = 'http://localhost:8080/parent.html';
 const child1Url = 'http://localhost:8080/child-1.html';
@@ -276,16 +277,33 @@ test('Open window with `disableMultipleWindows` option', async t => {
 });
 
 test.only('Refresh parent and switch to child', async t => {
+
+    await backgournd();
+
     await t.openWindow(child1Url);
+
+    await t.switchToParentWindow();
+
+    // await t.debug();
+
+    await reload();
+
+    // await t.wait(1000);
+
+    await t.switchToPreviousWindow();
+});
+
+test('DO NOT REMOTE THIS TEST', async t => {
+    const child = await t.openWindow(child1Url);
 
     await t.switchToParentWindow();
 
     await reload();
 
-    await t.switchToPreviousWindow();
+    await t.closeWindow(child);
 });
 
-test.only('Refresh child and switch to parent', async t => {
+test('Refresh child and switch to parent', async t => {
     await t.openWindow(child1Url);
 
     // await t.debug();
@@ -293,4 +311,12 @@ test.only('Refresh child and switch to parent', async t => {
     await reload();
 
     await t.closeWindow();
+});
+
+test('Refresh child and switch to parent', async t => {
+    await t.openWindow(child1Url);
+
+    await reload();
+
+    await t.switchToParentWindow();
 });

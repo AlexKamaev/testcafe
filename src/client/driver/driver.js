@@ -114,6 +114,7 @@ const TEST_SPEED                           = 'testcafe|driver|test-speed';
 const ASSERTION_RETRIES_TIMEOUT            = 'testcafe|driver|assertion-retries-timeout';
 const ASSERTION_RETRIES_START_TIME         = 'testcafe|driver|assertion-retries-start-time';
 const CONSOLE_MESSAGES                     = 'testcafe|driver|console-messages';
+const PENDING_CHILD_WINDOW_COUNT           = 'testcafe|driver|pending-child-window-count';
 
 const ACTION_IFRAME_ERROR_CTORS = {
     NotLoadedError:   ActionIframeIsNotLoadedError,
@@ -203,11 +204,11 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         this.setCustomCommandHandlers(COMMAND_TYPE.unlockPage, () => this._unlockPageAfterTestIsDone());
 
-        debugger;
-
-        if (window.opener && !this.parentWindowDriverLink) {
-            this._initParentWindowLink();
-        }
+        //
+        //
+        // if (window.opener && !this.parentWindowDriverLink) {
+        //     this._initParentWindowLink();
+        // }
     }
 
     set speed (val) {
@@ -353,24 +354,15 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onPageNavigationTriggered (e) {
-        debugger;
-
-
-
         this._ensureChildWindowSendMessage();
-
-        if (this.parentWindowDriverLink) {
-            debugger;
-
-
-
-            window.expectParent = true;
-        }
     }
 
     _ensureChildWindowSendMessage () {
-        for (const childLink of this.childWindowDriverLinks)
+        this.contextStorage.setItem(PENDING_CHILD_WINDOW_COUNT, this.childWindowDriverLinks.length);
+
+        for (const childLink of this.childWindowDriverLinks) {
             childLink.ensureLink();
+        }
     }
 
     // HACK: For https://github.com/DevExpress/testcafe/issues/3560
@@ -484,7 +476,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _getTargetWindowNotFoundResult (errCode, errMsg) {
-        // debugger;
+        //
 
         return Promise.resolve({
             success: false,
@@ -740,13 +732,19 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _handleEnsureChildLinkMessage (msg, window) {
+
+
         this.parentWindowDriverLink.pingParent(this._getCurrentWindowId());
     }
 
-    _restoreChildLink (msg, window) {
-        debugger;
+    _restoreChildLink (msg, wnd) {
+        this._addChildWindowDriverLink({ window: wnd, windowId: msg.windowId });
 
-        this._addChildWindowDriverLink({ window, windowId: msg.windowId });
+        sendConfirmationMessage({
+            requestMsgId: msg.id,
+            window:       wnd,
+            result: { success: true }
+        });
     }
 
     _initChildDriverListening () {
@@ -1150,15 +1148,22 @@ export default class Driver extends serviceUtils.EventEmitter {
     async _onSwitchToWindow (command, err) {
         const wnd      = this.parentWindowDriverLink ? this.parentWindowDriverLink.getTopOpenedWindow() : window;
 
+        console.log('_onSwitchToWindow');
 
-        await new Promise(resolve => {
-            setTimeout(resolve, 5000);
-        });
+        // await new Promise(resolve => {
+        //     setTimeout(resolve, 5000);
+        // });
 
+        console.log('_onSwitchToWindow 2');
+
+
+        await this._ensureChildWindows();
 
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
 
         const result   = response.result;
+
+
 
 
 
@@ -1173,6 +1178,20 @@ export default class Driver extends serviceUtils.EventEmitter {
 
             sendMessageToDriver(new SwitchToWindowCommandMessage({ windowId: command.windowId, fn: command.findWindow }), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
         }
+    }
+
+    async _ensureChildWindows () {
+        return new Promise(resolve => {
+            setInterval(() => {
+                if (!this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT))
+                    resolve();
+
+                if (this.childWindowDriverLinks.length === this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT)) {
+                    debugger;
+                    resolve();
+                }
+            });
+        });
     }
 
     _onSwitchToPreviousWindow (command) {
@@ -1557,6 +1576,7 @@ export default class Driver extends serviceUtils.EventEmitter {
         this.speed = this.initialSpeed;
 
         this._initConsoleMessages();
+        this._initParentWindowLink();
     }
 
     async _doFirstPageLoadSetup () {
@@ -1574,7 +1594,5 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         if (role === DriverRole.master)
             this._startInternal();
-        else
-            this._initParentWindowLink();
     }
 }
