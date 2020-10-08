@@ -277,7 +277,7 @@ test('Open window with `disableMultipleWindows` option', async t => {
 });
 
 for (let i = 0; i < 10; i++) {
-test.only('Refresh parent and switch to child', async t => {
+test('Refresh parent and switch to child', async t => {
 
     // await t.debug();
 
@@ -303,7 +303,7 @@ test.only('Refresh parent and switch to child', async t => {
 });
 
 
-    test.only('DO NOT REMOTE THIS TEST', async t => {
+    test('DO NOT REMOTE THIS TEST', async t => {
 
         await backgournd();
 
@@ -318,7 +318,7 @@ test.only('Refresh parent and switch to child', async t => {
     });
 
 
-test.only('Refresh child and switch to parent', async t => {
+test('Refresh child and switch to parent', async t => {
     await t.openWindow(child1Url);
 
     // await t.debug();
@@ -328,7 +328,7 @@ test.only('Refresh child and switch to parent', async t => {
     await t.closeWindow();
 });
 
-test.only('Refresh child and switch to parent', async t => {
+test('Refresh child and switch to parent', async t => {
     await t.openWindow(child1Url);
 
     await reload();
@@ -349,3 +349,57 @@ test(`Switch_PreviousWindow`, async t => {
     await t.click(Selector('[href="/deals/"]'))
     await t.switchToPreviousWindow()
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+test.page('https://github.com/join?source=login').only('should open a new window', async t => {
+    await t.typeText(Selector('input[type="text"][name="user[login]"]'), 'TestCafe');
+
+    const childWindow = await t.openWindow('https://github.com/login');
+
+    await t
+        .typeText(Selector('input[type="text"][name="login"]'), 'kkkkk')
+        .typeText(Selector('input[type="password"][name="password"]'), 'klllllllllllll')
+        .click(Selector('input[type="submit"][value="Sign in"]'));
+
+    await t.closeWindow(childWindow);
+});
