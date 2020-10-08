@@ -43,8 +43,8 @@ export default class ParentWindowDriverLink {
         const msg = new InitializeChildLinkMessage(windowId);
         const wnd = this.currentDriverWindow.opener;
 
-        setTimeout(() => {
+        // setTimeout(() => {
             sendMessageToDriver(msg, wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
-        }, 1000);
+        // }, 1000);
     }
 }

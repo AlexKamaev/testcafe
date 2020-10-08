@@ -276,8 +276,10 @@ test('Open window with `disableMultipleWindows` option', async t => {
     await t.openWindow(child1Url);
 });
 
-for (let i = 0; i < 100; i++) {
-test('Refresh parent and switch to child', async t => {
+for (let i = 0; i < 10; i++) {
+test.only('Refresh parent and switch to child', async t => {
+
+    // await t.debug();
 
     await backgournd();
 
@@ -289,7 +291,13 @@ test('Refresh parent and switch to child', async t => {
 
     await reload();
 
+
+    await reload();
+    await reload();
+
     // await t.wait(1000);
+
+    // await t.debug();
 
     await t.switchToPreviousWindow();
 });
@@ -304,12 +312,13 @@ test('Refresh parent and switch to child', async t => {
         await t.switchToParentWindow();
 
         await reload();
+        await reload();
 
         await t.closeWindow(child);
     });
 
 
-test('Refresh child and switch to parent', async t => {
+test.only('Refresh child and switch to parent', async t => {
     await t.openWindow(child1Url);
 
     // await t.debug();
@@ -319,7 +328,7 @@ test('Refresh child and switch to parent', async t => {
     await t.closeWindow();
 });
 
-test('Refresh child and switch to parent', async t => {
+test.only('Refresh child and switch to parent', async t => {
     await t.openWindow(child1Url);
 
     await reload();
@@ -327,3 +336,16 @@ test('Refresh child and switch to parent', async t => {
     await t.switchToParentWindow();
 });
 }
+
+test(`Switch_PreviousWindow`, async t => {
+    await t.navigateTo("https://www.verizon.com/").maximizeWindow()
+    await t.openWindow("https://www.verizon.com/")
+    await t.switchToPreviousWindow()
+    // await t.debug()
+    await t.click(Selector('[aria-label="Shop Menu List"]').nth(0))
+    await t.click(Selector('[href="/deals/"]'))
+    await t.switchToPreviousWindow()
+    await t.click(Selector('[aria-label="Shop Menu List"]').nth(0))
+    await t.click(Selector('[href="/deals/"]'))
+    await t.switchToPreviousWindow()
+})

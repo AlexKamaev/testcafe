@@ -204,6 +204,13 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         this.setCustomCommandHandlers(COMMAND_TYPE.unlockPage, () => this._unlockPageAfterTestIsDone());
 
+        window.addEventListener('beforeunload', () => {
+            console.log('before unload');
+
+            this._ensureChildWindowSendMessage();
+        })
+
+
         this._ensureChildWindowsPromise = () => {};
 
         //
@@ -356,11 +363,17 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onPageNavigationTriggered (e) {
-        this._ensureChildWindowSendMessage();
+        // this._ensureChildWindowSendMessage();
     }
 
     _ensureChildWindowSendMessage () {
+        // debugger;
+
+        console.log('page navigation triggered: ' + this.childWindowDriverLinks.length);
+
         this.contextStorage.setItem(PENDING_CHILD_WINDOW_COUNT, this.childWindowDriverLinks.length);
+
+        this._stopRespondToChildren = true;
 
         for (const childLink of this.childWindowDriverLinks) {
             childLink.ensureLink();
@@ -739,6 +752,13 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     _restoreChildLink (msg, wnd) {
         console.log('_restoreChildLink');
+
+        if (this._stopRespondToChildren)
+            return;
+
+        // debugger
+
+        console.log('_restoreChildLink*');
 
 
         this._addChildWindowDriverLink({ window: wnd, windowId: msg.windowId });
@@ -1170,6 +1190,7 @@ export default class Driver extends serviceUtils.EventEmitter {
 
 
         if (this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT)) {
+            console.log('_ensureChildWindows');
             await this._ensureChildWindows();
         }
 
@@ -1179,7 +1200,7 @@ export default class Driver extends serviceUtils.EventEmitter {
 
 
 
-
+        debugger;
 
         if (!result.success) {
             this._onReady(new DriverStatus({
@@ -1602,6 +1623,9 @@ export default class Driver extends serviceUtils.EventEmitter {
         this._init();
 
         await this._doFirstPageLoadSetup();
+
+        if (this.contextStorage.getItem(PENDING_CHILD_WINDOW_COUNT))
+            await this._ensureChildWindows();
 
         const role = await this._getDriverRole();
 
