@@ -774,15 +774,28 @@ test('Selector "sibling" method', async t => {
         .expect(Selector('#el2').sibling().withText('element 4').id).eql('el4');
 });
 
-test('Selector "shadowRoot" method', async t => {
-    const divWithShadowDOM = Selector('#hasShadowDOM').shadowRoot();
+test.page('http://localhost:3000/fixtures/api/es-next/selector/pages/shadow.html')
+('Selector "shadowRoot" method', async t => {
+    const shadowRoot = Selector('div').shadowRoot();
 
-    await t
-        .expect(Selector('#hasShadowDOM').shadowRoot().child('p')
-            .withText('found').textContent).contains('Text should be found!');
-    await t
-        .expect(divWithShadowDOM.find('div').shadowRoot().child('p').nth(0)
-            .textContent).contains('Nested text should be found!');
+    await t.expect(shadowRoot.child('p').withText('Text should be found!').exists).ok();
+    await t.expect(shadowRoot.find('div').shadowRoot().child('p').withText('Nested text should be found!').exists).ok();
+
+    await t.click(shadowRoot.child('p').withText('Text should be found!'));
+});
+
+test.page('http://localhost:3000/fixtures/api/es-next/selector/pages/shadow.html')
+('Selector "shadowRoot" method - shadow root not found', async t => {
+    const shadowRoot = Selector('p').shadowRoot();
+
+    await t.expect(shadowRoot.exists).notOk();
+});
+
+test.page('http://localhost:3000/fixtures/api/es-next/selector/pages/shadow.html')
+('Cannot use "shadowRoot" as target', async t => {
+    const shadowRoot = Selector('div').shadowRoot();
+
+    await t.click(shadowRoot);
 });
 
 test('Selector "count" and "exists" properties', async t => {

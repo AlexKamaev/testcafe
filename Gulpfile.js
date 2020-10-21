@@ -52,7 +52,7 @@ ll
     ]);
 
 const ARGS          = minimist(process.argv.slice(2));
-const DEV_MODE      = 'dev' in ARGS;
+const DEV_MODE      = true;
 const QR_CODE       = 'qr-code' in ARGS;
 const SKIP_BUILD    = process.env.SKIP_BUILD || 'skip-build' in ARGS;
 const BROWSER_ALIAS = ARGS['browser-alias'];

@@ -21,7 +21,7 @@ describe('[API] Selector', function () {
         return runTests('./testcafe-fixtures/selector-test.js', '`innerText` element snapshot property', DEFAULT_RUN_OPTIONS);
     });
 
-    it.only('Should provide node snapshots for non-element nodes', function () {
+    it('Should provide node snapshots for non-element nodes', function () {
         return runTests('./testcafe-fixtures/selector-test.js', 'Non-element node snapshots', DEFAULT_RUN_OPTIONS);
     });
 
@@ -122,7 +122,19 @@ describe('[API] Selector', function () {
     });
 
     it('Should provide .shadowRoot() method', function () {
-        return runTests('./testcafe-fixtures/selector-test.js', 'Selector "shadowRoot" method', { skip: 'ie,edge', selectorTimeout: DEFAULT_SELECTOR_TIMEOUT });
+        return runTests('./testcafe-fixtures/selector-test.js', 'Selector "shadowRoot" method', Object.assign({ skip: ['ie', 'edge'] }, DEFAULT_RUN_OPTIONS));
+    });
+
+    it('Selector "shadowRoot" method - shadow root not found', function () {
+        return runTests('./testcafe-fixtures/selector-test.js', 'Selector "shadowRoot" method - shadow root not found', Object.assign({ skip: ['ie', 'edge'] }, DEFAULT_RUN_OPTIONS));
+    });
+
+    it.only('Cannot use "shadowRoot" as target', function () {
+        return runTests('./testcafe-fixtures/selector-test.js', 'Cannot use "shadowRoot" as target', Object.assign({ shouldFail: true, skip: ['ie', 'edge'] }, DEFAULT_RUN_OPTIONS))
+            .catch(function (errs) {
+                expect(errs[0]).contains('The element that matches the specified selector is Shadow Root element that cannot be a target');
+                expect(errs[0]).contains('> 798 |    await t.click(shadowRoot);');
+            });
     });
 
     it('Should provide .nextSibling() method', function () {

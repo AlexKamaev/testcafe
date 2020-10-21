@@ -155,6 +155,10 @@ export default {
         The element that matches the specified selector is not visible.
     `,
 
+    [TEST_RUN_ERRORS.actionElementIsShadowRootElement]: () => `
+        The element that matches the specified selector is Shadow Root element that cannot be a target.
+    `,
+
     [TEST_RUN_ERRORS.actionSelectorMatchesWrongNodeTypeError]: err => `
         The specified selector is expected to match a DOM element, but it matches a ${err.nodeDescription} node.
     `,

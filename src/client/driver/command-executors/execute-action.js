@@ -48,6 +48,7 @@ import {
 } from '../../../shared/errors';
 
 import COMMAND_TYPE from '../../../test-run/commands/type';
+import { TEST_RUN_ERRORS } from '../../../errors/types';
 
 
 // Ensure command element properties
@@ -266,6 +267,9 @@ class ActionExecutor {
                     actionFinished = true;
                 })
                 .catch(err => {
+                    if (err.code === TEST_RUN_ERRORS.actionElementIsShadowRootElement)
+                        throw err;
+
                     if (this._isExecutionTimeoutExpired()) {
                         if (err.message === AUTOMATION_ERROR_TYPES.foundElementIsNotTarget) {
                             // If we can't get a target element via elementFromPoint but it's

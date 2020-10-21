@@ -1,5 +1,6 @@
 import { Promise, nativeMethods } from '../../../deps/hammerhead';
-import { delay } from '../../../deps/testcafe-core';
+import { delay, domUtils } from '../../../deps/testcafe-core';
+import { ActionElementIsShadowRootElementError } from '../../../../../shared/errors';
 import ClientFunctionExecutor from '../client-function-executor';
 import { exists, visible } from '../../../utils/element-utils';
 import {
@@ -62,6 +63,9 @@ export default class SelectorExecutor extends ClientFunctionExecutor {
                 const isElementExists    = exists(el);
                 const isElementVisible   = !this.command.visibilityCheck || visible(el);
                 const isTimeout          = new DateCtor() - startTime >= this.timeout;
+
+                if (domUtils.isShadowRoot(el))
+                    throw new ActionElementIsShadowRootElementError();
 
                 if (isElementExists && isElementVisible)
                     return el;

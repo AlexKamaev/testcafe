@@ -160,6 +160,12 @@ export class ActionElementIsInvisibleError extends TestRunErrorBase {
     }
 }
 
+export class ActionElementIsShadowRootElementError extends TestRunErrorBase {
+    constructor () {
+        super(TEST_RUN_ERRORS.actionElementIsShadowRootElement);
+    }
+}
+
 export class ActionSelectorMatchesWrongNodeTypeError extends TestRunErrorBase {
     constructor (nodeDescription) {
         super(TEST_RUN_ERRORS.actionSelectorMatchesWrongNodeTypeError);
