@@ -107,8 +107,8 @@ testingEnvironments[testingEnvironmentNames.localChrome] = {
     browsers: [
         {
             platform:    'Windows 10',
-            browserName: 'chrome',
-            alias:       'chrome'
+            browserName: 'chromium',
+            alias:       'chromium'
         }
     ]
 };
