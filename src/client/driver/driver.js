@@ -918,16 +918,22 @@ export default class Driver extends serviceUtils.EventEmitter {
                 return this._ensureChildWindowDriverLink(childWindowDriverLink.driverWindow, ChildWindowIsNotLoadedError, this.childWindowReadyTimeout);
             })
             .then(childWindowDriverLink => {
+                debugger;
+
                 this.activeChildWindowDriverLink = childWindowDriverLink;
 
                 return this._waitForCurrentCommandCompletion();
             })
             .then(() => {
+                debugger;
+
                 return isWindowOpenedViaAPI ? void 0 : this._waitForEmptyCommand();
             })
             .then(() => {
                 this._abortSwitchingToChildWindowIfItClosed();
                 this._stopInternal();
+
+                debugger;
 
                 return this.activeChildWindowDriverLink.setAsMaster(isWindowOpenedViaAPI);
             })
@@ -935,6 +941,8 @@ export default class Driver extends serviceUtils.EventEmitter {
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
             })
             .catch(err => {
+                debugger;
+
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
 
                 if (err instanceof ChildWindowClosedBeforeSwitchingError) {

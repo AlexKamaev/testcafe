@@ -1,12 +1,45 @@
-fixture `GH-1994 - The element that matches the specified selector is not visible`
-    .page `http://localhost:3000/fixtures/regression/gh-1994/pages/index.html`;
+import { Selector } from 'testcafe';
 
-test(`Recreate invisible element and click`, async t => {
-    await t
-        .click('#targetRecreate');
-});
+fixture('This is a demo to test multi-windows').page('www.change.org');
 
-test(`Remove invisible element and click`, async t => {
+test.only('Log in to Paypal', async t => {
     await t
-        .click('#targetRemove');
+        .navigateTo('/p/the-world-send-matt-damon-to-mars-to-recover-opportunity/sponsors/new')
+        .expect(Selector(`a[href*="/psf/share?source_location="]`).exists)
+        .ok()
+        .typeText(Selector('input[name=amount]'), '123', { replace: true, speed: 0.3 });
+
+    const emailAddressInput = Selector('[data-testid="input_email"]').filterVisible();
+    const confirmationEmailInput = Selector('[data-testid="input_confirmation_email"]').filterVisible();
+    await t
+        .click(Selector(`[data-testid="payment-option-button-paypal"]`))
+        .expect(Selector('.iframe-form-element').exists)
+        .notOk()
+        .typeText(emailAddressInput, 'email@email.com')
+        .typeText(confirmationEmailInput, 'email@email.com')
+        .typeText(Selector('[data-testid="input_first_name"]'), 'Some')
+        .typeText(Selector('[data-testid="input_last_name"]'), 'User');
+
+    const payWithPaypalButton = Selector('[data-funding-source="paypal"]');
+    await t
+        .switchToIframe(Selector('[data-testid="paypal-button"] iframe'))
+        .expect(payWithPaypalButton.with({ visibilityCheck: true }).exists)
+        .ok()
+        .hover(payWithPaypalButton);
+
+    await t.click(payWithPaypalButton)
+        // .switchToMainWindow()
+        // .expect(Selector('.form-error').find('p').visible)
+        // .notOk();
+
+    // await t.maximizeWindow();
+
+    // await t.debug();
+
+    // PayPal Login Window
+    await t
+        .typeText(Selector('#email'), 'email@email.com')
+        .click(Selector('#btnNext'))
+        .typeText(Selector('#password'), 'password')
+        .click(Selector('#btnLogin'));
 });
