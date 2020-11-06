@@ -405,8 +405,10 @@ export default class Driver extends serviceUtils.EventEmitter {
         this.consoleMessages   = null;
     }
 
-    _addPendingWindowSwitchingStateToStatus (status) {
-        status.isPendingWindowSwitching = !!this.contextStorage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
+    _addPendingWindowSwitchingStateToStatus (status, storage) {
+        storage = storage || this.contextStorage;
+
+        status.isPendingWindowSwitching = !!storage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
     }
 
     _sendStatusRequest (status) {
@@ -429,14 +431,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _sendStatus (status) {
-        // NOTE: We should not modify the status if it is resent after
-        // the page load because the server has cached the response
-        if (!status.resent) {
-            this._addPendingErrorToStatus(status);
-            this._addUnexpectedDialogErrorToStatus(status);
-            this._addConsoleMessagesToStatus(status);
-            this._addPendingWindowSwitchingStateToStatus(status);
-        }
+        this._prepareStatus(status);
 
         this.contextStorage.setItem(PENDING_STATUS, status);
 
@@ -459,6 +454,17 @@ export default class Driver extends serviceUtils.EventEmitter {
             });
     }
 
+    _prepareStatus (status) {
+        // NOTE: We should not modify the status if it is resent after
+        // the page load because the server has cached the response
+        if (!status.resent) {
+            this._addPendingErrorToStatus(status);
+            this._addUnexpectedDialogErrorToStatus(status);
+            this._addConsoleMessagesToStatus(status);
+            this._addPendingWindowSwitchingStateToStatus(status);
+        }
+    }
+
 
     // Iframes and child windows interaction
     _addChildIframeDriverLink (id, driverWindow) {
@@ -467,7 +473,7 @@ export default class Driver extends serviceUtils.EventEmitter {
         if (!childIframeDriverLink) {
             const driverId = `${this.testRunId}-${generateId()}`;
 
-            childIframeDriverLink = new ChildIframeDriverLink(driverWindow, driverId);
+            childIframeDriverLink = new ChildIframeDriverLink(driverWindow, driverId, this.windowId);
 
             this.childIframeDriverLinks.push(childIframeDriverLink);
         }
@@ -800,6 +806,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _runInActiveIframe (command) {
+        //////debugger;;
+
         let runningChain           = Promise.resolve();
         const activeIframeSelector = this.contextStorage.getItem(ACTIVE_IFRAME_SELECTOR);
 
@@ -822,7 +830,14 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     _onCommandExecutedInIframe (status) {
         this.contextStorage.setItem(this.EXECUTING_IN_IFRAME_FLAG, false);
-        this._onReady(status);
+
+        ////debugger;;
+
+        // const storage = this.activeChildIframeDriverLink.loadStorage();
+        //
+        // this._onReady(status, { fromIframe: true, storage });
+
+        this._onReady(status, { fromIframe: true });
     }
 
     _ensureChildIframeDriverLink (iframeWindow, ErrorCtor, selectorTimeout) {
@@ -909,6 +924,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _switchToChildWindow (selector) {
+        ////debugger;;
+
         this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, true);
 
         const isWindowOpenedViaAPI = this.contextStorage.getItem(this.WINDOW_COMMAND_API_CALL_FLAG);
@@ -918,30 +935,36 @@ export default class Driver extends serviceUtils.EventEmitter {
                 return this._ensureChildWindowDriverLink(childWindowDriverLink.driverWindow, ChildWindowIsNotLoadedError, this.childWindowReadyTimeout);
             })
             .then(childWindowDriverLink => {
-                debugger;
+                console.log('*');
 
                 this.activeChildWindowDriverLink = childWindowDriverLink;
 
                 return this._waitForCurrentCommandCompletion();
             })
             .then(() => {
-                debugger;
+                console.log('**');
 
                 return isWindowOpenedViaAPI ? void 0 : this._waitForEmptyCommand();
+
+                return Promise.resolve();
             })
             .then(() => {
+                console.log('***');
+
                 this._abortSwitchingToChildWindowIfItClosed();
                 this._stopInternal();
 
-                debugger;
+
 
                 return this.activeChildWindowDriverLink.setAsMaster(isWindowOpenedViaAPI);
             })
             .then(() => {
+                ////debugger;;
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
             })
             .catch(err => {
-                debugger;
+                console.log('****');
+                ////debugger;;
 
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
 
@@ -1331,22 +1354,37 @@ export default class Driver extends serviceUtils.EventEmitter {
         return status.isCommandResult && !!this.contextStorage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
     }
 
-    _isEmptyCommandInPendingWindowSwitchingMode (command) {
-        return !command && !!this.contextStorage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
+    _isEmptyCommandInPendingWindowSwitchingMode (command, { storage } = {}) {
+        storage = storage || this.contextStorage;
+
+        return !command && !!storage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
     }
 
     // Routing
-    _onReady (status) {
+    _onReady (status, options) {
         if (this._isStatusWithCommandResultInPendingWindowSwitchingMode(status))
             this.emit(STATUS_WITH_COMMAND_RESULT_EVENT);
 
-        this._sendStatus(status)
+        this._sendReadyStatus(status, options);
+    }
+
+    _sendReadyStatus (status, options) {
+        //debugger;;
+        this._sendStatus(status, options)
             .then(command => {
-                if (command)
+                //debugger;;
+
+                if (command) {
+                    //////debugger;;
+
                     this._onCommand(command);
+                }
 
                 else {
-                    if (this._isEmptyCommandInPendingWindowSwitchingMode(command)) {
+                    if (this._isEmptyCommandInPendingWindowSwitchingMode(command, options)) {
+
+                        ////debugger;;
+
                         this.emit(EMPTY_COMMAND_EVENT);
 
                         return;

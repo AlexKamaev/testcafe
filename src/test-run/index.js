@@ -544,6 +544,10 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     _handleDriverRequest (driverStatus) {
+        if (driverStatus.isPendingWindowSwitching) {
+            debugger;
+        }
+
         const isTestDone                 = this.currentDriverTask && this.currentDriverTask.command.type ===
                                            COMMAND_TYPE.testDone;
         const pageError                  = this.pendingPageError || driverStatus.pageError;
@@ -563,8 +567,11 @@ export default class TestRun extends AsyncEventEmitter {
 
             this._fulfillCurrentDriverTask(driverStatus);
 
-            if (driverStatus.isPendingWindowSwitching)
+            if (driverStatus.isPendingWindowSwitching) {
+                console.log('.isPendingWindowSwitching');
+
                 return null;
+            }
         }
 
         return this._getCurrentDriverTaskCommand();

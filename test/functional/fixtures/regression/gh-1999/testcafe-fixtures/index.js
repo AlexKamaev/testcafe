@@ -6,5 +6,13 @@ test('iframe', async t => {
 
     await t.click('a');
 
-    await t.click('button');
+    await t.hover('button');
+
+    await t.switchToPreviousWindow();
 });
+
+// test('2', async t => {
+//     await t.click('a');
+//
+//     await t.click('button');
+// });

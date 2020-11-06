@@ -83,6 +83,10 @@ export default class IframeDriver extends Driver {
                         // this.parentDriverLink.onCommandExecuted(status);
                 });
         }
+        //
+        // setTimeout(() => {
+        //     this.emit('empty-command-event');
+        // }, 3000);
     }
 
     _prepareStatus (status) {
@@ -92,13 +96,15 @@ export default class IframeDriver extends Driver {
 
     // API
     start () {
-        this.nativeDialogsTracker = new IframeNativeDialogTracker(this.dialogHandler);
+        // this.nativeDialogsTracker = new IframeNativeDialogTracker(this.contextStorage, this.dialogHandler);
         this.statusBar            = new IframeStatusBar();
 
         const initializePromise = this.parentDriverLink
             .establishConnection()
             .then(id => {
                 this.contextStorage = new ContextStorage(window, id, this.windowId);
+
+                this.nativeDialogsTracker = new IframeNativeDialogTracker(this.contextStorage, this.dialogHandler);
 
                 if (this._failIfClientCodeExecutionIsInterrupted())
                     return;
