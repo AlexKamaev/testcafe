@@ -1,5 +1,5 @@
-import { eventSandbox } from '../../deps/hammerhead';
-import { EstablishConnectionMessage, CommandExecutedMessage } from '../messages';
+import hammerhead, { eventSandbox } from '../../deps/hammerhead';
+import { EstablishConnectionMessage, CommandExecutedMessage, ChildWindowOpenedInFrameMessage } from '../messages';
 import { CurrentIframeIsNotLoadedError } from '../../../../shared/errors';
 import sendMessageToDriver from '../send-message-to-driver';
 import { WAIT_FOR_IFRAME_DRIVER_RESPONSE_TIMEOUT } from '../timeouts';
@@ -16,6 +16,16 @@ export default class ParentIframeDriverLink {
         return sendMessageToDriver(msg, this.driverWindow, WAIT_FOR_IFRAME_DRIVER_RESPONSE_TIMEOUT, CurrentIframeIsNotLoadedError)
             .then(response => response.result.id);
     }
+
+    // addChildWindowToParent (e) {
+    //     const msg = new ChildWindowOpenedInFrameMessage();
+    //
+    //     const topWindow = this.driverWindow.top;
+    //
+    //     topWindow['%hammerhead%'].sandbox.childWindow.emit('hammerhead|event|window-opened', e);
+    //     //
+    //     // eventSandbox.message.sendServiceMsg(msg, this.driverWindow);
+    // }
 
     sendConfirmationMessage (requestMsgId) {
         sendConfirmationMessage({

@@ -24,6 +24,12 @@ export function sendXHR (url, createXHR, { method = 'GET', data = null, parseRes
     return new Promise((resolve, reject) => {
         const xhr = createXHR();
 
+        console.log(method + ': ' + url);
+
+        if (!url) {
+            debugger;
+        }
+
         xhr.open(method, url, true);
 
         if (isRetryingTestPagesEnabled()) {
@@ -41,8 +47,11 @@ export function sendXHR (url, createXHR, { method = 'GET', data = null, parseRes
 
                     resolve(responseText);
                 }
-                else
+                else {
+                    debugger;
+
                     reject('disconnected');
+                }
             }
         };
 

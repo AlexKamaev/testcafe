@@ -9,6 +9,8 @@ test('iframe', async t => {
     await t.hover('button');
 
     await t.switchToPreviousWindow();
+
+    await t.hover('a');
 });
 
 // test('2', async t => {

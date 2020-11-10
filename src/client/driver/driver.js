@@ -1,4 +1,9 @@
 import hammerhead from './deps/hammerhead';
+
+let kekeke = hammerhead;
+
+window['dfsdaf'] = kekeke;
+
 import {
     RequestBarrier,
     pageUnloadBarrier,
@@ -71,6 +76,7 @@ import {
     SwitchToWindowCommandMessage,
     SetNativeDialogHandlerMessage,
     GetWindowsMessage,
+    ChildWindowOpenedInFrameMessage,
     TYPE as MESSAGE_TYPE
 } from './driver-link/messages';
 
@@ -105,6 +111,7 @@ const storages       = hammerhead.storages;
 const nativeMethods  = hammerhead.nativeMethods;
 const DateCtor       = nativeMethods.date;
 const listeners      = hammerhead.eventSandbox.listeners;
+const childWindow    = hammerhead.sandbox.childWindow;
 
 const TEST_DONE_SENT_FLAG                  = 'testcafe|driver|test-done-sent-flag';
 const PENDING_STATUS                       = 'testcafe|driver|pending-status';
@@ -209,6 +216,15 @@ export default class Driver extends serviceUtils.EventEmitter {
         listeners.addInternalEventListener(window, ['beforeunload'], () => {
             this._sendStartToRestoreCommand();
         });
+
+        const opener = window.opener;
+
+        if (opener) {
+            const top = opener.top;
+
+            if (top && top !== opener)
+                sendMessageToDriver(new ChildWindowOpenedInFrameMessage(this.windowId), top, 30000, WindowNotFoundError);
+        }
     }
 
     set speed (val) {
@@ -320,24 +336,36 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _setCurrentWindowAsMaster () {
+        debugger;
+
         if (this._setAsMasterInProgressOrCompleted())
             return;
+
+        // debugger;
 
         this.setAsMasterInProgress = true;
 
         Promise.resolve()
             .then(() => {
+                // debugger;
+
                 return browser.setActiveWindowId(this.browserActiveWindowId, hammerhead.createNativeXHR, this.windowId);
             })
             .then(() => {
+                // debugger;
+
                 this._startInternal({
                     finalizePendingCommand:             true,
                     isFirstRequestAfterWindowSwitching: true
                 });
 
+                // debugger;
+
                 this.setAsMasterInProgress = false;
             })
-            .catch(() => {
+            .catch((err) => {
+                debugger;
+
                 this._onReady(new DriverStatus({
                     isCommandResult: true,
                     executionError:  new CannotSwitchToWindowError()
@@ -346,6 +374,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onChildWindowOpened (e) {
+        debugger;
+
         this._addChildWindowDriverLink(e);
         this._switchToChildWindow(e.windowId);
     }
@@ -418,6 +448,9 @@ export default class Driver extends serviceUtils.EventEmitter {
             disableResending: true,
             allowRejecting:   true
         };
+
+        console.log(statusRequestOptions);
+        console.log(status);
 
         const requestAttempt = () => getTimeLimitedPromise(transport.asyncServiceMsg(statusRequestOptions), SEND_STATUS_REQUEST_TIME_LIMIT);
         const retryRequest   = () => delay(SEND_STATUS_REQUEST_RETRY_DELAY).then(requestAttempt);
@@ -766,6 +799,17 @@ export default class Driver extends serviceUtils.EventEmitter {
             switch (msg.type) {
                 case MESSAGE_TYPE.establishConnection:
                     this._addChildIframeDriverLink(msg.id, window);
+                    break;
+                case MESSAGE_TYPE.waitForChildWindowOpenedInFrameMessage:
+                    break;
+                case MESSAGE_TYPE.childWindowOpenedInFrame:
+                    // const q = childWindow;
+
+                    debugger;
+
+                    this._onChildWindowOpened({ window, windowId: msg.windowId });
+
+                    // this._addChildWindowDriverLink({ window, windowId: msg.windowId, q, childWindow });
                     break;
                 case MESSAGE_TYPE.setAsMaster:
                     this._handleSetAsMasterMessage(msg, window);
@@ -1189,7 +1233,12 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     async _onSwitchToWindow (command, err) {
-        const wnd      = this.parentWindowDriverLink ? this.parentWindowDriverLink.getTopOpenedWindow() : window;
+        // debugger;
+
+        let wnd = this.parentWindowDriverLink ? this.parentWindowDriverLink.getTopOpenedWindow() : window;
+
+        wnd = wnd.top;
+
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
         const result   = response.result;
 

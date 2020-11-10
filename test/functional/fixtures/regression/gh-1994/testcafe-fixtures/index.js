@@ -36,6 +36,7 @@ test.only('Log in to Paypal', async t => {
 
     // await t.debug();
 
+    // await t.debug();
     // PayPal Login Window
     await t
         .typeText(Selector('#email'), 'email@email.com')

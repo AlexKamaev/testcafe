@@ -14,7 +14,9 @@ export const TYPE = {
     setAsMaster:              'driver|set-as-master',
     closeAllChildWindows:     'driver|close-all-child-windows',
     startToRestoreChildLink:  'driver|start-to-restore-child-link',
-    restoreChildLink:         'driver|restore-child-link'
+    restoreChildLink:         'driver|restore-child-link',
+    childWindowOpenedInFrame: 'driver|child-window-opened-in-iframe',
+    waitForChildWindowOpenedInFrameMessage: 'driver|waitForChildWindowOpenedInFrameMessage'
 };
 
 class InterDriverMessage {
@@ -128,6 +130,22 @@ export class StartToRestoreChildLinkMessage extends InterDriverMessage {
 export class RestoreChildLinkMessage extends InterDriverMessage {
     constructor (windowId) {
         super(TYPE.restoreChildLink);
+
+        this.windowId = windowId;
+    }
+}
+
+export class ChildWindowOpenedInFrameMessage extends InterDriverMessage {
+    constructor (windowId) {
+        super(TYPE.childWindowOpenedInFrame);
+
+        this.windowId = windowId;
+    }
+}
+
+export class WaitForChildWindowOpenedInFrameMessage extends InterDriverMessage {
+    constructor (windowId) {
+        super(TYPE.waitForChildWindowOpenedInFrameMessage);
 
         this.windowId = windowId;
     }
