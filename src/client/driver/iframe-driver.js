@@ -5,8 +5,11 @@ import Driver from './driver';
 import ContextStorage from './storage';
 import DriverStatus from './status';
 import ParentIframeDriverLink from './driver-link/iframe/parent';
-import { TYPE as MESSAGE_TYPE } from './driver-link/messages';
+import { WaitForChildWindowOpenedInFrameMessage, TYPE as MESSAGE_TYPE } from './driver-link/messages';
 import IframeNativeDialogTracker from './native-dialog-tracker/iframe';
+import sendMessageToDriver from './driver-link/send-message-to-driver';
+import { CannotSwitchToWindowError } from '../../shared/errors';
+
 
 export default class IframeDriver extends Driver {
     constructor (testRunId, options) {
@@ -25,6 +28,11 @@ export default class IframeDriver extends Driver {
     _onConsoleMessage () {
         // NOTE: do nothing because hammerhead sends console messages to the top window directly
     }
+
+    _onChildWindowOpened () {
+        sendMessageToDriver(new WaitForChildWindowOpenedInFrameMessage(), window.top, 30000, CannotSwitchToWindowError);
+    }
+
 
     // Messaging between drivers
     _initParentDriverListening () {
@@ -69,7 +77,6 @@ export default class IframeDriver extends Driver {
     _onReady (status) {
         this.parentDriverLink.onCommandExecuted(status);
     }
-
 
     // API
     start () {

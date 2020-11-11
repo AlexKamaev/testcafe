@@ -71,6 +71,7 @@ import {
     SwitchToWindowCommandMessage,
     SetNativeDialogHandlerMessage,
     GetWindowsMessage,
+    ChildWindowOpenedInFrameMessage,
     TYPE as MESSAGE_TYPE
 } from './driver-link/messages';
 
@@ -209,6 +210,15 @@ export default class Driver extends serviceUtils.EventEmitter {
         listeners.addInternalEventListener(window, ['beforeunload'], () => {
             this._sendStartToRestoreCommand();
         });
+
+        const opener = window.opener;
+
+        if (opener) {
+            const top = opener.top;
+
+            if (top && top !== opener)
+                sendMessageToDriver(new ChildWindowOpenedInFrameMessage(this.windowId), top, 30000, WindowNotFoundError);
+        }
     }
 
     set speed (val) {
@@ -761,6 +771,29 @@ export default class Driver extends serviceUtils.EventEmitter {
                 case MESSAGE_TYPE.establishConnection:
                     this._addChildIframeDriverLink(msg.id, window);
                     break;
+                case MESSAGE_TYPE.waitForChildWindowOpenedInFrameMessage:
+                    this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
+
+                    sendConfirmationMessage({
+                        requestMsgId: msg.id,
+                        window:       window
+                    });
+
+                    this._kekekePromise = new Promise(resolve => {
+                        this._resolvePendingChildWindowOpenedInIframePromise = resolve;
+                    });
+
+                    break;
+                case MESSAGE_TYPE.childWindowOpenedInFrame:
+                    this._resolvePendingChildWindowOpenedInIframePromise();
+
+                    sendConfirmationMessage({
+                        requestMsgId: msg.id,
+                        window:       window
+                    });
+
+                    this._onChildWindowOpened({ window, windowId: msg.windowId });
+                    break;
                 case MESSAGE_TYPE.setAsMaster:
                     this._handleSetAsMasterMessage(msg, window);
                     break;
@@ -822,7 +855,15 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     _onCommandExecutedInIframe (status) {
         this.contextStorage.setItem(this.EXECUTING_IN_IFRAME_FLAG, false);
-        this._onReady(status);
+
+        let promise = Promise.resolve();
+
+        if (this._kekekePromise)
+            promise = this._kekekePromise;
+
+        promise.then(() => {
+            this._onReady(status, { fromIframe: true });
+        });
     }
 
     _ensureChildIframeDriverLink (iframeWindow, ErrorCtor, selectorTimeout) {
@@ -1095,7 +1136,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     async _onWindowCloseCommand (command) {
-        const wnd             = this.parentWindowDriverLink?.getTopOpenedWindow() || window;
+        const wnd             = this._getTopOpenedWindow();
         const windowId        = command.windowId || this.windowId;
         const isCurrentWindow = windowId === this.windowId;
 
@@ -1140,7 +1181,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     async _onGetWindowsCommand () {
-        const wnd      = this.parentWindowDriverLink?.getTopOpenedWindow() || window;
+        const wnd      = this._getTopOpenedWindow();
         const response = await sendMessageToDriver(new GetWindowsMessage(), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
 
         this._onReady(new DriverStatus({
@@ -1157,8 +1198,14 @@ export default class Driver extends serviceUtils.EventEmitter {
         return sendMessageToDriver(new SwitchToWindowValidationMessage({ windowId, fn }), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
     }
 
+    _getTopOpenedWindow () {
+        const window = this.parentWindowDriverLink?.getTopOpenedWindow() || window;
+
+        return window.top;
+    }
+
     async _onSwitchToWindow (command, err) {
-        const wnd      = this.parentWindowDriverLink ? this.parentWindowDriverLink.getTopOpenedWindow() : window;
+        const wnd      = this._getTopOpenedWindow();
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
         const result   = response.result;
 
@@ -1323,8 +1370,10 @@ export default class Driver extends serviceUtils.EventEmitter {
         return status.isCommandResult && !!this.contextStorage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
     }
 
-    _isEmptyCommandInPendingWindowSwitchingMode (command) {
-        return !command && !!this.contextStorage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
+    _isEmptyCommandInPendingWindowSwitchingMode (command, { storage } = {}) {
+        storage = storage || this.contextStorage;
+
+        return !command && !!storage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
     }
 
     // Routing
