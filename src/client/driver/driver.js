@@ -336,35 +336,35 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _setCurrentWindowAsMaster () {
-        // debugger;
+        // // debugger;
 
         if (this._setAsMasterInProgressOrCompleted())
             return;
 
-        // // debugger;
+        // // // debugger;
 
         this.setAsMasterInProgress = true;
 
         Promise.resolve()
             .then(() => {
-                // // debugger;
+                // // // debugger;
 
                 return browser.setActiveWindowId(this.browserActiveWindowId, hammerhead.createNativeXHR, this.windowId);
             })
             .then(() => {
-                // // debugger;
+                // // // debugger;
 
                 this._startInternal({
                     finalizePendingCommand:             true,
                     isFirstRequestAfterWindowSwitching: true
                 });
 
-                // // debugger;
+                // // // debugger;
 
                 this.setAsMasterInProgress = false;
             })
             .catch((err) => {
-                // debugger;
+                // // debugger;
 
                 this._onReady(new DriverStatus({
                     isCommandResult: true,
@@ -374,7 +374,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onChildWindowOpened (e) {
-        // debugger;
+        // // debugger;
 
         this._addChildWindowDriverLink(e);
         this._switchToChildWindow(e.windowId);
@@ -716,6 +716,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _handleSetAsMasterMessage (msg, wnd) {
+        console.log('_handleSetAsMasterMessage');
+
         // NOTE: The 'setAsMaster' message can be send a few times because
         // the 'sendMessageToDriver' function resend messages if the message confirmation is not received in 1 sec.
         // This message can be send even after driver is started.
@@ -801,7 +803,8 @@ export default class Driver extends serviceUtils.EventEmitter {
                     this._addChildIframeDriverLink(msg.id, window);
                     break;
                 case MESSAGE_TYPE.waitForChildWindowOpenedInFrameMessage:
-                    this._waitForChildWindowOpenedInIframe = true;
+                    console.log('waitForChildWindowOpenedInFrameMessage');
+                    // this._waitForChildWindowOpenedInIframe = true;
 
                     this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
 
@@ -810,11 +813,21 @@ export default class Driver extends serviceUtils.EventEmitter {
                         window:       window
                     });
 
+                    this._kekekePromise = new Promise(resolve => {
+                        this._resolvePendingChildWindowOpenedInIframePromise = resolve;
+                    });
+
                     break;
                 case MESSAGE_TYPE.childWindowOpenedInFrame:
+                    if (!this._resolvePendingChildWindowOpenedInIframePromise) {
+                        debugger;
+                    }
+                    this._resolvePendingChildWindowOpenedInIframePromise();
+
+                    console.log('childWindowOpenedInFrame ' + Date.now());
                     // const q = childWindow;
 
-                    // debugger;
+                    // // debugger;
 
                     sendConfirmationMessage({
                         requestMsgId: msg.id,
@@ -864,7 +877,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _runInActiveIframe (command) {
-        //////// debugger;;
+        //////// // debugger;;
 
         let runningChain           = Promise.resolve();
         const activeIframeSelector = this.contextStorage.getItem(ACTIVE_IFRAME_SELECTOR);
@@ -879,10 +892,10 @@ export default class Driver extends serviceUtils.EventEmitter {
 
                 return this.activeChildIframeDriverLink.executeCommand(command, this.speed);
             })
-            .then(status => this._onCommandExecutedInIframe(status))
+            .then(status => this._onCommandExecutedInIframe(status, command))
             .catch(err => {
 
-                debugger;
+                // debugger;
 
                 this._onCommandExecutedInIframe(new DriverStatus({
                     isCommandResult: true,
@@ -891,16 +904,39 @@ export default class Driver extends serviceUtils.EventEmitter {
             });
     }
 
-    _onCommandExecutedInIframe (status) {
+    _onCommandExecutedInIframe (status, command) {
         this.contextStorage.setItem(this.EXECUTING_IN_IFRAME_FLAG, false);
 
-        ////// debugger;;
+        ////// // debugger;;
 
         // const storage = this.activeChildIframeDriverLink.loadStorage();
         //
         // this._onReady(status, { fromIframe: true, storage });
 
-        this._onReady(status, { fromIframe: true });
+        console.log('_onCommandExecutedInIframe: ' + command.type);
+
+        // let promise = Promise.resolve();
+        //
+        // if (this._waitForChildWindowOpenedInIframe) {
+        //     delete this._waitForChildWindowOpenedInIframe;
+        //
+        //     promise = new Promise(resolve => {
+        //         this._resolvePendingChildWindowOpenedInIframePromise = resolve;
+        //     });
+        // }
+
+        let promise = Promise.resolve();
+
+        if (this._kekekePromise)
+            promise = this._kekekePromise;
+
+        // this._kekekePromise = new Promise(resolve => {
+        //     this._resolvePendingChildWindowOpenedInIframePromise = resolve;
+        // });
+
+        promise.then(() => {
+            this._onReady(status, { fromIframe: true });
+        });
     }
 
     _ensureChildIframeDriverLink (iframeWindow, ErrorCtor, selectorTimeout) {
@@ -987,7 +1023,9 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _switchToChildWindow (selector) {
-        debugger;;
+        // debugger;
+
+        console.log('_switchToChildWindow');
 
         this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, true);
 
@@ -1029,12 +1067,12 @@ export default class Driver extends serviceUtils.EventEmitter {
                 return this.activeChildWindowDriverLink.setAsMaster(isWindowOpenedViaAPI);
             })
             .then(() => {
-                ////// debugger;;
+                ////// // debugger;;
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
             })
             .catch(err => {
                 console.log('****');
-                ////// debugger;;
+                ////// // debugger;;
 
                 this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, false);
 
@@ -1265,7 +1303,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     async _onSwitchToWindow (command, err) {
-        // // debugger;
+        // // // debugger;
 
         const wnd      = this._getTopOpenedWindow();
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
@@ -1400,7 +1438,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onTestDone (status) {
-        debugger;
+        // debugger;
 
 
         this.contextStorage.setItem(TEST_DONE_SENT_FLAG, true);
@@ -1450,20 +1488,27 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _sendReadyStatus (status, options) {
-        //// debugger;;
-        return new Promise(resolve => {
-            setTimeout(resolve, 2000);
-        })
-            .then(() => {
-                return this._sendStatus(status, options);
-            })
+        // debugger;
+
+        // return new Promise(resolve => {
+        //     setTimeout(resolve, 2000);
+        // })
+        //     .then(() => {
+
+        const qqq = Date.now();
+
+        console.log('on_ready: ' + qqq);
+
+                return this._sendStatus(status, options)
+            // })
 
             .then(command => {
-                //// debugger;;
+                //// // debugger;;
+                console.log('*******: ' + command.text + ' ' + qqq);
 
                 if (command) {
                     if (command.text === 'email@email.com') {
-                        debugger;
+                        // debugger;
                     }
 
                     this._onCommand(command);
@@ -1472,7 +1517,7 @@ export default class Driver extends serviceUtils.EventEmitter {
                 else {
                     if (this._isEmptyCommandInPendingWindowSwitchingMode(command, options)) {
 
-                        ////// debugger;;
+                        ////// // debugger;;
 
                         this.emit(EMPTY_COMMAND_EVENT);
 
@@ -1487,7 +1532,7 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     _executeCommand (command) {
         if (command.type === COMMAND_TYPE.hover) {
-            debugger;
+            // debugger;
         }
 
 

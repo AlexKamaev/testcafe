@@ -45,8 +45,8 @@ export default class ChildIframeDriverLink {
     }
 
     _ensureIframe (command) {
-        if (command)
-            console.log(command);
+        // if (command)
+        //     console.log(command);
 
         if (!domUtils.isElementInDocument(this.driverIframe))
             return Promise.reject(new CurrentIframeNotFoundError());
@@ -58,7 +58,7 @@ export default class ChildIframeDriverLink {
 
                 const isVisible = positionUtils.isElementVisible(this.driverIframe);
 
-                console.log(isVisible);
+                // console.log(isVisible);
 
                 throw new CurrentIframeIsInvisibleError();
             });

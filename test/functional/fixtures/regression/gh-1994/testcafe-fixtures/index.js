@@ -46,6 +46,8 @@ test.only('Log in to Paypal', async t => {
 
     // await t.debug();
 
+    // await t.debug();
+
     // await t.switchToPreviousWindow();
     //
     // await t.debug();

@@ -76,7 +76,7 @@ export default class IframeDriver extends Driver {
         // this.parentDriverLink.addChildWindowToParent(e);
         // // debugger;
 
-        this._stopInternal();
+        // this._stopInternal();
 
         sendMessageToDriver(new WaitForChildWindowOpenedInFrameMessage(), window.top, 30000, CannotSwitchToWindowError);
 
