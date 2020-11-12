@@ -31,7 +31,11 @@ import sendConfirmationMessage from '../send-confirmation-message';
 export default class ChildIframeDriverLink {
     constructor (driverWindow, driverId) {
         this.driverWindow              = driverWindow;
+
+
         this.driverIframe              = domUtils.findIframeByWindow(driverWindow);
+
+
         this.driverId                  = driverId;
         this.iframeAvailabilityTimeout = 0;
     }
@@ -40,25 +44,37 @@ export default class ChildIframeDriverLink {
         this.iframeAvailabilityTimeout = val;
     }
 
-    _ensureIframe () {
+    _ensureIframe (command) {
+        if (command)
+            console.log(command);
+
         if (!domUtils.isElementInDocument(this.driverIframe))
             return Promise.reject(new CurrentIframeNotFoundError());
 
-        return waitFor(() => positionUtils.isElementVisible(this.driverIframe) ? this.driverIframe : null,
-            CHECK_IFRAME_VISIBLE_INTERVAL, this.iframeAvailabilityTimeout)
-            .catch(() => {
+        return waitFor(() => {
+            return positionUtils.isElementVisible(this.driverIframe) ? this.driverIframe : null;
+        }, CHECK_IFRAME_VISIBLE_INTERVAL, this.iframeAvailabilityTimeout)
+            .catch(err => {
+
+                const isVisible = positionUtils.isElementVisible(this.driverIframe);
+
+                console.log(isVisible);
+
                 throw new CurrentIframeIsInvisibleError();
             });
     }
 
-    _waitForIframeRemovedOrHidden () {
+    _waitForIframeRemovedOrHidden (command) {
         // NOTE: If an iframe was removed or became hidden while a
         // command was being executed, we consider this command finished.
         return new Promise(resolve => {
             this.checkIframeInterval = nativeMethods.setInterval.call(window,
                 () => {
                     this._ensureIframe()
-                        .catch(() => {
+                        .catch(err => {
+
+                            console.log(err);
+
                             // NOTE: wait for possible delayed iframe message
                             return delay(WAIT_IFRAME_RESPONSE_DELAY)
                                 .then(() => resolve(new DriverStatus({ isCommandResult: true })));
@@ -67,7 +83,7 @@ export default class ChildIframeDriverLink {
         });
     }
 
-    _waitForCommandResult () {
+    _waitForCommandResult (command) {
         let onMessage = null;
 
         const waitForResultMessage = () => new Promise(resolve => {
@@ -80,7 +96,7 @@ export default class ChildIframeDriverLink {
         });
 
 
-        return Promise.race([this._waitForIframeRemovedOrHidden(), waitForResultMessage()])
+        return Promise.race([this._waitForIframeRemovedOrHidden(command), waitForResultMessage()])
             .then(status => {
                 eventSandbox.message.off(eventSandbox.message.SERVICE_MSG_RECEIVED_EVENT, onMessage);
                 nativeMethods.clearInterval.call(window, this.checkIframeInterval);
@@ -101,13 +117,18 @@ export default class ChildIframeDriverLink {
         // NOTE:  We should check if the iframe is visible and exists before executing the next
         // command, because the iframe might be hidden or removed since the previous command.
         return this
-            ._ensureIframe()
+            ._ensureIframe(command)
+            .catch(err => {
+                debugger;
+
+                throw err;
+            })
             .then(() => {
                 const msg = new ExecuteCommandMessage(command, testSpeed);
 
                 return Promise.all([
                     sendMessageToDriver(msg, this.driverWindow, this.iframeAvailabilityTimeout, CurrentIframeIsNotLoadedError),
-                    this._waitForCommandResult()
+                    this._waitForCommandResult(command)
                 ]);
             })
             .then(result => result[1]);

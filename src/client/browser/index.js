@@ -27,7 +27,7 @@ export function sendXHR (url, createXHR, { method = 'GET', data = null, parseRes
         console.log(method + ': ' + url);
 
         if (!url) {
-            debugger;
+            // debugger;
         }
 
         xhr.open(method, url, true);
@@ -48,7 +48,7 @@ export function sendXHR (url, createXHR, { method = 'GET', data = null, parseRes
                     resolve(responseText);
                 }
                 else {
-                    debugger;
+                    // debugger;
 
                     reject('disconnected');
                 }

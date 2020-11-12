@@ -74,7 +74,9 @@ export default class IframeDriver extends Driver {
         // this._addChildWindowDriverLink(e);
         // this._switchToChildWindow(e.windowId);
         // this.parentDriverLink.addChildWindowToParent(e);
-        // debugger;
+        // // debugger;
+
+        this._stopInternal();
 
         sendMessageToDriver(new WaitForChildWindowOpenedInFrameMessage(), window.top, 30000, CannotSwitchToWindowError);
 
@@ -136,7 +138,7 @@ export default class IframeDriver extends Driver {
     //     else {
     //         this._sendStatus(status)
     //             .then(command => {
-    //                 debugger;;
+    //                 // debugger;;
     //
     //                 if (this._isEmptyCommandInPendingWindowSwitchingMode(command))
     //                     this.emit('empty-command-event');

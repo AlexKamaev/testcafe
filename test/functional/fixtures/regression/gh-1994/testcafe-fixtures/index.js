@@ -7,7 +7,7 @@ test.only('Log in to Paypal', async t => {
         .navigateTo('/p/the-world-send-matt-damon-to-mars-to-recover-opportunity/sponsors/new')
         .expect(Selector(`a[href*="/psf/share?source_location="]`).exists)
         .ok()
-        .typeText(Selector('input[name=amount]'), '123', { replace: true, speed: 0.3 });
+        .typeText(Selector('input[name=amount]'), '123', { replace: true });
 
     const emailAddressInput = Selector('[data-testid="input_email"]').filterVisible();
     const confirmationEmailInput = Selector('[data-testid="input_confirmation_email"]').filterVisible();
@@ -15,10 +15,10 @@ test.only('Log in to Paypal', async t => {
         .click(Selector(`[data-testid="payment-option-button-paypal"]`))
         .expect(Selector('.iframe-form-element').exists)
         .notOk()
-        .typeText(emailAddressInput, 'email@email.com')
-        .typeText(confirmationEmailInput, 'email@email.com')
-        .typeText(Selector('[data-testid="input_first_name"]'), 'Some')
-        .typeText(Selector('[data-testid="input_last_name"]'), 'User');
+        .typeText(emailAddressInput, 'email@email.com', { replace: true })
+        .typeText(confirmationEmailInput, 'email@email.com', { replace: true })
+        .typeText(Selector('[data-testid="input_first_name"]'), 'Some', { replace: true })
+        .typeText(Selector('[data-testid="input_last_name"]'), 'User', { replace: true });
 
     const payWithPaypalButton = Selector('[data-funding-source="paypal"]');
     await t
@@ -43,4 +43,10 @@ test.only('Log in to Paypal', async t => {
         .click(Selector('#btnNext'))
         .typeText(Selector('#password'), 'password')
         .click(Selector('#btnLogin'));
+
+    // await t.debug();
+
+    // await t.switchToPreviousWindow();
+    //
+    // await t.debug();
 });
