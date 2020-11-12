@@ -5,10 +5,9 @@ import Driver from './driver';
 import ContextStorage from './storage';
 import DriverStatus from './status';
 import ParentIframeDriverLink from './driver-link/iframe/parent';
-import { ChildWindowOpenedInFrameMessage, WaitForChildWindowOpenedInFrameMessage, TYPE as MESSAGE_TYPE } from './driver-link/messages';
+import { WaitForChildWindowOpenedInFrameMessage, TYPE as MESSAGE_TYPE } from './driver-link/messages';
 import IframeNativeDialogTracker from './native-dialog-tracker/iframe';
 import sendMessageToDriver from './driver-link/send-message-to-driver';
-import { WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT } from './driver-link/timeouts';
 import { CannotSwitchToWindowError } from '../../shared/errors';
 
 // const messageSandbox = eventSandbox.message;
@@ -31,58 +30,8 @@ export default class IframeDriver extends Driver {
         // NOTE: do nothing because hammerhead sends console messages to the top window directly
     }
 
-    // _initChildDriverListening () {
-    //     messageSandbox.on(messageSandbox.SERVICE_MSG_RECEIVED_EVENT, e => {
-    //         const msg    = e.message;
-    //         const window = e.source;
-    //
-    //         switch (msg.type) {
-    //             case MESSAGE_TYPE.establishConnection:
-    //                 this._addChildIframeDriverLink(msg.id, window);
-    //                 break;
-    //             case MESSAGE_TYPE.setAsMaster:
-    //                 this._handleSetAsMasterMessage(msg, window);
-    //                 break;
-    //             case MESSAGE_TYPE.switchToWindow:
-    //                 this._handleSwitchToWindow(msg, window);
-    //                 break;
-    //             case MESSAGE_TYPE.closeWindow:
-    //                 this._handleCloseWindow(msg, window);
-    //                 break;
-    //             case MESSAGE_TYPE.switchToWindowValidation:
-    //                 this._handleSwitchToWindowValidation(msg, window);
-    //                 break;
-    //             case MESSAGE_TYPE.closeWindowValidation:
-    //                 this._handleCloseWindowValidation(msg, window);
-    //                 break;
-    //             case MESSAGE_TYPE.getWindows:
-    //                 this._handleGetWindows(msg, window);
-    //                 break;
-    //             case MESSAGE_TYPE.closeAllChildWindows:
-    //                 this._handleCloseAllWindowsMessage(msg, window);
-    //                 break;
-    //             case MESSAGE_TYPE.startToRestoreChildLink:
-    //                 this._handleStartToRestoreChildLinkMessage();
-    //                 break;
-    //             case MESSAGE_TYPE.restoreChildLink:
-    //                 this._handleRestoreChildLink(msg, window);
-    //         }
-    //     });
-    // }
-
-    _onChildWindowOpened (e) {
-        // this._addChildWindowDriverLink(e);
-        // this._switchToChildWindow(e.windowId);
-        // this.parentDriverLink.addChildWindowToParent(e);
-        // // debugger;
-
-        // this._stopInternal();
-
+    _onChildWindowOpened () {
         sendMessageToDriver(new WaitForChildWindowOpenedInFrameMessage(), window.top, 30000, CannotSwitchToWindowError);
-
-
-
-        // window.top['%hammerhead%'].sandbox.childWindow.emit('hammerhead|event|window-opened', e);
     }
 
 

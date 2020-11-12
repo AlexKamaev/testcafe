@@ -24,8 +24,6 @@ export function sendXHR (url, createXHR, { method = 'GET', data = null, parseRes
     return new Promise((resolve, reject) => {
         const xhr = createXHR();
 
-        console.log(method + ': ' + url);
-
         if (!url) {
             // debugger;
         }

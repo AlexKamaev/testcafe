@@ -44,37 +44,26 @@ export default class ChildIframeDriverLink {
         this.iframeAvailabilityTimeout = val;
     }
 
-    _ensureIframe (command) {
-        // if (command)
-        //     console.log(command);
-
+    _ensureIframe () {
         if (!domUtils.isElementInDocument(this.driverIframe))
             return Promise.reject(new CurrentIframeNotFoundError());
 
         return waitFor(() => {
             return positionUtils.isElementVisible(this.driverIframe) ? this.driverIframe : null;
         }, CHECK_IFRAME_VISIBLE_INTERVAL, this.iframeAvailabilityTimeout)
-            .catch(err => {
-
-                const isVisible = positionUtils.isElementVisible(this.driverIframe);
-
-                // console.log(isVisible);
-
+            .catch(() => {
                 throw new CurrentIframeIsInvisibleError();
             });
     }
 
-    _waitForIframeRemovedOrHidden (command) {
+    _waitForIframeRemovedOrHidden () {
         // NOTE: If an iframe was removed or became hidden while a
         // command was being executed, we consider this command finished.
         return new Promise(resolve => {
             this.checkIframeInterval = nativeMethods.setInterval.call(window,
                 () => {
                     this._ensureIframe()
-                        .catch(err => {
-
-                            console.log(err);
-
+                        .catch(() => {
                             // NOTE: wait for possible delayed iframe message
                             return delay(WAIT_IFRAME_RESPONSE_DELAY)
                                 .then(() => resolve(new DriverStatus({ isCommandResult: true })));
@@ -118,11 +107,6 @@ export default class ChildIframeDriverLink {
         // command, because the iframe might be hidden or removed since the previous command.
         return this
             ._ensureIframe(command)
-            .catch(err => {
-                debugger;
-
-                throw err;
-            })
             .then(() => {
                 const msg = new ExecuteCommandMessage(command, testSpeed);
 
