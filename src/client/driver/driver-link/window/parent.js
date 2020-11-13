@@ -14,10 +14,12 @@ export default class ParentWindowDriverLink {
         while (topOpened.opener)
             topOpened = topOpened.opener;
 
-        return topOpened;
+        return topOpened.top;
     }
 
     _setAsMaster (wnd, finalizePendingCommand) {
+        debugger;
+
         const msg = new SetAsMasterMessage(finalizePendingCommand);
 
         return sendMessageToDriver(msg, wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);

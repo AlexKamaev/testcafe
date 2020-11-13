@@ -160,6 +160,9 @@ export function getActiveWindowId (activeWindowIdUrl, createXHR) {
 }
 
 export function setActiveWindowId (activeWindowIdUrl, createXHR, windowId) {
+    console.log('setActiveWindowId: ' + windowId);
+    debugger;
+
     return sendXHR(activeWindowIdUrl, createXHR, {
         method: 'POST',
         data:   JSON.stringify({ windowId }) //eslint-disable-line no-restricted-globals
