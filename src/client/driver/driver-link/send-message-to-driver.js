@@ -20,21 +20,15 @@ export default function sendMessageToDriver (msg, driverWindow, timeout, NotLoad
     const sendAndWaitForResponse = () => {
         return new Promise(resolve => {
             onResponse = e => {
-                if (e.message.type === MESSAGE_TYPE.confirmation && e.message.requestMessageId === msg.id) {
-                    console.log('resolve');
+                if (e.message.type === MESSAGE_TYPE.confirmation && e.message.requestMessageId === msg.id)
                     resolve(e.message);
-                }
             };
 
             eventSandbox.message.on(eventSandbox.message.SERVICE_MSG_RECEIVED_EVENT, onResponse);
 
             sendMsgInterval = nativeMethods.setInterval.call(window, () => {
-                console.log('+: ' + msg.id + ' ' + Date.now());
-
                 eventSandbox.message.sendServiceMsg(msg, driverWindow);
             }, RESEND_MESSAGE_INTERVAL);
-
-            console.log('*: ' + msg.id + ' ' + Date.now());
 
             eventSandbox.message.sendServiceMsg(msg, driverWindow);
         });

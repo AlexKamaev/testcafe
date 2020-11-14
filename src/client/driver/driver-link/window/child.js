@@ -15,8 +15,6 @@ export default class ChildWindowDriverLink {
     }
 
     setAsMaster (finalizePendingCommand) {
-        debugger;
-
         const msg = new SetAsMasterMessage(finalizePendingCommand);
 
         return sendMessageToDriver(msg, this.driverWindow, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);

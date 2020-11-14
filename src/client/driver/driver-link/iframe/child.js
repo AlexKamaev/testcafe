@@ -47,8 +47,6 @@ export default class ChildIframeDriverLink {
         return waitFor(() => positionUtils.isElementVisible(this.driverIframe) ? this.driverIframe : null,
             CHECK_IFRAME_VISIBLE_INTERVAL, this.iframeAvailabilityTimeout)
             .catch(() => {
-                debugger;
-
                 throw new CurrentIframeIsInvisibleError();
             });
     }

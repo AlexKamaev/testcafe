@@ -18,8 +18,6 @@ export default class ParentWindowDriverLink {
     }
 
     _setAsMaster (wnd, finalizePendingCommand) {
-        debugger;
-
         const msg = new SetAsMasterMessage(finalizePendingCommand);
 
         return sendMessageToDriver(msg, wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);

@@ -404,8 +404,6 @@ export default class BrowserProvider {
     }
 
     public setActiveWindowId (browserId: string, val: string): void {
-        console.log('setActiveWindowId: ' + val);
-
         this.plugin.setActiveWindowId(browserId, val);
     }
 }

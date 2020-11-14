@@ -341,8 +341,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _setCurrentWindowAsMaster () {
-        console.log('_setCurrentWindowAsMaster: ' + this.windowId);
-
         if (this._setAsMasterInProgressOrCompleted())
             return;
 
@@ -782,16 +780,12 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _handleChildWindowIsOpenedInIFrame () {
-        console.log('_handleChildWindowIsOpenedInIFrame');
         this._pendingChildWindowInIFrame = new Promise(resolve => {
             this._resolvePendingChildWindowInIframe = resolve;
         });
     }
 
     _handleChildWindowIsLoadedInIFrame (msg, wnd) {
-        console.log('_handleChildWindowIsLoadedInIFrame: ' + Date.now());
-        console.log(window.document.body);
-
         sendConfirmationMessage({
             requestMsgId: msg.id,
             window:       wnd
@@ -973,10 +967,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _switchToChildWindow (selector) {
-        // //debugger
-
-        console.log('switch to child window: ' + selector);
-
         this.contextStorage.setItem(this.PENDING_WINDOW_SWITCHING_FLAG, true);
 
         const isWindowOpenedViaAPI = this.contextStorage.getItem(this.WINDOW_COMMAND_API_CALL_FLAG);
@@ -1237,8 +1227,6 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     async _onSwitchToWindow (command, err) {
-        debugger
-
         const wnd      = this._getTopOpenedWindow();
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
         const result   = response.result;
@@ -1345,7 +1333,6 @@ export default class Driver extends serviceUtils.EventEmitter {
                     this._onReady({ isCommandResult: false });
             })
             .catch(() => {
-                console.log('-----------');
                 return delay(CHECK_STATUS_RETRY_DELAY);
             });
     }
@@ -1534,8 +1521,6 @@ export default class Driver extends serviceUtils.EventEmitter {
                     return;
                 }
 
-                debugger;
-
                 // NOTE: we should execute a command in an iframe if the current execution context belongs to
                 // this iframe and the command is not one of those that can be executed only in the top window.
                 const isThereActiveIframe = this.activeChildIframeDriverLink ||
@@ -1666,27 +1651,8 @@ export default class Driver extends serviceUtils.EventEmitter {
         this._initConsoleMessages();
         this._initParentWindowLink();
 
-
-
-
-
-        if (this._isOpenedInIframe()) {
-            // ////debugger
-            //
-            // var span = document.createElement('span');
-            //
-            // span.innerText = '***';
-            //
-            // document.body.appendChild(span);
-
-            console.log('ChildWindowIsLoadedInFrameMessage');
-
+        if (this._isOpenedInIframe())
             sendMessageToDriver(new ChildWindowIsLoadedInFrameMessage(this.windowId), window.opener.top, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, WindowNotFoundError);
-
-            // messageSandbox.sendServiceMsg(new ChildWindowIsLoadedInFrameMessage(this.windowId), window.opener.top);
-        }
-
-
     }
 
     async _doFirstPageLoadSetup () {
