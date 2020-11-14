@@ -15,4 +15,8 @@ test('iframe', async t => {
     await t.switchToPreviousWindow();
 
     await t.click(Selector('button').withText('parent'));
+
+    await t.switchToPreviousWindow();
+
+    await t.click(Selector('button').withText('child'));
 });

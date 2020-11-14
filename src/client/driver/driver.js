@@ -1221,9 +1221,9 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _getTopOpenedWindow () {
-        const window = this.parentWindowDriverLink?.getTopOpenedWindow() || window;
+        const wnd = this.parentWindowDriverLink?.getTopOpenedWindow() || window;
 
-        return window.top;
+        return wnd.top;
     }
 
     async _onSwitchToWindow (command, err) {
