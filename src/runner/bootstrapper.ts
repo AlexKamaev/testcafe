@@ -233,20 +233,30 @@ export default class Bootstrapper {
 
     private async _getTests (): Promise<Test[]> {
         const cwd        = process.cwd();
+
+        debugger;
+
         const sourceList = await parseFileList(this.sources, cwd);
+
+        // console.log(this.sources);
+        // console.log(sourceList);
 
         if (!sourceList.length)
             throw new GeneralError(RUNTIME_ERRORS.testFilesNotFound, getConcatenatedValuesString(this.sources, '\n', ''), cwd);
 
         let tests = await this._compileTests({ sourceList, compilerOptions: this.compilerOptions });
 
+
         const testsWithOnlyFlag = tests.filter(test => test.only);
 
         if (testsWithOnlyFlag.length)
             tests = testsWithOnlyFlag;
 
+
+
         if (!tests.length)
             throw new GeneralError(RUNTIME_ERRORS.noTestsToRun);
+
 
         if (this.filter)
             tests = this._filterTests(tests, this.filter);

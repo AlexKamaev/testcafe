@@ -115,8 +115,6 @@ async function getStatus (statusUrl, createXHR, { manualRedirect } = {}) {
     if (redirecting && !manualRedirect) {
         debugger;
 
-        console.log('redirect');
-
         redirect(result);
 
         debugger;

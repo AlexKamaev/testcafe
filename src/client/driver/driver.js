@@ -1311,8 +1311,10 @@ export default class Driver extends serviceUtils.EventEmitter {
                 else
                     this.contextStorage.setItem(TEST_DONE_SENT_FLAG, false);
 
-                if (redirecting)
-                    browser.redirect(command);
+                if (redirecting) {
+                    // debugger;
+                    // browser.redirect(command);
+                }
                 else
                     this._onReady({ isCommandResult: false });
             })

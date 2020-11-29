@@ -9,20 +9,36 @@ function delay (ms) {
 
 async function tryGetResponse (request) {
     try {
-        return { response: await fetch(request) };
+        // debugger;
+
+        const result = await fetch(request);
+
+        debugger;
+
+        console.log(result);
+
+        return { response: result };
+        // return { response: await fetch(request) };
     }
     catch (error) {
+        console.log(error);
+
         return { error };
     }
 }
 
 async function getResponse (request) {
+    console.log('getResponse');
     let { error, response } = await tryGetResponse(request);
     let retryAttempt        = 0;
 
+    debugger;
+
     while (error && retryAttempt < MAX_RETRY) {
+        console.log('+++');
+        debugger;
         // eslint-disable-next-line no-console
-        console.error(error.stack || error);
+        console.log(error.stack || error);
 
         retryAttempt += 1;
 
@@ -42,6 +58,7 @@ self.addEventListener('fetch', event => {
         return;
 
     event.respondWith(getResponse(event.request));
+    // event.preventDefault();
 });
 
 self.addEventListener('install', () => {
