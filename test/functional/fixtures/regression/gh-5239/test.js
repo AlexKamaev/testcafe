@@ -83,16 +83,23 @@ describe('[Regression](GH-5239)', function () {
         });
     }
 
-    it('Should show warning if the \'retryTestPages\' option is not supported', function () {
-        return run({ retryTestPages: true, browsers: 'ie', src: './testcafe-fixtures/warnings-test.js', reporter: customReporter() })
-            .then(() => {
-                expect(warnings).eql([
-                    'The \'retryTestPages\' option was not enabled in the "ie" browser.\n' +
-                    'To enable the \'retryTestPages\' option please do one of the following:\n' +
-                    '-- specify the \'localhost\' value for the \'hostname\' option\n' +
-                    '-- run TestCafe over HTTPS protocol\n' +
-                    '-- ensure your browser supports Service Worker API (https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)\n'
-                ]);
-            });
-    });
+    if (config.currentEnvironmentName === config.testingEnvironmentNames.localBrowsersIE) {
+        it('Should show warning if the \'retryTestPages\' option is not supported', function () {
+            return run({
+                retryTestPages: true,
+                browsers:       'ie',
+                src:            './testcafe-fixtures/warnings-test.js',
+                reporter:       customReporter()
+            })
+                .then(() => {
+                    expect(warnings).eql([
+                        'The \'retryTestPages\' option was not enabled in the "ie" browser.\n' +
+                        'To enable the \'retryTestPages\' option please do one of the following:\n' +
+                        '-- specify the \'localhost\' value for the \'hostname\' option\n' +
+                        '-- run TestCafe over HTTPS protocol\n' +
+                        '-- ensure your browser supports Service Worker API (https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)\n'
+                    ]);
+                });
+        });
+    }
 });
