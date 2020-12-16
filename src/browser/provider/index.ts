@@ -247,13 +247,12 @@ export default class BrowserProvider {
     private async _ensureRetryTestPagesWarning (browserId: string): Promise<void> {
         const connection = BrowserConnection.getById(browserId) as BrowserConnection;
 
-        if (!connection.retryTestPages)
-            return;
+        if (connection?.retryTestPages) {
+            const isServiceWorkerEnabled = await this.plugin.runInitScript(browserId, GET_IS_SERVICE_WORKER_ENABLED);
 
-        const isServiceWorkerEnabled = await this.plugin.runInitScript(browserId, GET_IS_SERVICE_WORKER_ENABLED);
-
-        if (!isServiceWorkerEnabled)
-            connection.addWarning(WARNING_MESSAGE.retryTestPagesIsNotSupported, connection.browserInfo.alias);
+            if (!isServiceWorkerEnabled)
+                connection.addWarning(WARNING_MESSAGE.retryTestPagesIsNotSupported, connection.browserInfo.alias);
+        }
     }
 
     public async canUseDefaultWindowActions (browserId: string): Promise<boolean> {
