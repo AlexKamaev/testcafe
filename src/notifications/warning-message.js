@@ -44,6 +44,12 @@ export default {
     assertedClientFunctionInstance:     'You passed a ClientFunction object to \'t.expect()\'.\nIf you want to check the function\'s return value, use parentheses to call the function: fnName().',
     multipleWindowsFoundByPredicate:    'The predicate function passed to the \'switchToWindow\' method matched multiple windows. The first matching window was activated.',
     excessiveAwaitInAssertion:          'You passed a DOM snapshot property to the assertion\'s \'t.expect()\' method. The property value is assigned when the snapshot is resolved and this value is no longer updated. To ensure that the assertion verifies an up-to-date value, pass the selector property without \'await\'.',
-    missingAwaitOnSnapshotProperty:     'You used a DOM snapshot property without \'await\'. The property value is assigned when the snapshot is resolved. If you need to use the property value, use \'await\' to resolve the Promise.'
+    missingAwaitOnSnapshotProperty:     'You used a DOM snapshot property without \'await\'. The property value is assigned when the snapshot is resolved. If you need to use the property value, use \'await\' to resolve the Promise.',
+
+    retryTestPagesIsNotSupported: 'The \'retryTestPages\' option was not enabled in the "{browserAlias}" browser.\n' +
+                                  'To enable the \'retryTestPages\' option please do one of the following:\n' +
+                                  '-- specify the \'localhost\' value for the \'hostname\' option\n' +
+                                  '-- run TestCafe over HTTPS protocol\n' +
+                                  '-- ensure your browser supports Service Worker API (https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)\n'
 };
 
