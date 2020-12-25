@@ -1,0 +1,73 @@
+ test
++
+- open-window
+_onSetActiveWindowIdRequest: 7111
+setActiveWindowId: 7111
+=
+- maximize-window
+=
+- take-screenshot
+_getScreenshotRawData
+7111
+handle new: 4294967297
+=
+- switch-to-previous-window
+_onSetActiveWindowIdRequest: Hw2PYqbKu
+setActiveWindowId: Hw2PYqbKu
+=
+- take-screenshot
+_getScreenshotRawData
+Hw2PYqbKu
+handle new: 18
+=
+ √ 0} (screenshots: D:\projects\testcafe\screenshots)
++
+- open-window
+_onSetActiveWindowIdRequest: 28163
+setActiveWindowId: 28163
+=
+- maximize-window
+=
+- take-screenshot
+_getScreenshotRawData
+28163
+handle new: 4294967305
+=
+- switch-to-previous-window
+_onSetActiveWindowIdRequest: Hw2PYqbKu
+setActiveWindowId: Hw2PYqbKu
+=
+- take-screenshot
+_getScreenshotRawData
+Hw2PYqbKu
+handle from cache: 18
+=
+ √ 1} (screenshots: D:\projects\testcafe\screenshots)
++
+- open-window
+_onSetActiveWindowIdRequest: 20820
+setActiveWindowId: 20820
+=
+- maximize-window
+=
+- take-screenshot
+=
+- switch-to-previous-window
+_onSetActiveWindowIdRequest: Hw2PYqbKu
+setActiveWindowId: Hw2PYqbKu
+=
+- take-screenshot
+_getScreenshotRawData
+Hw2PYqbKu
+handle from cache: 18
+_getScreenshotRawData
+Hw2PYqbKu
+handle from cache: 18
+=
+ √ 2} (screenshots: D:\projects\testcafe\screenshots)
++
+- open-window
+_onSetActiveWindowIdRequest: 15678
+setActiveWindowId: 15678
+
+D:\projects\testcafe>

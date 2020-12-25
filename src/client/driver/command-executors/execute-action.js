@@ -299,7 +299,7 @@ class ActionExecutor {
                 this._ensureCommandArguments();
             }
             catch (err) {
-                resolve(new DriverStatus({ isCommandResult: true, executionError: err }));
+                resolve(new DriverStatus({ windowId: this.windowId, isCommandResult: true, executionError: err }));
                 return;
             }
 
@@ -327,7 +327,7 @@ class ActionExecutor {
                 })
                 .catch(err => {
                     return this.statusBar.hideWaitingElementStatus(false)
-                        .then(() => resolve(new DriverStatus({ isCommandResult: true, executionError: err })));
+                        .then(() => resolve(new DriverStatus({ windowId: this.windowId, isCommandResult: true, executionError: err })));
                 });
         });
 

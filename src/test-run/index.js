@@ -480,8 +480,16 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     _resolveCurrentDriverTask (result) {
+        console.log('_resolveCurrentDriverTask: ' + JSON.stringify(this.currentDriverTask.command));
         this.currentDriverTask.resolve(result);
         this.driverTaskQueue.shift();
+
+        if (this.currentDriverTask) {
+            console.log(JSON.stringify(this.currentDriverTask));
+        }
+        else {
+            console.log('------------------------');
+        }
 
         if (this.testDoneCommandQueued)
             this._removeAllNonServiceTasks();
@@ -547,10 +555,13 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     _handleDriverRequest (driverStatus) {
+
         const isTestDone                 = this.currentDriverTask && this.currentDriverTask.command.type ===
                                            COMMAND_TYPE.testDone;
         const pageError                  = this.pendingPageError || driverStatus.pageError;
         const currentTaskRejectedByError = pageError && this._handlePageErrorStatus(pageError);
+
+        console.log('*');
 
         if (this.disconnected)
             return new Promise((_, reject) => reject());
@@ -561,6 +572,8 @@ export default class TestRun extends AsyncEventEmitter {
             if (isTestDone) {
                 this._resolveCurrentDriverTask();
 
+                console.log('**');
+
                 return TEST_DONE_CONFIRMATION_RESPONSE;
             }
 
@@ -570,17 +583,23 @@ export default class TestRun extends AsyncEventEmitter {
                 return null;
         }
 
+        console.log('***');
+
         return this._getCurrentDriverTaskCommand();
     }
 
     _getCurrentDriverTaskCommand () {
-        if (!this.currentDriverTask)
+        if (!this.currentDriverTask) {
+            console.log('****');
             return null;
+        }
 
         const command = this.currentDriverTask.command;
 
         if (command.type === COMMAND_TYPE.navigateTo && command.stateSnapshot)
             this.session.useStateSnapshot(JSON.parse(command.stateSnapshot));
+
+        console.log('*****');
 
         return command;
     }
@@ -660,9 +679,14 @@ export default class TestRun extends AsyncEventEmitter {
         const start = new Date();
 
         try {
+            console.log('- ' + command.type);
             result = await this.executeCommand(command, callsite);
+            console.log('=');
         }
         catch (err) {
+            debugger;
+
+            console.log('err catched');
             error = err;
         }
 
@@ -948,6 +972,12 @@ const ServiceMessages = TestRun.prototype;
 
 // NOTE: this function is time-critical and must return ASAP to avoid client disconnection
 ServiceMessages[CLIENT_MESSAGES.ready] = function (msg) {
+    console.log('ready');
+
+    console.log('status: ' + msg.status.id);
+    console.log('last:' + this.lastDriverStatusId)
+    console.log(JSON.stringify(msg));
+
     this.debugLog.driverMessage(msg);
 
     this.emit('connected');
@@ -956,8 +986,11 @@ ServiceMessages[CLIENT_MESSAGES.ready] = function (msg) {
 
     // NOTE: the driver sends the status for the second time if it didn't get a response at the
     // first try. This is possible when the page was unloaded after the driver sent the status.
-    if (msg.status.id === this.lastDriverStatusId)
+    if (msg.status.id === this.lastDriverStatusId) {
+        console.log('respons with previous status');
+        console.log(JSON.stringify(this.lastDriverStatusResponse));
         return this.lastDriverStatusResponse;
+    }
 
     this.lastDriverStatusId       = msg.status.id;
     this.lastDriverStatusResponse = this._handleDriverRequest(msg.status);
@@ -981,7 +1014,9 @@ ServiceMessages[CLIENT_MESSAGES.readyForBrowserManipulation] = async function (m
     let error  = null;
 
     try {
+        console.log('+executePendingManipulation');
         result = await this.browserManipulationQueue.executePendingManipulation(msg);
+        console.log('-executePendingManipulation');
     }
     catch (err) {
         error = err;

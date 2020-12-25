@@ -17,22 +17,31 @@ export default function sendMessageToDriver (msg, driverWindow, timeout, NotLoad
 
     timeout = Math.max(timeout || 0, MIN_RESPONSE_WAITING_TIMEOUT);
 
-    const sendAndWaitForResponse = () => {
+    const sendAndWaitForResponse = (message) => {
+        console.log('send message to driver: ' + message.type + ' ' + message.id + ' ' + Date.now());
         return new Promise(resolve => {
+
             onResponse = e => {
-                if (e.message.type === MESSAGE_TYPE.confirmation && e.message.requestMessageId === msg.id)
+                console.log('onResponse: ' + message.type + ' ' + message.id + ' ' + Date.now());
+                if (e.message.type === MESSAGE_TYPE.confirmation && e.message.requestMessageId === message.id) {
+                    console.log('resolve: ' + message.type + ' ' + message.id + ' ' + Date.now());
                     resolve(e.message);
+                }
             };
 
             eventSandbox.message.on(eventSandbox.message.SERVICE_MSG_RECEIVED_EVENT, onResponse);
 
-            sendMsgInterval = nativeMethods.setInterval.call(window, () => eventSandbox.message.sendServiceMsg(msg, driverWindow), RESEND_MESSAGE_INTERVAL);
-            eventSandbox.message.sendServiceMsg(msg, driverWindow);
+            sendMsgInterval = nativeMethods.setInterval.call(window, () => {
+                console.log('resend: ' + message.type + ' ' + message.id + ' ' + Date.now());
+                return eventSandbox.message.sendServiceMsg(msg, driverWindow);
+            }, RESEND_MESSAGE_INTERVAL);
+            eventSandbox.message.sendServiceMsg(message, driverWindow);
         });
     };
 
-    return Promise.race([delay(timeout), sendAndWaitForResponse()])
+    return Promise.race([delay(timeout), sendAndWaitForResponse(msg)])
         .then(response => {
+            console.log('race finished: ' + msg.id + ' ' + Date.now());
             nativeMethods.clearInterval.call(window, sendMsgInterval);
             nativeMethods.clearTimeout.call(window, sendMsgTimeout);
             eventSandbox.message.off(eventSandbox.message.SERVICE_MSG_RECEIVED_EVENT, onResponse);

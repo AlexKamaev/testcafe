@@ -65,6 +65,8 @@ export class UncaughtErrorInTestCode extends TestRunErrorBase {
 
 export class UncaughtNonErrorObjectInTestCode extends TestRunErrorBase {
     constructor (obj) {
+        debugger;
+
         super(TEST_RUN_ERRORS.uncaughtNonErrorObjectInTestCode);
 
         this.objType = typeof obj;

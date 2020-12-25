@@ -177,6 +177,8 @@ export default class BrowserConnectionGateway {
             BrowserConnectionGateway._fetchRequestData(req, data => {
                 const parsedData = JSON.parse(data);
 
+                console.log('_onSetActiveWindowIdRequest: ' + parsedData.windowId);
+
                 connection.activeWindowId = parsedData.windowId;
 
                 respondWithJSON(res);

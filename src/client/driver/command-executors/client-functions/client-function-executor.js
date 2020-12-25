@@ -37,12 +37,12 @@ export default class ClientFunctionExecutor {
         return this
             .getResult()
             .then(result => new DriverStatus({
-                isCommandResult: true,
+    windowId: this.windowId, isCommandResult: true,
                 result:          this.replicator.encode(result)
             }))
             .catch(err => {
                 return new DriverStatus({
-                    isCommandResult: true,
+    windowId: this.windowId, isCommandResult: true,
                     executionError:  err
                 });
             });

@@ -98,7 +98,7 @@ export default class IframeDriver extends Driver {
                 if (inCommandExecution) {
                     this.contextStorage.setItem(this.COMMAND_EXECUTING_FLAG, false);
                     this.contextStorage.setItem(this.EXECUTING_IN_IFRAME_FLAG, false);
-                    this._onReady(new DriverStatus({ isCommandResult: true }));
+                    this._onReady(new DriverStatus({ windowId: this.windowId, type: 'iframe-start', isCommandResult: true }));
                 }
             });
 

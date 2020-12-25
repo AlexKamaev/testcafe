@@ -1,0 +1,114 @@
+ Running tests in:
+ - Chrome 87.0.4280.88 / Windows 10
+
+ test
+ready
+status: 8913.040000000365
+last:null
+{"cmd":"ready","status":{"id":"8913.040000000365","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"1umDWTZwH":{"log":[],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608839212581 _startCommandsProcessing: start 1umDWTZwH","windowId":"1umDWTZwH","date":1608839212587},"disableResending":true,"allowRejecting":true,"sessionId":"6mtueu67q"}
+*
+***
+****
++
+- open-window
+_onSetActiveWindowIdRequest: 39150
+setActiveWindowId: 39150
+ready
+status: 2747.870000000148
+last:8913.040000000365
+{"cmd":"ready","status":{"id":"2747.870000000148","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":{"id":"39150"},"consoleMessages":{"39150":{"log":["send message to driver: driver|establish-connection 97.56000000015774 1608839214771","onResponse: driver|establish-connection 97.56000000015774 1608839215318","onResponse: driver|establish-connection 97.56000000015774 1608839215324","resolve: driver|establish-connection 97.56000000015774 1608839215324","_handleSetAsMasterMessage: 1608839215326","_handleSetAsMasterMessage*********: 1608839215326","","race finished: 97.56000000015774 1608839215328"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608839215408 _startCommandsProcessing: _handleSetAsMasterMessage: 1608839215405 : 1 39150","windowId":"39150","date":1608839215428},"disableResending":true,"allowRejecting":true,"sessionId":"6mtueu67q"}
+*
+_resolveCurrentDriverTask: {"type":"open-window","url":"http://mail.ru"}
+------------------------
+***
+****
+=
+_maximizeWindow$
+- maximize-window
++executePendingManipulation
+executePendingManipulation: maximize-window
+-executePendingManipulation
+ready
+status: 8603.984999999739
+last:2747.870000000148
+{"cmd":"ready","status":{"id":"8603.984999999739","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"39150":{"log":[],"info":[],"warn":["[Pulse Advert] Cannot initialize advert on detached element"],"error":["YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608839221341 _onBrowserManipulationCommand: maximize-window","windowId":"39150","date":1608839221357},"disableResending":true,"allowRejecting":true,"sessionId":"6mtueu67q"}
+*
+_resolveCurrentDriverTask: {"type":"maximize-window"}
+------------------------
+***
+****
+=
+- take-screenshot
++executePendingManipulation
+executePendingManipulation: take-screenshot
+-executePendingManipulation
+ready
+status: 11063.294999999925
+last:8603.984999999739
+{"cmd":"ready","status":{"id":"11063.294999999925","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1608839197858_child.png","consoleMessages":{"39150":{"log":[],"info":[],"warn":[],"error":["YAN Widget error Meta empty response","YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608839223777 _onBrowserManipulationCommand: take-screenshot","windowId":"39150","date":1608839223787},"disableResending":true,"allowRejecting":true,"sessionId":"6mtueu67q"}
+*
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1608839197858_child.png","markSeed":null,"markData":""}
+------------------------
+***
+****
+=
+- get-browser-console-messages
+ready
+status: 11156.449999999495
+last:11063.294999999925
+{"cmd":"ready","status":{"id":"11156.449999999495","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608839223815 ","windowId":"39150","date":1608839223820},"disableResending":true,"allowRejecting":true,"sessionId":"6mtueu67q"}
+*
+_resolveCurrentDriverTask: {"type":"get-browser-console-messages"}
+------------------------
+***
+****
+=
+[
+  'send message to driver: driver|establish-connection 97.56000000015774 1608839214771',
+  'onResponse: driver|establish-connection 97.56000000015774 1608839215318',
+  'onResponse: driver|establish-connection 97.56000000015774 1608839215324',
+  'resolve: driver|establish-connection 97.56000000015774 1608839215324',
+  '_handleSetAsMasterMessage: 1608839215326',
+  '_handleSetAsMasterMessage*********: 1608839215326',
+  '',
+  'race finished: 97.56000000015774 1608839215328'
+]
+- switch-to-previous-window
+_onSetActiveWindowIdRequest: 1umDWTZwH
+setActiveWindowId: 1umDWTZwH
+ready
+status: 20205.02000000033
+last:11156.449999999495
+{"cmd":"ready","status":{"id":"20205.02000000033","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"1umDWTZwH":{"log":["send message to driver: driver|set-as-master 8993.17500000052 1608839212661","resend: driver|set-as-master 8993.17500000052 1608839213662","onResponse: driver|set-as-master 8993.17500000052 1608839213962","onResponse: driver|set-as-master 8993.17500000052 1608839213965","onResponse: driver|set-as-master 8993.17500000052 1608839213969","onResponse: driver|set-as-master 8993.17500000052 1608839213971","onResponse: driver|set-as-master 8993.17500000052 1608839213974","onResponse: driver|set-as-master 8993.17500000052 1608839214074","onResponse: driver|set-as-master 8993.17500000052 1608839214076","onResponse: driver|set-as-master 8993.17500000052 1608839214078","onResponse: driver|set-as-master 8993.17500000052 1608839214079","onResponse: driver|set-as-master 8993.17500000052 1608839214080","onResponse: driver|set-as-master 8993.17500000052 1608839214082","onResponse: driver|set-as-master 8993.17500000052 1608839214083","onResponse: driver|set-as-master 8993.17500000052 1608839214084","onResponse: driver|set-as-master 8993.17500000052 1608839214086","onResponse: driver|set-as-master 8993.17500000052 1608839214090","onResponse: driver|set-as-master 8993.17500000052 1608839214110","onResponse: driver|set-as-master 8993.17500000052 1608839214111","onResponse: driver|set-as-master 8993.17500000052 1608839214111","onResponse: driver|set-as-master 8993.17500000052 1608839214112","onResponse: driver|set-as-master 8993.17500000052 1608839214117","onResponse: driver|set-as-master 8993.17500000052 1608839214117","onResponse: driver|set-as-master 8993.17500000052 1608839214117","onResponse: driver|set-as-master 8993.17500000052 1608839214118","onResponse: driver|set-as-master 8993.17500000052 1608839214118","onResponse: driver|set-as-master 8993.17500000052 1608839214118","onResponse: driver|set-as-master 8993.17500000052 1608839214119","onResponse: driver|set-as-master 8993.17500000052 1608839214119","onResponse: driver|set-as-master 8993.17500000052 1608839214119","onResponse: driver|set-as-master 8993.17500000052 1608839214120","onResponse: driver|set-as-master 8993.17500000052 1608839214316","onResponse: driver|set-as-master 8993.17500000052 1608839214377","onResponse: driver|set-as-master 8993.17500000052 1608839214380","onResponse: driver|set-as-master 8993.17500000052 1608839214381","onResponse: driver|set-as-master 8993.17500000052 1608839214384","onResponse: driver|set-as-master 8993.17500000052 1608839214386","onResponse: driver|set-as-master 8993.17500000052 1608839214387","onResponse: driver|set-as-master 8993.17500000052 1608839214400","onResponse: driver|set-as-master 8993.17500000052 1608839214403","onResponse: driver|set-as-master 8993.17500000052 1608839214404","onResponse: driver|set-as-master 8993.17500000052 1608839214405","onResponse: driver|set-as-master 8993.17500000052 1608839214406","onResponse: driver|set-as-master 8993.17500000052 1608839214406","onResponse: driver|set-as-master 8993.17500000052 1608839214407","onResponse: driver|set-as-master 8993.17500000052 1608839215124","onResponse: driver|set-as-master 8993.17500000052 1608839215125","onResponse: driver|set-as-master 8993.17500000052 1608839215127","onResponse: driver|set-as-master 8993.17500000052 1608839215128","onResponse: driver|set-as-master 8993.17500000052 1608839215130","onResponse: driver|set-as-master 8993.17500000052 1608839215166","onResponse: driver|set-as-master 8993.17500000052 1608839215170","onResponse: driver|set-as-master 8993.17500000052 1608839215172","onResponse: driver|set-as-master 8993.17500000052 1608839215173","onResponse: driver|set-as-master 8993.17500000052 1608839215175","onResponse: driver|set-as-master 8993.17500000052 1608839215177","onResponse: driver|set-as-master 8993.17500000052 1608839215178","onResponse: driver|set-as-master 8993.17500000052 1608839215179","onResponse: driver|set-as-master 8993.17500000052 1608839215181","resend: driver|set-as-master 8993.17500000052 1608839215210","onResponse: driver|set-as-master 8993.17500000052 1608839215303","onResponse: driver|set-as-master 8993.17500000052 1608839215305","onResponse: driver|set-as-master 8993.17500000052 1608839215364","resolve: driver|set-as-master 8993.17500000052 1608839215365","onResponse: driver|set-as-master 8993.17500000052 1608839215366","onResponse: driver|set-as-master 8993.17500000052 1608839215367","onResponse: driver|set-as-master 8993.17500000052 1608839215368","onResponse: driver|set-as-master 8993.17500000052 1608839215370","onResponse: driver|set-as-master 8993.17500000052 1608839215371","onResponse: driver|set-as-master 8993.17500000052 1608839215372","onResponse: driver|set-as-master 8993.17500000052 1608839215372","onResponse: driver|set-as-master 8993.17500000052 1608839215373","onResponse: driver|set-as-master 8993.17500000052 1608839215373","onResponse: driver|set-as-master 8993.17500000052 1608839215374","onResponse: driver|set-as-master 8993.17500000052 1608839215374","onResponse: driver|set-as-master 8993.17500000052 1608839215374","onResponse: driver|set-as-master 8993.17500000052 1608839215375","onResponse: driver|set-as-master 8993.17500000052 1608839215375","race finished: 8993.17500000052 1608839215385"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":true,"type":"setItem: 1608839223873 _startCommandsProcessing: _setCurrentWindowAsMaster 1umDWTZwH","windowId":"1umDWTZwH","date":1608839223878},"disableResending":true,"allowRejecting":true,"sessionId":"6mtueu67q"}
+*
+_resolveCurrentDriverTask: {"type":"switch-to-previous-window","windowId":"1umDWTZwH"}
+------------------------
+***
+****
+=
+- take-screenshot
++executePendingManipulation
+executePendingManipulation: take-screenshot
+-executePendingManipulation
+ready
+status: 58067.25499999993
+last:20205.02000000033
+{"cmd":"ready","status":{"id":"58067.25499999993","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1608839197858-parent.png","consoleMessages":{},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608839261792 _onBrowserManipulationCommand: take-screenshot","windowId":"1umDWTZwH","date":1608839261802},"disableResending":true,"allowRejecting":true,"sessionId":"6mtueu67q"}
+*
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1608839197858-parent.png","markSeed":null,"markData":""}
+------------------------
+***
+****
+=
+ready
+status: 58162.640000000465
+last:58067.25499999993
+{"cmd":"ready","status":{"id":"58162.640000000465","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608839261830 ","windowId":"1umDWTZwH","date":1608839261837},"disableResending":true,"allowRejecting":true,"sessionId":"6mtueu67q"}
+*
+_resolveCurrentDriverTask: {"type":"test-done"}
+------------------------
+**
+ √ 1608839197858 (screenshots: D:\projects\testcafe\screenshots)
+
+
+ 1 passed (58s)

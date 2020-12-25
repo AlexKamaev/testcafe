@@ -65,6 +65,12 @@ export default class BrowserManipulationQueue {
     async executePendingManipulation (driverMsg) {
         const command = this.commands.shift();
 
+        console.log('executePendingManipulation: ' + command.type);
+
+        if (!command) {
+            debugger;
+        }
+
         switch (command.type) {
             case COMMAND_TYPE.takeElementScreenshot:
             case COMMAND_TYPE.takeScreenshot:

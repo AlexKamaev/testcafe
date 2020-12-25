@@ -221,11 +221,11 @@ class ManipulationExecutor {
 
                 return delay(POSSIBLE_RESIZE_ERROR_DELAY);
             })
-            .then(() => new DriverStatus({ isCommandResult: true, result: manipulationResult }))
+            .then(() => new DriverStatus({ windowId: this.windowId, isCommandResult: true, result: manipulationResult }))
             .catch(err => {
                 scrollController.enablePropagation();
 
-                return new DriverStatus({ isCommandResult: true, executionError: err });
+                return new DriverStatus({ windowId: this.windowId, isCommandResult: true, executionError: err });
             });
     }
 

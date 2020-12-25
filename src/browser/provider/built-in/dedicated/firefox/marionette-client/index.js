@@ -153,22 +153,32 @@ module.exports = class MarionetteClient {
                 return handle;
         }
 
+        console.log('*********');
+
+
         return null;
     }
 
     async _ensureActiveWindow () {
+        console.log(this.activeWindowId);
+
         let handle = this._windowHandles[this.activeWindowId];
 
         if (handle) {
             await this._switchToWindow(handle);
+
+            console.log('handle from cache: ' + handle);
 
             return;
         }
 
         handle = await this._getActiveWindowHandle();
 
-        if (handle)
+        if (handle) {
             this._windowHandles[this.activeWindowId] = handle;
+
+            console.log('handle new: ' + handle);
+        }
     }
 
     async _request (packet) {
@@ -194,6 +204,8 @@ module.exports = class MarionetteClient {
     }
 
     async _getScreenshotRawData (fullPage = false) {
+        console.log('_getScreenshotRawData');
+
         return await this._request({
             command:    COMMANDS.takeScreenshot,
             parameters: {

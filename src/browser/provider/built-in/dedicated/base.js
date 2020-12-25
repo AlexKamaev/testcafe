@@ -15,6 +15,7 @@ export default {
     },
 
     setActiveWindowId (browserId, val) {
+        console.log('setActiveWindowId: ' + val);
         this.openedBrowsers[browserId].activeWindowId = val;
     },
 

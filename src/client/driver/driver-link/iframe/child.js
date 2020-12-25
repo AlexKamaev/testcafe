@@ -61,7 +61,7 @@ export default class ChildIframeDriverLink {
                         .catch(() => {
                             // NOTE: wait for possible delayed iframe message
                             return delay(WAIT_IFRAME_RESPONSE_DELAY)
-                                .then(() => resolve(new DriverStatus({ isCommandResult: true })));
+                                .then(() => resolve(new DriverStatus({ windowId: this.windowId, isCommandResult: true })));
                         });
                 }, CHECK_IFRAME_EXISTENCE_INTERVAL);
         });

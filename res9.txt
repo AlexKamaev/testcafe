@@ -1,0 +1,3 @@
+ERROR Unable to establish one or more of the specified browser connections. This can be caused by network issues or remote device failure.
+
+Type "testcafe -h" for help.

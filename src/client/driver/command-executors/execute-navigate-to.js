@@ -12,9 +12,9 @@ export default async function executeNavigateTo (command) {
 
         await Promise.all([requestBarrier.wait(), pageUnloadBarrier.wait()]);
 
-        return new DriverStatus({ isCommandResult: true });
+        return new DriverStatus({ windowId: this.windowId,  windowId: this.windowId, isCommandResult: true });
     }
     catch (error) {
-        return new DriverStatus({ isCommandResult: true, executionError: error });
+        return new DriverStatus({ windowId: this.windowId,  windowId: this.windowId, isCommandResult: true, executionError: error });
     }
 }

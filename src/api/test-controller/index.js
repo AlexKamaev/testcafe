@@ -286,6 +286,7 @@ export default class TestController {
     }
 
     _maximizeWindow$ () {
+        console.log('_maximizeWindow$');
         return this._enqueueCommand('maximizeWindow', MaximizeWindowCommand);
     }
 

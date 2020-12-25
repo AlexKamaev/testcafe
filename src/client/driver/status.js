@@ -15,12 +15,16 @@ export default class DriverStatus extends Assignable {
         this.consoleMessages                    = null;
         this.isPendingWindowSwitching           = false;
         this.isFirstRequestAfterWindowSwitching = false;
+        this.type                               = '';
+        this.windowId                           = '';
 
         this._assignFrom(obj, true);
     }
 
     _getAssignableProperties () {
         return [
+            { name: 'type' },
+            { name: 'windowId' },
             { name: 'isCommandResult' },
             { name: 'executionError' },
             { name: 'pageError' },
