@@ -144,6 +144,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     constructor (testRunId, communicationUrls, runInfo, options) {
         super();
 
+        this.driverName = 'Parent driver';
+
         this.COMMAND_EXECUTING_FLAG        = 'testcafe|driver|command-executing-flag';
         this.EXECUTING_IN_IFRAME_FLAG      = 'testcafe|driver|executing-in-iframe-flag';
         this.PENDING_WINDOW_SWITCHING_FLAG = 'testcafe|driver|pending-window-switching-flag';
@@ -180,7 +182,9 @@ export default class Driver extends serviceUtils.EventEmitter {
         this.statusBar = null;
 
         this.windowId                         = this._getCurrentWindowId();
-        this.role                             = DriverRole.replica;
+        console.log('set role on constructor');
+        debugger;
+        // this.role                             = DriverRole.replica;
         this.setAsMasterInProgress            = false;
         this.checkClosedChildWindowIntervalId = null;
 
@@ -783,14 +787,22 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _handleSetAsMasterMessage (msg, wnd) {
-        console.log('_handleSetAsMasterMessage: ' + Date.now());
+        console.log('_handleSetAsMasterMessage: ' + msg.id + ' ' + Date.now() + ' ' + this.driverName);
+        console.log('role: ' + this.role);
+        console.log('inProgress: ' + this.setAsMasterInProgress);
+
+        sendConfirmationMessage({
+            requestMsgId: msg.id,
+            window:       wnd
+        });
+
         // NOTE: The 'setAsMaster' message can be send a few times because
         // the 'sendMessageToDriver' function resend messages if the message confirmation is not received in 1 sec.
         // This message can be send even after driver is started.
         if (this._setAsMasterInProgressOrCompleted())
             return;
 
-        console.log('_handleSetAsMasterMessage*********: ' + Date.now());
+        console.log('_handleSetAsMasterMessage*********: ' + msg.id + ' ' + Date.now());
 
         this.kkk = this.kkk || 0;
 
@@ -801,10 +813,10 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         this.setAsMasterInProgress = true;
 
-        sendConfirmationMessage({
-            requestMsgId: msg.id,
-            window:       wnd
-        });
+        // sendConfirmationMessage({
+        //     requestMsgId: msg.id,
+        //     window:       wnd
+        // });
 
         Promise.resolve()
             .then(() => {
@@ -1081,6 +1093,7 @@ export default class Driver extends serviceUtils.EventEmitter {
             })
             .then(() => {
                 this._abortSwitchingToChildWindowIfItClosed();
+                console.log('_switchToChildWindow');
                 this._stopInternal();
 
                 return this.activeChildWindowDriverLink.setAsMaster(isWindowOpenedViaAPI);
@@ -1122,6 +1135,7 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         return Promise.resolve()
             .then(() => {
+                console.log('_switchToParentWindowInternal');
                 this._stopInternal();
 
                 return parentWindowSwitchFn(opts);
@@ -1340,6 +1354,7 @@ export default class Driver extends serviceUtils.EventEmitter {
             }));
         }
         else {
+            console.log('_onSwitchToWindow');
             this._stopInternal();
 
             sendMessageToDriver(new SwitchToWindowCommandMessage({ windowId: command.windowId, fn: command.findWindow }), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
@@ -1559,8 +1574,10 @@ export default class Driver extends serviceUtils.EventEmitter {
         else if (command.type === COMMAND_TYPE.getCurrentWindows)
             this._onGetWindowsCommand();
 
-        else if (command.type === COMMAND_TYPE.switchToWindow)
+        else if (command.type === COMMAND_TYPE.switchToWindow) {
+            console.log('COMMAND_TYPE.switchToWindow');
             this._onSwitchToWindow(command);
+        }
 
         else if (command.type === COMMAND_TYPE.switchToPreviousWindow)
             this._onSwitchToPreviousWindow(command);
@@ -1652,7 +1669,9 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _startInternal (opts) {
+        console.log('_startInternal: ' + this.driverName + ' ' + Date.now());
         this.role = DriverRole.master;
+        console.log(this.role);
 
         browser.startHeartbeat(this.heartbeatUrl, hammerhead.createNativeXHR);
         this._setupAssertionRetryIndication();
@@ -1660,6 +1679,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _stopInternal () {
+        console.log('_stopInternal');
         this.role = DriverRole.replica;
 
         browser.stopHeartbeat();
@@ -1685,6 +1705,8 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     _startCommandsProcessing (opts = { finalizePendingCommand: false, isFirstRequestAfterWindowSwitching: false, result: void 0 }) {
         const pendingStatus = this.contextStorage.getItem(PENDING_STATUS);
+
+        console.log('_startCommandsProcessing: ' + !!pendingStatus);
 
         if (pendingStatus) {
             pendingStatus.resent = true;

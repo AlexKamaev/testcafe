@@ -1,4 +1,0 @@
- Running tests in:
- - Firefox 84.0 / Windows 10
-
- test

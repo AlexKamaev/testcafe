@@ -22,9 +22,10 @@ export default function sendMessageToDriver (msg, driverWindow, timeout, NotLoad
         return new Promise(resolve => {
 
             onResponse = e => {
-                console.log('onResponse: ' + message.type + ' ' + message.id + ' ' + Date.now());
+                console.log('onResponse: ' + e.message.type + ' ' + e.message.id + ' ' + Date.now());
                 if (e.message.type === MESSAGE_TYPE.confirmation && e.message.requestMessageId === message.id) {
-                    console.log('resolve: ' + message.type + ' ' + message.id + ' ' + Date.now());
+                    console.log('resolve: ' + e.message.type + ' ' + e.message.id + ' ' + Date.now());
+                    console.log('resolve: ' + e.message.type + ' ' + e.message.id + ' ' + Date.now());
                     resolve(e.message);
                 }
             };

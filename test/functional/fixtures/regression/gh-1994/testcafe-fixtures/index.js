@@ -10,6 +10,8 @@ const reg = new RegExp('yandex|google');
 const mock = RequestMock().onRequestTo(reg)
     .respond('', 200);
 
+
+
 for (let i = 0; i < 1; i++) {
     // test.requestHooks(mock)(`${now}`, async t => {
     test(`${now}`, async t => {
@@ -33,13 +35,17 @@ for (let i = 0; i < 1; i++) {
         // console.log('++');
 
 
-        const { log } = await t.getBrowserConsoleMessages();
+        let { log } = await t.getBrowserConsoleMessages();
 
         console.log(log);
         //
         await t.switchToPreviousWindow();
         // //
         await t.takeScreenshot(`_${now}-parent.png`);
+
+        log = await t.getBrowserConsoleMessages();
+
+        console.log(log);
         //
         // console.log('+++');
         //

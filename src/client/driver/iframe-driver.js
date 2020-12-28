@@ -17,6 +17,8 @@ export default class IframeDriver extends Driver {
         this.lastParentDriverMessageId = null;
         this.parentDriverLink          = new ParentIframeDriverLink(window.parent);
         this._initParentDriverListening();
+
+        this.driverName = 'iframe driver';
     }
 
     // Errors handling
