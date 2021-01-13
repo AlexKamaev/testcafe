@@ -1343,6 +1343,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     async _onSwitchToWindow (command, err) {
+        console.log('_onSwitchToWindow');
         const wnd      = this._getTopOpenedWindow();
         const response = await this._validateChildWindowSwitchToWindowCommandExists({ windowId: command.windowId, fn: command.findWindow }, wnd);
         const result   = response.result;
@@ -1354,7 +1355,7 @@ export default class Driver extends serviceUtils.EventEmitter {
             }));
         }
         else {
-            console.log('_onSwitchToWindow');
+            console.log('_onSwitchToWindow:success');
             this._stopInternal();
 
             sendMessageToDriver(new SwitchToWindowCommandMessage({ windowId: command.windowId, fn: command.findWindow }), wnd, WAIT_FOR_WINDOW_DRIVER_RESPONSE_TIMEOUT, CannotSwitchToWindowError);
@@ -1377,6 +1378,8 @@ export default class Driver extends serviceUtils.EventEmitter {
         }
     }
 
+
+    // TODO zhopa123
     _onSwitchToPreviousWindow (command) {
         this._onSwitchToWindow(command, new PreviousWindowNotFoundError());
     }
@@ -1394,14 +1397,18 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onBrowserManipulationCommand (command) {
+        console.log('111_onBrowserManipulationCommand: ' + command.type);
+
         this.contextStorage.setItem(this.COMMAND_EXECUTING_FLAG, true);
 
         executeManipulationCommand(command, this.selectorTimeout, this.statusBar)
             .then(driverStatus => {
                 this.contextStorage.setItem(this.COMMAND_EXECUTING_FLAG, false);
 
-                driverStatus.type = '_onBrowserManipulationCommand: ' + command.type;
+                driverStatus.type = '222_onBrowserManipulationCommand: ' + command.type;
                 driverStatus.windowId = this.windowId;
+
+                console.log('_onBrowserManipulationCommanExecuted: ' + command.type);
 
                 return this._onReady(driverStatus);
             });
@@ -1410,8 +1417,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     _onSetBreakpointCommand (isTestError) {
         this.statusBar.showDebuggingStatus(isTestError)
             .then(stopAfterNextAction => this._onReady(new DriverStatus({
-    windowId: this.windowId, isCommandResult: true,
-                result:          stopAfterNextAction
+                windowId: this.windowId, isCommandResult: true,
+                result:   stopAfterNextAction
             })));
     }
 
@@ -1524,8 +1531,13 @@ export default class Driver extends serviceUtils.EventEmitter {
         if (this._isStatusWithCommandResultInPendingWindowSwitchingMode(status))
             this.emit(STATUS_WITH_COMMAND_RESULT_EVENT);
 
+        const now = Date.now();
+
+        console.log('sendStatus: ' + status.type + ' ' + now);
+
         this._sendStatus(status)
             .then(command => {
+                console.log('sendStatus*****: ' + command?.type + ' ' + status.type + ' ' + now);
                 if (command)
                     this._onCommand(command);
 
@@ -1544,6 +1556,7 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     _executeCommand (command) {
         // debugger;
+        console.log('_executeCommand client: ' + command.type);
 
         this.contextStorage.setItem(this.WINDOW_COMMAND_API_CALL_FLAG, false);
 

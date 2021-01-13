@@ -163,6 +163,8 @@ class ManipulationExecutor {
     }
 
     _requestManipulation () {
+        console.log('_requestManipulation: ' + this.command.type + '***');
+
         if (!isIframeWindow(window))
             return transport.queuedAsyncServiceMsg(this._createManipulationReadyMessage());
 
@@ -191,9 +193,13 @@ class ManipulationExecutor {
     _runManipulation () {
         let manipulationResult = null;
 
+        console.log('_runManipulation: ' + this.command.type);
+
         return Promise
             .resolve()
             .then(() => {
+                console.log('_runManipulation: ' + this.command.type + '*');
+
                 if (this.command.type !== COMMAND_TYPE.takeElementScreenshot)
                     return Promise.resolve();
 
@@ -202,6 +208,7 @@ class ManipulationExecutor {
                 return this._runScrollBeforeScreenshot();
             })
             .then(() => {
+                console.log('_runManipulation: ' + this.command.type + '**');
                 if (!isIframeWindow(window))
                     return this._hideUI();
 
@@ -209,6 +216,7 @@ class ManipulationExecutor {
             })
             .then(() => this._requestManipulation())
             .then(({ result, error }) => {
+                console.log('_requestManipulation: ' + this.command.type + '****');
                 if (error)
                     throw error;
 

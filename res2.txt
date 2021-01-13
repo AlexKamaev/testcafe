@@ -3,238 +3,291 @@
 
  test
 ready
-status: 8857
+status: 243
 last:null
-{"cmd":"ready","status":{"id":"8857","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"9XNXU47xC":{"log":["_startInternal: Parent driver 1608910837613","master","_startCommandsProcessing: false"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910837616 _startCommandsProcessing: start 9XNXU47xC","windowId":"9XNXU47xC"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
-***
-****
+{"cmd":"ready","status":{"id":"243","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"rmXv3DjwF":{"log":["_startInternal: Parent driver 1610538010674","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: start rmXv3DjwF 1610538010676"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538010677 _startCommandsProcessing: start rmXv3DjwF","windowId":"rmXv3DjwF"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
 +
-- open-window
-_onSetActiveWindowIdRequest: 9938
-setActiveWindowId: 9938
+START ACTION: open-window
 ready
-status: 3103
-last:8857
-{"cmd":"ready","status":{"id":"3103","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"9938"},"consoleMessages":{"9938":{"log":["set role on constructor","send message to driver: driver|establish-connection 545 1608910840228","_handleSetAsMasterMessage: 9026 1608910840560 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 9026 1608910840561","","_handleSetAsMasterMessage: 9026 1608910840577 Parent driver","role: undefined","inProgress: true","onResponse: undefined undefined 1608910840881","_startInternal: Parent driver 1608910840885","master","_startCommandsProcessing: false"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910840889 PENDING: 1608910840889 setItem: 1608910840887 _startCommandsProcessing: _handleSetAsMasterMessage: 1608910840885 : 1 9938","windowId":"9938"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
+status: 243
+last:243
+{"cmd":"ready","status":{"id":"243","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"rmXv3DjwF":{"log":["_startInternal: Parent driver 1610538010674","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: start rmXv3DjwF 1610538010676"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538010677 _startCommandsProcessing: start rmXv3DjwF","windowId":"rmXv3DjwF"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+respons with previous status
+null
+ready
+status: 593
+last:243
+{"cmd":"ready","status":{"id":"593","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"rmXv3DjwF":{"log":["sendStatus*****: undefined setItem: 1610538010677 _startCommandsProcessing: start rmXv3DjwF 1610538010676","sendStatus: kekeke 1610538011026"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538011027 kekeke","windowId":"rmXv3DjwF"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: open-window
+***
+*****
+_onSetActiveWindowIdRequest: 45890
+setActiveWindowId: 45890
+ready
+status: 2901
+last:593
+{"cmd":"ready","status":{"id":"2901","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"45890"},"consoleMessages":{"45890":{"log":["set role on constructor","send message to driver: driver|establish-connection 410 1610538012794","_handleSetAsMasterMessage: 726 1610538013578 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 726 1610538013579","","_handleSetAsMasterMessage: 726 1610538013612 Parent driver","role: undefined","inProgress: true","resend: driver|establish-connection 410 1610538013840","onResponse: undefined undefined 1610538014055","_startInternal: Parent driver 1610538014056","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014058"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538014060 PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890","windowId":"45890"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: open-window
 _resolveCurrentDriverTask: {"type":"open-window","url":"http://mail.ru"}
 ------------------------
 ***
 ****
-=
+END ACTION: open-window
 _maximizeWindow$
 ready
-status: 3103
-last:3103
-{"cmd":"ready","status":{"id":"3103","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"9938"},"consoleMessages":{"9938":{"log":["set role on constructor","send message to driver: driver|establish-connection 545 1608910840228","_handleSetAsMasterMessage: 9026 1608910840560 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 9026 1608910840561","","_handleSetAsMasterMessage: 9026 1608910840577 Parent driver","role: undefined","inProgress: true","onResponse: undefined undefined 1608910840881","_startInternal: Parent driver 1608910840885","master","_startCommandsProcessing: false"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910840889 PENDING: 1608910840889 setItem: 1608910840887 _startCommandsProcessing: _handleSetAsMasterMessage: 1608910840885 : 1 9938","windowId":"9938"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
+status: 2901
+last:2901
+{"cmd":"ready","status":{"id":"2901","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"45890"},"consoleMessages":{"45890":{"log":["set role on constructor","send message to driver: driver|establish-connection 410 1610538012794","_handleSetAsMasterMessage: 726 1610538013578 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 726 1610538013579","","_handleSetAsMasterMessage: 726 1610538013612 Parent driver","role: undefined","inProgress: true","resend: driver|establish-connection 410 1610538013840","onResponse: undefined undefined 1610538014055","_startInternal: Parent driver 1610538014056","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014058"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538014060 PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890","windowId":"45890"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
 respons with previous status
 null
-- maximize-window
+START ACTION: maximize-window
 ready
-status: 3698
-last:3103
-{"cmd":"ready","status":{"id":"3698","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"9938":{"log":["_startInternal: Parent driver 1608910840888","master","_startCommandsProcessing: true","onResponse: driver|confirmation 3090 1608910841277","resolve: driver|confirmation 3090 1608910841278","resolve: driver|confirmation 3090 1608910841279","resend: driver|establish-connection 545 1608910841312","race finished: 545 1608910841313"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910841481 kekeke","windowId":"9938"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
+status: 3665
+last:2901
+{"cmd":"ready","status":{"id":"3665","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"45890":{"log":["_startInternal: Parent driver 1610538014058","master","_startCommandsProcessing: true","sendStatus: PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014060","onResponse: driver|confirmation 2675 1610538014238","resolve: driver|confirmation 2675 1610538014238","resolve: driver|confirmation 2675 1610538014239","race finished: 410 1610538014356","sendStatus*****: undefined setItem: 1610538014060 PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014060","sendStatus: kekeke 1610538014822"],"info":[],"warn":[],"error":["YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538014822 kekeke","windowId":"45890"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: maximize-window
 ***
 *****
 +executePendingManipulation
 executePendingManipulation: maximize-window
 -executePendingManipulation
 ready
-status: 3103
-last:3698
-{"cmd":"ready","status":{"id":"3103","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"9938"},"consoleMessages":{"9938":{"log":["set role on constructor","send message to driver: driver|establish-connection 545 1608910840228","_handleSetAsMasterMessage: 9026 1608910840560 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 9026 1608910840561","","_handleSetAsMasterMessage: 9026 1608910840577 Parent driver","role: undefined","inProgress: true","onResponse: undefined undefined 1608910840881","_startInternal: Parent driver 1608910840885","master","_startCommandsProcessing: false"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910840889 PENDING: 1608910840889 setItem: 1608910840887 _startCommandsProcessing: _handleSetAsMasterMessage: 1608910840885 : 1 9938","windowId":"9938"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
+status: 8197
+last:3665
+{"cmd":"ready","status":{"id":"8197","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"45890":{"log":["sendStatus*****: maximize-window setItem: 1610538014822 kekeke 1610538014822","_executeCommand client: maximize-window","111_onBrowserManipulationCommand: maximize-window","_runManipulation: maximize-window","_runManipulation: maximize-window*","_runManipulation: maximize-window**","hide**","_requestManipulation: maximize-window***","_requestManipulation: maximize-window****","_onBrowserManipulationCommanExecuted: maximize-window","sendStatus: 222_onBrowserManipulationCommand: maximize-window 1610538019431"],"info":[],"warn":[],"error":["YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538019431 222_onBrowserManipulationCommand: maximize-window","windowId":"45890"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: maximize-window
 _resolveCurrentDriverTask: {"type":"maximize-window"}
 ------------------------
 ***
 ****
-=
-- take-screenshot
+END ACTION: maximize-window
+START ACTION: take-screenshot
 ready
-status: 9179
-last:3103
-{"cmd":"ready","status":{"id":"9179","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"9938":{"log":[],"info":[],"warn":[],"error":["YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910847370 _onBrowserManipulationCommand: maximize-window","windowId":"9938"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
-_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1608910813718_child.png","markSeed":null,"markData":""}
+status: 2901
+last:8197
+{"cmd":"ready","status":{"id":"2901","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"45890"},"consoleMessages":{"45890":{"log":["set role on constructor","send message to driver: driver|establish-connection 410 1610538012794","_handleSetAsMasterMessage: 726 1610538013578 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 726 1610538013579","","_handleSetAsMasterMessage: 726 1610538013612 Parent driver","role: undefined","inProgress: true","resend: driver|establish-connection 410 1610538013840","onResponse: undefined undefined 1610538014055","_startInternal: Parent driver 1610538014056","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014058"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538014060 PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890","windowId":"45890"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: take-screenshot
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1610538004102_child.png","markSeed":null,"markData":""}
 ------------------------
 ***
 ****
-=
-- get-browser-console-messages
+END ACTION: take-screenshot
+START ACTION: get-browser-console-messages
 ready
-status: 9624
-last:9179
-{"cmd":"ready","status":{"id":"9624","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910847407 ","windowId":"9938"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
+status: 8646
+last:2901
+{"cmd":"ready","status":{"id":"8646","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"45890":{"log":["sendStatus*****: take-screenshot setItem: 1610538019431 222_onBrowserManipulationCommand: maximize-window 1610538019431","_executeCommand client: take-screenshot","111_onBrowserManipulationCommand: take-screenshot","_runManipulation: take-screenshot","_runManipulation: take-screenshot*","_runManipulation: take-screenshot**","hide**","sendStatus*****: get-browser-console-messages setItem: 1610538014060 PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014058","_executeCommand client: get-browser-console-messages","sendStatus:  1610538019802"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538019803 ","windowId":"45890"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: get-browser-console-messages
 _resolveCurrentDriverTask: {"type":"get-browser-console-messages"}
 ------------------------
 ***
 ****
-=
+END ACTION: get-browser-console-messages
 [
   'set role on constructor',
-  'send message to driver: driver|establish-connection 545 1608910840228',
-  '_handleSetAsMasterMessage: 9026 1608910840560 Parent driver',
+  'send message to driver: driver|establish-connection 410 1610538012794',
+  '_handleSetAsMasterMessage: 726 1610538013578 Parent driver',
   'role: undefined',
   'inProgress: false',
-  '_handleSetAsMasterMessage*********: 9026 1608910840561',
+  '_handleSetAsMasterMessage*********: 726 1610538013579',
   '',
-  '_handleSetAsMasterMessage: 9026 1608910840577 Parent driver',
+  '_handleSetAsMasterMessage: 726 1610538013612 Parent driver',
   'role: undefined',
   'inProgress: true',
-  'onResponse: undefined undefined 1608910840881',
-  '_startInternal: Parent driver 1608910840885',
+  'resend: driver|establish-connection 410 1610538013840',
+  'onResponse: undefined undefined 1610538014055',
+  '_startInternal: Parent driver 1610538014056',
   'master',
   '_startCommandsProcessing: false',
-  '_startInternal: Parent driver 1608910840888',
+  'sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014058',
+  '_startInternal: Parent driver 1610538014058',
   'master',
   '_startCommandsProcessing: true',
-  'onResponse: driver|confirmation 3090 1608910841277',
-  'resolve: driver|confirmation 3090 1608910841278',
-  'resolve: driver|confirmation 3090 1608910841279',
-  'resend: driver|establish-connection 545 1608910841312',
-  'race finished: 545 1608910841313',
+  'sendStatus: PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014060',
+  'onResponse: driver|confirmation 2675 1610538014238',
+  'resolve: driver|confirmation 2675 1610538014238',
+  'resolve: driver|confirmation 2675 1610538014239',
+  'race finished: 410 1610538014356',
+  'sendStatus*****: undefined setItem: 1610538014060 PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014060',
+  'sendStatus: kekeke 1610538014822',
+  'sendStatus*****: maximize-window setItem: 1610538014822 kekeke 1610538014822',
+  '_executeCommand client: maximize-window',
+  '111_onBrowserManipulationCommand: maximize-window',
+  '_runManipulation: maximize-window',
+  '_runManipulation: maximize-window*',
+  '_runManipulation: maximize-window**',
+  'hide**',
+  '_requestManipulation: maximize-window***',
+  '_requestManipulation: maximize-window****',
+  '_onBrowserManipulationCommanExecuted: maximize-window',
+  'sendStatus: 222_onBrowserManipulationCommand: maximize-window 1610538019431',
   'set role on constructor',
-  'send message to driver: driver|establish-connection 545 1608910840228',
-  '_handleSetAsMasterMessage: 9026 1608910840560 Parent driver',
+  'send message to driver: driver|establish-connection 410 1610538012794',
+  '_handleSetAsMasterMessage: 726 1610538013578 Parent driver',
   'role: undefined',
   'inProgress: false',
-  '_handleSetAsMasterMessage*********: 9026 1608910840561',
+  '_handleSetAsMasterMessage*********: 726 1610538013579',
   '',
-  '_handleSetAsMasterMessage: 9026 1608910840577 Parent driver',
+  '_handleSetAsMasterMessage: 726 1610538013612 Parent driver',
   'role: undefined',
   'inProgress: true',
-  'onResponse: undefined undefined 1608910840881',
-  '_startInternal: Parent driver 1608910840885',
+  'resend: driver|establish-connection 410 1610538013840',
+  'onResponse: undefined undefined 1610538014055',
+  '_startInternal: Parent driver 1610538014056',
   'master',
-  '_startCommandsProcessing: false'
+  '_startCommandsProcessing: false',
+  'sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014058',
+  'sendStatus*****: take-screenshot setItem: 1610538019431 222_onBrowserManipulationCommand: maximize-window 1610538019431',
+  '_executeCommand client: take-screenshot',
+  '111_onBrowserManipulationCommand: take-screenshot',
+  '_runManipulation: take-screenshot',
+  '_runManipulation: take-screenshot*',
+  '_runManipulation: take-screenshot**',
+  'hide**',
+  'sendStatus*****: get-browser-console-messages setItem: 1610538014060 PENDING: 1610538014059 setItem: 1610538014058 _startCommandsProcessing: _handleSetAsMasterMessage: 1610538014056 : 1 45890 1610538014058',
+  '_executeCommand client: get-browser-console-messages',
+  'sendStatus:  1610538019802'
 ]
-- switch-to-previous-window
-_onSetActiveWindowIdRequest: 9XNXU47xC
-setActiveWindowId: 9XNXU47xC
+START ACTION: switch-to-previous-window
+_onSetActiveWindowIdRequest: rmXv3DjwF
+setActiveWindowId: rmXv3DjwF
 ready
-status: 18705
-last:9624
-{"cmd":"ready","status":{"id":"18705","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"9XNXU47xC":{"log":["_switchToChildWindow","_stopInternal","send message to driver: driver|set-as-master 9026 1608910837786","resend: driver|set-as-master 9026 1608910838788","onResponse: undefined undefined 1608910839060","onResponse: undefined undefined 1608910839063","onResponse: undefined undefined 1608910839066","onResponse: undefined undefined 1608910839194","onResponse: undefined undefined 1608910839195","onResponse: undefined undefined 1608910839198","onResponse: undefined undefined 1608910839199","onResponse: undefined undefined 1608910839200","onResponse: undefined undefined 1608910839201","onResponse: undefined undefined 1608910839202","onResponse: undefined undefined 1608910839203","onResponse: undefined undefined 1608910839204","onResponse: undefined undefined 1608910839205","onResponse: undefined undefined 1608910839206","onResponse: undefined undefined 1608910839207","onResponse: undefined undefined 1608910839319","onResponse: undefined undefined 1608910839419","onResponse: undefined undefined 1608910839420","onResponse: undefined undefined 1608910839422","onResponse: undefined undefined 1608910839426","onResponse: undefined undefined 1608910839427","onResponse: undefined undefined 1608910839429","onResponse: undefined undefined 1608910839872","resend: driver|set-as-master 9026 1608910839875","onResponse: undefined undefined 1608910839877","onResponse: undefined undefined 1608910839878","onResponse: undefined undefined 1608910839882","onResponse: undefined undefined 1608910839883","onResponse: undefined undefined 1608910840018","onResponse: undefined undefined 1608910840019","onResponse: undefined undefined 1608910840020","onResponse: undefined undefined 1608910840021","onResponse: undefined undefined 1608910840023","onResponse: undefined undefined 1608910840023","onResponse: undefined undefined 1608910840025","onResponse: undefined undefined 1608910840026","onResponse: undefined undefined 1608910840029","onResponse: undefined undefined 1608910840472","onResponse: undefined undefined 1608910840474","onResponse: undefined undefined 1608910840607","onResponse: undefined undefined 1608910840609","onResponse: undefined undefined 1608910840610","onResponse: undefined undefined 1608910840612","onResponse: undefined undefined 1608910840616","onResponse: driver|confirmation 2777 1608910840620","resolve: driver|confirmation 2777 1608910840620","resolve: driver|confirmation 2777 1608910840620","onResponse: driver|confirmation 2794 1608910840621","resolve: driver|confirmation 2794 1608910840621","resolve: driver|confirmation 2794 1608910840621","race finished: 9026 1608910840622","_startInternal: Parent driver 1608910847462","master","_startCommandsProcessing: false"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":true,"type":"setItem: 1608910847466 _startCommandsProcessing: _setCurrentWindowAsMaster 9XNXU47xC","windowId":"9XNXU47xC"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
-_resolveCurrentDriverTask: {"type":"switch-to-previous-window","windowId":"9XNXU47xC"}
+status: 9438
+last:8646
+{"cmd":"ready","status":{"id":"9438","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"rmXv3DjwF":{"log":["sendStatus*****: open-window setItem: 1610538011027 kekeke 1610538011026","_executeCommand client: open-window","_switchToChildWindow","_stopInternal","send message to driver: driver|set-as-master 726 1610538011159","onResponse: undefined undefined 1610538011830","onResponse: undefined undefined 1610538011832","onResponse: undefined undefined 1610538011833","onResponse: undefined undefined 1610538012198","onResponse: undefined undefined 1610538012199","resend: driver|set-as-master 726 1610538012202","onResponse: undefined undefined 1610538012205","onResponse: undefined undefined 1610538012206","onResponse: undefined undefined 1610538012206","onResponse: undefined undefined 1610538012206","onResponse: undefined undefined 1610538012207","onResponse: undefined undefined 1610538012208","onResponse: undefined undefined 1610538012210","onResponse: undefined undefined 1610538012212","onResponse: undefined undefined 1610538012213","onResponse: undefined undefined 1610538012214","onResponse: undefined undefined 1610538012259","onResponse: undefined undefined 1610538012259","onResponse: undefined undefined 1610538012494","onResponse: undefined undefined 1610538012495","onResponse: undefined undefined 1610538012498","onResponse: undefined undefined 1610538012499","onResponse: undefined undefined 1610538012500","onResponse: undefined undefined 1610538012501","onResponse: undefined undefined 1610538012502","onResponse: undefined undefined 1610538012510","onResponse: undefined undefined 1610538012512","onResponse: undefined undefined 1610538012515","onResponse: undefined undefined 1610538012655","onResponse: undefined undefined 1610538012656","onResponse: undefined undefined 1610538012657","onResponse: undefined undefined 1610538012659","onResponse: undefined undefined 1610538012660","onResponse: undefined undefined 1610538012662","onResponse: undefined undefined 1610538012663","onResponse: undefined undefined 1610538012663","onResponse: undefined undefined 1610538012664","onResponse: undefined undefined 1610538012990","onResponse: undefined undefined 1610538012991","resend: driver|set-as-master 726 1610538013208","onResponse: undefined undefined 1610538013312","onResponse: undefined undefined 1610538013640","onResponse: undefined undefined 1610538013641","onResponse: undefined undefined 1610538013645","onResponse: undefined undefined 1610538013646","onResponse: driver|confirmation 2422 1610538013652","resolve: driver|confirmation 2422 1610538013652","resolve: driver|confirmation 2422 1610538013652","onResponse: driver|confirmation 2457 1610538013654","resolve: driver|confirmation 2457 1610538013654","resolve: driver|confirmation 2457 1610538013654","race finished: 726 1610538013655","_startInternal: Parent driver 1610538019868","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: _setCurrentWindowAsMaster rmXv3DjwF 1610538019872"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":true,"type":"setItem: 1610538019874 _startCommandsProcessing: _setCurrentWindowAsMaster rmXv3DjwF","windowId":"rmXv3DjwF"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: switch-to-previous-window
+_resolveCurrentDriverTask: {"type":"switch-to-previous-window","windowId":"rmXv3DjwF"}
 ------------------------
 ***
 ****
-=
-+executePendingManipulation
-executePendingManipulation: take-screenshot
-- take-screenshot
-_getScreenshotRawData
-9XNXU47xC
-handle new: 4
+END ACTION: switch-to-previous-window
+START ACTION: take-screenshot
 +executePendingManipulation
 executePendingManipulation: take-screenshot
 _getScreenshotRawData
-9XNXU47xC
-handle from cache: 4
+rmXv3DjwF
+*********
++executePendingManipulation
+executePendingManipulation: take-screenshot
+_getScreenshotRawData
+rmXv3DjwF
+*********
 -executePendingManipulation
 -executePendingManipulation
 ready
-status: 10967
-last:18705
-{"cmd":"ready","status":{"id":"10967","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1608910813718_child.png","consoleMessages":{"9938":{"log":["send message to driver: driver|switch-to-window-validation 9652 1608910847435","onResponse: driver|confirmation 18679 1608910847440","resolve: driver|confirmation 18679 1608910847440","resolve: driver|confirmation 18679 1608910847440","race finished: 9652 1608910847441","_onSwitchToWindow","_stopInternal","send message to driver: driver|switch-to-window 9660 1608910847443","onResponse: driver|confirmation 18689 1608910847451","resolve: driver|confirmation 18689 1608910847451","resolve: driver|confirmation 18689 1608910847451","race finished: 9660 1608910847452"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910849155 _onBrowserManipulationCommand: take-screenshot","windowId":"9938"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
-_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1608910813718-parent.png","markSeed":null,"markData":""}
+status: 11822
+last:9438
+{"cmd":"ready","status":{"id":"11822","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1610538004102-parent.png","consoleMessages":{"rmXv3DjwF":{"log":["sendStatus*****: take-screenshot setItem: 1610538019874 _startCommandsProcessing: _setCurrentWindowAsMaster rmXv3DjwF 1610538019872","_executeCommand client: take-screenshot","111_onBrowserManipulationCommand: take-screenshot","_runManipulation: take-screenshot","_runManipulation: take-screenshot*","_runManipulation: take-screenshot**","hide**","_requestManipulation: take-screenshot***","_requestManipulation: take-screenshot****","_onBrowserManipulationCommanExecuted: take-screenshot","sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610538022325"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538022328 222_onBrowserManipulationCommand: take-screenshot","windowId":"rmXv3DjwF"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: take-screenshot
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1610538004102-parent.png","markSeed":null,"markData":""}
 ------------------------
 ***
 ****
-=
-- get-browser-console-messages
+END ACTION: take-screenshot
+START ACTION: get-browser-console-messages
 ready
-status: 11418
-last:10967
-{"cmd":"ready","status":{"id":"11418","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910849201 ","windowId":"9938"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
+status: 11998
+last:11822
+{"cmd":"ready","status":{"id":"11998","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"rmXv3DjwF":{"log":["sendStatus*****: get-browser-console-messages setItem: 1610538022328 222_onBrowserManipulationCommand: take-screenshot 1610538022325","_executeCommand client: get-browser-console-messages","sendStatus:  1610538022431"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538022431 ","windowId":"rmXv3DjwF"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: get-browser-console-messages
 _resolveCurrentDriverTask: {"type":"get-browser-console-messages"}
 ------------------------
 ***
 ****
-=
+END ACTION: get-browser-console-messages
 {
   log: [
-    '_startInternal: Parent driver 1608910837613',
-    'master',
-    '_startCommandsProcessing: false',
+    'sendStatus*****: undefined setItem: 1610538010677 _startCommandsProcessing: start rmXv3DjwF 1610538010676',
+    'sendStatus: kekeke 1610538011026',
+    'sendStatus*****: open-window setItem: 1610538011027 kekeke 1610538011026',
+    '_executeCommand client: open-window',
     '_switchToChildWindow',
     '_stopInternal',
-    'send message to driver: driver|set-as-master 9026 1608910837786',
-    'resend: driver|set-as-master 9026 1608910838788',
-    'onResponse: undefined undefined 1608910839060',
-    'onResponse: undefined undefined 1608910839063',
-    'onResponse: undefined undefined 1608910839066',
-    'onResponse: undefined undefined 1608910839194',
-    'onResponse: undefined undefined 1608910839195',
-    'onResponse: undefined undefined 1608910839198',
-    'onResponse: undefined undefined 1608910839199',
-    'onResponse: undefined undefined 1608910839200',
-    'onResponse: undefined undefined 1608910839201',
-    'onResponse: undefined undefined 1608910839202',
-    'onResponse: undefined undefined 1608910839203',
-    'onResponse: undefined undefined 1608910839204',
-    'onResponse: undefined undefined 1608910839205',
-    'onResponse: undefined undefined 1608910839206',
-    'onResponse: undefined undefined 1608910839207',
-    'onResponse: undefined undefined 1608910839319',
-    'onResponse: undefined undefined 1608910839419',
-    'onResponse: undefined undefined 1608910839420',
-    'onResponse: undefined undefined 1608910839422',
-    'onResponse: undefined undefined 1608910839426',
-    'onResponse: undefined undefined 1608910839427',
-    'onResponse: undefined undefined 1608910839429',
-    'onResponse: undefined undefined 1608910839872',
-    'resend: driver|set-as-master 9026 1608910839875',
-    'onResponse: undefined undefined 1608910839877',
-    'onResponse: undefined undefined 1608910839878',
-    'onResponse: undefined undefined 1608910839882',
-    'onResponse: undefined undefined 1608910839883',
-    'onResponse: undefined undefined 1608910840018',
-    'onResponse: undefined undefined 1608910840019',
-    'onResponse: undefined undefined 1608910840020',
-    'onResponse: undefined undefined 1608910840021',
-    'onResponse: undefined undefined 1608910840023',
-    'onResponse: undefined undefined 1608910840023',
-    'onResponse: undefined undefined 1608910840025',
-    'onResponse: undefined undefined 1608910840026',
-    'onResponse: undefined undefined 1608910840029',
-    'onResponse: undefined undefined 1608910840472',
-    'onResponse: undefined undefined 1608910840474',
-    'onResponse: undefined undefined 1608910840607',
-    'onResponse: undefined undefined 1608910840609',
-    'onResponse: undefined undefined 1608910840610',
-    'onResponse: undefined undefined 1608910840612',
-    'onResponse: undefined undefined 1608910840616',
-    'onResponse: driver|confirmation 2777 1608910840620',
-    'resolve: driver|confirmation 2777 1608910840620',
-    'resolve: driver|confirmation 2777 1608910840620',
-    'onResponse: driver|confirmation 2794 1608910840621',
-    'resolve: driver|confirmation 2794 1608910840621',
-    'resolve: driver|confirmation 2794 1608910840621',
-    'race finished: 9026 1608910840622',
-    '_startInternal: Parent driver 1608910847462',
+    'send message to driver: driver|set-as-master 726 1610538011159',
+    'onResponse: undefined undefined 1610538011830',
+    'onResponse: undefined undefined 1610538011832',
+    'onResponse: undefined undefined 1610538011833',
+    'onResponse: undefined undefined 1610538012198',
+    'onResponse: undefined undefined 1610538012199',
+    'resend: driver|set-as-master 726 1610538012202',
+    'onResponse: undefined undefined 1610538012205',
+    'onResponse: undefined undefined 1610538012206',
+    'onResponse: undefined undefined 1610538012206',
+    'onResponse: undefined undefined 1610538012206',
+    'onResponse: undefined undefined 1610538012207',
+    'onResponse: undefined undefined 1610538012208',
+    'onResponse: undefined undefined 1610538012210',
+    'onResponse: undefined undefined 1610538012212',
+    'onResponse: undefined undefined 1610538012213',
+    'onResponse: undefined undefined 1610538012214',
+    'onResponse: undefined undefined 1610538012259',
+    'onResponse: undefined undefined 1610538012259',
+    'onResponse: undefined undefined 1610538012494',
+    'onResponse: undefined undefined 1610538012495',
+    'onResponse: undefined undefined 1610538012498',
+    'onResponse: undefined undefined 1610538012499',
+    'onResponse: undefined undefined 1610538012500',
+    'onResponse: undefined undefined 1610538012501',
+    'onResponse: undefined undefined 1610538012502',
+    'onResponse: undefined undefined 1610538012510',
+    'onResponse: undefined undefined 1610538012512',
+    'onResponse: undefined undefined 1610538012515',
+    'onResponse: undefined undefined 1610538012655',
+    'onResponse: undefined undefined 1610538012656',
+    'onResponse: undefined undefined 1610538012657',
+    'onResponse: undefined undefined 1610538012659',
+    'onResponse: undefined undefined 1610538012660',
+    'onResponse: undefined undefined 1610538012662',
+    'onResponse: undefined undefined 1610538012663',
+    'onResponse: undefined undefined 1610538012663',
+    'onResponse: undefined undefined 1610538012664',
+    'onResponse: undefined undefined 1610538012990',
+    'onResponse: undefined undefined 1610538012991',
+    'resend: driver|set-as-master 726 1610538013208',
+    'onResponse: undefined undefined 1610538013312',
+    'onResponse: undefined undefined 1610538013640',
+    'onResponse: undefined undefined 1610538013641',
+    'onResponse: undefined undefined 1610538013645',
+    'onResponse: undefined undefined 1610538013646',
+    'onResponse: driver|confirmation 2422 1610538013652',
+    'resolve: driver|confirmation 2422 1610538013652',
+    'resolve: driver|confirmation 2422 1610538013652',
+    'onResponse: driver|confirmation 2457 1610538013654',
+    'resolve: driver|confirmation 2457 1610538013654',
+    'resolve: driver|confirmation 2457 1610538013654',
+    'race finished: 726 1610538013655',
+    '_startInternal: Parent driver 1610538019868',
     'master',
-    '_startCommandsProcessing: false'
+    '_startCommandsProcessing: false',
+    'sendStatus: _startCommandsProcessing: _setCurrentWindowAsMaster rmXv3DjwF 1610538019872',
+    'sendStatus*****: take-screenshot setItem: 1610538019874 _startCommandsProcessing: _setCurrentWindowAsMaster rmXv3DjwF 1610538019872',
+    '_executeCommand client: take-screenshot',
+    '111_onBrowserManipulationCommand: take-screenshot',
+    '_runManipulation: take-screenshot',
+    '_runManipulation: take-screenshot*',
+    '_runManipulation: take-screenshot**',
+    'hide**',
+    '_requestManipulation: take-screenshot***',
+    '_requestManipulation: take-screenshot****',
+    '_onBrowserManipulationCommanExecuted: take-screenshot',
+    'sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610538022325',
+    'sendStatus*****: get-browser-console-messages setItem: 1610538022328 222_onBrowserManipulationCommand: take-screenshot 1610538022325',
+    '_executeCommand client: get-browser-console-messages',
+    'sendStatus:  1610538022431'
   ],
   info: [],
   warn: [],
   error: []
 }
 ready
-status: 20465
-last:11418
-{"cmd":"ready","status":{"id":"20465","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1608910813718-parent.png","consoleMessages":{"9XNXU47xC":{"log":["_handleSetAsMasterMessage: 11452 1608910849236 Parent driver","role: master","inProgress: false"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1608910849290 _onBrowserManipulationCommand: take-screenshot","windowId":"9XNXU47xC"},"disableResending":true,"allowRejecting":true,"sessionId":"1acA5HLZa"}
-*
+status: 12060
+last:11998
+{"cmd":"ready","status":{"id":"12060","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"rmXv3DjwF":{"log":["sendStatus*****: test-done setItem: 1610538022431  1610538022431","_executeCommand client: test-done","send message to driver: driver|close-all-child-windows 12061 1610538022493","onResponse: driver|confirmation 11343 1610538022501","resolve: driver|confirmation 11343 1610538022501","resolve: driver|confirmation 11343 1610538022502","race finished: 12061 1610538022502"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610538022518 ","windowId":"rmXv3DjwF"},"disableResending":true,"allowRejecting":true,"sessionId":"7gV53juLp"}
+*: test-done
 _resolveCurrentDriverTask: {"type":"test-done"}
 ------------------------
 **
- √ 1608910813718 (screenshots: D:\projects\testcafe\screenshots)
+ √ 1610538004102 (screenshots: D:\projects\testcafe\screenshots)
 
 
- 1 passed (21s)
+ 1 passed (12s)

@@ -47,8 +47,12 @@ exports.IframeStatusBar = IframeStatusBar;
 
 
 exports.hide = function (hideTopRoot) {
-    if (hideTopRoot)
+    if (hideTopRoot) {
+        console.log('hide*');
         return sendRequestToFrame({ cmd: HIDE_REQUEST_CMD }, HIDE_RESPONSE_CMD, window.top);
+    }
+
+    console.log('hide**');
 
     uiRoot.hide();
     return Promise.resolve();

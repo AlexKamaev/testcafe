@@ -561,7 +561,7 @@ export default class TestRun extends AsyncEventEmitter {
         const pageError                  = this.pendingPageError || driverStatus.pageError;
         const currentTaskRejectedByError = pageError && this._handlePageErrorStatus(pageError);
 
-        console.log('*');
+        console.log('*: ' + this.currentDriverTask.command.type);
 
         if (this.disconnected)
             return new Promise((_, reject) => reject());
@@ -679,9 +679,9 @@ export default class TestRun extends AsyncEventEmitter {
         const start = new Date();
 
         try {
-            console.log('- ' + command.type);
+            console.log('START ACTION: ' + command.type);
             result = await this.executeCommand(command, callsite);
-            console.log('=');
+            console.log('END ACTION: ' + command.type);
         }
         catch (err) {
             debugger;

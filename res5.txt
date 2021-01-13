@@ -1,0 +1,171 @@
+ Running tests in:
+ - Firefox 84.0 / Windows 10
+
+ test
+ready
+status: 237
+last:null
+{"cmd":"ready","status":{"id":"237","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"CXUYbdjDk":{"log":["_startInternal: Parent driver 1610537407857","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: start CXUYbdjDk 1610537407858"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537407859 _startCommandsProcessing: start CXUYbdjDk","windowId":"CXUYbdjDk"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
++
+START ACTION: open-window
+ready
+status: 237
+last:237
+{"cmd":"ready","status":{"id":"237","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"CXUYbdjDk":{"log":["_startInternal: Parent driver 1610537407857","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: start CXUYbdjDk 1610537407858"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537407859 _startCommandsProcessing: start CXUYbdjDk","windowId":"CXUYbdjDk"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+respons with previous status
+null
+ready
+status: 589
+last:237
+{"cmd":"ready","status":{"id":"589","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"CXUYbdjDk":{"log":["sendStatus*****: undefined setItem: 1610537407859 _startCommandsProcessing: start CXUYbdjDk 1610537407858","sendStatus: kekeke 1610537408209"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537408211 kekeke","windowId":"CXUYbdjDk"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+*: open-window
+***
+*****
+_onSetActiveWindowIdRequest: 39751
+setActiveWindowId: 39751
+ready
+status: 2138
+last:589
+{"cmd":"ready","status":{"id":"2138","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"39751"},"consoleMessages":{"39751":{"log":["set role on constructor","send message to driver: driver|establish-connection 443 1610537410033","_handleSetAsMasterMessage: 748 1610537410243 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 748 1610537410244","","onResponse: undefined undefined 1610537410502","_startInternal: Parent driver 1610537410505","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410506"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537410508 PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751","windowId":"39751"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+*: open-window
+_resolveCurrentDriverTask: {"type":"open-window","url":"http://mail.ru"}
+------------------------
+***
+****
+END ACTION: open-window
+ready
+status: 2138
+last:2138
+{"cmd":"ready","status":{"id":"2138","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"39751"},"consoleMessages":{"39751":{"log":["set role on constructor","send message to driver: driver|establish-connection 443 1610537410033","_handleSetAsMasterMessage: 748 1610537410243 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 748 1610537410244","","onResponse: undefined undefined 1610537410502","_startInternal: Parent driver 1610537410505","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410506"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537410508 PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751","windowId":"39751"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+respons with previous status
+null
+_maximizeWindow$
+START ACTION: maximize-window
+ready
+status: 3425
+last:2138
+{"cmd":"ready","status":{"id":"3425","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"39751":{"log":["_startInternal: Parent driver 1610537410506","master","_startCommandsProcessing: true","sendStatus: PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410508","onResponse: driver|confirmation 2120 1610537410692","resolve: driver|confirmation 2120 1610537410693","resolve: driver|confirmation 2120 1610537410693","race finished: 443 1610537410832","sendStatus*****: undefined setItem: 1610537410508 PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410508","sendStatus: kekeke 1610537411792"],"info":[],"warn":[],"error":["YAN Widget error Meta empty response","YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537411792 kekeke","windowId":"39751"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+*: maximize-window
+***
+*****
++executePendingManipulation
+executePendingManipulation: maximize-window
+-executePendingManipulation
+ready
+status: 2138
+last:3425
+{"cmd":"ready","status":{"id":"2138","isCommandResult":true,"executionError":null,"pageError":null,"resent":true,"result":{"id":"39751"},"consoleMessages":{"39751":{"log":["set role on constructor","send message to driver: driver|establish-connection 443 1610537410033","_handleSetAsMasterMessage: 748 1610537410243 Parent driver","role: undefined","inProgress: false","_handleSetAsMasterMessage*********: 748 1610537410244","","onResponse: undefined undefined 1610537410502","_startInternal: Parent driver 1610537410505","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410506"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537410508 PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751","windowId":"39751"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+*: maximize-window
+_resolveCurrentDriverTask: {"type":"maximize-window"}
+------------------------
+***
+****
+END ACTION: maximize-window
+START ACTION: take-screenshot
+ready
+status: 8367
+last:2138
+{"cmd":"ready","status":{"id":"8367","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"39751":{"log":["sendStatus*****: maximize-window setItem: 1610537411792 kekeke 1610537411792","_executeCommand client: maximize-window","111_onBrowserManipulationCommand: maximize-window","_runManipulation: maximize-window","_runManipulation: maximize-window*","_runManipulation: maximize-window**","_hideUI","hide**","_requestManipulation: maximize-window***","set role on constructor","send message to driver: driver|establish-connection 150 1610537416105","_requestManipulation: maximize-window****","sendStatus*****: take-screenshot setItem: 1610537410508 PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410506","_executeCommand client: take-screenshot","111_onBrowserManipulationCommand: take-screenshot","_runManipulation: take-screenshot","_runManipulation: take-screenshot*","_runManipulation: take-screenshot**","_hideUI","hide**","_onBrowserManipulationCommanExecuted: maximize-window","sendStatus: 222_onBrowserManipulationCommand: maximize-window 1610537416785"],"info":[],"warn":[],"error":["YAN Widget error Meta empty response","YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537416785 222_onBrowserManipulationCommand: maximize-window","windowId":"39751"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+*: take-screenshot
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1610537395121_child.png","markSeed":null,"markData":""}
+------------------------
+***
+****
+END ACTION: take-screenshot
+START ACTION: get-browser-console-messages
+ready
+status: 8470
+last:8367
+{"cmd":"ready","status":{"id":"8470","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"39751":{"log":["sendStatus*****: get-browser-console-messages setItem: 1610537416785 222_onBrowserManipulationCommand: maximize-window 1610537416785","_executeCommand client: get-browser-console-messages","sendStatus:  1610537416837"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"setItem: 1610537416837 ","windowId":"39751"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+*: get-browser-console-messages
+_resolveCurrentDriverTask: {"type":"get-browser-console-messages"}
+------------------------
+***
+****
+END ACTION: get-browser-console-messages
+[
+  'set role on constructor',
+  'send message to driver: driver|establish-connection 443 1610537410033',
+  '_handleSetAsMasterMessage: 748 1610537410243 Parent driver',
+  'role: undefined',
+  'inProgress: false',
+  '_handleSetAsMasterMessage*********: 748 1610537410244',
+  '',
+  'onResponse: undefined undefined 1610537410502',
+  '_startInternal: Parent driver 1610537410505',
+  'master',
+  '_startCommandsProcessing: false',
+  'sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410506',
+  '_startInternal: Parent driver 1610537410506',
+  'master',
+  '_startCommandsProcessing: true',
+  'sendStatus: PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410508',
+  'onResponse: driver|confirmation 2120 1610537410692',
+  'resolve: driver|confirmation 2120 1610537410693',
+  'resolve: driver|confirmation 2120 1610537410693',
+  'race finished: 443 1610537410832',
+  'sendStatus*****: undefined setItem: 1610537410508 PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410508',
+  'sendStatus: kekeke 1610537411792',
+  'set role on constructor',
+  'send message to driver: driver|establish-connection 443 1610537410033',
+  '_handleSetAsMasterMessage: 748 1610537410243 Parent driver',
+  'role: undefined',
+  'inProgress: false',
+  '_handleSetAsMasterMessage*********: 748 1610537410244',
+  '',
+  'onResponse: undefined undefined 1610537410502',
+  '_startInternal: Parent driver 1610537410505',
+  'master',
+  '_startCommandsProcessing: false',
+  'sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410506',
+  'sendStatus*****: maximize-window setItem: 1610537411792 kekeke 1610537411792',
+  '_executeCommand client: maximize-window',
+  '111_onBrowserManipulationCommand: maximize-window',
+  '_runManipulation: maximize-window',
+  '_runManipulation: maximize-window*',
+  '_runManipulation: maximize-window**',
+  '_hideUI',
+  'hide**',
+  '_requestManipulation: maximize-window***',
+  'set role on constructor',
+  'send message to driver: driver|establish-connection 150 1610537416105',
+  '_requestManipulation: maximize-window****',
+  'sendStatus*****: take-screenshot setItem: 1610537410508 PENDING: 1610537410508 setItem: 1610537410506 _startCommandsProcessing: _handleSetAsMasterMessage: 1610537410504 : 1 39751 1610537410506',
+  '_executeCommand client: take-screenshot',
+  '111_onBrowserManipulationCommand: take-screenshot',
+  '_runManipulation: take-screenshot',
+  '_runManipulation: take-screenshot*',
+  '_runManipulation: take-screenshot**',
+  '_hideUI',
+  'hide**',
+  '_onBrowserManipulationCommanExecuted: maximize-window',
+  'sendStatus: 222_onBrowserManipulationCommand: maximize-window 1610537416785',
+  'sendStatus*****: get-browser-console-messages setItem: 1610537416785 222_onBrowserManipulationCommand: maximize-window 1610537416785',
+  '_executeCommand client: get-browser-console-messages',
+  'sendStatus:  1610537416837'
+]
+START ACTION: switch-to-previous-window
+_onSetActiveWindowIdRequest: CXUYbdjDk
+setActiveWindowId: CXUYbdjDk
+ready
+status: 9289
+last:8470
+{"cmd":"ready","status":{"id":"9289","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"CXUYbdjDk":{"log":["sendStatus*****: open-window setItem: 1610537408211 kekeke 1610537408209","_executeCommand client: open-window","_switchToChildWindow","_stopInternal","send message to driver: driver|set-as-master 748 1610537408369","onResponse: undefined undefined 1610537409092","onResponse: undefined undefined 1610537409094","onResponse: undefined undefined 1610537409096","onResponse: undefined undefined 1610537409284","onResponse: undefined undefined 1610537409284","onResponse: undefined undefined 1610537409287","onResponse: undefined undefined 1610537409287","onResponse: undefined undefined 1610537409287","onResponse: undefined undefined 1610537409288","onResponse: undefined undefined 1610537409288","onResponse: undefined undefined 1610537409289","onResponse: undefined undefined 1610537409290","onResponse: undefined undefined 1610537409292","onResponse: undefined undefined 1610537409292","onResponse: undefined undefined 1610537409294","resend: driver|set-as-master 748 1610537409371","onResponse: undefined undefined 1610537409705","onResponse: undefined undefined 1610537409707","onResponse: undefined undefined 1610537409707","onResponse: undefined undefined 1610537409710","onResponse: undefined undefined 1610537409710","onResponse: undefined undefined 1610537409713","onResponse: undefined undefined 1610537409865","onResponse: undefined undefined 1610537409868","onResponse: undefined undefined 1610537409869","onResponse: undefined undefined 1610537409871","onResponse: undefined undefined 1610537409872","onResponse: undefined undefined 1610537409872","onResponse: undefined undefined 1610537409873","onResponse: undefined undefined 1610537409893","onResponse: undefined undefined 1610537409894","onResponse: undefined undefined 1610537409895","onResponse: undefined undefined 1610537409895","onResponse: undefined undefined 1610537409897","onResponse: undefined undefined 1610537409897","onResponse: undefined undefined 1610537409898","onResponse: undefined undefined 1610537409899","onResponse: undefined undefined 1610537410159","onResponse: undefined undefined 1610537410271","onResponse: undefined undefined 1610537410274","onResponse: undefined undefined 1610537410276","onResponse: undefined undefined 1610537410280","onResponse: undefined undefined 1610537410281","onResponse: driver|confirmation 1877 1610537410282","resolve: driver|confirmation 1877 1610537410282","resolve: driver|confirmation 1877 1610537410282","race finished: 748 1610537410284","_startInternal: Parent driver 1610537416908","master","_startCommandsProcessing: false","sendStatus: _startCommandsProcessing: _setCurrentWindowAsMaster CXUYbdjDk 1610537416910"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":true,"type":"setItem: 1610537416912 _startCommandsProcessing: _setCurrentWindowAsMaster CXUYbdjDk","windowId":"CXUYbdjDk"},"disableResending":true,"allowRejecting":true,"sessionId":"PNOQBx1gG"}
+*: switch-to-previous-window
+_resolveCurrentDriverTask: {"type":"switch-to-previous-window","windowId":"CXUYbdjDk"}
+------------------------
+***
+****
+END ACTION: switch-to-previous-window
+START ACTION: take-screenshot
++executePendingManipulation
+executePendingManipulation: take-screenshot
+_getScreenshotRawData
+CXUYbdjDk
+*********
++executePendingManipulation
+executePendingManipulation: take-screenshot
+_getScreenshotRawData
+CXUYbdjDk
+*********
+-executePendingManipulation
