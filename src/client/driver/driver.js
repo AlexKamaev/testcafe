@@ -425,7 +425,39 @@ export default class Driver extends serviceUtils.EventEmitter {
         status.isPendingWindowSwitching = !!this.contextStorage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
     }
 
-    _sendStatusRequest (status) {
+    // _sendStatusRequest (status) {
+    //     const statusRequestOptions = {
+    //         cmd:              TEST_RUN_MESSAGES.ready,
+    //         status:           status,
+    //         disableResending: true,
+    //         allowRejecting:   true
+    //     };
+    //
+    //     const requestAttempt = () => getTimeLimitedPromise(
+    //         transport.asyncServiceMsg(statusRequestOptions).then(res => {
+    //             console.log('success request: ' + status?.type + ' ' + Date.now());
+    //
+    //             return res;
+    //         }), SEND_STATUS_REQUEST_TIME_LIMIT);
+    //
+    //     const retryRequest   = () => {
+    //         console.log('retry: ' + status?.type + ' ' + Date.now());
+    //
+    //         return delay(SEND_STATUS_REQUEST_RETRY_DELAY).then(requestAttempt);
+    //     };
+    //
+    //     let statusPromise = requestAttempt();
+    //
+    //     for (let i = 0; i < SEND_STATUS_REQUEST_RETRY_COUNT; i++)
+    //         statusPromise = statusPromise.catch(retryRequest);
+    //
+    //     return statusPromise;
+    // }
+
+
+    async _sendStatusRequest (status) {
+        const now = Date.now();
+
         const statusRequestOptions = {
             cmd:              TEST_RUN_MESSAGES.ready,
             status:           status,
@@ -433,15 +465,53 @@ export default class Driver extends serviceUtils.EventEmitter {
             allowRejecting:   true
         };
 
-        const requestAttempt = () => getTimeLimitedPromise(transport.asyncServiceMsg(statusRequestOptions), SEND_STATUS_REQUEST_TIME_LIMIT);
-        const retryRequest   = () => delay(SEND_STATUS_REQUEST_RETRY_DELAY).then(requestAttempt);
+        const createTimeLimitedPromise = () => {
+            return new Promise((resolve, reject) => {
+                let resolved = false;
 
-        let statusPromise = requestAttempt();
+                setTimeout(() => {
+                    if (!resolved)
+                        reject();
 
-        for (let i = 0; i < SEND_STATUS_REQUEST_RETRY_COUNT; i++)
-            statusPromise = statusPromise.catch(retryRequest);
+                }, SEND_STATUS_REQUEST_TIME_LIMIT);
 
-        return statusPromise;
+                transport.asyncServiceMsg(statusRequestOptions)
+                    .then(res => {
+                        console.log('success request*: ' + status?.type + ' ' + now);
+
+                        resolved = true;
+
+                        resolve(res);
+                });
+            });
+        };
+
+        let res = null;
+
+                try {
+            res = await createTimeLimitedPromise();
+
+            console.log('executed try: ' + now);
+        }
+        catch {
+            console.log('retry*: ' + status?.type + ' ' + now);
+
+            res = await createTimeLimitedPromise();
+        }
+
+        return res;
+
+        return createTimeLimitedPromise()
+            .catch(err => {
+                console.log('retry: ' + status?.type + ' ' + now);
+
+                return createTimeLimitedPromise()
+            })
+            // .catch(err => {
+            //     console.log('retry: ' + status?.type + ' ' + Date.now());
+            //
+            //     return createTimeLimitedPromise()
+            // })
     }
 
     // async _sendStatusRequest (status) {
@@ -547,7 +617,9 @@ export default class Driver extends serviceUtils.EventEmitter {
             this._addPendingWindowSwitchingStateToStatus(status);
         }
 
-        status.type = 'setItem: ' + Date.now() + ' ' + status.type;
+        // status.type = 'setItem: ' + Date.now() + ' ' + status.type;
+        // status.type = 'setItem: ' + Date.now() + ' ' + status.type;
+
         this.contextStorage.setItem(PENDING_STATUS, status);
 
         let readyCommandResponse = null;
