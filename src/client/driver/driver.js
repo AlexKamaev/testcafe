@@ -425,38 +425,10 @@ export default class Driver extends serviceUtils.EventEmitter {
         status.isPendingWindowSwitching = !!this.contextStorage.getItem(this.PENDING_WINDOW_SWITCHING_FLAG);
     }
 
-    // _sendStatusRequest (status) {
-    //     const statusRequestOptions = {
-    //         cmd:              TEST_RUN_MESSAGES.ready,
-    //         status:           status,
-    //         disableResending: true,
-    //         allowRejecting:   true
-    //     };
-    //
-    //     const requestAttempt = () => getTimeLimitedPromise(
-    //         transport.asyncServiceMsg(statusRequestOptions).then(res => {
-    //             console.log('success request: ' + status?.type + ' ' + Date.now());
-    //
-    //             return res;
-    //         }), SEND_STATUS_REQUEST_TIME_LIMIT);
-    //
-    //     const retryRequest   = () => {
-    //         console.log('retry: ' + status?.type + ' ' + Date.now());
-    //
-    //         return delay(SEND_STATUS_REQUEST_RETRY_DELAY).then(requestAttempt);
-    //     };
-    //
-    //     let statusPromise = requestAttempt();
-    //
-    //     for (let i = 0; i < SEND_STATUS_REQUEST_RETRY_COUNT; i++)
-    //         statusPromise = statusPromise.catch(retryRequest);
-    //
-    //     return statusPromise;
-    // }
-
-
-    async _sendStatusRequest (status) {
+    _sendStatusRequest (status) {
         const now = Date.now();
+
+        let needRetry = true;
 
         const statusRequestOptions = {
             cmd:              TEST_RUN_MESSAGES.ready,
@@ -465,54 +437,163 @@ export default class Driver extends serviceUtils.EventEmitter {
             allowRejecting:   true
         };
 
-        const createTimeLimitedPromise = () => {
-            return new Promise((resolve, reject) => {
-                let resolved = false;
+        const requestAttempt = () => {
+            const dnow = Date.now();
 
-                setTimeout(() => {
-                    if (!resolved)
-                        reject();
+            while (Date.now() - dnow < 20) {}
 
-                }, SEND_STATUS_REQUEST_TIME_LIMIT);
+            console.log('request attempt*: ' + status?.type + ' ' + now);
 
-                transport.asyncServiceMsg(statusRequestOptions)
-                    .then(res => {
-                        console.log('success request*: ' + status?.type + ' ' + now);
+            return getTimeLimitedPromise(
+                transport.asyncServiceMsg(statusRequestOptions).then(res => {
+                    needRetry = false;
 
-                        resolved = true;
+                    console.log('success request*: ' + status?.type + ' ' + now);
 
-                        resolve(res);
-                });
-            });
+                    return res;
+                }), SEND_STATUS_REQUEST_TIME_LIMIT);
         };
 
-        let res = null;
+        const retryRequest   = err => {
+            if (!needRetry)
+                return Promise.resolve();
 
-                try {
-            res = await createTimeLimitedPromise();
-
-            console.log('executed try: ' + now);
-        }
-        catch {
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@:' + err.message + ' ' + now);
             console.log('retry*: ' + status?.type + ' ' + now);
 
-            res = await createTimeLimitedPromise();
-        }
+            return delay(SEND_STATUS_REQUEST_RETRY_DELAY).then(requestAttempt);
+        };
 
-        return res;
+        let statusPromise = requestAttempt();
 
-        return createTimeLimitedPromise()
-            .catch(err => {
-                console.log('retry: ' + status?.type + ' ' + now);
+        for (let i = 0; i < SEND_STATUS_REQUEST_RETRY_COUNT; i++)
+            statusPromise = statusPromise.catch(retryRequest);
 
-                return createTimeLimitedPromise()
-            })
-            // .catch(err => {
-            //     console.log('retry: ' + status?.type + ' ' + Date.now());
-            //
-            //     return createTimeLimitedPromise()
-            // })
+        return statusPromise;
     }
+
+
+    // async _sendStatusRequest (status) {
+    //     const now = Date.now();
+    //
+    //     const statusRequestOptions = {
+    //         cmd:              TEST_RUN_MESSAGES.ready,
+    //         status:           status,
+    //         disableResending: true,
+    //         allowRejecting:   true
+    //     };
+    //
+    //     let resolved = false;
+    //
+    //     const createTimeLimitedPromise = () => {
+    //         return new Promise((resolve, reject) => {
+    //             setTimeout(() => {
+    //                 if (!resolved)
+    //                     reject();
+    //
+    //             }, SEND_STATUS_REQUEST_TIME_LIMIT);
+    //
+    //             transport.asyncServiceMsg(statusRequestOptions)
+    //                 .then(res => {
+    //                     console.log('success request*: ' + status?.type + ' ' + now);
+    //
+    //                     resolved = true;
+    //
+    //                     resolve(res);
+    //             });
+    //         });
+    //     };
+    //
+    //     let res = null;
+    //
+    //     try {
+    //         res = await createTimeLimitedPromise();
+    //
+    //         console.log('executed try: ' + now);
+    //     }
+    //     catch {
+    //         if (!resolved) {
+    //             console.log('retry*: ' + status?.type + ' ' + now);
+    //
+    //             res = await createTimeLimitedPromise();
+    //         }
+    //     }
+    //
+    //     return res;
+    //
+    //     return createTimeLimitedPromise()
+    //         .catch(err => {
+    //             console.log('retry: ' + status?.type + ' ' + now);
+    //
+    //             return createTimeLimitedPromise()
+    //         })
+    //         // .catch(err => {
+    //         //     console.log('retry: ' + status?.type + ' ' + Date.now());
+    //         //
+    //         //     return createTimeLimitedPromise()
+    //         // })
+    // }
+
+
+    // async _sendStatusRequest (status) {
+    //     const statusRequestOptions = {
+    //         cmd:              TEST_RUN_MESSAGES.ready,
+    //         status:           status,
+    //         disableResending: true,
+    //         allowRejecting:   true
+    //     };
+    //
+    //     let isExpired = false;
+    //
+    //     const createTimeoutPromise = () => {
+    //         return new Promise(resolve => {
+    //             setTimeout(resolve, SEND_STATUS_REQUEST_TIME_LIMIT);
+    //         }).then(() => {
+    //             isExpired = true;
+    //         });
+    //     };
+    //
+    //     const createTransportPromise = () => {
+    //         return transport.asyncServiceMsg(statusRequestOptions).then(res => {
+    //             isExpired = false;
+    //
+    //             console.log('success request: ' + status?.type);
+    //
+    //             return res;
+    //         });
+    //     };
+    //
+    //     debugger;
+    //
+    //
+    //     return Promise.race([createTimeoutPromise(), createTransportPromise()])
+    //         .then(res => {
+    //
+    //             debugger;
+    //
+    //             if (!isExpired)
+    //                 return res;
+    //
+    //             return delay(SEND_STATUS_REQUEST_RETRY_DELAY)
+    //                 .then(() => {
+    //                     console.log('retry**');
+    //
+    //                     return Promise.race([createTimeoutPromise(), createTransportPromise()]);
+    //                 });
+    //         })
+    //         .catch(err => {
+    //             console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@');
+    //             console.log(err?.message);
+    //
+    //             return delay(SEND_STATUS_REQUEST_RETRY_DELAY)
+    //                 .then(() => {
+    //                     console.log('retry**');
+    //
+    //                     return Promise.race([createTimeoutPromise(), createTransportPromise()]);
+    //                 });
+    //         })
+    // }
+
 
     // async _sendStatusRequest (status) {
     //     const statusRequestOptions = {
