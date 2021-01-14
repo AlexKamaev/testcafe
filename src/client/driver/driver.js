@@ -184,7 +184,7 @@ export default class Driver extends serviceUtils.EventEmitter {
         this.windowId                         = this._getCurrentWindowId();
         console.log('set role on constructor');
         debugger;
-        // this.role                             = DriverRole.replica;
+        this.role                             = DriverRole.replica;
         this.setAsMasterInProgress            = false;
         this.checkClosedChildWindowIntervalId = null;
 
@@ -344,6 +344,7 @@ export default class Driver extends serviceUtils.EventEmitter {
                 return browser.setActiveWindowId(this.browserActiveWindowId, hammerhead.createNativeXHR, this.windowId);
             })
             .then(() => {
+                console.log('start iternal on set current window as master');
                 this._startInternal({
                     finalizePendingCommand:             true,
                     isFirstRequestAfterWindowSwitching: true,
@@ -976,6 +977,7 @@ export default class Driver extends serviceUtils.EventEmitter {
                 return browser.setActiveWindowId(this.browserActiveWindowId, hammerhead.createNativeXHR, this.windowId);
             })
             .then(() => {
+                console.log('start internal on handle set as master message');
                 this._startInternal({
                     kek:                    '_handleSetAsMasterMessage: '  + Date.now() + ' : ' + this.kkk,
                     finalizePendingCommand: msg.finalizePendingCommand,
@@ -1872,7 +1874,7 @@ export default class Driver extends serviceUtils.EventEmitter {
     _startCommandsProcessing (opts = { finalizePendingCommand: false, isFirstRequestAfterWindowSwitching: false, result: void 0 }) {
         const pendingStatus = this.contextStorage.getItem(PENDING_STATUS);
 
-        console.log('_startCommandsProcessing: ' + !!pendingStatus);
+        console.log('_startCommandsProcessing: ' + Date.now() + '  ' + !!pendingStatus);
 
         if (pendingStatus) {
             pendingStatus.resent = true;
@@ -1970,7 +1972,12 @@ export default class Driver extends serviceUtils.EventEmitter {
 
         const role = await this._getDriverRole();
 
-        if (role === DriverRole.master)
+        if (this.role === DriverRole.master)
+            return;
+
+        if (role === DriverRole.master) {
+            console.log('start internal on start');
             this._startInternal({ kek: 'start' });
+        }
     }
 }

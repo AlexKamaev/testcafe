@@ -1,0 +1,226 @@
+ Running tests in:
+ - Firefox 84.0 / Windows 10
+
+ test
+ready
+status: 1454
+last:null
+{"cmd":"ready","status":{"id":"1454","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"b8TZMz4Ai":{"log":["start internal on start","_startInternal: Parent driver 1610630139654","master","_startCommandsProcessing: 1610630139654  false","sendStatus: _startCommandsProcessing: start b8TZMz4Ai 1610630139656"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"_startCommandsProcessing: start b8TZMz4Ai","windowId":"b8TZMz4Ai"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
++
+START ACTION: open-window
+ready
+status: 1454
+last:1454
+{"cmd":"ready","status":{"id":"1454","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"b8TZMz4Ai":{"log":["start internal on start","_startInternal: Parent driver 1610630139654","master","_startCommandsProcessing: 1610630139654  false","sendStatus: _startCommandsProcessing: start b8TZMz4Ai 1610630139656"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"_startCommandsProcessing: start b8TZMz4Ai","windowId":"b8TZMz4Ai"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+respons with previous status
+null
+ready
+status: 1805
+last:1454
+{"cmd":"ready","status":{"id":"1805","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"b8TZMz4Ai":{"log":["request attempt*: _startCommandsProcessing: start b8TZMz4Ai 1610630139660","@@@@@@@@@@@@@@@@@@@@@@@:XHR request failed with 500 status code.\nError message: TypeError: Cannot read property 'command' of undefined 1610630139660","retry*: _startCommandsProcessing: start b8TZMz4Ai 1610630139660","request attempt*: _startCommandsProcessing: start b8TZMz4Ai 1610630139660","success request*: _startCommandsProcessing: start b8TZMz4Ai 1610630139660","sendStatus*****: undefined _startCommandsProcessing: start b8TZMz4Ai 1610630139656","sendStatus: kekeke 1610630140007"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"kekeke","windowId":"b8TZMz4Ai"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: open-window
+***
+*****
+_onSetActiveWindowIdRequest: 9033
+setActiveWindowId: 9033
+ready
+status: 2037
+last:1805
+{"cmd":"ready","status":{"id":"2037","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":{"id":"9033"},"consoleMessages":{"9033":{"log":["set role on constructor","send message to driver: driver|establish-connection 410 1610630141721","_handleSetAsMasterMessage: 1976 1610630141943 Parent driver","role: replica","inProgress: false","_handleSetAsMasterMessage*********: 1976 1610630141943","","start internal on handle set as master message","_startInternal: Parent driver 1610630142210","master","_startCommandsProcessing: 1610630142211  false","sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033 1610630142211"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"_startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033","windowId":"9033"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: open-window
+_resolveCurrentDriverTask: {"type":"open-window","url":"http://mail.ru"}
+------------------------
+***
+****
+END ACTION: open-window
+_maximizeWindow$
+START ACTION: maximize-window
++executePendingManipulation
+executePendingManipulation: maximize-window
+-executePendingManipulation
+ready
+status: 8064
+last:2037
+{"cmd":"ready","status":{"id":"8064","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"9033":{"log":["race finished: 410 1610630142513","request attempt*: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033 1610630142526","success request*: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033 1610630142526","sendStatus*****: maximize-window _startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033 1610630142211","_executeCommand client: maximize-window","111_onBrowserManipulationCommand: maximize-window","_runManipulation: maximize-window","_runManipulation: maximize-window*","_runManipulation: maximize-window**","hide**","_requestManipulation: maximize-window***","set role on constructor","send message to driver: driver|establish-connection 196 1610630147508","_requestManipulation: maximize-window****","_onBrowserManipulationCommanExecuted: maximize-window","sendStatus: 222_onBrowserManipulationCommand: maximize-window 1610630148458"],"info":[],"warn":[],"error":["YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"222_onBrowserManipulationCommand: maximize-window","windowId":"9033"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: maximize-window
+_resolveCurrentDriverTask: {"type":"maximize-window"}
+------------------------
+***
+****
+END ACTION: maximize-window
+START ACTION: take-screenshot
++executePendingManipulation
+executePendingManipulation: take-screenshot
+_getScreenshotRawData
+9033
+handle new: 4294967297
+-executePendingManipulation
+ready
+status: 10201
+last:8064
+{"cmd":"ready","status":{"id":"10201","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1610630131879_child.png","consoleMessages":{"9033":{"log":["request attempt*: 222_onBrowserManipulationCommand: maximize-window 1610630148460","success request*: 222_onBrowserManipulationCommand: maximize-window 1610630148460","sendStatus*****: take-screenshot 222_onBrowserManipulationCommand: maximize-window 1610630148458","_executeCommand client: take-screenshot","111_onBrowserManipulationCommand: take-screenshot","_runManipulation: take-screenshot","_runManipulation: take-screenshot*","_runManipulation: take-screenshot**","hide**","_requestManipulation: take-screenshot***","_requestManipulation: take-screenshot****","_onBrowserManipulationCommanExecuted: take-screenshot","sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610630150446"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"222_onBrowserManipulationCommand: take-screenshot","windowId":"9033"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: take-screenshot
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1610630131879_child.png","markSeed":null,"markData":""}
+------------------------
+***
+****
+END ACTION: take-screenshot
+START ACTION: get-browser-console-messages
+ready
+status: 10334
+last:10201
+{"cmd":"ready","status":{"id":"10334","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"9033":{"log":["request attempt*: 222_onBrowserManipulationCommand: take-screenshot 1610630150471","success request*: 222_onBrowserManipulationCommand: take-screenshot 1610630150471","sendStatus*****: get-browser-console-messages 222_onBrowserManipulationCommand: take-screenshot 1610630150446","_executeCommand client: get-browser-console-messages","sendStatus:  1610630150508"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"","windowId":"9033"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: get-browser-console-messages
+_resolveCurrentDriverTask: {"type":"get-browser-console-messages"}
+------------------------
+***
+****
+END ACTION: get-browser-console-messages
+[
+  'set role on constructor',
+  'send message to driver: driver|establish-connection 410 1610630141721',
+  '_handleSetAsMasterMessage: 1976 1610630141943 Parent driver',
+  'role: replica',
+  'inProgress: false',
+  '_handleSetAsMasterMessage*********: 1976 1610630141943',
+  '',
+  'start internal on handle set as master message',
+  '_startInternal: Parent driver 1610630142210',
+  'master',
+  '_startCommandsProcessing: 1610630142211  false',
+  'sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033 1610630142211',
+  'race finished: 410 1610630142513',
+  'request attempt*: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033 1610630142526',
+  'success request*: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033 1610630142526',
+  'sendStatus*****: maximize-window _startCommandsProcessing: _handleSetAsMasterMessage: 1610630142210 : 1 9033 1610630142211',
+  '_executeCommand client: maximize-window',
+  '111_onBrowserManipulationCommand: maximize-window',
+  '_runManipulation: maximize-window',
+  '_runManipulation: maximize-window*',
+  '_runManipulation: maximize-window**',
+  'hide**',
+  '_requestManipulation: maximize-window***',
+  'set role on constructor',
+  'send message to driver: driver|establish-connection 196 1610630147508',
+  '_requestManipulation: maximize-window****',
+  '_onBrowserManipulationCommanExecuted: maximize-window',
+  'sendStatus: 222_onBrowserManipulationCommand: maximize-window 1610630148458',
+  'request attempt*: 222_onBrowserManipulationCommand: maximize-window 1610630148460',
+  'success request*: 222_onBrowserManipulationCommand: maximize-window 1610630148460',
+  'sendStatus*****: take-screenshot 222_onBrowserManipulationCommand: maximize-window 1610630148458',
+  '_executeCommand client: take-screenshot',
+  '111_onBrowserManipulationCommand: take-screenshot',
+  '_runManipulation: take-screenshot',
+  '_runManipulation: take-screenshot*',
+  '_runManipulation: take-screenshot**',
+  'hide**',
+  '_requestManipulation: take-screenshot***',
+  '_requestManipulation: take-screenshot****',
+  '_onBrowserManipulationCommanExecuted: take-screenshot',
+  'sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610630150446',
+  'request attempt*: 222_onBrowserManipulationCommand: take-screenshot 1610630150471',
+  'success request*: 222_onBrowserManipulationCommand: take-screenshot 1610630150471',
+  'sendStatus*****: get-browser-console-messages 222_onBrowserManipulationCommand: take-screenshot 1610630150446',
+  '_executeCommand client: get-browser-console-messages',
+  'sendStatus:  1610630150508'
+]
+START ACTION: switch-to-previous-window
+_onSetActiveWindowIdRequest: b8TZMz4Ai
+setActiveWindowId: b8TZMz4Ai
+ready
+status: 12364
+last:10334
+{"cmd":"ready","status":{"id":"12364","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"b8TZMz4Ai":{"log":["request attempt*: kekeke 1610630140016","success request*: kekeke 1610630140016","sendStatus*****: open-window kekeke 1610630140007","_executeCommand client: open-window","_switchToChildWindow","_stopInternal","send message to driver: driver|set-as-master 1976 1610630140178","resend: driver|set-as-master 1976 1610630141423","race finished: 1976 1610630141981","start iternal on set current window as master","_startInternal: Parent driver 1610630150564","master","_startCommandsProcessing: 1610630150565  false","sendStatus: _startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai 1610630150567"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":true,"type":"_startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai","windowId":"b8TZMz4Ai"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: switch-to-previous-window
+_resolveCurrentDriverTask: {"type":"switch-to-previous-window","windowId":"b8TZMz4Ai"}
+------------------------
+***
+****
+END ACTION: switch-to-previous-window
+START ACTION: take-screenshot
++executePendingManipulation
+executePendingManipulation: take-screenshot
+_getScreenshotRawData
+b8TZMz4Ai
+handle new: 18
+-executePendingManipulation
+ready
+status: 13687
+last:12364
+{"cmd":"ready","status":{"id":"13687","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1610630131879-parent.png","consoleMessages":{"b8TZMz4Ai":{"log":["request attempt*: _startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai 1610630150573","success request*: _startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai 1610630150573","sendStatus*****: take-screenshot _startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai 1610630150567","_executeCommand client: take-screenshot","111_onBrowserManipulationCommand: take-screenshot","_runManipulation: take-screenshot","_runManipulation: take-screenshot*","_runManipulation: take-screenshot**","hide**","_requestManipulation: take-screenshot***","_requestManipulation: take-screenshot****","_onBrowserManipulationCommanExecuted: take-screenshot","sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610630151961"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"222_onBrowserManipulationCommand: take-screenshot","windowId":"b8TZMz4Ai"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: take-screenshot
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1610630131879-parent.png","markSeed":null,"markData":""}
+------------------------
+***
+****
+END ACTION: take-screenshot
+START ACTION: get-browser-console-messages
+ready
+status: 13810
+last:13687
+{"cmd":"ready","status":{"id":"13810","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"b8TZMz4Ai":{"log":["request attempt*: 222_onBrowserManipulationCommand: take-screenshot 1610630151988","success request*: 222_onBrowserManipulationCommand: take-screenshot 1610630151988","sendStatus*****: get-browser-console-messages 222_onBrowserManipulationCommand: take-screenshot 1610630151961","_executeCommand client: get-browser-console-messages","sendStatus:  1610630152011"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"","windowId":"b8TZMz4Ai"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: get-browser-console-messages
+_resolveCurrentDriverTask: {"type":"get-browser-console-messages"}
+------------------------
+***
+****
+END ACTION: get-browser-console-messages
+{
+  log: [
+    'request attempt*: _startCommandsProcessing: start b8TZMz4Ai 1610630139660',
+    '@@@@@@@@@@@@@@@@@@@@@@@:XHR request failed with 500 status code.\n' +
+      "Error message: TypeError: Cannot read property 'command' of undefined 1610630139660",
+    'retry*: _startCommandsProcessing: start b8TZMz4Ai 1610630139660',
+    'request attempt*: _startCommandsProcessing: start b8TZMz4Ai 1610630139660',
+    'success request*: _startCommandsProcessing: start b8TZMz4Ai 1610630139660',
+    'sendStatus*****: undefined _startCommandsProcessing: start b8TZMz4Ai 1610630139656',
+    'sendStatus: kekeke 1610630140007',
+    'request attempt*: kekeke 1610630140016',
+    'success request*: kekeke 1610630140016',
+    'sendStatus*****: open-window kekeke 1610630140007',
+    '_executeCommand client: open-window',
+    '_switchToChildWindow',
+    '_stopInternal',
+    'send message to driver: driver|set-as-master 1976 1610630140178',
+    'resend: driver|set-as-master 1976 1610630141423',
+    'race finished: 1976 1610630141981',
+    'start iternal on set current window as master',
+    '_startInternal: Parent driver 1610630150564',
+    'master',
+    '_startCommandsProcessing: 1610630150565  false',
+    'sendStatus: _startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai 1610630150567',
+    'request attempt*: _startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai 1610630150573',
+    'success request*: _startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai 1610630150573',
+    'sendStatus*****: take-screenshot _startCommandsProcessing: _setCurrentWindowAsMaster b8TZMz4Ai 1610630150567',
+    '_executeCommand client: take-screenshot',
+    '111_onBrowserManipulationCommand: take-screenshot',
+    '_runManipulation: take-screenshot',
+    '_runManipulation: take-screenshot*',
+    '_runManipulation: take-screenshot**',
+    'hide**',
+    '_requestManipulation: take-screenshot***',
+    '_requestManipulation: take-screenshot****',
+    '_onBrowserManipulationCommanExecuted: take-screenshot',
+    'sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610630151961',
+    'request attempt*: 222_onBrowserManipulationCommand: take-screenshot 1610630151988',
+    'success request*: 222_onBrowserManipulationCommand: take-screenshot 1610630151988',
+    'sendStatus*****: get-browser-console-messages 222_onBrowserManipulationCommand: take-screenshot 1610630151961',
+    '_executeCommand client: get-browser-console-messages',
+    'sendStatus:  1610630152011'
+  ],
+  info: [],
+  warn: [],
+  error: []
+}
+ready
+status: 13842
+last:13810
+{"cmd":"ready","status":{"id":"13842","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"b8TZMz4Ai":{"log":["request attempt*:  1610630152022","success request*:  1610630152022","sendStatus*****: test-done  1610630152011","_executeCommand client: test-done","send message to driver: driver|close-all-child-windows 13843 1610630152044","race finished: 13843 1610630152053"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"","windowId":"b8TZMz4Ai"},"disableResending":true,"allowRejecting":true,"sessionId":"xbMDEzLPW"}
+*: test-done
+_resolveCurrentDriverTask: {"type":"test-done"}
+------------------------
+**
+ √ 1610630131879 (screenshots: D:\projects\testcafe\screenshots)
+
+
+ 1 passed (14s)

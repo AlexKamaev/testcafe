@@ -1,0 +1,225 @@
+ Running tests in:
+ - Firefox 84.0 / Windows 10
+
+ test
+ready
+status: 1363
+last:null
+{"cmd":"ready","status":{"id":"1363","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"ODKRhMxRt":{"log":["start internal on start","_startInternal: Parent driver 1610630091695","master","_startCommandsProcessing: 1610630091696  false","sendStatus: _startCommandsProcessing: start ODKRhMxRt 1610630091697"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"_startCommandsProcessing: start ODKRhMxRt","windowId":"ODKRhMxRt"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
++
+START ACTION: open-window
+ready
+status: 1363
+last:1363
+{"cmd":"ready","status":{"id":"1363","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"ODKRhMxRt":{"log":["start internal on start","_startInternal: Parent driver 1610630091695","master","_startCommandsProcessing: 1610630091696  false","sendStatus: _startCommandsProcessing: start ODKRhMxRt 1610630091697"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"_startCommandsProcessing: start ODKRhMxRt","windowId":"ODKRhMxRt"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+respons with previous status
+null
+ready
+status: 1709
+last:1363
+{"cmd":"ready","status":{"id":"1709","isCommandResult":false,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"ODKRhMxRt":{"log":["request attempt*: _startCommandsProcessing: start ODKRhMxRt 1610630091700","@@@@@@@@@@@@@@@@@@@@@@@:XHR request failed with 500 status code.\nError message: TypeError: Cannot read property 'command' of undefined 1610630091700","retry*: _startCommandsProcessing: start ODKRhMxRt 1610630091700","request attempt*: _startCommandsProcessing: start ODKRhMxRt 1610630091700","success request*: _startCommandsProcessing: start ODKRhMxRt 1610630091700","sendStatus*****: undefined _startCommandsProcessing: start ODKRhMxRt 1610630091697","sendStatus: kekeke 1610630092043"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"kekeke","windowId":"ODKRhMxRt"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: open-window
+***
+*****
+_onSetActiveWindowIdRequest: 18579
+setActiveWindowId: 18579
+ready
+status: 2745
+last:1709
+{"cmd":"ready","status":{"id":"2745","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":{"id":"18579"},"consoleMessages":{"18579":{"log":["set role on constructor","send message to driver: driver|establish-connection 445 1610630093780","_handleSetAsMasterMessage: 1879 1610630094387 Parent driver","role: replica","inProgress: false","_handleSetAsMasterMessage*********: 1879 1610630094388","","start internal on handle set as master message","_startInternal: Parent driver 1610630094953","master","_startCommandsProcessing: 1610630094954  false","sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579 1610630094955"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"_startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579","windowId":"18579"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: open-window
+_resolveCurrentDriverTask: {"type":"open-window","url":"http://mail.ru"}
+------------------------
+***
+****
+END ACTION: open-window
+_maximizeWindow$
+START ACTION: maximize-window
++executePendingManipulation
+executePendingManipulation: maximize-window
+-executePendingManipulation
+ready
+status: 6908
+last:2745
+{"cmd":"ready","status":{"id":"6908","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"18579":{"log":["resend: driver|establish-connection 445 1610630095068","race finished: 445 1610630095242","request attempt*: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579 1610630095247","success request*: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579 1610630095247","sendStatus*****: maximize-window _startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579 1610630094955","_executeCommand client: maximize-window","111_onBrowserManipulationCommand: maximize-window","_runManipulation: maximize-window","_runManipulation: maximize-window*","_runManipulation: maximize-window**","hide**","_requestManipulation: maximize-window***","_requestManipulation: maximize-window****","_onBrowserManipulationCommanExecuted: maximize-window","sendStatus: 222_onBrowserManipulationCommand: maximize-window 1610630099201"],"info":[],"warn":[],"error":["YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response","YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"222_onBrowserManipulationCommand: maximize-window","windowId":"18579"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: maximize-window
+_resolveCurrentDriverTask: {"type":"maximize-window"}
+------------------------
+***
+****
+END ACTION: maximize-window
+START ACTION: take-screenshot
++executePendingManipulation
+executePendingManipulation: take-screenshot
+_getScreenshotRawData
+18579
+handle new: 4294967297
+-executePendingManipulation
+ready
+status: 8886
+last:6908
+{"cmd":"ready","status":{"id":"8886","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1610630083998_child.png","consoleMessages":{"18579":{"log":["request attempt*: 222_onBrowserManipulationCommand: maximize-window 1610630099226","success request*: 222_onBrowserManipulationCommand: maximize-window 1610630099226","sendStatus*****: take-screenshot 222_onBrowserManipulationCommand: maximize-window 1610630099201","_executeCommand client: take-screenshot","111_onBrowserManipulationCommand: take-screenshot","_runManipulation: take-screenshot","_runManipulation: take-screenshot*","_runManipulation: take-screenshot**","hide**","_requestManipulation: take-screenshot***","_requestManipulation: take-screenshot****","_onBrowserManipulationCommanExecuted: take-screenshot","sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610630101153"],"info":[],"warn":[],"error":["YAN Widget error Meta empty response"]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"222_onBrowserManipulationCommand: take-screenshot","windowId":"18579"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: take-screenshot
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1610630083998_child.png","markSeed":null,"markData":""}
+------------------------
+***
+****
+END ACTION: take-screenshot
+START ACTION: get-browser-console-messages
+ready
+status: 8968
+last:8886
+{"cmd":"ready","status":{"id":"8968","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"18579":{"log":["request attempt*: 222_onBrowserManipulationCommand: take-screenshot 1610630101167","success request*: 222_onBrowserManipulationCommand: take-screenshot 1610630101167","sendStatus*****: get-browser-console-messages 222_onBrowserManipulationCommand: take-screenshot 1610630101153","_executeCommand client: get-browser-console-messages","sendStatus:  1610630101177"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"","windowId":"18579"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: get-browser-console-messages
+_resolveCurrentDriverTask: {"type":"get-browser-console-messages"}
+------------------------
+***
+****
+END ACTION: get-browser-console-messages
+[
+  'set role on constructor',
+  'send message to driver: driver|establish-connection 445 1610630093780',
+  '_handleSetAsMasterMessage: 1879 1610630094387 Parent driver',
+  'role: replica',
+  'inProgress: false',
+  '_handleSetAsMasterMessage*********: 1879 1610630094388',
+  '',
+  'start internal on handle set as master message',
+  '_startInternal: Parent driver 1610630094953',
+  'master',
+  '_startCommandsProcessing: 1610630094954  false',
+  'sendStatus: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579 1610630094955',
+  'resend: driver|establish-connection 445 1610630095068',
+  'race finished: 445 1610630095242',
+  'request attempt*: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579 1610630095247',
+  'success request*: _startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579 1610630095247',
+  'sendStatus*****: maximize-window _startCommandsProcessing: _handleSetAsMasterMessage: 1610630094953 : 1 18579 1610630094955',
+  '_executeCommand client: maximize-window',
+  '111_onBrowserManipulationCommand: maximize-window',
+  '_runManipulation: maximize-window',
+  '_runManipulation: maximize-window*',
+  '_runManipulation: maximize-window**',
+  'hide**',
+  '_requestManipulation: maximize-window***',
+  '_requestManipulation: maximize-window****',
+  '_onBrowserManipulationCommanExecuted: maximize-window',
+  'sendStatus: 222_onBrowserManipulationCommand: maximize-window 1610630099201',
+  'request attempt*: 222_onBrowserManipulationCommand: maximize-window 1610630099226',
+  'success request*: 222_onBrowserManipulationCommand: maximize-window 1610630099226',
+  'sendStatus*****: take-screenshot 222_onBrowserManipulationCommand: maximize-window 1610630099201',
+  '_executeCommand client: take-screenshot',
+  '111_onBrowserManipulationCommand: take-screenshot',
+  '_runManipulation: take-screenshot',
+  '_runManipulation: take-screenshot*',
+  '_runManipulation: take-screenshot**',
+  'hide**',
+  '_requestManipulation: take-screenshot***',
+  '_requestManipulation: take-screenshot****',
+  '_onBrowserManipulationCommanExecuted: take-screenshot',
+  'sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610630101153',
+  'request attempt*: 222_onBrowserManipulationCommand: take-screenshot 1610630101167',
+  'success request*: 222_onBrowserManipulationCommand: take-screenshot 1610630101167',
+  'sendStatus*****: get-browser-console-messages 222_onBrowserManipulationCommand: take-screenshot 1610630101153',
+  '_executeCommand client: get-browser-console-messages',
+  'sendStatus:  1610630101177'
+]
+START ACTION: switch-to-previous-window
+_onSetActiveWindowIdRequest: ODKRhMxRt
+setActiveWindowId: ODKRhMxRt
+ready
+status: 10875
+last:8968
+{"cmd":"ready","status":{"id":"10875","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"ODKRhMxRt":{"log":["request attempt*: kekeke 1610630092064","success request*: kekeke 1610630092064","sendStatus*****: open-window kekeke 1610630092043","_executeCommand client: open-window","_switchToChildWindow","_stopInternal","send message to driver: driver|set-as-master 1879 1610630092213","resend: driver|set-as-master 1879 1610630093461","race finished: 1879 1610630094456","start iternal on set current window as master","_startInternal: Parent driver 1610630101208","master","_startCommandsProcessing: 1610630101208  false","sendStatus: _startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt 1610630101209"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":true,"type":"_startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt","windowId":"ODKRhMxRt"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: switch-to-previous-window
+_resolveCurrentDriverTask: {"type":"switch-to-previous-window","windowId":"ODKRhMxRt"}
+------------------------
+***
+****
+END ACTION: switch-to-previous-window
+START ACTION: take-screenshot
++executePendingManipulation
+executePendingManipulation: take-screenshot
+_getScreenshotRawData
+ODKRhMxRt
+handle new: 18
+-executePendingManipulation
+ready
+status: 12157
+last:10875
+{"cmd":"ready","status":{"id":"12157","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":"D:\\projects\\testcafe\\screenshots\\_1610630083998-parent.png","consoleMessages":{"ODKRhMxRt":{"log":["request attempt*: _startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt 1610630101214","success request*: _startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt 1610630101214","sendStatus*****: take-screenshot _startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt 1610630101209","_executeCommand client: take-screenshot","111_onBrowserManipulationCommand: take-screenshot","_runManipulation: take-screenshot","_runManipulation: take-screenshot*","_runManipulation: take-screenshot**","hide**","_requestManipulation: take-screenshot***","_requestManipulation: take-screenshot****","_onBrowserManipulationCommanExecuted: take-screenshot","sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610630102568"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"222_onBrowserManipulationCommand: take-screenshot","windowId":"ODKRhMxRt"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: take-screenshot
+_resolveCurrentDriverTask: {"type":"take-screenshot","path":"_1610630083998-parent.png","markSeed":null,"markData":""}
+------------------------
+***
+****
+END ACTION: take-screenshot
+START ACTION: get-browser-console-messages
+ready
+status: 12301
+last:12157
+{"cmd":"ready","status":{"id":"12301","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"ODKRhMxRt":{"log":["request attempt*: 222_onBrowserManipulationCommand: take-screenshot 1610630102600","success request*: 222_onBrowserManipulationCommand: take-screenshot 1610630102600","sendStatus*****: get-browser-console-messages 222_onBrowserManipulationCommand: take-screenshot 1610630102568","_executeCommand client: get-browser-console-messages","sendStatus:  1610630102634"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"","windowId":"ODKRhMxRt"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: get-browser-console-messages
+_resolveCurrentDriverTask: {"type":"get-browser-console-messages"}
+------------------------
+***
+****
+END ACTION: get-browser-console-messages
+{
+  log: [
+    'request attempt*: _startCommandsProcessing: start ODKRhMxRt 1610630091700',
+    '@@@@@@@@@@@@@@@@@@@@@@@:XHR request failed with 500 status code.\n' +
+      "Error message: TypeError: Cannot read property 'command' of undefined 1610630091700",
+    'retry*: _startCommandsProcessing: start ODKRhMxRt 1610630091700',
+    'request attempt*: _startCommandsProcessing: start ODKRhMxRt 1610630091700',
+    'success request*: _startCommandsProcessing: start ODKRhMxRt 1610630091700',
+    'sendStatus*****: undefined _startCommandsProcessing: start ODKRhMxRt 1610630091697',
+    'sendStatus: kekeke 1610630092043',
+    'request attempt*: kekeke 1610630092064',
+    'success request*: kekeke 1610630092064',
+    'sendStatus*****: open-window kekeke 1610630092043',
+    '_executeCommand client: open-window',
+    '_switchToChildWindow',
+    '_stopInternal',
+    'send message to driver: driver|set-as-master 1879 1610630092213',
+    'resend: driver|set-as-master 1879 1610630093461',
+    'race finished: 1879 1610630094456',
+    'start iternal on set current window as master',
+    '_startInternal: Parent driver 1610630101208',
+    'master',
+    '_startCommandsProcessing: 1610630101208  false',
+    'sendStatus: _startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt 1610630101209',
+    'request attempt*: _startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt 1610630101214',
+    'success request*: _startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt 1610630101214',
+    'sendStatus*****: take-screenshot _startCommandsProcessing: _setCurrentWindowAsMaster ODKRhMxRt 1610630101209',
+    '_executeCommand client: take-screenshot',
+    '111_onBrowserManipulationCommand: take-screenshot',
+    '_runManipulation: take-screenshot',
+    '_runManipulation: take-screenshot*',
+    '_runManipulation: take-screenshot**',
+    'hide**',
+    '_requestManipulation: take-screenshot***',
+    '_requestManipulation: take-screenshot****',
+    '_onBrowserManipulationCommanExecuted: take-screenshot',
+    'sendStatus: 222_onBrowserManipulationCommand: take-screenshot 1610630102568',
+    'request attempt*: 222_onBrowserManipulationCommand: take-screenshot 1610630102600',
+    'success request*: 222_onBrowserManipulationCommand: take-screenshot 1610630102600',
+    'sendStatus*****: get-browser-console-messages 222_onBrowserManipulationCommand: take-screenshot 1610630102568',
+    '_executeCommand client: get-browser-console-messages',
+    'sendStatus:  1610630102634'
+  ],
+  info: [],
+  warn: [],
+  error: []
+}
+ready
+status: 12336
+last:12301
+{"cmd":"ready","status":{"id":"12336","isCommandResult":true,"executionError":null,"pageError":null,"resent":false,"result":null,"consoleMessages":{"ODKRhMxRt":{"log":["request attempt*:  1610630102645","success request*:  1610630102645","sendStatus*****: test-done  1610630102634","_executeCommand client: test-done","send message to driver: driver|close-all-child-windows 12336 1610630102670","race finished: 12336 1610630102678"],"info":[],"warn":[],"error":[]}},"isPendingWindowSwitching":false,"isFirstRequestAfterWindowSwitching":false,"type":"","windowId":"ODKRhMxRt"},"disableResending":true,"allowRejecting":true,"sessionId":"cCaLeleWS"}
+*: test-done
+_resolveCurrentDriverTask: {"type":"test-done"}
+------------------------
+**
+ √ 1610630083998 (screenshots: D:\projects\testcafe\screenshots)
+
+
+ 1 passed (12s)
