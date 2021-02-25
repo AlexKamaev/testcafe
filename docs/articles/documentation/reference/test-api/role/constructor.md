@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402760/reference/test-api/role/constructor
 title: Role Constructor
 permalink: /documentation/reference/test-api/role/constructor.html
 ---

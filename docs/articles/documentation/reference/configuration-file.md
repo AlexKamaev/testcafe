@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402638/reference/configuration-file
 title: Configuration File
 permalink: /documentation/reference/configuration-file.html
 redirect_from:

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402754/reference/test-api/selector/exists
 title: Selector.exists Property
 permalink: /documentation/reference/test-api/selector/exists.html
 ---

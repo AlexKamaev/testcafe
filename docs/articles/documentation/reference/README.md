@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402632/reference
 title: Reference
 permalink: /documentation/reference/
 ---

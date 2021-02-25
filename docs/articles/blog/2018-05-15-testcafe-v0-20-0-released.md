@@ -1,5 +1,6 @@
 ---
 layout: post
+redirect_to: https://alexkamaev.github.io/402876/release-notes/framework/2018-05-15-testcafe-v0-20-0-released
 title: TestCafe v0.20.0 Released
 permalink: /blog/:title.html
 ---

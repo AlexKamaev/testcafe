@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402841/guides/advanced-guides/multiple-browser-windows
 title: Multiple Browser Windows
 permalink: /documentation/guides/advanced-guides/multiple-browser-windows.html
 ---

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402751/reference/test-api/selector/filtervisible
 title: Selector.filterVisible Method
 permalink: /documentation/reference/test-api/selector/filtervisible.html
 ---

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402755/reference/test-api/selector/count
 title: Selector.count Property
 permalink: /documentation/reference/test-api/selector/count.html
 ---

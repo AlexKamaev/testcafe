@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402716/reference/test-api/testcontroller/expect/ok
 title: t.expect.ok Method
 permalink: /documentation/reference/test-api/testcontroller/expect/ok.html
 ---

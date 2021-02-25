@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402748/reference/test-api/selector/nth
 title: Selector.nth Method
 permalink: /documentation/reference/test-api/selector/nth.html
 ---

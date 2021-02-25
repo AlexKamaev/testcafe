@@ -2,6 +2,7 @@
 layout: faq
 title: Frequently Asked Questions
 permalink: /faq/
+redirect_to: https://alexkamaev.github.io/402636/faq
 ---
 # FAQ
 

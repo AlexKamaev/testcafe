@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402730/reference/test-api/test/skip
 title: Test.skip Method
 permalink: /documentation/reference/test-api/test/skip.html
 ---

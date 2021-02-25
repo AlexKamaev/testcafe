@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402688/reference/test-api/testcontroller/selecteditablecontent
 title: t.selectEditableContent Method
 permalink: /documentation/reference/test-api/testcontroller/selecteditablecontent.html
 ---

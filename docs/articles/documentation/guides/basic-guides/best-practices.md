@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402004/recipes/best-practices
 title: Best Practices
 permalink: /documentation/guides/basic-guides/best-practices.html
 ---

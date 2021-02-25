@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402687/reference/test-api/testcontroller/selecttext
 title: t.selectText Method
 permalink: /documentation/reference/test-api/testcontroller/selecttext.html
 ---

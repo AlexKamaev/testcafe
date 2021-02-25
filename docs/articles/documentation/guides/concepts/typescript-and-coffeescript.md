@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402824/guides/concepts/typescript-and-coffeescript
 title: TypeScript and CoffeeScript
 permalink: /documentation/guides/concepts/typescript-and-coffeescript.html
 redirect_from:

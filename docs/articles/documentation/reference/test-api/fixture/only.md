@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402779/reference/test-api/fixture/only
 title: Fixture.only Method
 permalink: /documentation/reference/test-api/fixture/only.html
 ---

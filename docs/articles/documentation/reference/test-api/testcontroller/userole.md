@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402673/reference/test-api/testcontroller/userole
 title: TestController.useRole Method
 permalink: /documentation/reference/test-api/testcontroller/userole.html
 ---

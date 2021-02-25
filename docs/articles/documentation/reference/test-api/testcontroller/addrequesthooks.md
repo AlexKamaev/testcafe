@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402713/reference/test-api/testcontroller/addrequesthooks
 title: TestController.addRequestHooks Method
 permalink: /documentation/reference/test-api/testcontroller/addrequesthooks.html
 ---

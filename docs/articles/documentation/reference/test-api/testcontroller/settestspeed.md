@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402682/reference/test-api/testcontroller/settestspeed
 title: t.setTestSpeed Method
 permalink: /documentation/reference/test-api/testcontroller/settestspeed.html
 ---

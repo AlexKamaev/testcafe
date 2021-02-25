@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402700/reference/test-api/testcontroller/getbrowserconsolemessages
 title: t.getBrowserConsoleMessages Method
 permalink: /documentation/reference/test-api/testcontroller/getbrowserconsolemessages.html
 ---

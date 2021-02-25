@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402758/reference/test-api/selector/addcustommethods
 title: Selector.addCustomMethods Method
 permalink: /documentation/reference/test-api/selector/addcustommethods.html
 ---

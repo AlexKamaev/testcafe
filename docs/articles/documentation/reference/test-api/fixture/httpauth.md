@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402781/reference/test-api/fixture/httpauth
 title: Fixture.httpAuth Method
 permalink: /documentation/reference/test-api/fixture/httpauth.html
 ---

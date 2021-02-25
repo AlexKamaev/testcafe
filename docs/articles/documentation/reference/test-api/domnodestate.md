@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402670/reference/test-api/domnodestate
 title: DOMNodeState Object
 permalink: /documentation/reference/test-api/domnodestate.html
 redirect_from:

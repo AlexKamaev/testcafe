@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402659/reference/testcafe-api/runner/compileroptions
 title: Runner.compilerOptions Method
 permalink: /documentation/reference/testcafe-api/runner/compileroptions.html
 ---

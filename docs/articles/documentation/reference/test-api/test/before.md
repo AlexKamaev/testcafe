@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402738/reference/test-api/test/before
 title: Test.before Method
 permalink: /documentation/reference/test-api/test/before.html
 ---

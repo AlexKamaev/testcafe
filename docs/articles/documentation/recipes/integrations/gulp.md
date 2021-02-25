@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402796/recipes/integrations/gulp
 title: Use TestCafe with Gulp
 permalink: /documentation/recipes/integrations/gulp.html
 redirect_from:

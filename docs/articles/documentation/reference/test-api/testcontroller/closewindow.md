@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402709/reference/test-api/testcontroller/closewindow
 title: t.closeWindow Method
 permalink: /documentation/reference/test-api/testcontroller/closewindow.html
 ---

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402789/reference/test-api/clientfunction/constructor
 title: ClientFunction Constructor
 permalink: /documentation/reference/test-api/clientfunction/constructor.html
 ---

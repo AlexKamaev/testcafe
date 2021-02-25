@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402706/reference/test-api/testcontroller/doubleclick
 title: t.doubleClick Method
 permalink: /documentation/reference/test-api/testcontroller/doubleclick.html
 redirect_from:

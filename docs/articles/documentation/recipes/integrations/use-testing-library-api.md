@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402792/recipes/integrations/use-testing-library-api
 title: Use Testing Library API
 permalink: /documentation/recipes/integrations/use-testing-library-api.html
 ---

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402737/reference/test-api/test/clientscripts
 title: Test.clientScripts Method
 permalink: /documentation/reference/test-api/test/clientscripts.html
 ---

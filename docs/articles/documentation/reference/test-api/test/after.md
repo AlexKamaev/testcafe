@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402739/reference/test-api/test/after
 title: Test.after Method
 permalink: /documentation/reference/test-api/test/after.html
 ---

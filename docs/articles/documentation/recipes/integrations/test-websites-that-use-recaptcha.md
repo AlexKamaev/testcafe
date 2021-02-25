@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402794/recipes/integrations/test-websites-that-use-recaptcha
 title: Test Websites That Use reCAPTCHA
 permalink: /documentation/recipes/integrations/test-websites-that-use-recaptcha.html
 ---

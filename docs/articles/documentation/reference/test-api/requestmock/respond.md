@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402762/reference/test-api/requestmock/respond
 title: RequestMock.onRequestTo().respond Method
 permalink: /documentation/reference/test-api/requestmock/respond.html
 ---

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402655/reference/testcafe-api/runner/run
 title: Runner.run Method
 permalink: /documentation/reference/testcafe-api/runner/run.html
 ---

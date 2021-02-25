@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402668/reference/test-api/requestlogger
 title: RequestLogger Class
 permalink: /documentation/reference/test-api/requestlogger/
 ---

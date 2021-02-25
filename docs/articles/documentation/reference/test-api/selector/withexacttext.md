@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402741/reference/test-api/selector/withexacttext
 title: Selector.withExactText Method
 permalink: /documentation/reference/test-api/selector/withexacttext.html
 ---

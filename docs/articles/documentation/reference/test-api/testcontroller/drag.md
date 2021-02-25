@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402705/reference/test-api/testcontroller/drag
 title: t.drag Method
 permalink: /documentation/reference/test-api/testcontroller/drag.html
 ---

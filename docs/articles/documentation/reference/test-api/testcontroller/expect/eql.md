@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402728/reference/test-api/testcontroller/expect/eql
 title: t.expect.eql Method
 permalink: /documentation/reference/test-api/testcontroller/expect/eql.html
 ---

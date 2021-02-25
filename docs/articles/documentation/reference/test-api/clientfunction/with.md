@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402788/reference/test-api/clientfunction/with
 title: ClientFunction.with Method
 permalink: /documentation/reference/test-api/clientfunction/with.html
 ---

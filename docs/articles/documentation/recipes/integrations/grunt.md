@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402797/recipes/integrations/grunt
 title: Use TestCafe with Grunt
 permalink: /documentation/recipes/integrations/grunt.html
 redirect_from:

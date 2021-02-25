@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402714/reference/test-api/testcontroller/expect/within
 title: t.expect.within Method
 permalink: /documentation/reference/test-api/testcontroller/expect/within.html
 ---

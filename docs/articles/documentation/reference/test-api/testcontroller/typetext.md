@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402674/reference/test-api/testcontroller/typetext
 title: t.typeText Method
 permalink: /documentation/reference/test-api/testcontroller/typetext.html
 redirect_from:

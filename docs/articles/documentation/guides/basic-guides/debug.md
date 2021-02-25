@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402835/guides/basic-guides/debug
 title: Debug
 permalink: /documentation/guides/basic-guides/debug.html
 redirect_from:

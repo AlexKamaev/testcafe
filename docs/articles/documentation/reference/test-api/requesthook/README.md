@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402669/reference/test-api/requesthook
 title: RequestHook Class
 permalink: /documentation/reference/test-api/requesthook/
 ---

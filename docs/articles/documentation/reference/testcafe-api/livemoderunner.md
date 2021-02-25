@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402642/reference/testcafe-api/livemoderunner
 title: LiveModeRunner Object
 permalink: /documentation/reference/testcafe-api/livemoderunner.html
 redirect_from:

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402692/reference/test-api/testcontroller/removerequesthooks
 title: TestController.removeRequestHooks Method
 permalink: /documentation/reference/test-api/testcontroller/removerequesthooks.html
 ---

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402734/reference/test-api/test/meta
 title: Test.meta Method
 permalink: /documentation/reference/test-api/test/meta.html
 ---

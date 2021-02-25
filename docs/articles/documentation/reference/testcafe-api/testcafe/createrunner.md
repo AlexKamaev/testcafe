@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402644/reference/testcafe-api/testcafe/createrunner
 title: TestCafe.createRunner Method
 permalink: /documentation/reference/testcafe-api/testcafe/createrunner.html
 ---

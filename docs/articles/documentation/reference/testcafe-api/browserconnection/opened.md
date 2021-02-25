@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402664/reference/testcafe-api/browserconnection/opened
 title: BrowserConnection.opened Event
 permalink: /documentation/reference/testcafe-api/browserconnection/opened.html
 ---

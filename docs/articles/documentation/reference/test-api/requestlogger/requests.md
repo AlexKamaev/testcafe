@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402766/reference/test-api/requestlogger/requests
 title: RequestLogger.requests Property
 permalink: /documentation/reference/test-api/requestlogger/requests.html
 ---

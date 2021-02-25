@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402825/guides/concepts/reporters
 title: Reporters
 permalink: /documentation/guides/concepts/reporters.html
 redirect_from:

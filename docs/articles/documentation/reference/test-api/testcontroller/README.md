@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402665/reference/test-api/testcontroller
 title: TestController
 permalink: /documentation/reference/test-api/testcontroller/
 ---

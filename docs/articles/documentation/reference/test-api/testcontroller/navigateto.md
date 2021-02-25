@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402695/reference/test-api/testcontroller/navigateto
 title: t.navigateTo Method
 permalink: /documentation/reference/test-api/testcontroller/navigateto.html
 redirect_from:

@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402661/reference/testcafe-api/runner/browsers
 title: Runner.browsers Method
 permalink: /documentation/reference/testcafe-api/runner/browsers.html
 ---

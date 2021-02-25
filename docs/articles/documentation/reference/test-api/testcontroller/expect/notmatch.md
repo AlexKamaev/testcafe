@@ -1,5 +1,6 @@
 ---
 layout: docs
+redirect_to: https://alexkamaev.github.io/documentation/402720/reference/test-api/testcontroller/expect/notmatch
 title: t.expect.notMatch Method
 permalink: /documentation/reference/test-api/testcontroller/expect/notmatch.html
 ---
