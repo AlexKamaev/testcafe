@@ -20,7 +20,7 @@ import DEFAULT_SCREENSHOT_EXTENSION from './default-extension';
 
 
 export default class Capturer {
-    constructor (baseScreenshotsPath, testEntry, connection, pathPattern, fullPage, warningLog) {
+    constructor (baseScreenshotsPath, testEntry, connection, pathPattern, fullPage, thumbnails, warningLog) {
         this.enabled             = !!baseScreenshotsPath;
         this.baseScreenshotsPath = baseScreenshotsPath;
         this.testEntry           = testEntry;
@@ -29,6 +29,7 @@ export default class Capturer {
         this.warningLog          = warningLog;
         this.pathPattern         = pathPattern;
         this.fullPage            = fullPage;
+        this.thumbnails          = thumbnails;
     }
 
     static _getDimensionWithoutScrollbar (fullDimension, documentDimension, bodyDimension) {
