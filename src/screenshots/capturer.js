@@ -117,7 +117,7 @@ export default class Capturer {
         await this.provider.takeScreenshot(this.browserId, filePath, pageWidth, pageHeight, fullPage);
     }
 
-    async _capture (forError, { pageDimensions, cropDimensions, markSeed, customPath, fullPage } = {}) {
+    async _capture (forError, { pageDimensions, cropDimensions, markSeed, customPath, fullPage, thumbnails } = {}) {
         if (!this.enabled)
             return null;
 
@@ -156,7 +156,7 @@ export default class Capturer {
             if (croppedImage)
                 await writePng(screenshotPath, croppedImage);
 
-            if (this.thumbnails)
+            if (thumbnails || this.thumbnails)
                 await generateThumbnail(screenshotPath, thumbnailPath);
         });
 
