@@ -156,7 +156,8 @@ export default class Capturer {
             if (croppedImage)
                 await writePng(screenshotPath, croppedImage);
 
-            await generateThumbnail(screenshotPath, thumbnailPath);
+            if (this.thumbnails)
+                await generateThumbnail(screenshotPath, thumbnailPath);
         });
 
         const testRunId         = this.testEntry.testRuns[this.browserId].id;
