@@ -53,6 +53,14 @@ describe('[API] t.takeScreenshot()', function () {
                 });
         });
 
+        it('Should take a screenshot with thumbnail', function () {
+            return runTests('./testcafe-fixtures/take-screenshot.js', 'Take a screenshot with a thumbnails', { setScreenshotPath: true })
+                .then(function () {
+                    expect(SCREENSHOT_PATH_MESSAGE_RE.test(testReport.screenshotPath)).eql(true);
+                    expect(assertionHelper.checkScreenshotsCreated({ forError: false, screenshotsCount: 2 })).eql(true);
+                });
+        });
+
         it('Should take a screenshot with a custom path (OS separator)', function () {
             return runTests('./testcafe-fixtures/take-screenshot.js', 'Take a screenshot with a custom path (OS separator)',
                 { setScreenshotPath: true })
