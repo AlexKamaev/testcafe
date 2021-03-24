@@ -49,7 +49,7 @@ describe('[API] t.takeScreenshot()', function () {
             return runTests('./testcafe-fixtures/take-screenshot.js', 'Take a screenshot', { setScreenshotPath: true })
                 .then(function () {
                     expect(SCREENSHOT_PATH_MESSAGE_RE.test(testReport.screenshotPath)).eql(true);
-                    expect(assertionHelper.checkScreenshotsCreated({ forError: false, screenshotsCount: 4 })).eql(true);
+                    expect(assertionHelper.checkScreenshotsCreated({ forError: false, screenshotsCount: 2 })).eql(true);
                 });
         });
 
@@ -68,7 +68,7 @@ describe('[API] t.takeScreenshot()', function () {
 
                     expect(testReport.screenshotPath).startsWith(path.join(SCREENSHOTS_PATH, 'custom'));
 
-                    const screenshotsCheckingOptions = { forError: false, screenshotsCount: 2, customPath: 'custom' };
+                    const screenshotsCheckingOptions = { forError: false, screenshotsCount: 1, customPath: 'custom' };
 
                     expect(assertionHelper.checkScreenshotsCreated(screenshotsCheckingOptions)).eql(true);
                 });
@@ -80,7 +80,7 @@ describe('[API] t.takeScreenshot()', function () {
                 .then(function () {
                     expect(testReport.screenshotPath).contains(SCREENSHOTS_PATH);
 
-                    const screenshotsCheckingOptions = { forError: false, screenshotsCount: 2, customPath: 'custom' };
+                    const screenshotsCheckingOptions = { forError: false, screenshotsCount: 1, customPath: 'custom' };
 
                     expect(assertionHelper.checkScreenshotsCreated(screenshotsCheckingOptions)).eql(true);
                 });
@@ -89,7 +89,7 @@ describe('[API] t.takeScreenshot()', function () {
         it('Should save screenshots to default dir if screenshotPath is not specified', function () {
             return runTests('./testcafe-fixtures/take-screenshot.js', 'Take a screenshot')
                 .then(function () {
-                    expect(assertionHelper.checkScreenshotsCreated({ baseDir: 'screenshots', screenshotsCount: 4 })).eql(true);
+                    expect(assertionHelper.checkScreenshotsCreated({ baseDir: 'screenshots', screenshotsCount: 2 })).eql(true);
 
                     return assertionHelper.removeScreenshotDir('screenshots');
                 });
@@ -165,7 +165,7 @@ describe('[API] t.takeScreenshot()', function () {
                     expect(SCREENSHOT_PATH_MESSAGE_RE.test(testReport.screenshotPath)).eql(true);
                     expect(testReport.unstable).eql(false);
 
-                    const screenshotsCheckingOptions = { forError: false, screenshotsCount: 2, runDirCount: 3 };
+                    const screenshotsCheckingOptions = { forError: false, screenshotsCount: 1, runDirCount: 3 };
 
                     expect(assertionHelper.checkScreenshotsCreated(screenshotsCheckingOptions)).eql(true);
                 });
@@ -453,7 +453,7 @@ describe('[API] t.takeElementScreenshot()', function () {
                 only:              'chrome'
             })
                 .catch(function (errs) {
-                    const screenshotsCheckingOptions = { forError: false, screenshotsCount: 2, customPath: 'custom' };
+                    const screenshotsCheckingOptions = { forError: false, screenshotsCount: 1, customPath: 'custom' };
 
                     expect(assertionHelper.checkScreenshotsCreated(screenshotsCheckingOptions)).eql(false);
                     expect(errs[0]).to.contains('Unable to capture an element image because the resulting image width is zero or negative.');
