@@ -1,12 +1,22 @@
 fixture `GH-1994 - The element that matches the specified selector is not visible`
-    .page `http://localhost:3000/fixtures/regression/gh-1994/pages/index.html`;
+    .page `../pages/index.html`;
 
-test(`Recreate invisible element and click`, async t => {
-    await t
-        .click('#targetRecreate');
-});
+test(`mousedown`, async t => {
+    // await t.mouseDown('div');
+    //
+    // await t.wait(300);
+    //
+    // await t.mouseUp('input');
+    //
+    // await t.debug();
 
-test(`Remove invisible element and click`, async t => {
-    await t
-        .click('#targetRemove');
+    // await t.click('div');
+
+    await t.mouseDown('div');
+    //
+    // await t.wait(300);
+    //
+    await t.mouseUp('div');
+    //
+    // await t.debug();
 });

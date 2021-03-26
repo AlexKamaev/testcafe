@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 
 fixture `gh-1486`
-    .page `http://localhost:3000/fixtures/regression/gh-1486/pages/index.html`;
+    .page `../pages/index.html`;
 
 test('Double click with different speed', async t => {
     const btn = Selector('#btn');

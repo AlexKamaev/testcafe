@@ -5,38 +5,28 @@
     <title>gh-1999</title>
 </head>
 <body>
+<input type="text" value="1" onclick="alert('click1')">
+<input type="text" value="2">
 
-<input id="targetRecreate" value="input" style="visibility: hidden;"/>
-<input id="targetRemove" value="input" style="visibility: hidden;"/>
+<div>click me</div>
 
 <script>
+    var div = document.querySelector('div');
 
-    function inputRecreate() {
-        const input = document.getElementById('targetRecreate');
-        const parent = input.parentNode;
+    div.addEventListener('mousedown', function (e) {
+        div.style.backgroundColor = 'red';
 
-        parent.removeChild(input);
+        console.log('mousedown');
+    });
 
-        const newInput = document.createElement('input');
+    div.addEventListener('mouseup', function (e) {
+        console.log('mouseup');
+    });
 
-        newInput.id = 'targetRecreate';
-        newInput.value = 'new input recreate';
-
-        document.body.appendChild(newInput);
-    }
-    
-    function  inputRemove() {
-        const input = document.getElementById('targetRemove');
-        const parent = input.parentNode;
-
-        parent.removeChild(input);
-    }
-
-    window.setTimeout(function () {
-        inputRecreate();
-        inputRemove();
-    }, 500);
-
+    div.addEventListener('click', function (e) {
+        alert('test')
+    });
 </script>
+
 </body>
 </html>
