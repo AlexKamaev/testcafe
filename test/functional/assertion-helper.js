@@ -238,7 +238,7 @@ exports.isScreenshotDirExists = function () {
 
 exports.checkScreenshotsCreated = function ({ forError, customPath, screenshotsCount, runDirCount, browsersCount, baseDir }) {
     const expectedSubDirCount     = browsersCount || config.browsers.length;
-    const expectedScreenshotCount = screenshotsCount || 2;
+    const expectedScreenshotCount = screenshotsCount || 1;
 
     baseDir = baseDir || SCREENSHOTS_PATH;
 
