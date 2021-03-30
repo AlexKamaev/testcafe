@@ -69,7 +69,7 @@ describe('Screenshots on fails', function () {
                 .catch(function (errs) {
                     assertionHelper.errorInEachBrowserContainsRegExp(errs, ERROR_SCREENSHOT_PATH_RE, 0);
                     assertionHelper.errorInEachBrowserContainsRegExp(errs, ERROR_SCREENSHOT_PATH_RE, 1);
-                    expect(assertionHelper.checkScreenshotsCreated({ forError: true, screenshotsCount: 4 })).eql(true);
+                    expect(assertionHelper.checkScreenshotsCreated({ forError: true, screenshotsCount: 2 })).eql(true);
                 });
         });
 
@@ -85,7 +85,7 @@ describe('Screenshots on fails', function () {
                 .catch(function (errs) {
                     assertionHelper.errorInEachBrowserContainsRegExp(errs, QUARANTINE_MODE_SCREENSHOT_PATH_RE, 0);
 
-                    const screenshotsCheckingOptions = { forError: true, screenshotsCount: 2, runDirCount: 3 };
+                    const screenshotsCheckingOptions = { forError: true, screenshotsCount: 1, runDirCount: 3 };
 
                     expect(assertionHelper.checkScreenshotsCreated(screenshotsCheckingOptions)).eql(true);
                 });
