@@ -21,8 +21,8 @@ test('Take a screenshot', async t => {
         .takeScreenshot();
 });
 
-test('Take a screenshot with a thumbnails', async t => {
-    await t.takeScreenshot({ thumbnails: true });
+test('Take a screenshot without thumbnails', async t => {
+    await t.takeScreenshot({ thumbnails: false });
 });
 
 test('Take a screenshot with a custom path (OS separator)', async t => {
