@@ -156,7 +156,7 @@ export default class Capturer {
             if (croppedImage)
                 await writePng(screenshotPath, croppedImage);
 
-            if (thumbnails || this.thumbnails)
+            if (!(thumbnails === false || this.thumbnails === false))
                 await generateThumbnail(screenshotPath, thumbnailPath);
         });
 
