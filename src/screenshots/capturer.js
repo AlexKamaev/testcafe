@@ -20,6 +20,7 @@ import DEFAULT_SCREENSHOT_EXTENSION from './default-extension';
 
 
 export default class Capturer {
+    // TODO: refactor to use dictionary
     constructor (baseScreenshotsPath, testEntry, connection, pathPattern, fullPage, thumbnails, warningLog) {
         this.enabled             = !!baseScreenshotsPath;
         this.baseScreenshotsPath = baseScreenshotsPath;
