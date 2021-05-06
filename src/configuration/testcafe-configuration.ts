@@ -187,7 +187,7 @@ export default class TestCafeConfiguration extends Configuration {
 
         if (!screenshots.path)
             screenshots.path = path;
-        
+
         if (screenshots.thumbnails === void 0)
             screenshots.thumbnails = DEFAULT_SCREENSHOT_THUMBNAILS;
     }
