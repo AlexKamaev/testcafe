@@ -183,7 +183,7 @@ export default class TestCafeConfiguration extends Configuration {
 
     private _ensureScreenshotOptions (): void {
         const path        = resolvePathRelativelyCwd(DEFAULT_SCREENSHOTS_DIRECTORY);
-        const screenshots = this._ensureOption(OPTION_NAMES.screenshots, {}, OptionSource.Configuration).value as Dictionary<string>;
+        const screenshots = this._ensureOption(OPTION_NAMES.screenshots, {}, OptionSource.Configuration).value as Dictionary<string|boolean>;
 
         if (!screenshots.path)
             screenshots.path = path;
@@ -223,7 +223,7 @@ export default class TestCafeConfiguration extends Configuration {
         this._ensureOptionWithValue(OPTION_NAMES.developmentMode, DEFAULT_DEVELOPMENT_MODE, OptionSource.Configuration);
         this._ensureOptionWithValue(OPTION_NAMES.retryTestPages, DEFAULT_RETRY_TEST_PAGES, OptionSource.Configuration);
 
-        this._ensureScreenshotPath();
+        this._ensureScreenshotOptions();
     }
 
     private _prepareCompilerOptions (): void {
