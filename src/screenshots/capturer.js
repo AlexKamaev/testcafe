@@ -123,7 +123,7 @@ export default class Capturer {
             return null;
 
         thumbnails = thumbnails === void 0 ? this.thumbnails : thumbnails;
-        
+
         const screenshotPath = customPath ? this._getCustomScreenshotPath(customPath) : this._getScreenshotPath(forError);
         const thumbnailPath  = this._getThumbnailPath(screenshotPath);
 
