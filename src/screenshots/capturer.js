@@ -121,6 +121,8 @@ export default class Capturer {
         if (!this.enabled)
             return null;
 
+        thumbnails = thumbnails === void 0 ? this.thumbnails : thumbnails;
+        
         const screenshotPath = customPath ? this._getCustomScreenshotPath(customPath) : this._getScreenshotPath(forError);
         const thumbnailPath  = this._getThumbnailPath(screenshotPath);
 
@@ -156,7 +158,7 @@ export default class Capturer {
             if (croppedImage)
                 await writePng(screenshotPath, croppedImage);
 
-            if (!(thumbnails === false || this.thumbnails === false))
+            if (thumbnails)
                 await generateThumbnail(screenshotPath, thumbnailPath);
         });
 
