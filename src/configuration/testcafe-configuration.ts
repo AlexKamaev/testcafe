@@ -17,6 +17,7 @@ import {
     DEFAULT_SOURCE_DIRECTORIES,
     DEFAULT_DEVELOPMENT_MODE,
     DEFAULT_RETRY_TEST_PAGES,
+    DEFAULT_SCREENSHOT_THUMBNAILS,
     getDefaultCompilerOptions
 } from './default-values';
 
@@ -180,12 +181,15 @@ export default class TestCafeConfiguration extends Configuration {
         filterOption.value = getFilterFn(filterOption.value) as Function;
     }
 
-    private _ensureScreenshotPath (): void {
+    private _ensureScreenshotOptions (): void {
         const path        = resolvePathRelativelyCwd(DEFAULT_SCREENSHOTS_DIRECTORY);
         const screenshots = this._ensureOption(OPTION_NAMES.screenshots, {}, OptionSource.Configuration).value as Dictionary<string>;
 
         if (!screenshots.path)
             screenshots.path = path;
+        
+        if (screenshots.thumbnails === void 0)
+            screenshots.thumbnails = DEFAULT_SCREENSHOT_THUMBNAILS;
     }
 
     private _prepareReporters (): void {
