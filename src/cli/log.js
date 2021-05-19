@@ -13,6 +13,8 @@ export default {
     showSpinner () {
         // NOTE: we can use the spinner only if stdout is a TTY and we are not in CI environment (e.g. TravisCI),
         // otherwise we can't repaint animation frames. Thanks https://github.com/sindresorhus/ora for insight.
+        return;
+
         if (this.isAnimated) {
             const spinnerFrame = elegantSpinner();
 

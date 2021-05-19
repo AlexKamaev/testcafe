@@ -5,6 +5,9 @@ import {
     HOST_SYNC_FD
 } from './io';
 
+import path from 'path';
+import url from 'url';
+
 import { restore as restoreTestStructure } from '../serialization/test-structure';
 import prepareOptions from '../serialization/prepare-options';
 import { default as testRunTracker, TestRun } from '../../api/test-run-tracker';
@@ -15,6 +18,8 @@ import TestCafeErrorList from '../../errors/error-list';
 
 import { getFreePort } from 'endpoint-utils';
 import cdp from 'chrome-remote-interface';
+
+const INTERNAL_FILES_URL = url.pathToFileURL(path.join(__dirname, '../../'));
 
 import {
     CompilerProtocol,
@@ -97,6 +102,40 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
         ], this);
     }
 
+    private _setupDebuggerHandlers () {
+        this.cdp.on('Debugger.paused', ({ callFrames }: any) => {
+            // this.cdp.Debugger.stepOut();
+            // return;
+
+
+            console.log('******************');
+            console.log(INTERNAL_FILES_URL.toString());
+            console.log(callFrames[0].url.toString());
+
+            if (callFrames[0].url.indexOf(INTERNAL_FILES_URL) >= 0) {
+                console.log('++++++++++++');
+                this.cdp.Debugger.stepOut();
+
+                return;
+            }
+
+            Object.values(testRunTracker.activeTestRuns).forEach(testRun => {
+                // if (!testRun.debugging)
+                //     testRun.executeCommand(new DebugCommand())
+            });
+
+        });
+
+        this.cdp.on('Debugger.resumed', () => {
+            // debugger;
+
+            // Object.values(testRunTracker.activeTestRuns).forEach(testRun => {
+            //     if (testRun.debugging)
+            //         testRun.executeCommand(new DisableDebugCommand())
+            // });
+        });
+    }
+
     private async _init (runtime: Promise<RuntimeResources|undefined>): Promise<RuntimeResources|undefined> {
         const resolvedRuntime = await runtime;
 
@@ -107,19 +146,35 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
             debugger;
 
             // const port = await getFreePort();
+            const port = '64128';
+            // const port = '9229';
 
-            const service = spawn(process.argv0, [`--inspect-brk`, SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
+            console.log(port);
+
+            const service = spawn(process.argv0, [`--inspect-brk=127.0.0.1:${port}`, SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
+            // const service = spawn(process.argv0, [SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
+
+            // NOTE: need to wait, otherwise the error will be at `await cdp(...)`
+            await new Promise(r => setTimeout(r, 2000));
 
             // @ts-ignore
-            // this.cdp = await cdp({ port });
-            //
-            // await this.cdp.Debugger.enable();
-            //
-            // await this.cdp.Runtime.enable();
+            this.cdp = await cdp({ port });
 
-            // await this.cdp.Runtime.runIfWaitingForDebugger();
-            //
-            // await this.cdp.Debugger.paused();
+            this._setupDebuggerHandlers();
+
+
+
+
+
+            await this.cdp.Debugger.enable();
+
+            await this.cdp.Runtime.enable();
+
+            await this.cdp.Runtime.runIfWaitingForDebugger();
+
+            debugger;
+
+            await this.cdp.Debugger.paused();
 
 
             // HACK: Node.js definition are not correct when additional I/O channels are sp

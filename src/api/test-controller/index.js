@@ -73,6 +73,8 @@ import {
 
 const originalThen = Promise.resolve().then;
 
+let inDebug = false;
+
 export default class TestController {
     constructor (testRun) {
         this._executionContext = null;
@@ -80,6 +82,27 @@ export default class TestController {
         this.testRun               = testRun;
         this.executionChain        = Promise.resolve();
         this.warningLog            = testRun.warningLog;
+    }
+
+    static enableDebug () {
+        inDebug = true;
+    }
+
+    static disableDebug () {
+        inDebug = false;
+    }
+
+    shouldStop (command) {
+        // if (inDebug && command !== 'debug') {
+        //     inDebug = false;
+        //
+        //     return true;
+        // }
+
+        if (command === 'debug')
+            return true;
+
+        return false;
     }
 
     // NOTE: we track missing `awaits` by exposing a special custom Promise to user code.

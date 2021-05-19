@@ -532,8 +532,10 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     _handleDebugState (driverStatus) {
-        console.log(driverStatus);
-        debugger;
+        if (driverStatus.debug) {
+            console.log(driverStatus);
+            debugger;
+        }
     }
 
     // Current driver task
@@ -1033,6 +1035,9 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     async initialize () {
+
+        debugger;
+
         if (!this.compilerService)
             return;
 

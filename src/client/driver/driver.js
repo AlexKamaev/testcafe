@@ -1290,8 +1290,12 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onSetBreakpointCommand (isTestError) {
+        debugger;
+
         this.statusBar.showDebuggingStatus(isTestError)
             .then(debugStatus => {
+                debugger;
+
                 this.debug = debugStatus;
 
 
