@@ -2,6 +2,7 @@ import fs from 'fs';
 import Compiler from '../../compiler';
 import TestRunProxy from './test-run-proxy';
 
+
 import {
     flatten as flattenTestStructure,
     isFixture,
@@ -90,18 +91,23 @@ interface WrapSetMockArguments extends RequestHookLocator {
 class CompilerService implements CompilerProtocol {
     private readonly proxy: IPCProxy;
     private readonly state: ServiceState;
+    private cdp: any;
 
     public constructor () {
+        debugger;
+
         process.title = ProcessTitle.service;
 
         const input  = fs.createReadStream('', { fd: SERVICE_INPUT_FD });
         const output = fs.createWriteStream('', { fd: SERVICE_OUTPUT_FD });
 
-        this.proxy = new IPCProxy(new ServiceTransport(input, output, SERVICE_SYNC_FD));
+        this.proxy = new IPCProxy(new ServiceTransport(input, output, SERVICE_SYNC_FD), 'service_proxy');
         this.state = this._initState();
 
         this._setupRoutes();
         this.ready();
+
+
     }
 
     private _initState (): ServiceState {
@@ -232,6 +238,8 @@ class CompilerService implements CompilerProtocol {
 
     public async ready (): Promise<void> {
         this.proxy.call(this.ready);
+
+
     }
 
     public async cleanUp (): Promise<void> {

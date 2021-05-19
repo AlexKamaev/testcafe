@@ -531,6 +531,11 @@ export default class TestRun extends AsyncEventEmitter {
         this.browserManipulationQueue.removeAllNonServiceManipulations();
     }
 
+    _handleDebugState (driverStatus) {
+        console.log(driverStatus);
+        debugger;
+    }
+
     // Current driver task
     get currentDriverTask () {
         return this.driverTaskQueue[0];
@@ -610,6 +615,8 @@ export default class TestRun extends AsyncEventEmitter {
         const currentTaskRejectedByError = pageError && this._handlePageErrorStatus(pageError);
 
         this.consoleMessages.concat(driverStatus.consoleMessages);
+
+        this._handleDebugState(driverStatus);
 
         if (!currentTaskRejectedByError && driverStatus.isCommandResult) {
             if (isTestDone) {

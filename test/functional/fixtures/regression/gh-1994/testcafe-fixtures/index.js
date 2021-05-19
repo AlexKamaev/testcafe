@@ -1,12 +1,18 @@
+import { Selector } from 'testcafe';
+
 fixture `GH-1994 - The element that matches the specified selector is not visible`
-    .page `http://localhost:3000/fixtures/regression/gh-1994/pages/index.html`;
+    .page `http://example.com`;
 
 test(`Recreate invisible element and click`, async t => {
-    await t
-        .click('#targetRecreate');
-});
+    debugger;
 
-test(`Remove invisible element and click`, async t => {
-    await t
-        .click('#targetRemove');
+    const q = Selector;
+
+    const el = q('h1');
+    debugger;
+
+    const wwe = el();
+
+
+    await t.debug();
 });

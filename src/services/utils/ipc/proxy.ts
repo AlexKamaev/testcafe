@@ -29,9 +29,12 @@ export class IPCProxy extends EventEmitter {
     private _transport: IPCTransport;
     private _requestCounter: number = 0;
     private readonly _handlers: { [name: string]: Function };
+    private _name: string;
 
-    public constructor (transport: IPCTransport) {
+    public constructor (transport: IPCTransport, name: string = 'default_proxy') {
         super();
+
+        this._name = name;
 
         this._transport = transport;
 
@@ -62,6 +65,8 @@ export class IPCProxy extends EventEmitter {
     }
 
     private async _onRequest (requestPacket: IPCRequestPacket): Promise<void> {
+        debugger;
+
         let resultData = null;
 
         try {

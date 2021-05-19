@@ -13,6 +13,9 @@ import { HostTransport } from '../utils/ipc/transport';
 import AsyncEventEmitter from '../../utils/async-event-emitter';
 import TestCafeErrorList from '../../errors/error-list';
 
+import { getFreePort } from 'endpoint-utils';
+import cdp from 'chrome-remote-interface';
+
 import {
     CompilerProtocol,
     RunTestArguments,
@@ -67,6 +70,7 @@ interface WrapMockPredicateArguments extends RequestFilterRuleLocator {
 
 export default class CompilerHost extends AsyncEventEmitter implements CompilerProtocol {
     private runtime: Promise<RuntimeResources|undefined>;
+    private cdp: any;
 
     public constructor () {
         super();
@@ -100,7 +104,23 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
             return resolvedRuntime;
 
         try {
-            const service = spawn(process.argv0, [SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
+            debugger;
+
+            // const port = await getFreePort();
+
+            const service = spawn(process.argv0, [`--inspect-brk`, SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
+
+            // @ts-ignore
+            // this.cdp = await cdp({ port });
+            //
+            // await this.cdp.Debugger.enable();
+            //
+            // await this.cdp.Runtime.enable();
+
+            // await this.cdp.Runtime.runIfWaitingForDebugger();
+            //
+            // await this.cdp.Debugger.paused();
+
 
             // HACK: Node.js definition are not correct when additional I/O channels are sp
             const stdio = service.stdio as any;
@@ -109,6 +129,8 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
             this._setupRoutes(proxy);
 
             await this.once('ready');
+
+            debugger;
 
             return { proxy, service };
         }

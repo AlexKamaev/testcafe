@@ -1291,10 +1291,17 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     _onSetBreakpointCommand (isTestError) {
         this.statusBar.showDebuggingStatus(isTestError)
-            .then(stopAfterNextAction => this._onReady(new DriverStatus({
-                isCommandResult: true,
-                result:          stopAfterNextAction
-            })));
+            .then(debugStatus => {
+                this.debug = debugStatus;
+
+
+                const stopAfterNextAction = debugStatus === 'step';
+
+                this._onReady(new DriverStatus({
+                    isCommandResult: true,
+                    result:          stopAfterNextAction
+                }));
+            });
     }
 
     _onSetTestSpeedCommand (command) {
@@ -1402,6 +1409,12 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     // Routing
     _onReady (status) {
+        if (this.debug) {
+            status.debug = this.debug;
+
+            this.debug = null;
+        }
+
         if (this._isStatusWithCommandResultInPendingWindowSwitchingMode(status))
             this.emit(STATUS_WITH_COMMAND_RESULT_EVENT);
 
