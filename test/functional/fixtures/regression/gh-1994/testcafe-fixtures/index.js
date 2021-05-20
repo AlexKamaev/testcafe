@@ -7,17 +7,19 @@ test(`Recreate invisible element and click`, async t => {
     // await t.debug();
     //
     //
-    debugger;
+    // debugger;
     //
     //
     //
     const q = Selector;
     //
     const el = q('h1');
-    debugger;
+    // debugger;
     //
     const wwe = el();
     //
     //
     await t.debug();
+
+    await t.click('body');
 });
