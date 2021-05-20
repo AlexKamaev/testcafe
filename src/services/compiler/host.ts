@@ -103,18 +103,26 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
     }
 
     private _setupDebuggerHandlers () {
-        this.cdp.on('Debugger.paused', ({ callFrames }: any) => {
-            // this.cdp.Debugger.stepOut();
-            // return;
+        this.cdp.on('Debugger.paused', async (args: any) => {
+            debugger;
 
+            const { callFrames } = args;
+
+            if (args.reason === 'Break on start') {
+                await this.cdp.Debugger.resume();
+
+                return;
+            }
 
             console.log('******************');
             console.log(INTERNAL_FILES_URL.toString());
             console.log(callFrames[0].url.toString());
 
-            if (callFrames[0].url.indexOf(INTERNAL_FILES_URL) >= 0) {
+            if (callFrames[0].url.includes(INTERNAL_FILES_URL) || callFrames[0].url.includes('internal/')) {
                 console.log('++++++++++++');
-                this.cdp.Debugger.stepOut();
+                await this.cdp.Debugger.stepOut();
+
+
 
                 return;
             }
@@ -136,6 +144,7 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
         });
     }
 
+
     private async _init (runtime: Promise<RuntimeResources|undefined>): Promise<RuntimeResources|undefined> {
         const resolvedRuntime = await runtime;
 
@@ -143,13 +152,15 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
             return resolvedRuntime;
 
         try {
-            debugger;
+            //debugger;
 
             // const port = await getFreePort();
             const port = '64128';
             // const port = '9229';
 
             console.log(port);
+            console.log(process.argv0);
+            console.log(SERVICE_PATH)
 
             const service = spawn(process.argv0, [`--inspect-brk=127.0.0.1:${port}`, SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
             // const service = spawn(process.argv0, [SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
@@ -170,11 +181,17 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
 
             await this.cdp.Runtime.enable();
 
+            console.log('#');
+
             await this.cdp.Runtime.runIfWaitingForDebugger();
+            // await this.cdp.Runtime.runIfWaitingForDebugger();
 
-            debugger;
+            console.log('##');
+            //debugger;
 
-            await this.cdp.Debugger.paused();
+            // await this.cdp.Debugger.paused();
+
+            // this.cdp.Runtime.evaluate({expression: 'console.log(12345)'})
 
 
             // HACK: Node.js definition are not correct when additional I/O channels are sp
@@ -185,7 +202,9 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
 
             await this.once('ready');
 
-            debugger;
+            console.log('###');
+
+            //debugger;
 
             return { proxy, service };
         }

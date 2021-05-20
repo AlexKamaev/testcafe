@@ -94,7 +94,9 @@ class CompilerService implements CompilerProtocol {
     private cdp: any;
 
     public constructor () {
-        debugger;
+        //debugger
+
+        console.log('CompilerService ctor');
 
         process.title = ProcessTitle.service;
 
@@ -105,7 +107,12 @@ class CompilerService implements CompilerProtocol {
         this.state = this._initState();
 
         this._setupRoutes();
+
+        console.log('-ready');
+
         this.ready();
+
+        console.log('+ready');
 
 
     }
@@ -238,8 +245,6 @@ class CompilerService implements CompilerProtocol {
 
     public async ready (): Promise<void> {
         this.proxy.call(this.ready);
-
-
     }
 
     public async cleanUp (): Promise<void> {

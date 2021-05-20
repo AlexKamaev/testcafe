@@ -65,7 +65,7 @@ export class IPCProxy extends EventEmitter {
     }
 
     private async _onRequest (requestPacket: IPCRequestPacket): Promise<void> {
-        debugger;
+        //debugger;
 
         let resultData = null;
 

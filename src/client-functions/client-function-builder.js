@@ -87,7 +87,7 @@ export default class ClientFunctionBuilder {
             selectorApiExecutionMode.forceSync();
 
             if (selectorApiExecutionMode.isSync) {
-                debugger;
+                //debugger;
 
                 return builder._executeCommandSync(args, testRun, callsite);
             }
