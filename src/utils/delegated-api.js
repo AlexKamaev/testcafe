@@ -48,9 +48,7 @@ export function delegateAPI (dest, apiList, opts) {
         else {
             Object.defineProperty(dest, apiProp, {
                 get () {
-                    console.log('should stop');
-
-                    if (dest.shouldStop && dest.shouldStop(apiProp)) {
+                    if (apiProp === 'debug') {
                         // eslint-disable-next-line no-debugger
                         debugger;
                     }
