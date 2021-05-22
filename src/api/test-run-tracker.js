@@ -1,13 +1,16 @@
 import getStackFrames from 'callsite';
+import { EventEmitter } from 'events';
 
 const TRACKING_MARK_RE = /^\$\$testcafe_test_run\$\$(\S+)\$\$$/;
 const STACK_CAPACITY   = 5000;
 
-// Tracker
-export default {
-    enabled: false,
+class TestRunTracker extends EventEmitter {
+    constructor () {
+        super();
 
-    activeTestRuns: {},
+        this.enabled = false;
+        this.activeTestRuns = {};
+    }
 
     _createContextSwitchingFunctionHook (ctxSwitchingFn, patchedArgsCount) {
         const tracker = this;
@@ -24,7 +27,7 @@ export default {
 
             return ctxSwitchingFn.apply(this, arguments);
         };
-    },
+    }
 
     _getStackFrames () {
         // NOTE: increase stack capacity to seek deep stack entries
@@ -37,7 +40,7 @@ export default {
         Error.stackTraceLimit = savedLimit;
 
         return frames;
-    },
+    }
 
     ensureEnabled () {
         if (!this.enabled) {
@@ -51,7 +54,7 @@ export default {
 
             this.enabled = true;
         }
-    },
+    }
 
     addTrackingMarkerToFunction (testRunId, fn) {
         const markerFactoryBody = `
@@ -68,7 +71,7 @@ export default {
         `;
 
         return new Function('fn', markerFactoryBody)(fn);
-    },
+    }
 
     getContextTestRunId () {
         const frames = this._getStackFrames();
@@ -87,11 +90,20 @@ export default {
         }
 
         return null;
-    },
+    }
 
     resolveContextTestRun () {
         const testRunId = this.getContextTestRunId();
 
         return this.activeTestRuns[testRunId];
     }
-};
+
+    addActiveTestRun (testRun) {
+        this.activeTestRuns[testRun.id] = testRun;
+
+        testRun.onAny((eventName, eventData) => this.emit(eventName, { testRun, data: eventData }));
+    }
+}
+
+// Tracker
+export default new TestRunTracker();

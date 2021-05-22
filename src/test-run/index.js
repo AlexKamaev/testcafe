@@ -86,6 +86,7 @@ const COMPILER_SERVICE_EVENTS = [
 ];
 
 export default class TestRun extends AsyncEventEmitter {
+    debugging;
     constructor ({ test, browserConnection, screenshotCapturer, globalWarningLog, opts, compilerService }) {
         super();
 
@@ -403,7 +404,7 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     async start () {
-        testRunTracker.activeTestRuns[this.session.id] = this;
+        testRunTracker.addActiveTestRun(this);
 
         await this.emit('start');
 
@@ -489,12 +490,19 @@ export default class TestRun extends AsyncEventEmitter {
 
     // Task queue
     _enqueueCommand (command, callsite) {
+        // debugger;
+
         if (this.pendingRequest)
             this._resolvePendingRequest(command);
 
         return new Promise(async (resolve, reject) => {
             this.addingDriverTasksCount--;
+
+            console.log('DRIVER TASK QUEUE PUSH: ' + command.type);
+
             this.driverTaskQueue.push({ command, resolve, reject, callsite });
+
+            console.log('QUEUE: ' + this.driverTaskQueue.map(t => t.command.type).join(';'));
 
             if (!this.addingDriverTasksCount)
                 await this.emit(ALL_DRIVER_TASKS_ADDED_TO_QUEUE_EVENT, this.driverTaskQueue.length);
@@ -522,13 +530,35 @@ export default class TestRun extends AsyncEventEmitter {
         if (this.debugLogger)
             this.debugLogger.showBreakpoint(this.session.id, this.browserConnection.userAgent, callsite, error);
 
+        console.log('before execute: ' + this.debugging);
+
+        // this.debugging = await this.executeCommand(new serviceCommands.SetBreakpointCommand(!!error), callsite);
+
         this.debugging = await this.executeCommand(new serviceCommands.SetBreakpointCommand(!!error), callsite);
+
+        console.log('after execute: ' + this.debugging);
     }
 
     _removeAllNonServiceTasks () {
         this.driverTaskQueue = this.driverTaskQueue.filter(driverTask => isServiceCommand(driverTask.command));
 
         this.browserManipulationQueue.removeAllNonServiceManipulations();
+    }
+
+    _handleDebugState (driverStatus) {
+        switch (driverStatus.debug) {
+            case 'step': {
+                this.emit('debug-step');
+
+                return;
+            }
+
+            case 'resume': {
+                this.emit('debug-resume');
+
+                return;
+            }
+        }
     }
 
     // Current driver task
@@ -604,12 +634,16 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     _handleDriverRequest (driverStatus) {
+        // debugger;
+
         const isTestDone                 = this.currentDriverTask && this.currentDriverTask.command.type ===
                                            COMMAND_TYPE.testDone;
         const pageError                  = this.pendingPageError || driverStatus.pageError;
         const currentTaskRejectedByError = pageError && this._handlePageErrorStatus(pageError);
 
         this.consoleMessages.concat(driverStatus.consoleMessages);
+
+        this._handleDebugState(driverStatus);
 
         if (!currentTaskRejectedByError && driverStatus.isCommandResult) {
             if (isTestDone) {
@@ -685,8 +719,20 @@ export default class TestRun extends AsyncEventEmitter {
         else if (command.type === COMMAND_TYPE.setPageLoadTimeout)
             this.pageLoadTimeout = command.duration;
 
-        else if (command.type === COMMAND_TYPE.debug)
+        else if (command.type === COMMAND_TYPE.debug) {
+            console.log(`debugging: true`);
+
             this.debugging = true;
+        }
+
+        else if (command.type === COMMAND_TYPE.disableDebug) {
+            this.debugLogger.hideBreakpoint(this.session.id);
+
+            console.log(`debugging: false`);
+
+            this.debugging = false;
+        }
+
     }
 
     async _adjustScreenshotCommand (command) {
@@ -778,6 +824,8 @@ export default class TestRun extends AsyncEventEmitter {
 
     async executeCommand (command, callsite) {
         this.debugLog.command(command);
+
+        console.log('ExecuteCommand: ' + command.type + ' ' + command.id);
 
         if (this.pendingPageError && isCommandRejectableByPageError(command))
             return this._rejectCommandWithPageError(callsite);
@@ -1026,6 +1074,9 @@ export default class TestRun extends AsyncEventEmitter {
     }
 
     async initialize () {
+
+        //debugger;
+
         if (!this.compilerService)
             return;
 

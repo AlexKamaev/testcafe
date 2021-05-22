@@ -128,10 +128,13 @@ export default class TestController {
     }
 
     _enqueueCommand (apiMethodName, CmdCtor, cmdArgs) {
+        console.log('_enqueueCommand: ' + apiMethodName);
+
         return this._enqueueTask(apiMethodName, callsite => {
             let command = null;
 
             try {
+                console.log('CTOR: ' + CmdCtor.name);
                 command = new CmdCtor(cmdArgs, this.testRun);
             }
             catch (err) {
@@ -481,7 +484,7 @@ export default class TestController {
     }
 
     _debug$ () {
-        return this._enqueueCommand('debug', DebugCommand);
+        // return this._enqueueCommand('debug', DebugCommand);
     }
 
     _setTestSpeed$ (speed) {

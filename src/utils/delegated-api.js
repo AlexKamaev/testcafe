@@ -45,7 +45,18 @@ export function delegateAPI (dest, apiList, opts) {
         else if (accessor === 'setter')
             Object.defineProperty(dest, apiProp, { set: fn, configurable: true });
 
-        else
-            dest[apiProp] = fn;
+        else {
+            Object.defineProperty(dest, apiProp, {
+                get () {
+                    if (apiProp === 'debug') {
+                        // eslint-disable-next-line no-debugger
+                        debugger;
+                    }
+
+                    return fn;
+                },
+                configurable: true
+            });
+        }
     });
 }

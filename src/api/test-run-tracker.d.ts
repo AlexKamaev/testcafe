@@ -7,6 +7,7 @@ export interface TestRun {
     controller: TestController;
     observedCallsites: ObservedCallsitesStorage;
     warningLog: WarningLog;
+    debugging: boolean;
 
     executeAction(apiMethodName: string, command: unknown, callsite: unknown): Promise<unknown>;
     executeCommand(command: unknown): Promise<unknown>;

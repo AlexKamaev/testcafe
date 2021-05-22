@@ -1,9 +1,14 @@
 import { spawn, ChildProcess } from 'child_process';
+import cdp from 'chrome-remote-interface';
+
 import {
     HOST_INPUT_FD,
     HOST_OUTPUT_FD,
     HOST_SYNC_FD
 } from './io';
+
+import path from 'path';
+import url from 'url';
 
 import { restore as restoreTestStructure } from '../serialization/test-structure';
 import prepareOptions from '../serialization/prepare-options';
@@ -12,6 +17,9 @@ import { IPCProxy } from '../utils/ipc/proxy';
 import { HostTransport } from '../utils/ipc/transport';
 import AsyncEventEmitter from '../../utils/async-event-emitter';
 import TestCafeErrorList from '../../errors/error-list';
+
+
+
 
 import {
     CompilerProtocol,
@@ -46,7 +54,10 @@ import {
     RequestFilterRule
 } from 'testcafe-hammerhead';
 
-const SERVICE_PATH = require.resolve('./service');
+import { DebugCommand, DisableDebugCommand } from '../../test-run/commands/observation';
+
+const SERVICE_PATH       = require.resolve('./service');
+const INTERNAL_FILES_URL = url.pathToFileURL(path.join(__dirname, '../../'));
 
 interface RuntimeResources {
     service: ChildProcess;
@@ -67,6 +78,7 @@ interface WrapMockPredicateArguments extends RequestFilterRuleLocator {
 
 export default class CompilerHost extends AsyncEventEmitter implements CompilerProtocol {
     private runtime: Promise<RuntimeResources|undefined>;
+    private cdp: any;
 
     public constructor () {
         super();
@@ -93,6 +105,59 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
         ], this);
     }
 
+    private _setupDebuggerHandlers () {
+        // @ts-ignore
+        testRunTracker.on('debug-resume', async () => {
+            // await this.cri.Runtime.evaluate({ expression: `global.process.mainModule.require('../../api/test-controller').disableDebug()`});
+
+            console.log('+++++++++++++++++++ resume');
+
+            await this.cdp.Debugger.resume();
+        });
+
+        // @ts-ignore
+        testRunTracker.on('debug-step', async () => {
+            // await this.cri.Runtime.evaluate({ expression: `global.process.mainModule.require('../../api/test-controller').enableDebug()`});
+            await this.cdp.Debugger.resume();
+        });
+
+        this.cdp.on('Debugger.paused', (args: any): void => {
+            // debugger;
+
+            const { callFrames } = args;
+
+            if (args.reason === 'Break on start')
+                return this.cdp.Debugger.resume();
+
+            if (callFrames[0].url.includes(INTERNAL_FILES_URL))
+                return this.cdp.Debugger.stepOut();
+
+            Object.values(testRunTracker.activeTestRuns).forEach(testRun => {
+                // debugger;
+
+                if (!testRun.debugging) {
+                    console.log('NEW DEBUG COMMAND');
+
+                    testRun.executeCommand(new DebugCommand());
+                }
+            });
+
+        });
+
+        this.cdp.on('Debugger.resumed', () => {
+            Object.values(testRunTracker.activeTestRuns).forEach(testRun => {
+                // debugger;
+
+                if (testRun.debugging) {
+                    console.log('**disable debug command');
+
+                    testRun.executeCommand(new DisableDebugCommand());
+                }
+            });
+        });
+    }
+
+
     private async _init (runtime: Promise<RuntimeResources|undefined>): Promise<RuntimeResources|undefined> {
         const resolvedRuntime = await runtime;
 
@@ -100,7 +165,20 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
             return resolvedRuntime;
 
         try {
-            const service = spawn(process.argv0, [SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
+            const port    = '64128';
+            const service = spawn(process.argv0, [`--inspect-brk=127.0.0.1:${port}`, SERVICE_PATH], { stdio: [0, 1, 2, 'pipe', 'pipe', 'pipe'] });
+
+            // NOTE: need to wait, otherwise the error will be at `await cdp(...)`
+            await new Promise(r => setTimeout(r, 2000));
+
+            // @ts-ignore
+            this.cdp = await cdp({ port });
+
+            this._setupDebuggerHandlers();
+
+            await this.cdp.Debugger.enable();
+            await this.cdp.Runtime.enable();
+            await this.cdp.Runtime.runIfWaitingForDebugger();
 
             // HACK: Node.js definition are not correct when additional I/O channels are sp
             const stdio = service.stdio as any;

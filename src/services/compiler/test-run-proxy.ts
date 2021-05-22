@@ -1,5 +1,5 @@
 import { pull } from 'lodash';
-import testRunTracker from '../../api/test-run-tracker';
+import testRunTracker, { TestRun } from '../../api/test-run-tracker';
 import prerenderCallsite from '../../utils/prerender-callsite';
 import { TestRunDispatcherProtocol } from './protocol';
 import TestController from '../../api/test-controller';
@@ -29,7 +29,7 @@ interface RequestHookEventDescriptor {
     eventData: RequestEvent | ConfigureResponseEvent | ResponseEvent;
 }
 
-class TestRunProxy {
+class TestRunProxy implements TestRun {
     public readonly id: string;
     public readonly test: Test;
     public readonly controller: TestController;
@@ -39,6 +39,9 @@ class TestRunProxy {
     private readonly dispatcher: TestRunDispatcherProtocol;
     private readonly ctx: unknown;
     private readonly _options: Dictionary<OptionValue>;
+
+    public debugging: boolean = false;
+
 
     public constructor ({ dispatcher, id, test, options }: TestRunProxyInit) {
         this.dispatcher = dispatcher;
@@ -54,6 +57,7 @@ class TestRunProxy {
         this.observedCallsites = new ObservedCallsitesStorage();
         this.warningLog        = new WarningLog();
 
+        // @ts-ignore
         testRunTracker.activeTestRuns[id] = this;
 
         this._initializeRequestHooks();

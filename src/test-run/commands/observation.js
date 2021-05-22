@@ -54,7 +54,19 @@ export class ExecuteSelectorCommand extends ExecuteClientFunctionCommandBase {
 
 export class DebugCommand {
     constructor () {
+        console.log('*********************new DebugCommand');
+
+        debugger;
+
+        this.id = Date.now();
+
         this.type = TYPE.debug;
+    }
+}
+
+export class DisableDebugCommand {
+    constructor () {
+        this.type = TYPE.disableDebug;
     }
 }
 

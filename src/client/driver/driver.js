@@ -1290,11 +1290,35 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _onSetBreakpointCommand (isTestError) {
+        //debugger;
+
         this.statusBar.showDebuggingStatus(isTestError)
-            .then(stopAfterNextAction => this._onReady(new DriverStatus({
-                isCommandResult: true,
-                result:          stopAfterNextAction
-            })));
+            .then(debugStatus => {
+                //debugger;
+
+                this.debug = debugStatus;
+
+                this._onReady(new DriverStatus({
+                    isCommandResult: true,
+                    result:          true
+                }));
+
+
+                // const stopAfterNextAction = debugStatus === 'step';
+                //
+                // this._onReady(new DriverStatus({
+                //     isCommandResult: true,
+                //     result:          stopAfterNextAction
+                // }));
+            });
+    }
+
+    _onDisableDebugCommand () {
+        this.statusBar._resetState();
+
+        this._onReady(new DriverStatus({
+            isCommandResult: true
+        }));
     }
 
     _onSetTestSpeedCommand (command) {
@@ -1402,6 +1426,12 @@ export default class Driver extends serviceUtils.EventEmitter {
 
     // Routing
     _onReady (status) {
+        if (this.debug) {
+            status.debug = this.debug;
+
+            this.debug = null;
+        }
+
         if (this._isStatusWithCommandResultInPendingWindowSwitchingMode(status))
             this.emit(STATUS_WITH_COMMAND_RESULT_EVENT);
 
@@ -1424,6 +1454,8 @@ export default class Driver extends serviceUtils.EventEmitter {
     }
 
     _executeCommand (command) {
+        debugger;
+
         this.contextStorage.setItem(this.WINDOW_COMMAND_API_CALL_FLAG, false);
 
         if (this.customCommandHandlers[command.type])
@@ -1432,8 +1464,14 @@ export default class Driver extends serviceUtils.EventEmitter {
         else if (command.type === COMMAND_TYPE.testDone)
             this._onTestDone(new DriverStatus({ isCommandResult: true }));
 
-        else if (command.type === COMMAND_TYPE.setBreakpoint)
+        else if (command.type === COMMAND_TYPE.setBreakpoint) {
+            debugger;
+
             this._onSetBreakpointCommand(command.isTestError);
+        }
+
+        else if (command.type === COMMAND_TYPE.disableDebug)
+            this._onDisableDebugCommand();
 
         else if (command.type === COMMAND_TYPE.switchToMainWindow)
             this._onSwitchToMainWindowCommand(command);

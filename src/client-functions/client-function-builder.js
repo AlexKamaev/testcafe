@@ -84,8 +84,13 @@ export default class ClientFunctionBuilder {
             for (let i = 0; i < arguments.length; i++)
                 args.push(arguments[i]);
 
-            if (selectorApiExecutionMode.isSync)
+            selectorApiExecutionMode.forceSync();
+
+            if (selectorApiExecutionMode.isSync) {
+                //debugger;
+
                 return builder._executeCommandSync(args, testRun, callsite);
+            }
 
             return builder._executeCommand(args, testRun, callsite);
         };
