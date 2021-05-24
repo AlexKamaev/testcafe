@@ -101,14 +101,19 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
             this.getWarningMessages,
             this.addRequestEventListeners,
             this.removeRequestEventListeners,
-            this.initializeTestRunData
+            this.initializeTestRunData,
+            this.enableDebug,
+            this.disableDebug
         ], this);
     }
 
     private _setupDebuggerHandlers () {
         // @ts-ignore
         testRunTracker.on('debug-resume', async () => {
-            // await this.cri.Runtime.evaluate({ expression: `global.process.mainModule.require('../../api/test-controller').disableDebug()`});
+            const evalRes = await this.cdp.Runtime.evaluate({
+                expression: `require.main.require('../../api/test-controller').disableDebug()`,
+                includeCommandLineAPI: true
+            });
 
             console.log('+++++++++++++++++++ resume');
 
@@ -117,7 +122,17 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
 
         // @ts-ignore
         testRunTracker.on('debug-step', async () => {
-            // await this.cri.Runtime.evaluate({ expression: `global.process.mainModule.require('../../api/test-controller').enableDebug()`});
+            const evalRes = await this.cdp.Runtime.evaluate({
+                expression: `require.main.require('../../api/test-controller').enableDebug()`,
+                includeCommandLineAPI: true
+            });
+
+            console.log(JSON.stringify(evalRes));
+            debugger;
+
+
+            // await this.cdp.Runtime.evaluate({ expression: `console.log('enable'); console.log(JSON.stringify(require('../../api/test-controller')));` });
+
             await this.cdp.Debugger.resume();
         });
 
@@ -174,6 +189,7 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
             // @ts-ignore
             this.cdp = await cdp({ port });
 
+            debugger;
             this._setupDebuggerHandlers();
 
             await this.cdp.Debugger.enable();
@@ -384,5 +400,17 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
         const { proxy } = await this._getRuntime();
 
         return proxy.call(this.initializeTestRunData, { testRunId, testId });
+    }
+
+    public async enableDebug (): Promise<void> {
+        const { proxy } = await this._getRuntime();
+
+        return proxy.call(this.enableDebug);
+    }
+
+    public async disableDebug (): Promise<void> {
+        const { proxy } = await this._getRuntime();
+
+        return proxy.call(this.disableDebug);
     }
 }

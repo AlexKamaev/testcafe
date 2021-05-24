@@ -73,6 +73,8 @@ import {
 
 const originalThen = Promise.resolve().then;
 
+let inDebug = false;
+
 export default class TestController {
     constructor (testRun) {
         this._executionContext = null;
@@ -519,6 +521,30 @@ export default class TestController {
 
             hooks.forEach(hook => this.testRun.removeRequestHook(hook));
         });
+    }
+
+    static enableDebug () {
+        console.log('enable debug');
+
+        inDebug = true;
+    }
+
+    static disableDebug () {
+        console.log('disable debug');
+
+        inDebug = false;
+    }
+
+    shouldStop (command) {
+        if (command === 'debug')
+            return true;
+
+        if (!inDebug)
+            return false;
+
+        inDebug = false;
+
+        return true;
     }
 }
 

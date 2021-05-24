@@ -1,6 +1,7 @@
 import fs from 'fs';
 import Compiler from '../../compiler';
 import TestRunProxy from './test-run-proxy';
+import TestController from '../../api/test-controller';
 
 
 import {
@@ -154,7 +155,9 @@ class CompilerService implements CompilerProtocol {
             this.getWarningMessages,
             this.addRequestEventListeners,
             this.removeRequestEventListeners,
-            this.initializeTestRunData
+            this.initializeTestRunData,
+            this.enableDebug,
+            this.disableDebug
         ], this);
     }
 
@@ -351,6 +354,15 @@ class CompilerService implements CompilerProtocol {
 
         this._initializeTestRunProxy(testRunId, test);
         this._initializeFixtureCtx(test);
+    }
+
+    public enableDebug (): void {
+        console.log('enableDebug: *****************');
+        TestController.enableDebug();
+    }
+
+    public disableDebug (): void {
+        TestController.disableDebug();
     }
 }
 

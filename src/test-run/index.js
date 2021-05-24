@@ -652,7 +652,7 @@ export default class TestRun extends AsyncEventEmitter {
 
         const date = Date.now();
 
-        console.log('handleDriverRequest: ' + date);
+        // console.log('handleDriverRequest: ' + date);
 
         if (!currentTaskRejectedByError && driverStatus.isCommandResult) {
             if (isTestDone) {
