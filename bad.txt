@@ -1,0 +1,120 @@
+ Running tests in:
+ - Chrome 90.0.4430.212 / Windows 10
+
+ GH-1994 - The element that matches the specified selector is not visible
+handleDriverRequest: 1621848812008
+NEW DEBUG COMMAND
+*********************new DebugCommand
+ExecuteCommand: debug 1621848812015
+debugging: true
+
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[Gbefore execute: true
+ExecuteCommand: set-breakpoint undefined
+DRIVER TASK QUEUE PUSH: set-breakpoint
+QUEUE: set-breakpoint
+
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G**disable debug command
+ExecuteCommand: disable-debug undefined
+debugging: false
+DRIVER TASK QUEUE PUSH: disable-debug
+QUEUE: set-breakpoint;disable-debug
+NEW DEBUG COMMAND
+*********************new DebugCommand
+ExecuteCommand: debug 1621848822226
+debugging: true
+
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[Gbefore execute: true
+ExecuteCommand: set-breakpoint undefined
+DRIVER TASK QUEUE PUSH: set-breakpoint
+QUEUE: set-breakpoint;disable-debug;set-breakpoint
+
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G
+----
+Chrome 90.0.4430.212 / Windows 10
+DEBUGGER PAUSE:
+----
+
+[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G**disable debug command
+ExecuteCommand: disable-debug undefined
+debugging: false
+_enqueueCommand: click
+DRIVER TASK QUEUE PUSH: disable-debug
+QUEUE: set-breakpoint;disable-debug;set-breakpoint;disable-debug
+CTOR: ClickCommand
+ExecuteCommand: click undefined
+DRIVER TASK QUEUE PUSH: click
+QUEUE: set-breakpoint;disable-debug;set-breakpoint;disable-debug;click

@@ -1293,24 +1293,14 @@ export default class Driver extends serviceUtils.EventEmitter {
         //debugger;
 
         this.statusBar.showDebuggingStatus(isTestError)
-            .then(debugStatus => {
-                //debugger;
-
-                this.debug = debugStatus;
-
-                this._onReady(new DriverStatus({
-                    isCommandResult: true,
-                    result:          true
-                }));
-
-
-                // const stopAfterNextAction = debugStatus === 'step';
-                //
-                // this._onReady(new DriverStatus({
-                //     isCommandResult: true,
-                //     result:          stopAfterNextAction
-                // }));
+            .then(debug => {
+                this.debug = debug;
             });
+
+        this._onReady(new DriverStatus({
+            isCommandResult: true,
+            result:          true
+        }));
     }
 
     _onDisableDebugCommand () {

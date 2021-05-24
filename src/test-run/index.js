@@ -566,9 +566,14 @@ export default class TestRun extends AsyncEventEmitter {
         return this.driverTaskQueue[0];
     }
 
-    _resolveCurrentDriverTask (result) {
+    _resolveCurrentDriverTask (result, date) {
         this.currentDriverTask.resolve(result);
+
+        console.log('_resolveCurrentDriverTask: ' + this.currentDriverTask.command.type + ' ' + date);
+
         this.driverTaskQueue.shift();
+
+
 
         if (this.testDoneCommandQueued)
             this._removeAllNonServiceTasks();
@@ -610,14 +615,14 @@ export default class TestRun extends AsyncEventEmitter {
         return !shouldExecuteCurrentCommand;
     }
 
-    _fulfillCurrentDriverTask (driverStatus) {
+    _fulfillCurrentDriverTask (driverStatus, date) {
         if (!this.currentDriverTask)
             return;
 
         if (driverStatus.executionError)
             this._rejectCurrentDriverTask(driverStatus.executionError);
         else if (this._shouldResolveCurrentDriverTask(driverStatus))
-            this._resolveCurrentDriverTask(driverStatus.result);
+            this._resolveCurrentDriverTask(driverStatus.result, date);
     }
 
     _handlePageErrorStatus (pageError) {
@@ -645,6 +650,10 @@ export default class TestRun extends AsyncEventEmitter {
 
         this._handleDebugState(driverStatus);
 
+        const date = Date.now();
+
+        console.log('handleDriverRequest: ' + date);
+
         if (!currentTaskRejectedByError && driverStatus.isCommandResult) {
             if (isTestDone) {
                 this._resolveCurrentDriverTask();
@@ -652,7 +661,7 @@ export default class TestRun extends AsyncEventEmitter {
                 return TEST_DONE_CONFIRMATION_RESPONSE;
             }
 
-            this._fulfillCurrentDriverTask(driverStatus);
+            this._fulfillCurrentDriverTask(driverStatus, date);
 
             if (driverStatus.isPendingWindowSwitching)
                 return null;
