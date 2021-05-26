@@ -71,7 +71,11 @@ import {
     MultipleWindowsModeIsNotAvailableInRemoteBrowserError
 } from '../../errors/test-run';
 
+import TestRunProxy from '../../services/compiler/test-run-proxy';
+
 const originalThen = Promise.resolve().then;
+
+let inDebug = false;
 
 export default class TestController {
     constructor (testRun) {
@@ -481,7 +485,9 @@ export default class TestController {
     }
 
     _debug$ () {
-        return this._enqueueCommand('debug', DebugCommand);
+        const debugEnabled = this.testRun instanceof TestRunProxy;
+
+        return debugEnabled ? void 0 : this._enqueueCommand('debug', DebugCommand);
     }
 
     _setTestSpeed$ (speed) {
@@ -516,6 +522,26 @@ export default class TestController {
 
             hooks.forEach(hook => this.testRun.removeRequestHook(hook));
         });
+    }
+
+    static enableDebug () {
+        inDebug = true;
+    }
+
+    static disableDebug () {
+        inDebug = false;
+    }
+
+    shouldStop (command) {
+        if (command === 'debug')
+            return true;
+
+        if (!inDebug)
+            return false;
+
+        inDebug = false;
+
+        return true;
     }
 }
 

@@ -36,6 +36,9 @@ class TestRunProxy {
     private readonly ctx: unknown;
     private readonly _options: Dictionary<OptionValue>;
 
+    public debugging: boolean = false;
+
+
     public constructor ({ dispatcher, id, test, options }: TestRunProxyInit) {
         this.dispatcher = dispatcher;
 
@@ -50,6 +53,7 @@ class TestRunProxy {
         this.observedCallsites = new ObservedCallsitesStorage();
         this.warningLog        = new WarningLog();
 
+        // @ts-ignore
         testRunTracker.activeTestRuns[id] = this;
 
         this._initializeRequestHooks();

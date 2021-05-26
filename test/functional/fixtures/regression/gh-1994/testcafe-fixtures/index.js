@@ -1,12 +1,31 @@
+import { Selector } from 'testcafe';
+
 fixture `GH-1994 - The element that matches the specified selector is not visible`
-    .page `http://localhost:3000/fixtures/regression/gh-1994/pages/index.html`;
+    .page `http://example.com`;
 
 test(`Recreate invisible element and click`, async t => {
-    await t
-        .click('#targetRecreate');
-});
+    await t.debug();
 
-test(`Remove invisible element and click`, async t => {
-    await t
-        .click('#targetRemove');
+
+    await t.click('body');
+    await t.click('body')
+        .click('h1')
+        .click('body')
+
+
+    debugger;
+
+
+
+    const q = Selector;
+    //
+    const el = q('h1');
+    // debugger;
+    //
+    const wwe = el();
+    //
+    //
+    await t.debug();
+
+    await t.click('body');
 });

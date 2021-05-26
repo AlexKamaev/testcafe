@@ -45,7 +45,6 @@ exports.ProgressPanel   = ProgressPanel;
 exports.StatusBar       = StatusBar;
 exports.IframeStatusBar = IframeStatusBar;
 
-
 exports.hide = function (hideTopRoot) {
     if (hideTopRoot)
         return sendRequestToFrame({ cmd: HIDE_REQUEST_CMD }, HIDE_RESPONSE_CMD, window.top);

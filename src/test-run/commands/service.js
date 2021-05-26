@@ -16,9 +16,10 @@ export class HideAssertionRetriesStatusCommand {
 }
 
 export class SetBreakpointCommand {
-    constructor (isTestError) {
-        this.type        = TYPE.setBreakpoint;
-        this.isTestError = isTestError;
+    constructor (isTestError, hasCompilerService) {
+        this.type               = TYPE.setBreakpoint;
+        this.hasCompilerService = hasCompilerService;
+        this.isTestError        = isTestError;
     }
 }
 

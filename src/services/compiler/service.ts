@@ -1,6 +1,8 @@
 import fs from 'fs';
 import Compiler from '../../compiler';
 import TestRunProxy from './test-run-proxy';
+import TestController from '../../api/test-controller';
+
 
 import {
     flatten as flattenTestStructure,
@@ -84,6 +86,7 @@ interface WrapSetMockArguments extends RequestHookLocator {
 class CompilerService implements CompilerProtocol {
     private readonly proxy: IPCProxy;
     private readonly state: ServiceState;
+    private cdp: any;
 
     public constructor () {
         process.title = ProcessTitle.service;
@@ -91,7 +94,7 @@ class CompilerService implements CompilerProtocol {
         const input  = fs.createReadStream('', { fd: SERVICE_INPUT_FD });
         const output = fs.createWriteStream('', { fd: SERVICE_OUTPUT_FD });
 
-        this.proxy = new IPCProxy(new ServiceTransport(input, output, SERVICE_SYNC_FD));
+        this.proxy = new IPCProxy(new ServiceTransport(input, output, SERVICE_SYNC_FD), 'service_proxy');
         this.state = this._initState();
 
         this._setupRoutes();
@@ -146,7 +149,9 @@ class CompilerService implements CompilerProtocol {
             this.getWarningMessages,
             this.addRequestEventListeners,
             this.removeRequestEventListeners,
-            this.initializeTestRunData
+            this.initializeTestRunData,
+            this.enableDebug,
+            this.disableDebug
         ], this);
     }
 
@@ -343,6 +348,14 @@ class CompilerService implements CompilerProtocol {
 
         this._initializeTestRunProxy(testRunId, test);
         this._initializeFixtureCtx(test);
+    }
+
+    public enableDebug (): void {
+        TestController.enableDebug();
+    }
+
+    public disableDebug (): void {
+        TestController.disableDebug();
     }
 }
 
