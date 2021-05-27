@@ -16,3 +16,11 @@ export class ExecuteSelectorCommand extends ExecuteClientFunctionCommandBase {
     public needError: boolean;
     public index: number;
 }
+
+export class DebugCommand extends CommandBase {
+    public type: string;
+}
+
+export class DisableDebugCommand extends CommandBase {
+    public type: string;
+}
