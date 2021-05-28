@@ -51,22 +51,7 @@ describe('Compiler service', () => {
 
             await delay(1000);
 
-            await client.Runtime.evaluate({
-                expression:            `require.main.require('../../api/test-controller').enableDebugForNonDebugCommands()`,
-                includeCommandLineAPI: true
-            });
-
             await client.Debugger.resume();
-
-            await delay(1000);
-
-            await client.Runtime.evaluate({
-                expression:            `require.main.require('../../api/test-controller').disableDebugForNonDebugCommands()`,
-                includeCommandLineAPI: true
-            });
-
-            await client.Debugger.resume();
-
         }, 10000);
 
 

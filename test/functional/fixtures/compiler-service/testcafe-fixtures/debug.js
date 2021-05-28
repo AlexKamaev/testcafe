@@ -6,8 +6,4 @@ test(`JS Debugger`, async t => {
     debugger;
 
     await t.debug();
-
-    await t.click('body');
-
-    await t.wait(1000);
 });
