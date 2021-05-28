@@ -8,4 +8,6 @@ test(`JS Debugger`, async t => {
     await t.debug();
 
     await t.click('body');
+
+    await t.wait(1000);
 });
