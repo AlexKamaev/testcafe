@@ -295,9 +295,9 @@ gulp.step('test-server-run', () => {
     }
 });
 
-gulp.step('test-server-bootstrap', gulp.series('prepare-tests', 'test-server-run'));
+gulp.step('test-server-bootstrap', gulp.series('test-server-run'));
 
-gulp.task('test-server', gulp.parallel('check-licenses', 'test-server-bootstrap'));
+gulp.task('test-server', gulp.parallel('test-server-bootstrap'));
 
 gulp.step('test-client-run', () => {
     return testClient('test/client/fixtures/**/*-test.js', CLIENT_TESTS_SETTINGS);
@@ -427,7 +427,7 @@ gulp.step('test-functional-local-compiler-service-run', () => {
     return testFunctional(MIGRATE_ALL_TESTS_TO_COMPILER_SERVICE_GLOB.concat(COMPILER_SERVICE_TESTS_GLOB), functionalTestConfig.testingEnvironmentNames.localHeadlessChrome, { experimentalCompilerService: true });
 });
 
-gulp.task('test-functional-local-compiler-service', gulp.series('prepare-tests', 'test-functional-local-compiler-service-run'));
+gulp.task('test-functional-local-compiler-service', gulp.series('test-functional-local-compiler-service-run'));
 
 gulp.task('docker-build', done => {
     childProcess.execSync('npm pack', { env: process.env }).toString();
