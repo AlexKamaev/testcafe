@@ -1,33 +1,35 @@
-import { Selector } from 'testcafe';
+// import { Selector } from 'testcafe';
 
 fixture `GH-1994 - The element that matches the specified selector is not visible`
     .page `http://example.com`;
 
+const kekeke = true;
+
 test(`Recreate invisible element and click`, async t => {
-    await t.debug();
-
-
-    await t.click('body');
-    await t.click('body')
-        .click('h1')
-        .click('body')
-
-
     debugger;
-
-
-
-    const q = Selector;
     //
-    const el = q('h1');
+    //
+    // await t.click('body');
+    // await t.click('body')
+    //     .click('h1')
+    //     .click('body')
+    //
+    //
     // debugger;
     //
-    const wwe = el();
     //
     //
-    await t.debug();
-
-    await t.click('body');
-
-    await t.wait(1000);
+    // const q = Selector;
+    // //
+    // const el = q('h1');
+    // // debugger;
+    // //
+    // const wwe = el();
+    // //
+    // //
+    // await t.debug();
+    //
+    // await t.click('body');
+    //
+    // await t.wait(1000);
 });

@@ -37,13 +37,13 @@ export default class Compiler {
         }
 
         code = stripBom(code).toString();
-
-        if (this.compilerServiceEnabled) {
-            code += '\n' +
-                '// NOTE: the following code was generated automatically\n' +
-                '// to prevent NodeJS code optimization\n' +
-                'eval(\'\');';
-        }
+        //
+        // if (this.compilerServiceEnabled) {
+        //     code += '\n' +
+        //         '// NOTE: the following code was generated automatically\n' +
+        //         '// to prevent NodeJS code optimization\n' +
+        //         'eval(\'\');';
+        // }
 
         const compiler = find(getTestFileCompilers(), someCompiler => someCompiler.canCompile(code, filename));
 
@@ -101,6 +101,8 @@ export default class Compiler {
     }
 
     async _compileTestFiles (filenames) {
+        debugger;
+
         const testFilesInfo = await this._createTestFilesInfo(filenames);
         const compilerTasks = this._getCompilerTasks(testFilesInfo);
 
@@ -115,6 +117,7 @@ export default class Compiler {
     }
 
     async getTests () {
+        debugger;
         // NOTE: split sources into chunks because the fs module can't read all files
         // simultaneously if the number of them is too large (several thousands).
         const sourceChunks = chunk(this.sources, SOURCE_CHUNK_LENGTH);
