@@ -134,9 +134,9 @@ describe('[API] t.takeScreenshot()', function () {
                 .catch(function (errs) {
                     expect(errs[0]).to.contains('The "path" argument is expected to be a non-empty string, but it was number.');
                     expect(errs[0]).to.contains(
-                        '38 |test(\'Incorrect action path argument\', async t => {' +
-                        ' > 39 |    await t.takeScreenshot(1); ' +
-                        '40 |});'
+                        '42 |test(\'Incorrect action path argument\', async t => {' +
+                        ' > 43 |    await t.takeScreenshot(1); ' +
+                        '44 |});'
                     );
                 });
         });
@@ -149,9 +149,9 @@ describe('[API] t.takeScreenshot()', function () {
                 .catch(function (errs) {
                     expect(errs[0]).to.contains('There are forbidden characters in the "path:with*forbidden|chars" screenshot path: ":" at index 4 "*" at index 9 "|" at index 19');
                     expect(errs[0]).to.contains(
-                        '42 |test(\'Forbidden characters in the path argument\', async t => {' +
-                        ' > 43 |    await t.takeScreenshot(\'path:with*forbidden|chars\'); ' +
-                        '44 |});'
+                        '46 |test(\'Forbidden characters in the path argument\', async t => {' +
+                        ' > 47 |    await t.takeScreenshot(\'path:with*forbidden|chars\'); ' +
+                        '48 |});'
                     );
                 });
         });
