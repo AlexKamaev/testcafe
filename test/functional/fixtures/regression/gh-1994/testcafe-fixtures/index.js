@@ -1,24 +1,12 @@
-import { Selector } from 'testcafe';
+fixture `GH-1994 - The element that matches the specified selector is not visible`
+    .page `http://localhost:3000/fixtures/regression/gh-1994/pages/index.html`;
 
-const btnPrev = Selector('#btnPrev_c1');
-const btnShadow = Selector('div').shadowRoot().find('#btnShadow2_c1')
-const btnNext = Selector('#btnNext');
-
-fixture `f`
-    .page `../pages/case2.html`;
-
-test(`tab`, async t => {
-    // await t.click(btnPrev);
-
-    await t.pressKey('tab');
-    //
-    // await t.expect(btnShadow.focused).eql(true);
+test(`Recreate invisible element and click`, async t => {
+    await t
+        .click('#targetRecreate');
 });
 
-// test(`shift+tab`, async t => {
-//     await t.click(btnNext);
-//
-//     await t.pressKey('shift+tab');
-//
-//     await t.expect(btnShadow.focused).eql(true);
-// });
+test(`Remove invisible element and click`, async t => {
+    await t
+        .click('#targetRemove');
+});

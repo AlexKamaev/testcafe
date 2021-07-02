@@ -147,8 +147,11 @@ export function getNextFocusableElement (element, reverse, skipRadioGroups) {
     debugger;
     const offset     = reverse ? -1 : 1;
     let allFocusable = domUtils.getFocusableElements(findDocument(element), true);
+    let allFocusableOld = domUtils.getFocusableElements_old(findDocument(element), true);
 
     allFocusable = filterFocusableElements(allFocusable, element, skipRadioGroups);
+
+    allFocusableOld[0];
 
     const isRadioInput         = isRadioButtonElement(element);
     const currentIndex         = arrayUtils.indexOf(allFocusable, element);
