@@ -194,7 +194,7 @@ gulp.step('client-scripts-templates-render', () => {
 
     const bundledScripts = scripts
         .pipe(clone())
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(rename(file => {
             file.extname = '.min.js';
         }));
@@ -286,7 +286,7 @@ gulp.step('test-client-run', () => {
     return testClient('test/client/fixtures/**/*-test.js', CLIENT_TESTS_SETTINGS);
 });
 
-gulp.task('test-client', gulp.series('prepare-tests', 'test-client-run'));
+gulp.task('test-client', gulp.series('test-client-run'));
 
 gulp.step('test-client-local-run', () => {
     return testClient('test/client/fixtures/**/*-test.js', CLIENT_TESTS_LOCAL_SETTINGS, {}, true);

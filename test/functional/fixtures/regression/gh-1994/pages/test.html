@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TestCafé</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+<script>
+    const TEST_ELEMENT_CLASS = 'testElement';
+
+
+
+    const $body = $('body');
+
+    $inputText        = $('<input type="text">').attr('value', 'text input').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $textarea         = $('<textarea>').css('height', 100).attr('value', 'textarea').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $link             = $('<a>').attr('href', 'http://www.example.org/').attr('tabIndex', 2).text('Link with href').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $linkWithTabIndex = $('<a>').attr('tabIndex', '0').text('Link without href but with tabIndex').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+
+    $('<a>').text('Link without href').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $('<a>').attr('tabIndex', '-10').text('Link without href and with negative tabIndex').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $('<div></div>').text('div tag').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+
+    $divWithTabIndex = $('<div></div>').text('div tag with tabIndex').attr('tabIndex', 1).addClass(TEST_ELEMENT_CLASS).appendTo($body);
+
+    //contentEditable elements
+    $divContentEditable             = $('<div></div>').text('content editable div').attr('contenteditable', '').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $divContentEditableWithTabIndex = $('<div></div>').text('content editable div 2').attr('contenteditable', 'true').attr('tabIndex', '4').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $buttonInContentEditable        = $('<button>button</button>').attr('tabIndex', '4').addClass(TEST_ELEMENT_CLASS).appendTo($divContentEditableWithTabIndex);
+
+    $('<p>paragraph</p>').addClass(TEST_ELEMENT_CLASS).appendTo($divContentEditableWithTabIndex);
+
+    $('<input type="button">').attr('value', 'button input').attr('tabIndex', -1).addClass(TEST_ELEMENT_CLASS).appendTo($body);
+
+    $inputSubmit   = $('<input type="submit">').attr('value', 'submit input').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $inputCheckBox = $('<input type="checkbox">').attr('value', 'checkbox').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $select        = $('<select></select>').attr('tabIndex', 0).addClass(TEST_ELEMENT_CLASS).appendTo($body);
+
+    $('<option></option>').text('option one').addClass(TEST_ELEMENT_CLASS).appendTo($select);
+    $('<option></option>').text('option two').addClass(TEST_ELEMENT_CLASS).appendTo($select);
+
+    $selectMultiple       = $('<select></select>').attr('multiple', 'multiple').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $optionOneWithTabIdex = $('<option></option>').text('option tab index 2').attr('tabIndex', 3).addClass(TEST_ELEMENT_CLASS).appendTo($selectMultiple);
+    $optionTwoWithTabIdex = $('<option></option>').text('option tab index 3').attr('tabIndex', 4).addClass(TEST_ELEMENT_CLASS).appendTo($selectMultiple);
+    $radioGroupOnePart1   = $('<fieldset></fieldset>').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $radioInput1          = $('<input type="radio">').attr('name', 'radioGroup1').addClass(TEST_ELEMENT_CLASS).appendTo($radioGroupOnePart1);
+    $radioInput2          = $('<input type="radio">').attr('name', 'radioGroup1').attr('tabIndex', 5).addClass(TEST_ELEMENT_CLASS).appendTo($radioGroupOnePart1);
+    $radioGroupOnePart2   = $('<fieldset></fieldset>').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $radioInput3          = $('<input type="radio">').attr('name', 'radioGroup1').addClass(TEST_ELEMENT_CLASS).appendTo($radioGroupOnePart2);
+    $radioInput4          = $('<input type="radio">').attr('name', 'radioGroup1').addClass(TEST_ELEMENT_CLASS).appendTo($radioGroupOnePart2);
+    $radioGroupSecond     = $('<fieldset></fieldset>').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+    $radioInput5          = $('<input type="radio">').attr('name', 'radioGroup2').attr('tabIndex', 0).addClass(TEST_ELEMENT_CLASS).appendTo($radioGroupSecond);
+    $radioInput6          = $('<input type="radio">').attr('name', 'radioGroup1').attr('tabIndex', 0).addClass(TEST_ELEMENT_CLASS).appendTo($radioGroupSecond);
+
+    //T297258
+    $('<div style="display: none;"><input/></div>').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+
+    const $hiddenParent = $('<div style="width: 0px; height: 0px;"></div>').addClass(TEST_ELEMENT_CLASS).appendTo($body);
+
+    $invisibleInput = $('<input style="width: 0px; height: 0px;"/>').addClass(TEST_ELEMENT_CLASS).appendTo($hiddenParent);
+</script>
+</body>
+</html>

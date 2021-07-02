@@ -325,7 +325,7 @@ function filterFocusableElements (parent) {
 }
 
 function flattenFocusableTree (node) {
-    debugger;
+    // debugger;
 
     const result = [];
 
@@ -346,7 +346,7 @@ function flattenFocusableTree (node) {
 
 export function getFocusableElements (doc, sort = false) {
 
-    debugger;
+    // debugger;
 
     const el = buildFocusableTree(doc);
 

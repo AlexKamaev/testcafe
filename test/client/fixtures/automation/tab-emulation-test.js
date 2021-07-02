@@ -1,6 +1,8 @@
 const hammerhead   = window.getTestCafeModule('hammerhead');
 const browserUtils = hammerhead.utils.browser;
 
+let counter = 0;
+
 const testCafeCore = window.getTestCafeModule('testCafeCore');
 const domUtils     = testCafeCore.domUtils;
 
@@ -10,7 +12,7 @@ const parseKeySequence   = testCafeCore.parseKeySequence;
 
 testCafeCore.preventRealEvents();
 
-QUnit.config.testTimeout = 15000;
+QUnit.config.testTimeout = 1500000;
 
 $(document).ready(function () {
     //consts
@@ -160,7 +162,12 @@ $(document).ready(function () {
         start();
     };
 
+
+
     const runPressAutomation = function (keys, callback) {
+        debugger;
+        counter++;
+
         const pressAutomation = new PressAutomation(parseKeySequence(keys).combinations, {});
 
         pressAutomation
@@ -174,7 +181,7 @@ $(document).ready(function () {
 
     QUnit.testDone(function () {
         $('#qunit-tests').css('display', '');
-        $('.' + TEST_ELEMENT_CLASS).remove();
+        // $('.' + TEST_ELEMENT_CLASS).remove();
         focusedElements          = [];
         $expectedFocusedElements = [];
     });
@@ -201,25 +208,25 @@ $(document).ready(function () {
         pressTabRecursive(logElement);
     });
 
-    module('shift+tab');
-
-    asyncTest('press shift+tab test', function () {
-        createElements();
-        createExpectedLog();
-
-        const pressShiftTabRecursive = function () {
-            runPressAutomation('shift+tab', function (callback) {
-                if (focusedElements.length === $expectedFocusedElements.length - 1) {
-                    logElement();
-                    finishActions('shift+tab');
-                }
-                else {
-                    logElement();
-                    pressShiftTabRecursive(callback);
-                }
-            });
-        };
-
-        pressShiftTabRecursive();
-    });
+    // module('shift+tab');
+    //
+    // asyncTest('press shift+tab test', function () {
+    //     createElements();
+    //     createExpectedLog();
+    //
+    //     const pressShiftTabRecursive = function () {
+    //         runPressAutomation('shift+tab', function (callback) {
+    //             if (focusedElements.length === $expectedFocusedElements.length - 1) {
+    //                 logElement();
+    //                 finishActions('shift+tab');
+    //             }
+    //             else {
+    //                 logElement();
+    //                 pressShiftTabRecursive(callback);
+    //             }
+    //         });
+    //     };
+    //
+    //     pressShiftTabRecursive();
+    // });
 });
