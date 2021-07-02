@@ -98,6 +98,8 @@ $(document).ready(function () {
         const $hiddenParent = $('<div style="width: 0px; height: 0px;"></div>').addClass(TEST_ELEMENT_CLASS).appendTo($body);
 
         $invisibleInput = $('<input style="width: 0px; height: 0px;"/>').addClass(TEST_ELEMENT_CLASS).appendTo($hiddenParent);
+
+        $buttonInContentEditable.focus();
     };
 
     const createExpectedLog = function () {
@@ -192,20 +194,29 @@ $(document).ready(function () {
         createElements();
         createExpectedLog();
 
-        const pressTabRecursive = function () {
-            runPressAutomation('tab', function (callback) {
-                if (focusedElements.length === $expectedFocusedElements.length - 1) {
-                    logElement();
-                    finishActions('tab');
-                }
-                else {
-                    logElement();
-                    pressTabRecursive(callback);
-                }
-            });
-        };
+        runPressAutomation('tab', function (callback) {
+            logElement();
 
-        pressTabRecursive(logElement);
+            equal(focusedElements.length, 1);
+            equal(focusedElements[0], $radioInput2[0]);
+
+            start();
+        });
+
+        // const pressTabRecursive = function () {
+        //     runPressAutomation('tab', function (callback) {
+        //         if (focusedElements.length === $expectedFocusedElements.length - 1) {
+        //             logElement();
+        //             finishActions('tab');
+        //         }
+        //         else {
+        //             logElement();
+        //             pressTabRecursive(callback);
+        //         }
+        //     });
+        // };
+        //
+        // pressTabRecursive(logElement);
     });
 
     // module('shift+tab');

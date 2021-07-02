@@ -144,6 +144,7 @@ function correctFocusableElement (elements, element, skipRadioGroups) {
 }
 
 export function getNextFocusableElement (element, reverse, skipRadioGroups) {
+    debugger;
     const offset     = reverse ? -1 : 1;
     let allFocusable = domUtils.getFocusableElements(findDocument(element), true);
 
