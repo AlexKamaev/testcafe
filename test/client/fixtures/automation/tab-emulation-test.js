@@ -1,8 +1,6 @@
 const hammerhead   = window.getTestCafeModule('hammerhead');
 const browserUtils = hammerhead.utils.browser;
 
-let counter = 0;
-
 const testCafeCore = window.getTestCafeModule('testCafeCore');
 const domUtils     = testCafeCore.domUtils;
 
@@ -162,12 +160,7 @@ $(document).ready(function () {
         start();
     };
 
-
-
     const runPressAutomation = function (keys, callback) {
-        debugger;
-        counter++;
-
         const pressAutomation = new PressAutomation(parseKeySequence(keys).combinations, {});
 
         pressAutomation

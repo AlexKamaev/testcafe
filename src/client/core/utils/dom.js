@@ -178,62 +178,6 @@ function canFocus (element, activeElement, tabIndex) {
     return true;
 }
 
-export function getFocusableElements_old (doc, sort = false) {
-    // NOTE: We don't take into account the case of embedded contentEditable
-    // elements and specify the contentEditable attribute for focusable elements
-    const allElements           = doc.querySelectorAll('*');
-    const activeElement         = nativeMethods.documentActiveElementGetter.call(doc);
-    const activeElementTabIndex = getTabIndexAttributeIntValue(activeElement);
-    const invisibleElements     = getInvisibleElements(allElements);
-    const inputElementsRegExp   = /^(input|button|select|textarea)$/;
-    const focusableElements     = [];
-
-    let element  = null;
-    let tagName  = null;
-    let tabIndex = null;
-
-    let needPush = false;
-
-    for (let i = 0; i < allElements.length; i++) {
-        element  = allElements[i];
-        tagName  = getTagName(element);
-        tabIndex = getTabIndexAttributeIntValue(element);
-        needPush = false;
-
-        if (!canFocus(element, activeElement, tabIndex))
-            continue;
-
-        if (inputElementsRegExp.test(tagName))
-            needPush = true;
-        else if (browserUtils.isIE && isIframeElement(element))
-            focusableElements.push(element);
-        else if (isAnchorElement(element) && element.hasAttribute('href'))
-            needPush = element.getAttribute('href') !== '' || !browserUtils.isIE || tabIndex !== null;
-
-        const contentEditableAttr = element.getAttribute('contenteditable');
-
-        if (contentEditableAttr === '' || contentEditableAttr === 'true')
-            needPush = true;
-
-        if (tabIndex !== null)
-            needPush = true;
-
-        if (needPush)
-            focusableElements.push(element);
-    }
-
-    //NOTE: remove children of invisible elements
-    let result = arrayUtils.filter(focusableElements, el => !containsElement(invisibleElements, el));
-
-    if (activeElementTabIndex && activeElementTabIndex < 0)
-        sort = false;
-
-    if (sort)
-        result = sortElementsByFocusingIndex(result);
-
-    return result;
-}
-
 function wrapElement (el) {
     return {
         el:       el,
@@ -325,103 +269,24 @@ function filterFocusableElements (parent) {
 }
 
 function flattenFocusableTree (node) {
-    // debugger;
-
     const result = [];
-
-    // if (node.el.tabIndex >= 0 && !isIframeElement(node.el))
-    //     result.push(node.el);
 
     if (node.el.nodeType !== Node.DOCUMENT_NODE && !isIframeElement(node.el))
         result.push(node.el);
 
     for (const prop in node.children) {
-        for (const childNode of node.children[prop]) {
+        for (const childNode of node.children[prop])
             result.push(...flattenFocusableTree(childNode));
-        }
     }
-
-
 
     return result;
 }
 
 
 export function getFocusableElements (doc, sort = false) {
-
-    debugger;
-
     const el = buildFocusableTree(doc, sort);
 
-    const flatten = flattenFocusableTree(el);
-
-
-
-
-
-
-
-
-
-
-
-
-    return flatten;
-
-    // NOTE: We don't take into account the case of embedded contentEditable
-    // elements and specify the contentEditable attribute for focusable elements
-    const allElements           = doc.querySelectorAll('*');
-    const activeElement         = nativeMethods.documentActiveElementGetter.call(doc);
-    const activeElementTabIndex = getTabIndexAttributeIntValue(activeElement);
-    const invisibleElements     = getInvisibleElements(allElements);
-    const inputElementsRegExp   = /^(input|button|select|textarea)$/;
-    const focusableElements     = [];
-
-    let element  = null;
-    let tagName  = null;
-    let tabIndex = null;
-
-    let needPush = false;
-
-    for (let i = 0; i < allElements.length; i++) {
-        element  = allElements[i];
-        tagName  = getTagName(element);
-        tabIndex = getTabIndexAttributeIntValue(element);
-        needPush = false;
-
-        if (!canFocus(element, activeElement, tabIndex))
-            continue;
-
-        if (inputElementsRegExp.test(tagName))
-            needPush = true;
-        // else if (browserUtils.isIE && isIframeElement(element))
-        else if (isIframeElement(element))
-            focusableElements.push(element);
-        else if (isAnchorElement(element) && element.hasAttribute('href'))
-            needPush = element.getAttribute('href') !== '' || !browserUtils.isIE || tabIndex !== null;
-
-        const contentEditableAttr = element.getAttribute('contenteditable');
-
-        if (contentEditableAttr === '' || contentEditableAttr === 'true')
-            needPush = true;
-
-        if (tabIndex !== null)
-            needPush = true;
-
-        if (needPush)
-            focusableElements.push(element);
-    }
-
-    //NOTE: remove children of invisible elements
-    let result = arrayUtils.filter(focusableElements, el => !containsElement(invisibleElements, el));
-
-    if (activeElementTabIndex && activeElementTabIndex < 0)
-        sort = false;
-
-    if (sort)
-        result = sortElementsByFocusingIndex(result);
-
-    return result;
+    return flattenFocusableTree(el);
 }
 
 function getInvisibleElements (elements) {
