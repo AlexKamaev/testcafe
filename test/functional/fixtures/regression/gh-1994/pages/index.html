@@ -1,34 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>TestCafé</title>
+    <title>gh-1999</title>
 </head>
 <body>
-<button id="btnPrev_c1">not shadow - no tabIndex</button>
-<div id="div_c1" style="width: 100px; height: 100px; border: 1px solid black;"></div>
-<button id="btnNext_c1">not shadow - no tabIndex</button>
+
+<input id="targetRecreate" value="input" style="visibility: hidden;"/>
+<input id="targetRemove" value="input" style="visibility: hidden;"/>
 
 <script>
-    var div = document.querySelector('#div_c1');
-    var btn = document.createElement('button');
 
-    btn.innerHTML = 'shadow - no tabIndex';
-    btn.id        = 'btnShadow_c1';
+    function inputRecreate() {
+        const input = document.getElementById('targetRecreate');
+        const parent = input.parentNode;
 
-    div.attachShadow({ mode: 'open' });
-    div.shadowRoot.appendChild(btn);
+        parent.removeChild(input);
 
-    btn = document.createElement('button');
+        const newInput = document.createElement('input');
 
-    btn.innerHTML = 'shadow - tabIndex === 1';
-    btn.id        = 'btnShadow2_c1';
+        newInput.id = 'targetRecreate';
+        newInput.value = 'new input recreate';
 
-    btn.setAttribute('tabindex', '1');
+        document.body.appendChild(newInput);
+    }
+    
+    function  inputRemove() {
+        const input = document.getElementById('targetRemove');
+        const parent = input.parentNode;
 
-    div.shadowRoot.appendChild(btn);
+        parent.removeChild(input);
+    }
+
+    window.setTimeout(function () {
+        inputRecreate();
+        inputRemove();
+    }, 500);
+
 </script>
-
 </body>
-
 </html>

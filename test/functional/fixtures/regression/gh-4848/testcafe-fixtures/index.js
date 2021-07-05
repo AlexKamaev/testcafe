@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 
 fixture `[Regression](GH-4848) - Should focus next element if current element has negative tabIndex`
-    .page `http://localhost:3000/fixtures/regression/gh-4848/pages/index.html`;
+    .page `../pages/index.html`;
 
 const body = Selector('body');
 const ft1  = Selector('#ft1');

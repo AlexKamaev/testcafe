@@ -241,7 +241,7 @@ function wrapElement (el) {
     };
 }
 
-function buildFocusableTree (parent) {
+function buildFocusableTree (parent, sort) {
     const node = wrapElement(parent);
 
     parent = parent.shadowRoot || parent;
@@ -253,11 +253,11 @@ function buildFocusableTree (parent) {
         const elements = filterFocusableElements(parent);
 
         for (const el of elements) {
-            const key = el.tabIndex <= 0 ? -1 : el.tabIndex;
+            const key = !sort || el.tabIndex <= 0 ? -1 : el.tabIndex;
 
             node.children[key] = node.children[key] || [];
 
-            node.children[key].push(buildFocusableTree(el));
+            node.children[key].push(buildFocusableTree(el, sort));
         }
     }
 
@@ -268,8 +268,8 @@ function filterFocusableElements (parent) {
     // NOTE: We don't take into account the case of embedded contentEditable
     // elements and specify the contentEditable attribute for focusable elements
     const allElements           = parent.querySelectorAll('*');
-    // const activeElement         = nativeMethods.documentActiveElementGetter.call(doc);
-    // const activeElementTabIndex = getTabIndexAttributeIntValue(activeElement);
+    const activeElement         = nativeMethods.documentActiveElementGetter.call(parent);
+    // const activeElementTabIndex = activeElement ? getTabIndexAttributeIntValue(activeElement) : -1;
     const invisibleElements     = getInvisibleElements(allElements);
     const inputElementsRegExp   = /^(input|button|select|textarea)$/;
     const focusableElements     = [];
@@ -286,8 +286,8 @@ function filterFocusableElements (parent) {
         tabIndex = getTabIndexAttributeIntValue(element);
         needPush = false;
 
-        // if (!canFocus(element, activeElement, tabIndex))
-        if (!canFocus(element, null, tabIndex))
+        if (!canFocus(element, activeElement, tabIndex))
+        // if (!canFocus(element, null, tabIndex))
             continue;
 
         if (inputElementsRegExp.test(tagName))
@@ -351,7 +351,7 @@ export function getFocusableElements (doc, sort = false) {
 
     debugger;
 
-    const el = buildFocusableTree(doc);
+    const el = buildFocusableTree(doc, sort);
 
     const flatten = flattenFocusableTree(el);
 

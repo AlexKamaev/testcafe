@@ -144,10 +144,27 @@ function correctFocusableElement (elements, element, skipRadioGroups) {
 }
 
 export function getNextFocusableElement (element, reverse, skipRadioGroups) {
-    const offset     = reverse ? -1 : 1;
-    let allFocusable = domUtils.getFocusableElements(findDocument(element), true);
+    debugger;
+    const offset                = reverse ? -1 : 1;
+    const doc                   = findDocument(element);
+    const activeElement         = nativeMethods.documentActiveElementGetter.call(doc);
+
+
+    // let allFocusableOld = domUtils.getFocusableElements_old(findDocument(element), true);
+
+    let sort = true;
+
+    if (activeElement?.tabIndex < 0)
+        sort = false;
+
+    let allFocusable = domUtils.getFocusableElements(doc, sort);
+
+
+    // let allFocusable = domUtils.getFocusableElements_old(findDocument(element), true);
 
     allFocusable = filterFocusableElements(allFocusable, element, skipRadioGroups);
+
+    // allFocusableOld[0];
 
     const isRadioInput         = isRadioButtonElement(element);
     const currentIndex         = arrayUtils.indexOf(allFocusable, element);

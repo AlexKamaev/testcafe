@@ -194,7 +194,7 @@ gulp.step('client-scripts-templates-render', () => {
 
     const bundledScripts = scripts
         .pipe(clone())
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(rename(file => {
             file.extname = '.min.js';
         }));
@@ -257,10 +257,10 @@ gulp.step('package-content', buildTasks('ts-defs', 'server-scripts', 'client-scr
 
 gulp.task('fast-build', gulp.series('clean', 'package-content'));
 
-gulp.task('build', process.env.DEV_MODE === 'true' ? gulp.registry().get('fast-build') : buildTasks('fast-build'));
+gulp.task('build', process.env.DEV_MODE === 'true' ? gulp.registry().get('fast-build') : buildTasks('lint', 'fast-build'));
 
 // Test
-gulp.step('prepare-tests', gulp.registry().get('build'));
+gulp.step('prepare-tests', gulp.registry().get(SKIP_BUILD ? 'lint' : 'build'));
 
 gulp.step('test-server-run', () => {
     // HACK: We have to exit from all Gulp's error domains to avoid conflicts with error handling inside mocha tests
@@ -286,7 +286,7 @@ gulp.step('test-client-run', () => {
     return testClient('test/client/fixtures/**/*-test.js', CLIENT_TESTS_SETTINGS);
 });
 
-gulp.task('test-client', gulp.series('prepare-tests', 'test-client-run'));
+gulp.task('test-client', gulp.series('test-client-run'));
 
 gulp.step('test-client-local-run', () => {
     return testClient('test/client/fixtures/**/*-test.js', CLIENT_TESTS_LOCAL_SETTINGS, {}, true);

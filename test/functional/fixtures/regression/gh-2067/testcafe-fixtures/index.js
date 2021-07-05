@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 
 fixture `GH-2067`
-    .page `http://localhost:3000/fixtures/regression/gh-2067/pages/index.html`;
+    .page `../pages/index.html`;
 
 const radioWindows = Selector('#windows');
 const radioMacos   = Selector('#macos');
