@@ -189,7 +189,7 @@ function getInvisibleElements (elements) {
     return invisibleElements;
 }
 
-function getTabIndexAttributeIntValue (el) {
+export function getTabIndexAttributeIntValue (el) {
     let tabIndex = el.getAttribute('tabIndex');
 
     if (tabIndex !== null) {
