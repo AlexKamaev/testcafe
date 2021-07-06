@@ -13,7 +13,7 @@ const browserUtils     = hammerhead.utils.browser;
 const focusBlurSandbox = hammerhead.eventSandbox.focusBlur;
 const Promise          = hammerhead.Promise;
 
-const { findDocument, isRadioButtonElement, getActiveElement, getTabIndexAttributeIntValue } = domUtils;
+const { isRadioButtonElement, getActiveElement, getTabIndexAttributeIntValue } = domUtils;
 
 export function changeLetterCase (letter) {
     const isLowCase = letter === letter.toLowerCase();
@@ -152,7 +152,7 @@ function activeElementHasNegativeTabIndex (doc) {
 
 export function getNextFocusableElement (element, reverse, skipRadioGroups) {
     const offset     = reverse ? -1 : 1;
-    const doc        = findDocument(element);
+    const doc        = domUtils.getTopSameDomainWindow(window).document;
     const sort       = !activeElementHasNegativeTabIndex(doc);
     let allFocusable = domUtils.getFocusableElements(doc, sort);
 

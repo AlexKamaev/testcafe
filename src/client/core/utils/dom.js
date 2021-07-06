@@ -59,7 +59,12 @@ export const findParent                             = hammerhead.utils.dom.findP
 export const getTopSameDomainWindow                 = hammerhead.utils.dom.getTopSameDomainWindow;
 export const getParentExceptShadowRoot              = hammerhead.utils.dom.getParentExceptShadowRoot;
 
-function canFocus (element, activeElement, tabIndex) {
+function canFocus (element, parent, tabIndex) {
+    let activeElement = null;
+
+    if (parent.nodeType === Node.DOCUMENT_NODE)
+        activeElement = nativeMethods.documentActiveElementGetter.call(parent);
+
     if (element === activeElement)
         return true;
 
@@ -81,6 +86,7 @@ function canFocus (element, activeElement, tabIndex) {
 function wrapElement (el) {
     return {
         el:       el,
+        skip:     el.shadowRoot && el.tabIndex < 0,
         children: {}
     };
 }
@@ -112,7 +118,6 @@ function filterFocusableElements (parent) {
     // NOTE: We don't take into account the case of embedded contentEditable
     // elements and specify the contentEditable attribute for focusable elements
     const allElements           = parent.querySelectorAll('*');
-    const activeElement         = nativeMethods.documentActiveElementGetter.call(parent);
     const invisibleElements     = getInvisibleElements(allElements);
     const inputElementsRegExp   = /^(input|button|select|textarea)$/;
     const focusableElements     = [];
@@ -129,15 +134,15 @@ function filterFocusableElements (parent) {
         tabIndex = getTabIndexAttributeIntValue(element);
         needPush = false;
 
-        if (!canFocus(element, activeElement, tabIndex))
+        if (!canFocus(element, parent, tabIndex))
             continue;
 
         if (inputElementsRegExp.test(tagName))
             needPush = true;
         else if (element.shadowRoot)
-            focusableElements.push(element);
+            needPush = true;
         else if (isIframeElement(element))
-            focusableElements.push(element);
+            needPush = true;
         else if (isAnchorElement(element) && element.hasAttribute('href'))
             needPush = element.getAttribute('href') !== '' || !browserUtils.isIE || tabIndex !== null;
 
@@ -160,7 +165,7 @@ function filterFocusableElements (parent) {
 function flattenFocusableTree (node) {
     const result = [];
 
-    if (node.el.nodeType !== Node.DOCUMENT_NODE && !isIframeElement(node.el))
+    if (!node.skip && node.el.nodeType !== Node.DOCUMENT_NODE && !isIframeElement(node.el))
         result.push(node.el);
 
     for (const prop in node.children) {
@@ -173,9 +178,9 @@ function flattenFocusableTree (node) {
 
 
 export function getFocusableElements (doc, sort = false) {
-    const el = buildFocusableTree(doc, sort);
+    const root = buildFocusableTree(doc, sort);
 
-    return flattenFocusableTree(el);
+    return flattenFocusableTree(root);
 }
 
 function getInvisibleElements (elements) {

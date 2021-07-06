@@ -222,4 +222,90 @@ $(document).ready(function () {
 
         pressShiftTabRecursive();
     });
+
+    module('shadow root');
+
+    asyncTest('tab', function () {
+        const btn1 = document.createElement('button'); // <button>not shadow - no tabIndex</button>
+        const btn2 = document.createElement('button'); // <button tabindex="1">not shadow - tabIndex === 1</button>
+        const div1 = document.createElement('div'); // <div style="width: 100px; height: 100px; border: 1px solid black;"></div>
+        const div2 = document.createElement('div'); // <div tabindex="4"></div>
+        const btn3 = document.createElement('button'); // <button tabindex="3">not shadow - tabIndex === 3</button>
+        const btn4 = document.createElement('button'); // <button>not shadow - no tabIndex</button>
+
+        btn1.innerHTML = 'not shadow - no tabIndex';
+        btn2.innerHTML = 'not shadow - tabIndex === 1';
+        btn3.innerHTML = 'not shadow - tabIndex === 3';
+        btn4.innerHTML = 'not shadow - no tabIndex';
+
+        div1.style.width = '100px;';
+        div1.style.height = '100px;';
+        div1.style.border = '1px solid black';
+
+        btn2.setAttribute('tabindex', '1');
+        btn3.setAttribute('tabindex', '3');
+        div2.setAttribute('tabindex', '4');
+
+        // shadow root for non tabIndex div1
+        const btn5 = document.createElement('button');
+        const btn6 = document.createElement('button');
+
+        btn5.innerHTML = 'shadow - no tabIndex';
+        btn5.id        = 'btnShadow_on_tabIndex_c2';
+
+        btn6.innerHTML = 'shadow - tabIndex === 2';
+        btn6.id        = 'btnShadow_tabIndex2_c2';
+
+        btn6.setAttribute('tabindex', 2);
+
+        div1.attachShadow({ mode: 'open' });
+        div1.shadowRoot.appendChild(btn5);
+        div1.shadowRoot.appendChild(btn6);
+
+        // shadow root for tabIndex div2
+
+        const btn7 = document.createElement('button');
+        const btn8 = document.createElement('button');
+
+        btn7.innerHTML = 'shadow - no tabIndex';
+        btn8.innerHTML = 'shadow - tabIndex === 2';
+
+        btn8.setAttribute('tabindex', 2);
+
+        div2.attachShadow({ mode: 'open' });
+        div2.shadowRoot.appendChild(btn7);
+        div2.shadowRoot.appendChild(btn8);
+
+        document.body.appendChild(btn1);
+        document.body.appendChild(btn2);
+        document.body.appendChild(div1);
+        document.body.appendChild(div2);
+        document.body.appendChild(btn3);
+        document.body.appendChild(btn4);
+
+        function pressTabAndAssert (...expectedElements) {
+            const pressAutomation = new PressAutomation(parseKeySequence('tab').combinations, {});
+
+            return pressAutomation
+                .run()
+                .then(() => {
+                    equal(document.activeElement, expectedElements[0]);
+
+                    if (expectedElements[1])
+                        equal(expectedElements[0].shadowRoot.activeElement, expectedElements[1]);
+
+                });
+        }
+
+        pressTabAndAssert(btn2)
+            .then(() => pressTabAndAssert(btn3))
+            .then(() => pressTabAndAssert(div2))
+            .then(() => pressTabAndAssert(div2, btn8))
+            .then(() => pressTabAndAssert(div2, btn7))
+            .then(() => pressTabAndAssert(btn1))
+            .then(() => pressTabAndAssert(div1, btn6))
+            .then(() => pressTabAndAssert(div1, btn5))
+            .then(() => pressTabAndAssert(btn4))
+            .then(start);
+    });
 });
