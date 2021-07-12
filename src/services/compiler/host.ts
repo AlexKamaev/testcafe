@@ -64,7 +64,7 @@ import {
     ExecuteSelectorCommand
 } from '../../test-run/commands/observation';
 
-const SERVICE_PATH       = require.resolve('./service');
+const SERVICE_PATH       = require.resolve('./service-loader');
 const INTERNAL_FILES_URL = url.pathToFileURL(path.join(__dirname, '../../'));
 
 interface RuntimeResources {
@@ -219,7 +219,7 @@ export default class CompilerHost extends AsyncEventEmitter implements CompilerP
             if (!this.cdp)
                 return void 0;
 
-            this._setupDebuggerHandlers();
+            // this._setupDebuggerHandlers();
 
             await this.cdp.Debugger.enable({});
             await this.cdp.Runtime.enable();

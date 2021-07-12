@@ -4,6 +4,7 @@ function getPresetEnvForTestCodeOpts () {
     return {
         targets: { node: 'current' },
         loose:   true,
+        modules: false,
         exclude: ['transform-regenerator']
     };
 }
@@ -18,8 +19,11 @@ function getPresetEnvForClientFunctionOpts () {
 function getModuleResolverOpts () {
     return {
         resolvePath (source) {
-            if (source === 'testcafe')
+            if (source === 'testcafe') {
+                debugger;
+
                 return EXPORTABLE_LIB_PATH;
+            }
 
             return source;
         }

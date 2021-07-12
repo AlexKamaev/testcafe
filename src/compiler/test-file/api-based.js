@@ -80,17 +80,23 @@ export default class APIBasedTestFileCompilerBase extends TestFileCompilerBase {
                 // NOTE: remove global API so that it will be unavailable for the dependencies
                 this._removeGlobalAPI();
 
-                if (APIBasedTestFileCompilerBase._isNodeModulesDep(filename) && origExt)
-                    origExt(mod, filename);
+                debugger;
 
-                else {
-                    const code         = readFileSync(filename).toString();
-                    const compiledCode = requireCompilers[ext](stripBom(code), filename);
 
-                    mod.paths = APIBasedTestFileCompilerBase._getNodeModulesLookupPath(filename);
+                if (!(APIBasedTestFileCompilerBase._isNodeModulesDep(filename) && origExt)) {
+                    global.customExtensionHook = () => {
+                        const code         = readFileSync(filename).toString();
+                        const compiledCode = requireCompilers[ext](stripBom(code), filename);
 
-                    mod._compile(compiledCode, filename);
+                        mod.paths = APIBasedTestFileCompilerBase._getNodeModulesLookupPath(filename);
+
+                        mod._compile(compiledCode, filename);
+
+                        global.customExtensionHook = null;
+                    };
                 }
+
+                origExt(mod, filename);
 
                 this._addGlobalAPI(testFile);
             };

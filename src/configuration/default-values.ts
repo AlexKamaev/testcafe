@@ -25,13 +25,14 @@ export const DEFAULT_TYPESCRIPT_COMPILER_OPTIONS: Dictionary<boolean | number> =
     pretty:                  true,
     inlineSourceMap:         true,
     noImplicitAny:           false,
-    module:                  1 /* ts.ModuleKind.CommonJS */,
-    moduleResolution:        2 /* ts.ModuleResolutionKind.Node */,
-    target:                  3 /* ts.ScriptTarget.ES2016 */,
-    jsx:                     2 /* ts.JsxEmit.React */,
+    module:                  99 /* ts.ModuleKind.ESNext */,
+    moduleResolution:        2  /* ts.ModuleResolutionKind.Node */,
+    target:                  3  /* ts.ScriptTarget.ES2016 */,
+    jsx:                     2  /* ts.JsxEmit.React */,
     suppressOutputPathCheck: true,
-    skipLibCheck:            true
+    skipLibCheck:            true,
 };
+
 
 export const TYPESCRIPT_COMPILER_NON_OVERRIDABLE_OPTIONS = ['module', 'moduleResolution', 'target'];
 

@@ -11,8 +11,9 @@ import { isRelative } from '../../../../api/test-page-url';
 import EXPORTABLE_LIB_PATH from '../../exportble-lib-path';
 
 // NOTE: For type definitions only
-import TypeScript, { CompilerOptionsValue } from 'typescript';
+import TypeScript, { CompilerOptionsValue, SyntaxKind } from 'typescript';
 import { Dictionary, TypeScriptCompilerOptions } from '../../../../configuration/interfaces';
+import ts from 'typescript';
 
 
 declare type TypeScriptInstance = typeof TypeScript;
@@ -28,6 +29,22 @@ declare interface RequireCompilerFunction {
 interface RequireCompilers {
     [extension: string]: RequireCompilerFunction;
 }
+
+function simpleTransformer<T extends ts.Node>(): ts.TransformerFactory<T> {
+    return (context) => {
+        const visit: ts.Visitor = (node) => {
+            // @ts-ignore
+            if (node.parent?.kind === SyntaxKind.ImportDeclaration && node.kind === SyntaxKind.StringLiteral && node.text === 'testcafe') {
+                return ts.createStringLiteral(EXPORTABLE_LIB_PATH);
+            }
+
+            return ts.visitEachChild(node, (child) => visit(child), context);
+        };
+
+        return (node) => ts.visitNode(node, visit);
+    };
+}
+
 
 const DEBUG_LOGGER = debug('testcafe:compiler:typescript');
 
@@ -125,8 +142,16 @@ export default class TypeScriptTestFileCompiler extends APIBasedTestFileCompiler
             });
     }
 
+
+
     private _compileFilesToCache (ts: TypeScriptInstance, filenames: string[]): void {
+        debugger;
+
         const opts    = this._tsConfig.getOptions() as Dictionary<CompilerOptionsValue>;
+
+        // opts.baseUrl = '.';
+        // opts.paths = {'testcafe': [EXPORTABLE_LIB_PATH]};
+
         const program = ts.createProgram([TypeScriptTestFileCompiler.tsDefsPath, ...filenames], opts);
 
         DEBUG_LOGGER('version: %s', ts.version);
@@ -149,13 +174,20 @@ export default class TypeScriptTestFileCompiler extends APIBasedTestFileCompiler
             if (!sources)
                 return;
 
+            debugger;
+
             const sourcePath = TypeScriptTestFileCompiler._normalizeFilename(sources[0].fileName);
 
             this.cache[sourcePath] = result;
+        }, void 0, void 0, {
+            before: [simpleTransformer()],
+            // after: [simpleTransformer()]
         });
     }
 
     public _precompileCode (testFilesInfo: TestFileInfo[]): string[] {
+        debugger;
+
         DEBUG_LOGGER('path: "%s"', this._compilerPath);
 
         // NOTE: lazy load the compiler
