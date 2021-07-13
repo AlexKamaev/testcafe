@@ -57,8 +57,14 @@ export default class SelectorExecutor extends ClientFunctionExecutor {
 
     _validateElement (args, startTime) {
         return Promise.resolve()
-            .then(() => this.fn.apply(window, args))
+            .then(() => {
+                debugger;
+
+                return this.fn.apply(window, args)
+            })
             .then(el => {
+                debugger;
+
                 const isElementExists    = exists(el);
                 const isElementVisible   = !this.command.visibilityCheck || visible(el);
                 const isTimeout          = new DateCtor() - startTime >= this.timeout;

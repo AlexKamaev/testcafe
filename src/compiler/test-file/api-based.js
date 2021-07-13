@@ -86,7 +86,7 @@ export default class APIBasedTestFileCompilerBase extends TestFileCompilerBase {
                 if (!(APIBasedTestFileCompilerBase._isNodeModulesDep(filename) && origExt)) {
                     global.customExtensionHook = () => {
                         const code         = readFileSync(filename).toString();
-                        const compiledCode = requireCompilers[ext](stripBom(code), filename);
+                        const compiledCode = this.cache?.[filename.toLowerCase()] || requireCompilers[ext](stripBom(code), filename);
 
                         mod.paths = APIBasedTestFileCompilerBase._getNodeModulesLookupPath(filename);
 

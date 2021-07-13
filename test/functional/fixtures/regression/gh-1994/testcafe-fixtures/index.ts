@@ -9,7 +9,7 @@ fixture `My fixture`
     .page `http://example.com`;
 
 test('Question/Doubt 1', async t => {
-    // debugger;
+    debugger;
     // console.log(kekeke);
     //
     // await t.click(pageModel.getHeader());

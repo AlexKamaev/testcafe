@@ -39,6 +39,8 @@ class SelectorFilter {
     }
 
     filter (node, options, apiInfo) {
+        debugger;
+
         let filtered = arrayUtils.filter(node, exists);
 
         if (options.filterVisible) {

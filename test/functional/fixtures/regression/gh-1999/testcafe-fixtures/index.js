@@ -1,8 +1,11 @@
-fixture `GH-1999 - Shouldn't raise an error if an iframe has html in src`
-    .page `http://localhost:3000/fixtures/regression/gh-1999/pages/index.html`;
+import { Selector } from 'testcafe';
 
-test('Click in iframe', async t => {
-    await t
-        .switchToIframe('#iframe')
-        .click('body');
+fixture `test`
+    .page `D:\\projects\\testcafe\\test\\functional\\fixtures\\regression\\gh-1999\\pages\\index.html`;
+
+test('filterVisible', async t => {
+    const selector = Selector('div')
+        .filter('.filtered')
+
+    await t.click(selector);
 });

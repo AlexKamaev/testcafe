@@ -4,7 +4,7 @@ function getPresetEnvForTestCodeOpts () {
     return {
         targets: { node: 'current' },
         loose:   true,
-        modules: false,
+        // modules: false,
         exclude: ['transform-regenerator']
     };
 }

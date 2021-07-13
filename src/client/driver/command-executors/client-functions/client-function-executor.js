@@ -55,6 +55,8 @@ export default class ClientFunctionExecutor {
     }
 
     _executeFn (args) {
+        debugger;
+
         return this.fn.apply(window, args);
     }
 }

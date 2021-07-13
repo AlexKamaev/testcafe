@@ -91,7 +91,7 @@
     "emittery": "^0.4.1",
     "endpoint-utils": "^1.0.2",
     "error-stack-parser": "^1.3.6",
-    "esm": "^3.2.25",
+    "esm": "file:esm-3.2.25.tgz",
     "execa": "^4.0.3",
     "globby": "^11.0.4",
     "graceful-fs": "^4.1.11",

@@ -18,6 +18,7 @@ export default class ClientFunctionExecutor {
         this.replicator   = this._createReplicator();
         this.dependencies = this.replicator.decode(this.command.dependencies);
 
+        debugger;
         this.fn = evalFunction(this.command.fnCode, this.dependencies);
     }
 

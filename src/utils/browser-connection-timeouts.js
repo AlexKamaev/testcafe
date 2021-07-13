@@ -3,7 +3,7 @@
 // Do not use any browser or node-specific API!
 // -------------------------------------------------------------
 
-export const HEARTBEAT_TIMEOUT       = 2 * 60 * 1000;
+export const HEARTBEAT_TIMEOUT       = 20000 * 60 * 1000;
 export const BROWSER_RESTART_TIMEOUT = 60 * 1000;
 export const BROWSER_CLOSE_TIMEOUT   = BROWSER_RESTART_TIMEOUT / 2;
 
@@ -16,5 +16,5 @@ export const CHECK_IFRAME_DRIVER_LINK_DELAY       = 500;
 export const CHECK_CHILD_WINDOW_DRIVER_LINK_DELAY = 500;
 export const SEND_STATUS_REQUEST_TIME_LIMIT       = 5000;
 export const SEND_STATUS_REQUEST_RETRY_DELAY      = 300;
-export const SEND_STATUS_REQUEST_RETRY_COUNT      = Math.floor(HEARTBEAT_TIMEOUT / SEND_STATUS_REQUEST_RETRY_DELAY - 1);
+export const SEND_STATUS_REQUEST_RETRY_COUNT      = Math.floor(2 * 60 * 1000 / SEND_STATUS_REQUEST_RETRY_DELAY - 1);
 export const CHECK_STATUS_RETRY_DELAY             = 1000;

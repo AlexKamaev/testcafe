@@ -1,6 +1,10 @@
 import { Selector } from 'testcafe';
 
 class PageModel {
+    // constructor () {
+    //     this.header = Selector('h1');
+    // }
+
     constructor () {
         this.header = Selector('h1');
     }
