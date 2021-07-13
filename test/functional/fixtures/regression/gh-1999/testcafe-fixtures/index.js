@@ -1,11 +1,16 @@
 import { Selector } from 'testcafe';
 
 fixture `test`
-    .page `D:\\projects\\testcafe\\test\\functional\\fixtures\\regression\\gh-1999\\pages\\index.html`;
+    .page `http://kokhanovsky-w10/211/RegressionTestsSite/ASPxGridView/Visual_T864356/T864356_GridView_AllThemes.aspx?themeName=MaterialCompact`;
 
-test('filterVisible', async t => {
-    const selector = Selector('div')
-        .filter('.filtered')
+test('Run', async t => {
+    await t.debug();
 
-    await t.click(selector);
+    await t.expect(t.eval(() => {
+        debugger;
+
+        return document.querySelectorAll(".dxflCaptionCell_MaterialCompact")[2].clientWidth
+    })).eql(54)
+
+
 });
